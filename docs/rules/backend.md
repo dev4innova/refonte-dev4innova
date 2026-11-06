@@ -37,8 +37,9 @@ apps/api/app/
   ou file Redis), pas dans le cycle requête/réponse.
 
 ## Multi-tenancy
-- Le contexte de requête (`user`, `organization_id`, `roles`) est résolu par une dépendance
-  FastAPI et passé explicitement aux services.
+- Le contexte de requête est résolu par les dépendances de `app/modules/identity/dependencies.py` :
+  `CurrentUser` (jeton vérifié) et `OrgContext` (membre de l'organisation de l'URL, sinon 404),
+  puis passé explicitement aux services. Voir `docs/architecture/authentication.md`.
 - Tout repository d'une ressource tenant-scoped exige `organization_id` en paramètre.
 - Les vérifications de permission se font dans le service ou via une dépendance dédiée,
   jamais seulement dans le frontend.

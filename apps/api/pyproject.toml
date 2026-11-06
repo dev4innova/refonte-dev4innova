@@ -11,6 +11,9 @@ dependencies = [
     "asyncpg>=0.32",
     "alembic>=1.20",
     "redis>=8.1",
+    "pyjwt[crypto]>=2.15",
+    "pydantic[email]>=2.14.3",
+    "httpx>=0.28",
 ]
 
 [dependency-groups]

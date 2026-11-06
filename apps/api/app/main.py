@@ -14,6 +14,7 @@ from app.core.logging import configure_logging
 from app.core.redis import close_redis
 from app.db.session import dispose_engine
 from app.modules.health.router import router as health_router
+from app.modules.identity.router import me_router, org_router
 
 API_V1_PREFIX = "/api/v1"
 
@@ -57,6 +58,8 @@ def create_app() -> FastAPI:
 
     api_v1 = APIRouter(prefix=API_V1_PREFIX)
     api_v1.include_router(health_router)
+    api_v1.include_router(me_router)
+    api_v1.include_router(org_router)
     app.include_router(api_v1)
     return app
 

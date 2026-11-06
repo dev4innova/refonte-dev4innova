@@ -22,6 +22,7 @@ export const routing = defineRouting({
     "/legal-notice": { fr: "/mentions-legales", en: "/legal-notice" },
     "/privacy": { fr: "/confidentialite", en: "/privacy" },
     "/design-system": "/design-system",
+    "/account": { fr: "/espace-client", en: "/account" },
   },
 });
 

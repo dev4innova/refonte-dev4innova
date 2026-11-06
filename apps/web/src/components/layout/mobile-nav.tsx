@@ -13,10 +13,11 @@ type MobileNavProps = {
   items: NavItem[];
   labels: NavLabels;
   cta?: NavItem;
+  account?: NavItem;
 };
 
 /** Burger menu below 1024px (hidden from lg up). */
-export function MobileNav({ items, labels, cta }: MobileNavProps) {
+export function MobileNav({ items, labels, cta, account }: MobileNavProps) {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
 
@@ -31,7 +32,11 @@ export function MobileNav({ items, labels, cta }: MobileNavProps) {
       <SheetContent closeLabel={labels.closeMenu} aria-describedby={undefined}>
         <SheetTitle className="pr-12">{labels.menuTitle}</SheetTitle>
         <nav aria-label={labels.navigation}>
-          <NavLinks items={items} orientation="vertical" onNavigate={close} />
+          <NavLinks
+            items={account ? [...items, account] : items}
+            orientation="vertical"
+            onNavigate={close}
+          />
         </nav>
         {cta ? (
           <Button asChild size="lg" className="mt-auto w-full">
