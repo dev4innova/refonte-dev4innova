@@ -64,6 +64,15 @@ test.describe("translated pages", () => {
     );
   });
 
+  test("localized pathnames are rewritten in place, without redirect loop", async ({ request }) => {
+    // /fr/a-propos and /en/about map to the same internal route, which has no page yet
+    // (EPIC 05): a 404 proves the rewrite stayed internal instead of redirecting.
+    for (const path of ["/fr/a-propos", "/en/about", "/fr/mentions-legales"]) {
+      const response = await request.get(path, { maxRedirects: 0 });
+      expect(response.status(), path).toBe(404);
+    }
+  });
+
   test("declares hreflang alternates and a canonical URL", async ({ page }) => {
     await page.goto("/fr/design-system");
     const alternate = (lang: string) => page.locator(`link[rel="alternate"][hreflang="${lang}"]`);

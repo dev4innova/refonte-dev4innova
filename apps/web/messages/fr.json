@@ -25,7 +25,8 @@
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu",
     "menuTitle": "Menu",
-    "home": "DEV4INNOVA, accueil"
+    "home": "DEV4INNOVA, accueil",
+    "account": "Espace client"
   },
   "Footer": {
     "landmark": "Plan du site",
@@ -137,5 +138,23 @@
       "action": "Action principale",
       "secondary": "Action secondaire"
     }
+  },
+  "Account": {
+    "metaTitle": "Espace client",
+    "title": "Mon espace client",
+    "loading": "Chargement de votre espace…",
+    "error": "Votre espace est momentanément indisponible. Réessayez dans quelques instants.",
+    "organizations": "Mes organisations",
+    "noOrganization": "Vous n'êtes membre d'aucune organisation pour le moment.",
+    "role": "Rôle : {role}",
+    "roles": {
+      "owner": "Propriétaire",
+      "admin": "Administrateur",
+      "member": "Membre",
+      "staff_admin": "Administrateur DEV4INNOVA",
+      "staff_editor": "Éditeur DEV4INNOVA",
+      "staff_sales": "Commercial DEV4INNOVA"
+    },
+    "signOut": "Se déconnecter"
   }
 }

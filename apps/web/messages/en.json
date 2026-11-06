@@ -25,7 +25,8 @@
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "menuTitle": "Menu",
-    "home": "DEV4INNOVA, home"
+    "home": "DEV4INNOVA, home",
+    "account": "Client area"
   },
   "Footer": {
     "landmark": "Site map",
@@ -137,5 +138,23 @@
       "action": "Primary action",
       "secondary": "Secondary action"
     }
+  },
+  "Account": {
+    "metaTitle": "Client area",
+    "title": "My client area",
+    "loading": "Loading your area…",
+    "error": "Your area is temporarily unavailable. Please try again in a moment.",
+    "organizations": "My organizations",
+    "noOrganization": "You are not a member of any organization yet.",
+    "role": "Role: {role}",
+    "roles": {
+      "owner": "Owner",
+      "admin": "Administrator",
+      "member": "Member",
+      "staff_admin": "DEV4INNOVA administrator",
+      "staff_editor": "DEV4INNOVA editor",
+      "staff_sales": "DEV4INNOVA sales"
+    },
+    "signOut": "Sign out"
   }
 }

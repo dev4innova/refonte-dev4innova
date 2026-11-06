@@ -33,7 +33,10 @@ export default defineConfig({
     timeout: 60_000,
     env: {
       PORT: String(PORT),
-      HOSTNAME: "127.0.0.1",
+      // Not 127.0.0.1: with that value, Next's standalone server treats next-intl rewrites
+      // (localized pathnames such as /fr/a-propos) as external and loops. 0.0.0.0 is also
+      // what the Docker image uses.
+      HOSTNAME: "0.0.0.0",
       API_URL: process.env.API_URL ?? "http://127.0.0.1:8000",
     },
   },

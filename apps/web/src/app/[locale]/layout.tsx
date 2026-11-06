@@ -63,6 +63,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <SiteHeader
             items={mainNavigation.map(({ href, labelKey }) => ({ href, label: tNav(labelKey) }))}
             cta={{ href: ctaNavigation.href, label: tNav(ctaNavigation.labelKey) }}
+            account={{ href: "/account", label: tNav("account") }}
             labels={{
               navigation: tNav("landmark"),
               openMenu: tNav("openMenu"),

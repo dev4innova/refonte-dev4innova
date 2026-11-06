@@ -1,3 +1,4 @@
+import { UserRound } from "lucide-react";
 import type * as React from "react";
 
 import { Logo } from "@/components/brand/logo";
@@ -15,10 +16,12 @@ export type SiteHeaderProps = {
   cta?: NavItem;
   /** Slot for the language switcher (TASK-036). */
   localeSwitcher?: React.ReactNode;
+  /** Link to the client area (TASK-044), shown as an icon button. */
+  account?: NavItem;
 };
 
 /** Sticky site header: logo, main navigation, call to action, burger menu below lg. */
-export function SiteHeader({ items, labels, cta, localeSwitcher }: SiteHeaderProps) {
+export function SiteHeader({ items, labels, cta, localeSwitcher, account }: SiteHeaderProps) {
   return (
     <header
       data-slot="site-header"
@@ -39,12 +42,19 @@ export function SiteHeader({ items, labels, cta, localeSwitcher }: SiteHeaderPro
 
         <div className="flex items-center gap-2">
           {localeSwitcher}
+          {account ? (
+            <Button asChild variant="ghost" size="icon" className="hidden sm:inline-flex">
+              <Link href={account.href} aria-label={account.label} title={account.label}>
+                <UserRound aria-hidden="true" className="size-5" />
+              </Link>
+            </Button>
+          ) : null}
           {cta ? (
             <Button asChild size="sm" className="hidden sm:inline-flex">
               <Link href={cta.href}>{cta.label}</Link>
             </Button>
           ) : null}
-          <MobileNav items={items} labels={labels} cta={cta} />
+          <MobileNav items={items} labels={labels} cta={cta} account={account} />
         </div>
       </Container>
     </header>
