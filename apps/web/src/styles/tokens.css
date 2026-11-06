@@ -1,0 +1,89 @@
+/*
+ * DEV4INNOVA design tokens: the single source of truth for colors, typography,
+ * spacing, radii, shadows and motion. Components never use raw values: they use
+ * the Tailwind utilities mapped from these variables in src/app/globals.css.
+ *
+ * Brand: red and black from the historical logo. #D90000 is provisional; changing
+ * --d4i-red-500 (and its neighbours) re-themes the whole UI.
+ * Contrast ratios are checked by src/styles/tokens.test.ts (WCAG 2.1 AA).
+ */
+
+:root {
+  /* ---- Brand palette ---------------------------------------------------- */
+  --d4i-red-50: #fff1f1;
+  --d4i-red-100: #ffdfdf;
+  --d4i-red-200: #ffc5c5;
+  --d4i-red-300: #ff9d9d;
+  --d4i-red-400: #ff4d4d; /* red for text on black (5.5:1) */
+  --d4i-red-500: #d90000; /* primary brand red */
+  --d4i-red-600: #b80000; /* hover / pressed */
+  --d4i-red-700: #990000;
+  --d4i-red-800: #7a0505;
+  --d4i-red-900: #5c0a0a;
+
+  --d4i-white: #ffffff;
+  --d4i-gray-50: #f4f4f4; /* light background */
+  --d4i-gray-100: #e8e8e8;
+  --d4i-gray-200: #d4d4d4;
+  --d4i-gray-300: #a3a3a3;
+  --d4i-gray-400: #8a8a8a; /* minimum for UI borders on light (3:1) */
+  --d4i-gray-500: #525252;
+  --d4i-gray-600: #404040;
+  --d4i-gray-700: #2b2b2b;
+  --d4i-gray-800: #1f1f1f;
+  --d4i-black: #171717; /* brand black */
+
+  /* ---- Semantic colors (light theme, shadcn naming) --------------------- */
+  --background: var(--d4i-gray-50);
+  --foreground: var(--d4i-black);
+  --card: var(--d4i-white);
+  --card-foreground: var(--d4i-black);
+  --popover: var(--d4i-white);
+  --popover-foreground: var(--d4i-black);
+  --primary: var(--d4i-red-500);
+  --primary-hover: var(--d4i-red-600);
+  --primary-foreground: var(--d4i-white);
+  --secondary: var(--d4i-black);
+  --secondary-hover: var(--d4i-gray-700);
+  --secondary-foreground: var(--d4i-white);
+  --muted: var(--d4i-gray-100);
+  --muted-foreground: var(--d4i-gray-500);
+  --accent: var(--d4i-red-50);
+  --accent-foreground: var(--d4i-red-700);
+  --destructive: var(--d4i-red-700);
+  --destructive-foreground: var(--d4i-white);
+  --border: var(--d4i-gray-200);
+  --input: var(--d4i-gray-400);
+  --ring: var(--d4i-red-500);
+
+  /* Dark sections (hero, footer): black surface inside the light theme. */
+  --inverse: var(--d4i-black);
+  --inverse-foreground: var(--d4i-gray-50);
+  --inverse-muted-foreground: var(--d4i-gray-300);
+  --inverse-border: var(--d4i-gray-700);
+  --primary-on-inverse: var(--d4i-red-400);
+
+  /* ---- Typography ------------------------------------------------------- */
+  /* --font-inter and --font-space-grotesk are injected by next/font (src/lib/fonts.ts). */
+  --font-family-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-family-heading: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* ---- Layout spacing (fluid) ------------------------------------------- */
+  --layout-gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --layout-section-y: clamp(4rem, 3rem + 5vw, 8rem);
+  --layout-max-width: 80rem;
+  --header-height: 4rem;
+
+  /* ---- Radii and shadows ------------------------------------------------- */
+  --radius: 0.5rem;
+  --shadow-color: 0 0% 9%;
+  --elevation-1: 0 1px 2px hsl(var(--shadow-color) / 0.06), 0 1px 3px hsl(var(--shadow-color) / 0.08);
+  --elevation-2: 0 4px 8px -2px hsl(var(--shadow-color) / 0.08), 0 12px 24px -6px hsl(var(--shadow-color) / 0.12);
+
+  /* ---- Motion ----------------------------------------------------------- */
+  --motion-duration-fast: 150ms;
+  --motion-duration-base: 250ms;
+  --motion-duration-slow: 450ms;
+  --motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
