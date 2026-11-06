@@ -1,9 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
 import type { NavItem } from "@/components/layout/types";
+import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 /** True when `href` is the current page or one of its parents (except the homepage). */

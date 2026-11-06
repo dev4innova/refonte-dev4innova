@@ -1,0 +1,141 @@
+{
+  "Metadata": {
+    "siteName": "DEV4INNOVA",
+    "title": "DEV4INNOVA — L'intégrateur de solutions IA",
+    "description": "Nous concevons, intégrons et faisons vivre des solutions d'intelligence artificielle au service de votre activité."
+  },
+  "Layout": {
+    "skipToContent": "Aller au contenu principal"
+  },
+  "Brand": {
+    "tagline": "L'intégrateur de solutions IA",
+    "description": "Nous concevons, intégrons et faisons vivre des solutions d'intelligence artificielle au service de votre activité."
+  },
+  "Navigation": {
+    "solutions": "Solutions",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "innovationLab": "Innovation Lab",
+    "academy": "Academy",
+    "insights": "Insights",
+    "about": "À propos",
+    "contact": "Contact",
+    "cta": "Nous contacter",
+    "landmark": "Navigation principale",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "menuTitle": "Menu",
+    "home": "DEV4INNOVA, accueil"
+  },
+  "Footer": {
+    "landmark": "Plan du site",
+    "offer": "Offre",
+    "innovation": "Innovation",
+    "company": "Entreprise",
+    "legalNotice": "Mentions légales",
+    "privacy": "Confidentialité",
+    "copyright": "© DEV4INNOVA. Tous droits réservés."
+  },
+  "LocaleSwitcher": {
+    "label": "Langue",
+    "fr": "Français",
+    "en": "English"
+  },
+  "Home": {
+    "eyebrow": "DEV4INNOVA",
+    "title": "L'intégrateur de solutions IA",
+    "lead": "Stratégie, intégration et accompagnement : nous transformons l'intelligence artificielle en résultats concrets pour votre organisation.",
+    "primaryCta": "Nous contacter",
+    "secondaryCta": "Découvrir nos solutions"
+  },
+  "NotFound": {
+    "metaTitle": "Page introuvable",
+    "title": "Cette page est introuvable",
+    "description": "Elle a peut-être été déplacée ou n'existe pas encore.",
+    "backHome": "Retour à l'accueil"
+  },
+  "DesignSystem": {
+    "metaTitle": "Design system",
+    "title": "Design system DEV4INNOVA",
+    "lead": "Tokens, typographies et composants de référence. Page interne, non indexée.",
+    "sections": {
+      "colors": "Couleurs",
+      "typography": "Typographie",
+      "spacing": "Espacements",
+      "buttons": "Boutons",
+      "cards": "Cartes",
+      "forms": "Formulaires",
+      "motion": "Animations",
+      "inverse": "Section sombre"
+    },
+    "colors": {
+      "primary": "Rouge DEV4INNOVA",
+      "primaryHover": "Rouge survol",
+      "secondary": "Noir",
+      "background": "Fond clair",
+      "card": "Surface",
+      "muted": "Neutre",
+      "accent": "Accent",
+      "primaryOnInverse": "Rouge sur noir"
+    },
+    "typography": {
+      "displayXl": "Display XL — Space Grotesk",
+      "displayLg": "Display L — Solutions IA",
+      "displayMd": "Display M — Intégration",
+      "headingLg": "Heading L — Titre de carte",
+      "headingSm": "Heading S — Sous-titre",
+      "bodyLg": "Corps L — Inter, pour les introductions.",
+      "body": "Corps — Inter, le texte courant de la plateforme.",
+      "bodySm": "Corps S — mentions et aides."
+    },
+    "buttons": {
+      "primary": "Démarrer un projet",
+      "secondary": "Secondaire",
+      "outline": "Contour",
+      "ghost": "Discret",
+      "link": "Lien",
+      "loading": "Envoi en cours",
+      "disabled": "Indisponible",
+      "icon": "Continuer"
+    },
+    "cards": {
+      "strategy": {
+        "title": "Stratégie IA",
+        "description": "Diagnostic, feuille de route et cas d'usage prioritaires.",
+        "action": "En savoir plus"
+      },
+      "integration": {
+        "title": "Intégration",
+        "description": "Connexion des modèles d'IA à vos outils et à vos données.",
+        "action": "Voir les solutions"
+      },
+      "support": {
+        "title": "Accompagnement",
+        "description": "Formation des équipes et amélioration continue.",
+        "action": "Découvrir l'Academy"
+      }
+    },
+    "form": {
+      "name": "Nom complet",
+      "email": "Adresse e-mail",
+      "emailHelp": "Nous ne partageons jamais votre adresse.",
+      "emailError": "Saisissez une adresse e-mail valide.",
+      "message": "Votre projet",
+      "consent": "J'accepte que mes données soient utilisées pour être recontacté.",
+      "required": "obligatoire",
+      "submit": "Envoyer"
+    },
+    "motion": {
+      "fade": "Fondu",
+      "slide": "Glissement",
+      "note": "Les animations sont désactivées si l'utilisateur préfère réduire les mouvements."
+    },
+    "inverse": {
+      "title": "Une section sombre premium",
+      "text": "Le rouge éclairci garantit la lisibilité des petits textes sur fond noir.",
+      "link": "Voir les solutions",
+      "action": "Action principale",
+      "secondary": "Action secondaire"
+    }
+  }
+}

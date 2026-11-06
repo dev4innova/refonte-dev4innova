@@ -1,13 +1,13 @@
 "use client";
 
 import { Menu } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
 
 import { NavLinks } from "@/components/layout/nav-links";
 import type { NavItem, NavLabels } from "@/components/layout/types";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Link } from "@/i18n/navigation";
 
 type MobileNavProps = {
   items: NavItem[];
