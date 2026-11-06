@@ -25,6 +25,23 @@ class AppError(Exception):
         self.details = details or {}
 
 
+class UnauthorizedError(AppError):
+    """Missing or invalid credentials (401)."""
+
+    status_code = status.HTTP_401_UNAUTHORIZED
+    code = "unauthorized"
+
+
+class ConflictError(AppError):
+    status_code = status.HTTP_409_CONFLICT
+    code = "conflict"
+
+
+class ServiceUnavailableError(AppError):
+    status_code = status.HTTP_503_SERVICE_UNAVAILABLE
+    code = "service_unavailable"
+
+
 class NotFoundError(AppError):
     status_code = status.HTTP_404_NOT_FOUND
     code = "not_found"
@@ -42,8 +59,11 @@ def error_body(code: str, message: str, details: dict[str, Any] | None = None) -
 def register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(AppError)
     async def handle_app_error(_: Request, exc: AppError) -> JSONResponse:
+        headers = {"WWW-Authenticate": "Bearer"} if isinstance(exc, UnauthorizedError) else None
         return JSONResponse(
-            status_code=exc.status_code, content=error_body(exc.code, exc.message, exc.details)
+            status_code=exc.status_code,
+            content=error_body(exc.code, exc.message, exc.details),
+            headers=headers,
         )
 
     @app.exception_handler(StarletteHTTPException)
