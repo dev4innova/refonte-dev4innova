@@ -15,7 +15,7 @@ Une fonctionnalité ne peut pas être développée avant les fondations dont ell
 | Epic | Titre | Priorité | Dépend de | État |
 |---|---|---|---|---|
 | 00 | Project Governance | P0 | — | ✅ livré (validation de l'architecture en attente) |
-| 01 | Infrastructure Foundation | P0 | 00 | à faire |
+| 01 | Infrastructure Foundation | P0 | 00 | ✅ livré |
 | 02 | Design System | P0 | 01 | à faire |
 | 03 | Internationalization | P0 | 01 (02 pour le sélecteur) | à faire |
 | 04 | Identity & Access | P0 | 01, décision ADR-0009 | à faire |
@@ -65,8 +65,23 @@ TASK-014 Docker Compose · TASK-015 variables d'environnement · TASK-016 FastAP
 TASK-017 SQLAlchemy · TASK-018 Alembic · TASK-019 health checks.
 Ordre : 010, 011 → 012, 013 → 015 → 017 → 016 → 018 → 014 → 019.
 
-**DoD** : tous les services démarrent · frontend ↔ backend · backend ↔ PostgreSQL ·
-migrations fonctionnelles · health checks OK.
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-010 | `apps/web` : Next.js 16, TypeScript strict, ESLint, Vitest, sortie `standalone` | ✅ |
+| TASK-011 | `apps/api` : FastAPI, config, erreurs au format unique, logs JSON, Ruff, mypy strict, pytest | ✅ |
+| TASK-012 | PostgreSQL 17 (Compose) + base de test `dev4innova_test` | ✅ |
+| TASK-013 | Redis 7 (Compose, AOF) + client async `app/core/redis.py` | ✅ |
+| TASK-014 | `infra/docker/compose.yaml`, `api.Dockerfile`, `web.Dockerfile`, `Makefile` | ✅ |
+| TASK-015 | `.env.example` par application, `docs/architecture/environment-variables.md` | ✅ |
+| TASK-016 | moteur async SQLAlchemy/asyncpg, dépendance `get_session` | ✅ |
+| TASK-017 | `Base` déclarative, convention de nommage, mixins UUID / timestamps | ✅ |
+| TASK-018 | Alembic async, migration `0001` baseline, service `migrate` en Compose, test upgrade/downgrade/drift | ✅ |
+| TASK-019 | `/api/v1/health/live`, `/api/v1/health/ready` (PostgreSQL + Redis, 503 si KO), `/api/health` (web → API), healthchecks Docker | ✅ |
+
+En plus : `packages/api-client` généré depuis l'OpenAPI (`make client`), utilisé par le web pour appeler l'API.
+
+**DoD** : tous les services démarrent ✅ · frontend ↔ backend ✅ · backend ↔ PostgreSQL ✅ ·
+migrations fonctionnelles ✅ · health checks OK ✅.
 
 ### EPIC 02 — Design System (P0)
 TASK-020 Tailwind · TASK-021 shadcn/ui · TASK-022 couleurs · TASK-023 typographies ·

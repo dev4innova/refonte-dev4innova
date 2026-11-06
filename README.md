@@ -34,8 +34,33 @@ expériences IA, diagnostic IA, portail client, Academy et facturation.
 | Règles database | [docs/rules/database.md](docs/rules/database.md) |
 | Règles sécurité | [docs/rules/security.md](docs/rules/security.md) |
 | Conventions de commits | [docs/rules/commits.md](docs/rules/commits.md) |
+| Variables d'environnement | [docs/architecture/environment-variables.md](docs/architecture/environment-variables.md) |
 | Backlog | [docs/backlog.md](docs/backlog.md) |
+
+## Démarrage rapide
+
+Prérequis : Node.js 22+, pnpm 10, Python 3.12+, [uv](https://docs.astral.sh/uv/), Docker.
+
+```bash
+make setup      # dépendances + fichiers .env locaux
+make up         # stack complète dans Docker
+```
+
+- Site : http://localhost:3000 — santé : http://localhost:3000/api/health
+- API : http://localhost:8000/docs — santé : http://localhost:8000/api/v1/health/ready
+
+Développement avec rechargement à chaud :
+
+```bash
+make services   # PostgreSQL + Redis dans Docker
+make api-dev    # terminal 1
+make web-dev    # terminal 2
+```
+
+`make help` liste toutes les commandes. Variables d'environnement :
+[docs/architecture/environment-variables.md](docs/architecture/environment-variables.md).
 
 ## État
 
-EPIC 00 (gouvernance) livré. Les applications `apps/web` et `apps/api` sont initialisées dans l'EPIC 01.
+- EPIC 00 (gouvernance) : livré.
+- EPIC 01 (infrastructure) : livré.

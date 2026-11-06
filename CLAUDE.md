@@ -54,7 +54,25 @@ Backlog et priorités : `docs/backlog.md`. Architecture : `docs/architecture/ove
 
 ## Commandes
 
-Les commandes seront ajoutées ici au fil de l'EPIC 01 (dev, lint, test, migrations).
+Tout passe par le `Makefile` racine (`make help`) :
+
+| Commande | Effet |
+|---|---|
+| `make setup` | installe les dépendances JS (pnpm) et Python (uv), crée les `.env` locaux |
+| `make up` / `make down` | stack Docker complète (web :3000, api :8000, PostgreSQL, Redis) |
+| `make services` | PostgreSQL + Redis seuls, pour développer en local avec rechargement |
+| `make api-dev` / `make web-dev` | API (uvicorn --reload) / web (next dev) |
+| `make migration name="..."` / `make migrate` | créer / appliquer une migration Alembic |
+| `make client` | régénérer `packages/api-client` après un changement d'API |
+| `make check` | lint + typecheck + tests (à lancer avant de pousser ; nécessite `make services`) |
+
+Health checks : `GET /api/v1/health/live`, `GET /api/v1/health/ready` (API) et `GET /api/health` (web).
+
+## Next.js 16
+
+`apps/web` utilise Next.js 16 (Cache Components activé), dont les API diffèrent des versions
+précédentes : lire `apps/web/AGENTS.md` et la doc embarquée `node_modules/next/dist/docs/`
+avant d'écrire du code frontend.
 
 ## Langue
 
