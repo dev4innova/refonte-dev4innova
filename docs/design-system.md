@@ -3,7 +3,7 @@
 Identité : **moderne, minimaliste, premium et technologique**, fidèle au logo historique rouge
 et noir. Positionnement : « DEV4INNOVA — L'intégrateur de solutions IA ».
 
-Vitrine vivante de tous les tokens et composants : **`/design-system`** (page interne, non indexée).
+Vitrine vivante de tous les tokens et composants : **`/fr/design-system`** et `/en/design-system` (page interne, non indexée).
 
 ## Principes
 
@@ -12,8 +12,8 @@ Vitrine vivante de tous les tokens et composants : **`/design-system`** (page in
    Tailwind générés depuis les tokens (`bg-primary`, `text-display-lg`, `px-gutter`…).
 2. **Accessibilité WCAG 2.1 AA** : contrastes vérifiés automatiquement, navigation clavier, focus
    visible rouge, cibles tactiles ≥ 44 px, `prefers-reduced-motion` respecté.
-3. **Prêt pour le FR/EN** : aucun texte en dur dans `src/components/` ; tout libellé arrive par
-   props. Les textes actuels vivent dans `src/content/*` en attendant next-intl (EPIC 03).
+3. **FR/EN** : aucun texte en dur dans `src/components/` ; tout libellé arrive par props, depuis
+   les dictionnaires next-intl (`messages/{fr,en}.json`, voir `docs/rules/frontend.md`).
 4. **Composants shadcn/ui** : code copié dans le dépôt (`src/components/ui`), basé sur Radix UI,
    adapté aux tokens. `components.json` permet d'en ajouter avec `pnpm dlx shadcn add <nom>`.
 
@@ -94,6 +94,7 @@ mouvements, toutes les animations et transitions sont neutralisées globalement.
 | `Sheet` | `ui/sheet.tsx` | panneau latéral (Radix Dialog) : focus piégé, Échap, retour du focus |
 | `Logo`, `LogoMark` | `brand/logo.tsx` | ampoule D4I vectorisée et logotype « Dev4Innova » (« 4 » rouge, soulignement rouge) |
 | `SiteHeader`, `MobileNav`, `NavLinks` | `layout/` | en-tête collant, `aria-current`, menu burger sous 1024 px, emplacement `localeSwitcher` |
+| `LocaleSwitcher` | `layout/locale-switcher.tsx` | FR / EN sur la même page, `aria-current`, `lang` et `hreflang` sur chaque lien |
 | `SiteFooter` | `layout/site-footer.tsx` | pied de page sombre, colonnes de liens, mentions légales |
 | `Container`, `Section` | `layout/` | mise en page standard |
 

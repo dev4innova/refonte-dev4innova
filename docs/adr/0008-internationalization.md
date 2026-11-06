@@ -14,5 +14,13 @@
 - L'API reçoit la langue souhaitée (`Accept-Language` ou paramètre `locale`) et renvoie
   le contenu correspondant, avec repli sur le français.
 
+## Mise en œuvre (EPIC 03)
+- next-intl 4 ; configuration dans `apps/web/src/i18n/`, détection de langue dans `src/proxy.ts`
+  (« proxy » est le nouveau nom du middleware depuis Next.js 16).
+- Ordre de détection pour `/` : cookie `NEXT_LOCALE` (dernier choix), puis `Accept-Language`,
+  puis le français.
+- Les composants ne lisent pas les messages : ils reçoivent leurs textes par props, ce qui
+  évite d'envoyer les dictionnaires au navigateur.
+
 ## Conséquences
 Ajouter une langue = ajouter un dictionnaire et des traductions, sans changement de schéma.

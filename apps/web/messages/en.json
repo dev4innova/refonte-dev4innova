@@ -1,0 +1,141 @@
+{
+  "Metadata": {
+    "siteName": "DEV4INNOVA",
+    "title": "DEV4INNOVA — The AI solutions integrator",
+    "description": "We design, integrate and run artificial intelligence solutions that serve your business."
+  },
+  "Layout": {
+    "skipToContent": "Skip to main content"
+  },
+  "Brand": {
+    "tagline": "The AI solutions integrator",
+    "description": "We design, integrate and run artificial intelligence solutions that serve your business."
+  },
+  "Navigation": {
+    "solutions": "Solutions",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "innovationLab": "Innovation Lab",
+    "academy": "Academy",
+    "insights": "Insights",
+    "about": "About",
+    "contact": "Contact",
+    "cta": "Contact us",
+    "landmark": "Main navigation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "menuTitle": "Menu",
+    "home": "DEV4INNOVA, home"
+  },
+  "Footer": {
+    "landmark": "Site map",
+    "offer": "Offer",
+    "innovation": "Innovation",
+    "company": "Company",
+    "legalNotice": "Legal notice",
+    "privacy": "Privacy",
+    "copyright": "© DEV4INNOVA. All rights reserved."
+  },
+  "LocaleSwitcher": {
+    "label": "Language",
+    "fr": "Français",
+    "en": "English"
+  },
+  "Home": {
+    "eyebrow": "DEV4INNOVA",
+    "title": "The AI solutions integrator",
+    "lead": "Strategy, integration and support: we turn artificial intelligence into tangible results for your organization.",
+    "primaryCta": "Contact us",
+    "secondaryCta": "Explore our solutions"
+  },
+  "NotFound": {
+    "metaTitle": "Page not found",
+    "title": "This page could not be found",
+    "description": "It may have moved or may not exist yet.",
+    "backHome": "Back to home"
+  },
+  "DesignSystem": {
+    "metaTitle": "Design system",
+    "title": "DEV4INNOVA design system",
+    "lead": "Reference tokens, typography and components. Internal page, not indexed.",
+    "sections": {
+      "colors": "Colors",
+      "typography": "Typography",
+      "spacing": "Spacing",
+      "buttons": "Buttons",
+      "cards": "Cards",
+      "forms": "Forms",
+      "motion": "Motion",
+      "inverse": "Dark section"
+    },
+    "colors": {
+      "primary": "DEV4INNOVA red",
+      "primaryHover": "Hover red",
+      "secondary": "Black",
+      "background": "Light background",
+      "card": "Surface",
+      "muted": "Neutral",
+      "accent": "Accent",
+      "primaryOnInverse": "Red on black"
+    },
+    "typography": {
+      "displayXl": "Display XL — Space Grotesk",
+      "displayLg": "Display L — AI solutions",
+      "displayMd": "Display M — Integration",
+      "headingLg": "Heading L — Card title",
+      "headingSm": "Heading S — Subtitle",
+      "bodyLg": "Body L — Inter, for introductions.",
+      "body": "Body — Inter, the platform's running text.",
+      "bodySm": "Body S — notes and hints."
+    },
+    "buttons": {
+      "primary": "Start a project",
+      "secondary": "Secondary",
+      "outline": "Outline",
+      "ghost": "Ghost",
+      "link": "Link",
+      "loading": "Sending",
+      "disabled": "Unavailable",
+      "icon": "Continue"
+    },
+    "cards": {
+      "strategy": {
+        "title": "AI strategy",
+        "description": "Assessment, roadmap and priority use cases.",
+        "action": "Learn more"
+      },
+      "integration": {
+        "title": "Integration",
+        "description": "Connecting AI models to your tools and data.",
+        "action": "See solutions"
+      },
+      "support": {
+        "title": "Support",
+        "description": "Team training and continuous improvement.",
+        "action": "Discover the Academy"
+      }
+    },
+    "form": {
+      "name": "Full name",
+      "email": "Email address",
+      "emailHelp": "We never share your address.",
+      "emailError": "Enter a valid email address.",
+      "message": "Your project",
+      "consent": "I agree that my data may be used to contact me.",
+      "required": "required",
+      "submit": "Send"
+    },
+    "motion": {
+      "fade": "Fade",
+      "slide": "Slide",
+      "note": "Animations are disabled when the user prefers reduced motion."
+    },
+    "inverse": {
+      "title": "A premium dark section",
+      "text": "The lighter red keeps small text readable on black.",
+      "link": "See solutions",
+      "action": "Primary action",
+      "secondary": "Secondary action"
+    }
+  }
+}

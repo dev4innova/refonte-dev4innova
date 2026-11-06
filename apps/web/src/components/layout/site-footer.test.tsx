@@ -1,9 +1,14 @@
 import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { axeViolations } from "@/test/axe";
 
 import { SiteFooter, type SiteFooterProps } from "./site-footer";
+
+vi.mock("@/i18n/navigation", async () => {
+  const { mockI18nNavigation } = await import("@/test/i18n-navigation");
+  return mockI18nNavigation(() => "/");
+});
 
 const props: SiteFooterProps = {
   tagline: "L'intégrateur de solutions IA",
@@ -13,7 +18,7 @@ const props: SiteFooterProps = {
     { title: "Offre", links: [{ href: "/solutions", label: "Solutions" }] },
     { title: "Entreprise", links: [{ href: "/contact", label: "Contact" }] },
   ],
-  legalLinks: [{ href: "/mentions-legales", label: "Mentions légales" }],
+  legalLinks: [{ href: "/legal-notice", label: "Mentions légales" }],
   copyright: "© DEV4INNOVA. Tous droits réservés.",
 };
 
@@ -25,10 +30,10 @@ describe("SiteFooter", () => {
     expect(screen.getByText("L'intégrateur de solutions IA")).toBeInTheDocument();
     const nav = screen.getByRole("navigation", { name: "Plan du site" });
     expect(within(nav).getByRole("heading", { level: 2, name: "Offre" })).toBeInTheDocument();
-    expect(within(nav).getByRole("link", { name: "Contact" })).toHaveAttribute("href", "/contact");
+    expect(within(nav).getByRole("link", { name: "Contact" })).toHaveAttribute("href", "/fr/contact");
     expect(screen.getByRole("link", { name: "Mentions légales" })).toHaveAttribute(
       "href",
-      "/mentions-legales",
+      "/fr/legal-notice",
     );
     expect(screen.getByText(props.copyright)).toBeInTheDocument();
   });

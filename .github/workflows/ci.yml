@@ -66,9 +66,14 @@ jobs:
           NEXT_TELEMETRY_DISABLED: "1"
 
   web-e2e:
-    name: Web E2E (responsive, accessibility)
+    name: Web E2E (responsive, accessibility, i18n)
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # Chromium and its system libraries are preinstalled: no `playwright install --with-deps`.
+    # Keep the tag in sync with @playwright/test in apps/web/package.json.
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.0-noble
+      options: --user 1001
     defaults:
       run:
         working-directory: apps/web
@@ -83,7 +88,6 @@ jobs:
       - run: pnpm build
         env:
           NEXT_TELEMETRY_DISABLED: "1"
-      - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm e2e
       - name: Upload Playwright report (screenshots at 375, 768 and 1280 px)
         if: ${{ !cancelled() }}

@@ -9,7 +9,10 @@ import { SiteHeader } from "./site-header";
 import type { NavItem, NavLabels } from "./types";
 
 const pathname = vi.hoisted(() => ({ current: "/" }));
-vi.mock("next/navigation", () => ({ usePathname: () => pathname.current }));
+vi.mock("@/i18n/navigation", async () => {
+  const { mockI18nNavigation } = await import("@/test/i18n-navigation");
+  return mockI18nNavigation(() => pathname.current);
+});
 
 const items: NavItem[] = [
   { href: "/solutions", label: "Solutions" },
@@ -48,13 +51,13 @@ describe("SiteHeader", () => {
   it("renders the logo link, the main navigation and the call to action", () => {
     renderHeader();
 
-    expect(screen.getByRole("link", { name: labels.home })).toHaveAttribute("href", "/");
+    expect(screen.getByRole("link", { name: labels.home })).toHaveAttribute("href", "/fr");
     const nav = screen.getByRole("navigation", { name: labels.navigation });
     expect(within(nav).getAllByRole("link").map((a) => a.textContent)).toEqual([
       "Solutions",
       "Services",
     ]);
-    expect(screen.getByRole("link", { name: "Nous contacter" })).toHaveAttribute("href", "/contact");
+    expect(screen.getByRole("link", { name: "Nous contacter" })).toHaveAttribute("href", "/fr/contact");
   });
 
   it("marks the current page with aria-current", () => {

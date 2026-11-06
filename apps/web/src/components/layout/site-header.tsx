@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type * as React from "react";
 
 import { Logo } from "@/components/brand/logo";
@@ -7,6 +6,7 @@ import { MobileNav } from "@/components/layout/mobile-nav";
 import { NavLinks } from "@/components/layout/nav-links";
 import type { NavItem, NavLabels } from "@/components/layout/types";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
 export type SiteHeaderProps = {
   items: NavItem[];

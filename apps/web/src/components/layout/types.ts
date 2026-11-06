@@ -1,6 +1,8 @@
-/** A navigation link. `label` is already translated by the caller (next-intl in EPIC 03). */
+import type { AppPathname } from "@/i18n/routing";
+
+/** A navigation link: an internal pathname (localized by the Link) and a translated label. */
 export type NavItem = {
-  href: string;
+  href: AppPathname;
   label: string;
 };
 

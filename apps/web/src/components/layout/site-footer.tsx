@@ -1,8 +1,8 @@
-import Link from "next/link";
 
 import { Logo } from "@/components/brand/logo";
 import { Container } from "@/components/layout/container";
 import type { NavItem } from "@/components/layout/types";
+import { Link } from "@/i18n/navigation";
 
 export type FooterColumn = {
   title: string;
