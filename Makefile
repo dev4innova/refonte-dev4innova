@@ -3,10 +3,10 @@ COMPOSE := docker compose -f infra/docker/compose.yaml
 API := cd apps/api &&
 
 .DEFAULT_GOAL := help
-.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client lint typecheck test check
+.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client lint typecheck test e2e check
 
 help: ## List commands
-	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
+	@grep -E '^[a-z0-9-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
 
 setup: ## Install JS and Python dependencies, create local env files
 	pnpm install
@@ -55,5 +55,9 @@ typecheck: ## Typecheck everything
 test: ## Run all tests (API tests need `make services`)
 	pnpm --filter @dev4innova/web test
 	$(API) uv run pytest
+
+e2e: ## Build the web app and run Playwright (responsive + accessibility)
+	pnpm --filter @dev4innova/web build
+	pnpm --filter @dev4innova/web e2e
 
 check: lint typecheck test ## Lint + typecheck + test

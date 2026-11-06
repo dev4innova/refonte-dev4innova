@@ -22,7 +22,7 @@ Backlog et priorités : `docs/backlog.md`. Architecture : `docs/architecture/ove
 
 | Vous touchez… | Lisez |
 |---|---|
-| `apps/web/**`, `packages/**` | `docs/rules/frontend.md` |
+| `apps/web/**`, `packages/**` | `docs/rules/frontend.md` (+ `docs/design-system.md` pour l'UI) |
 | `apps/api/**` | `docs/rules/backend.md` |
 | modèles, migrations, requêtes SQL | `docs/rules/database.md` |
 | auth, données personnelles, secrets, IA, paiements, uploads | `docs/rules/security.md` |
@@ -65,6 +65,7 @@ Tout passe par le `Makefile` racine (`make help`) :
 | `make migration name="..."` / `make migrate` | créer / appliquer une migration Alembic |
 | `make client` | régénérer `packages/api-client` après un changement d'API |
 | `make check` | lint + typecheck + tests (à lancer avant de pousser ; nécessite `make services`) |
+| `make e2e` | build du web + Playwright (responsive 375/768/1280 px, accessibilité) |
 
 Health checks : `GET /api/v1/health/live`, `GET /api/v1/health/ready` (API) et `GET /api/health` (web).
 

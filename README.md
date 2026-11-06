@@ -30,6 +30,7 @@ expériences IA, diagnostic IA, portail client, Academy et facturation.
 | Architecture | [docs/architecture/overview.md](docs/architecture/overview.md) |
 | Décisions (ADR) | [docs/adr/](docs/adr/README.md) |
 | Règles frontend | [docs/rules/frontend.md](docs/rules/frontend.md) |
+| Design system | [docs/design-system.md](docs/design-system.md) |
 | Règles backend | [docs/rules/backend.md](docs/rules/backend.md) |
 | Règles database | [docs/rules/database.md](docs/rules/database.md) |
 | Règles sécurité | [docs/rules/security.md](docs/rules/security.md) |
@@ -64,4 +65,5 @@ make web-dev    # terminal 2
 
 - EPIC 00 (gouvernance) : livré.
 - EPIC 01 (infrastructure) : livré.
+- EPIC 02 (design system) : livré — voir [docs/design-system.md](docs/design-system.md) et la page `/design-system`.
 - TASK-116 (intégration continue) : livrée — voir [CONTRIBUTING.md](CONTRIBUTING.md#intégration-continue).

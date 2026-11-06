@@ -1,11 +1,151 @@
-/* Design tokens and Tailwind arrive with EPIC 02. */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../styles/tokens.css";
+
+/*
+ * Maps the design tokens (src/styles/tokens.css) to Tailwind utilities:
+ * bg-primary, text-muted-foreground, font-heading, text-display-lg, px-gutter,
+ * py-section, max-w-site, shadow-elevated, ease-standard, animate-fade-in...
+ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-inverse: var(--inverse);
+  --color-inverse-foreground: var(--inverse-foreground);
+  --color-inverse-muted-foreground: var(--inverse-muted-foreground);
+  --color-inverse-border: var(--inverse-border);
+  --color-primary-on-inverse: var(--primary-on-inverse);
+
+  --font-sans: var(--font-family-body);
+  --font-heading: var(--font-family-heading);
+
+  /* Fluid type scale: text-display-xl … text-heading-sm. */
+  --text-display-xl: clamp(2.5rem, 1.5rem + 4.5vw, 4.75rem);
+  --text-display-xl--line-height: 1.04;
+  --text-display-xl--letter-spacing: -0.035em;
+  --text-display-lg: clamp(2.125rem, 1.5rem + 2.75vw, 3.5rem);
+  --text-display-lg--line-height: 1.08;
+  --text-display-lg--letter-spacing: -0.03em;
+  --text-display-md: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  --text-display-md--line-height: 1.15;
+  --text-display-md--letter-spacing: -0.02em;
+  --text-heading-lg: clamp(1.375rem, 1.2rem + 0.75vw, 1.75rem);
+  --text-heading-lg--line-height: 1.25;
+  --text-heading-lg--letter-spacing: -0.015em;
+  --text-heading-sm: 1.125rem;
+  --text-heading-sm--line-height: 1.4;
+  --text-heading-sm--letter-spacing: -0.01em;
+
+  --spacing-gutter: var(--layout-gutter);
+  --spacing-section: var(--layout-section-y);
+  --spacing-header: var(--header-height);
+  --container-site: var(--layout-max-width);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --shadow-card: var(--elevation-1);
+  --shadow-elevated: var(--elevation-2);
+
+  --ease-standard: var(--motion-ease-standard);
+  --ease-out-soft: var(--motion-ease-out);
+
+  --animate-fade-in: fade-in var(--motion-duration-slow) var(--motion-ease-out) both;
+  --animate-slide-up: slide-up var(--motion-duration-slow) var(--motion-ease-out) both;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
-body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
+@utility duration-fast {
+  transition-duration: var(--motion-duration-fast);
+}
+
+@utility duration-base {
+  transition-duration: var(--motion-duration-base);
+}
+
+@utility duration-slow {
+  transition-duration: var(--motion-duration-slow);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-padding-top: var(--header-height);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading text-balance;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+}
+
+/* Respect the user's motion preference everywhere (WCAG 2.3.3). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

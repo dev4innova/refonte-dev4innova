@@ -1,0 +1,64 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+import type { NavItem } from "@/components/layout/types";
+import { cn } from "@/lib/utils";
+
+/** True when `href` is the current page or one of its parents (except the homepage). */
+export function isActivePath(pathname: string, href: string): boolean {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+type NavLinksProps = {
+  items: NavItem[];
+  orientation?: "horizontal" | "vertical";
+  /** Called after a link is chosen (closes the mobile menu). */
+  onNavigate?: () => void;
+  className?: string;
+};
+
+/** Navigation links with aria-current on the active page. */
+export function NavLinks({ items, orientation = "horizontal", onNavigate, className }: NavLinksProps) {
+  const pathname = usePathname();
+
+  return (
+    <ul
+      className={cn(
+        orientation === "horizontal" ? "flex items-center gap-1" : "flex flex-col gap-1",
+        className,
+      )}
+    >
+      {items.map((item) => {
+        const active = isActivePath(pathname, item.href);
+        return (
+          <li key={item.href}>
+            <Link
+              href={item.href}
+              aria-current={active ? "page" : undefined}
+              onClick={onNavigate}
+              className={cn(
+                "relative inline-flex items-center rounded-md font-medium whitespace-nowrap text-foreground/80",
+                "transition-colors duration-fast ease-standard hover:text-foreground",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "aria-[current=page]:text-foreground",
+                orientation === "horizontal"
+                  ? [
+                      "h-10 px-3 text-sm",
+                      "after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0",
+                      "after:bg-primary after:transition-transform after:duration-base after:ease-out-soft",
+                      "hover:after:scale-x-100 aria-[current=page]:after:scale-x-100",
+                    ]
+                  : "min-h-12 w-full px-3 text-lg hover:bg-muted aria-[current=page]:bg-accent aria-[current=page]:text-accent-foreground",
+              )}
+            >
+              {item.label}
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}

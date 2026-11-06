@@ -16,7 +16,7 @@ Une fonctionnalité ne peut pas être développée avant les fondations dont ell
 |---|---|---|---|---|
 | 00 | Project Governance | P0 | — | ✅ livré (validation de l'architecture en attente) |
 | 01 | Infrastructure Foundation | P0 | 00 | ✅ livré |
-| 02 | Design System | P0 | 01 | à faire |
+| 02 | Design System | P0 | 01 | ✅ livré |
 | 03 | Internationalization | P0 | 01 (02 pour le sélecteur) | à faire |
 | 04 | Identity & Access | P0 | 01, décision ADR-0009 | à faire |
 | 05 | Corporate Website | P1 | 02, 03 (06 pour le contenu dynamique) | à faire |
@@ -89,7 +89,24 @@ TASK-024 espacements · TASK-025 boutons · TASK-026 cartes · TASK-027 formulai
 TASK-028 navigation · TASK-029 footer · TASK-030 animations · TASK-031 responsive.
 Ordre : 020 → 021 → 022-024 (tokens) → 025-029 → 030 → 031.
 
-**DoD** : tokens centralisés · composants réutilisables · responsive vérifié · accessibilité.
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-020 | Tailwind CSS v4 (PostCSS), `globals.css` | ✅ |
+| TASK-021 | shadcn/ui : `components.json`, `cn()`, primitives Radix (`radix-ui`) | ✅ |
+| TASK-022 | `src/styles/tokens.css` : palette rouge/noir, tokens sémantiques, surfaces inverse, test des contrastes | ✅ |
+| TASK-023 | Space Grotesk + Inter (`next/font`), échelle typographique fluide | ✅ |
+| TASK-024 | Gouttières, sections, largeur max, hauteur d'en-tête, rayons, ombres | ✅ |
+| TASK-025 | `Button` (6 variantes, 4 tailles, `asChild`, `loading`) | ✅ |
+| TASK-026 | `Card` (default, elevated, inverse, interactive) | ✅ |
+| TASK-027 | `Input`, `Textarea`, `Label`, `Checkbox`, `FormField` | ✅ |
+| TASK-028 | `Logo`, `SiteHeader`, `NavLinks`, `MobileNav` (Sheet), `Container`, `Section`, lien d'évitement | ✅ |
+| TASK-029 | `SiteFooter` sombre | ✅ |
+| TASK-030 | Tokens de mouvement, `animate-fade-in` / `slide-up`, `prefers-reduced-motion` | ✅ |
+| TASK-031 | Playwright 375/768/1280 px + axe WCAG 2.1 AA, job CI `Web E2E` | ✅ |
+
+Documentation : `docs/design-system.md`. Vitrine : `/design-system`.
+
+**DoD** : tokens centralisés ✅ · composants réutilisables ✅ · responsive vérifié ✅ · accessibilité ✅.
 
 ### EPIC 03 — Internationalization (P0)
 TASK-032 next-intl · TASK-033 dictionnaires FR · TASK-034 dictionnaires EN ·
