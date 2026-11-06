@@ -47,7 +47,7 @@ make setup      # dépendances + fichiers .env locaux
 make up         # stack complète dans Docker
 ```
 
-- Site : http://localhost:3000 — santé : http://localhost:3000/api/health
+- Site : http://localhost:3000 (redirige vers `/fr` ou `/en`) — santé : http://localhost:3000/api/health
 - API : http://localhost:8000/docs — santé : http://localhost:8000/api/v1/health/ready
 
 Développement avec rechargement à chaud :
@@ -66,4 +66,5 @@ make web-dev    # terminal 2
 - EPIC 00 (gouvernance) : livré.
 - EPIC 01 (infrastructure) : livré.
 - EPIC 02 (design system) : livré — voir [docs/design-system.md](docs/design-system.md) et la page `/design-system`.
+- EPIC 03 (internationalisation FR/EN) : livré — `/fr`, `/en`, voir `docs/rules/frontend.md`.
 - TASK-116 (intégration continue) : livrée — voir [CONTRIBUTING.md](CONTRIBUTING.md#intégration-continue).

@@ -65,7 +65,7 @@ Tout passe par le `Makefile` racine (`make help`) :
 | `make migration name="..."` / `make migrate` | créer / appliquer une migration Alembic |
 | `make client` | régénérer `packages/api-client` après un changement d'API |
 | `make check` | lint + typecheck + tests (à lancer avant de pousser ; nécessite `make services`) |
-| `make e2e` | build du web + Playwright (responsive 375/768/1280 px, accessibilité) |
+| `make e2e` | build du web + Playwright (responsive 375/768/1280 px, accessibilité, FR/EN) |
 
 Health checks : `GET /api/v1/health/live`, `GET /api/v1/health/ready` (API) et `GET /api/health` (web).
 

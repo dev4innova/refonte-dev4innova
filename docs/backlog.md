@@ -17,7 +17,7 @@ Une fonctionnalité ne peut pas être développée avant les fondations dont ell
 | 00 | Project Governance | P0 | — | ✅ livré (validation de l'architecture en attente) |
 | 01 | Infrastructure Foundation | P0 | 00 | ✅ livré |
 | 02 | Design System | P0 | 01 | ✅ livré |
-| 03 | Internationalization | P0 | 01 (02 pour le sélecteur) | à faire |
+| 03 | Internationalization | P0 | 01 (02 pour le sélecteur) | ✅ livré |
 | 04 | Identity & Access | P0 | 01, décision ADR-0009 | à faire |
 | 05 | Corporate Website | P1 | 02, 03 (06 pour le contenu dynamique) | à faire |
 | 06 | CMS & Administration | P1 | 04 | à faire |
@@ -112,6 +112,17 @@ Documentation : `docs/design-system.md`. Vitrine : `/design-system`.
 TASK-032 next-intl · TASK-033 dictionnaires FR · TASK-034 dictionnaires EN ·
 TASK-035 routes localisées · TASK-036 sélecteur de langue (après TASK-028) ·
 TASK-037 tests de navigation multilingue.
+
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-032 | next-intl : `src/i18n/` (routing, navigation, request), plugin Next, `proxy.ts` (Next 16) | ✅ |
+| TASK-033 | `messages/fr.json` (migration de l'ancien `src/content`) | ✅ |
+| TASK-034 | `messages/en.json` ; test de parité des clés, valeurs vides et variables ICU ; clés typées | ✅ |
+| TASK-035 | `app/[locale]`, préfixe systématique, slugs traduits (`/fr/a-propos` ↔ `/en/about`), détection cookie puis `Accept-Language`, `hreflang` + canonique, 404 localisée | ✅ |
+| TASK-036 | `LocaleSwitcher` dans l'en-tête : même page, `aria-current`, `lang`/`hreflang` | ✅ |
+| TASK-037 | `e2e/i18n.spec.ts` : détection, repli FR, préfixes, slugs, `hreflang`, changement de langue mémorisé, clavier, 404 FR/EN | ✅ |
+
+**DoD** : navigation FR/EN complète ✅ · aucun texte en dur ✅ · tests multilingues ✅.
 
 ### EPIC 04 — Identity & Access (P0)
 TASK-038 choix de l'IdP (ADR-0009) → TASK-039 authentification → TASK-040 profils →

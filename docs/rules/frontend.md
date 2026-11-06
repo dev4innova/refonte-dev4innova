@@ -41,12 +41,21 @@ apps/web/src/
   publiques sont exposées au navigateur.
 
 ## Internationalisation
-- Aucun texte visible en dur : tout passe par `useTranslations` / `getTranslations`.
-  En attendant next-intl (EPIC 03), les textes vivent dans `src/content/*` et les composants
-  les reçoivent par props, jamais en dur.
-- Chaque clé ajoutée l'est **dans `fr.json` et `en.json`** dans le même commit.
-- Les liens internes utilisent les helpers de navigation de next-intl (pas `next/link` brut).
-- Dates, nombres et montants formatés via next-intl (`useFormatter`), jamais à la main.
+- Aucun texte visible en dur : tout passe par `getTranslations` (Server Components) ou
+  `useTranslations`. Les composants réutilisables (`src/components/`) reçoivent leurs textes
+  **par props** ; seules les pages et layouts lisent les messages.
+- Dictionnaires : `apps/web/messages/{fr,en}.json`, un namespace par zone (`Navigation`,
+  `Footer`, `Home`…). Chaque clé est ajoutée **dans les deux fichiers dans le même commit** :
+  `src/i18n/messages.test.ts` vérifie la parité des clés, les valeurs vides et les variables ICU.
+  Les clés sont typées (`src/i18n/global.d.ts`) : une clé inexistante ne compile pas.
+- Routes : toute page vit sous `src/app/[locale]/`, appelle `setRequestLocale(locale)` (rendu
+  statique) et déclare ses `alternates` avec `localeAlternates()` (`src/i18n/metadata.ts`).
+  Une nouvelle URL est déclarée dans `pathnames` (`src/i18n/routing.ts`), avec son slug
+  traduit si besoin (`/fr/a-propos` ↔ `/en/about`).
+- Liens internes : `Link`, `useRouter`, `usePathname`, `redirect` de `@/i18n/navigation`
+  uniquement. ESLint interdit `next/link` et ces fonctions de `next/navigation`.
+- Dates, nombres et montants formatés via next-intl (`useFormatter` / `getFormatter`),
+  jamais à la main.
 
 ## Qualité
 - Accessibilité : WCAG 2.1 AA. HTML sémantique, labels sur tous les champs, focus visible,

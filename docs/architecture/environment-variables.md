@@ -27,6 +27,7 @@ Tests : `TEST_DATABASE_URL` et `TEST_REDIS_URL` remplacent les valeurs par défa
 | Variable | Côté | Description |
 |---|---|---|
 | `API_URL` | serveur uniquement | URL de l'API vue par le serveur Next.js (`http://localhost:8000` en local, `http://api:8000` dans Docker) |
+| `SITE_URL` | serveur, lu au build | origine publique du site pour les URL canoniques et `hreflang` (défaut `http://localhost:3000`) |
 
 Seules les variables préfixées `NEXT_PUBLIC_` sont exposées au navigateur ; aucune n'existe pour l'instant.
 

@@ -15,7 +15,7 @@
 |---|---|
 | Commit conventions | titre de la PR et commits conformes à `docs/rules/commits.md` |
 | Web | ESLint, typecheck (tous les paquets), Vitest, `next build` |
-| Web E2E | Playwright à 375, 768 et 1280 px : responsive et accessibilité (axe), captures en artefact |
+| Web E2E | Playwright à 375, 768 et 1280 px : responsive, accessibilité (axe), navigation FR/EN ; captures en artefact |
 | API | Ruff (lint + format), mypy strict, pytest sur PostgreSQL 17 et Redis 7 |
 | API client up to date | `packages/api-client` correspond à l'OpenAPI actuelle (sinon : `make client`) |
 | Docker images build | les images `api` et `web` se construisent |
