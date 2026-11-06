@@ -1,6 +1,9 @@
 # Règles frontend (`apps/web`, `packages/*`)
 
 ## Stack
+- **Next.js 16** avec Cache Components (`cacheComponents: true`) : les API de rendu et de cache
+  diffèrent des versions antérieures. Consulter `apps/web/AGENTS.md` et la documentation
+  embarquée (`node_modules/next/dist/docs/`) avant d'utiliser une API Next.js.
 - Next.js App Router, React Server Components par défaut. `"use client"` uniquement quand
   un composant a besoin d'état, d'effets ou d'API navigateur — et le plus bas possible dans l'arbre.
 - TypeScript `strict: true`, `noUncheckedIndexedAccess: true`. Interdit : `any` (utiliser
@@ -27,7 +30,8 @@ apps/web/src/
 
 ## Données et API
 - Les appels au backend passent **exclusivement** par `packages/api-client` (généré depuis
-  l'OpenAPI). Pas de `fetch` ad hoc vers l'API.
+  l'OpenAPI). Pas de `fetch` ad hoc vers l'API. Côté serveur : `serverApi()` de `@/lib/api`.
+- Les variables serveur (`API_URL`, …) sont lues dans des modules marqués `import "server-only"`.
 - Récupération de données côté serveur (Server Components / Route Handlers) en priorité.
 - Les validations de formulaires utilisent Zod ; le backend reste l'autorité de validation.
 - Aucune clé secrète dans le frontend. Seules les variables `NEXT_PUBLIC_*` explicitement

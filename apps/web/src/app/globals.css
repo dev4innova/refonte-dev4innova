@@ -1,0 +1,11 @@
+/* Design tokens and Tailwind arrive with EPIC 02. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
