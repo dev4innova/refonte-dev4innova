@@ -64,3 +64,4 @@ make web-dev    # terminal 2
 
 - EPIC 00 (gouvernance) : livré.
 - EPIC 01 (infrastructure) : livré.
+- TASK-116 (intégration continue) : livrée — voir [CONTRIBUTING.md](CONTRIBUTING.md#intégration-continue).

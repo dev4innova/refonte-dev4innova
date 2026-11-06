@@ -22,7 +22,7 @@ Une fonctionnalité ne peut pas être développée avant les fondations dont ell
 | 05 | Corporate Website | P1 | 02, 03 (06 pour le contenu dynamique) | à faire |
 | 06 | CMS & Administration | P1 | 04 | à faire |
 | 07 | CRM & Leads | P1 | 04 | à faire |
-| 14a | CI/CD minimal (TASK-116) | **P0** — avancé | 01 | à faire |
+| 14a | CI/CD minimal (TASK-116) | **P0** — avancé | 01 | ✅ CI livrée (CD avec TASK-122) |
 | 08 | AI Gateway | P1 | 04 | à faire |
 | 10 | AI Business Diagnostic | P1 | 08, 07 | à faire |
 | 09 | AI Experiences | P2 | 08 | à faire |
@@ -142,6 +142,6 @@ TASK-114 abonnements · TASK-115 transactions. Le choix du prestataire de paieme
 (et de la facturation conforme à la réglementation française, facture électronique) fera l'objet d'un ADR.
 
 ### EPIC 14 — Production & Scale
-TASK-116 CI/CD (**avancée en P0**) · TASK-117 monitoring · TASK-118 logs · TASK-119 sauvegardes ·
+TASK-116 CI/CD (**avancée en P0** — CI livrée : `.github/workflows/ci.yml`, Dependabot ; le déploiement continu viendra avec TASK-122) · TASK-117 monitoring · TASK-118 logs · TASK-119 sauvegardes ·
 TASK-120 tests de sécurité · TASK-121 tests de charge (P3) · TASK-122 déploiement production ·
 TASK-123 validation de mise en production.
