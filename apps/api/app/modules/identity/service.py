@@ -1,8 +1,9 @@
 """Identity business rules: provisioning, profiles, organizations, memberships."""
 
 import uuid
-from dataclasses import dataclass
-from datetime import UTC, datetime
+from collections.abc import Awaitable, Callable
+from dataclasses import dataclass, replace
+from datetime import UTC, datetime, timedelta
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -41,24 +42,62 @@ class OrganizationContext:
 # --- Users (TASK-040) -------------------------------------------------------------
 
 
-async def provision_user(session: AsyncSession, claims: TokenClaims) -> User:
-    """Creates the user on first login (just-in-time) and refreshes identity claims."""
+LAST_SEEN_RESOLUTION = timedelta(minutes=15)
+
+UserInfoFetcher = Callable[[str], Awaitable[dict[str, object]]]
+"""Calls the identity provider's userinfo endpoint with an access token."""
+
+
+def _locale(value: str | None) -> str:
+    return value[:2] if value and value[:2] in ("fr", "en") else "fr"
+
+
+async def provision_user(
+    session: AsyncSession,
+    claims: TokenClaims,
+    *,
+    access_token: str = "",
+    fetch_userinfo: UserInfoFetcher | None = None,
+) -> User:
+    """Creates the user on first login (just-in-time) and keeps identity claims fresh.
+
+    Zitadel access tokens do not carry the email by default: it is read once from the
+    userinfo endpoint. Writes happen only when something changed, or every 15 minutes
+    for `last_login_at`, so authenticated requests do not all write to the database.
+    """
     user = await repository.get_user_by_subject(session, claims.subject)
-    if user is None:
-        user = User(
-            external_subject=claims.subject,
-            locale=claims.locale[:2]
-            if claims.locale and claims.locale[:2] in ("fr", "en")
-            else "fr",
+
+    if fetch_userinfo and not claims.email and (user is None or user.email is None):
+        info = await fetch_userinfo(access_token)
+        claims = replace(
+            claims,
+            email=claims.email or _str(info.get("email")),
+            name=claims.name or _str(info.get("name")),
+            locale=claims.locale or _str(info.get("locale")),
         )
+
+    now = datetime.now(UTC)
+    changed = user is None
+    if user is None:
+        user = User(external_subject=claims.subject, locale=_locale(claims.locale))
         session.add(user)
-    if claims.email:
+    if claims.email and user.email != claims.email.lower():
         user.email = claims.email.lower()
+        changed = True
     if claims.name and not user.display_name:
         user.display_name = claims.name
-    user.last_login_at = datetime.now(UTC)
-    await session.commit()
+        changed = True
+    if user.last_login_at is None or now - user.last_login_at > LAST_SEEN_RESOLUTION:
+        user.last_login_at = now
+        changed = True
+
+    if changed:
+        await session.commit()
     return user
+
+
+def _str(value: object) -> str | None:
+    return value if isinstance(value, str) and value else None
 
 
 async def update_profile(session: AsyncSession, user: User, data: MeUpdate) -> User:

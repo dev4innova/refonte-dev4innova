@@ -91,3 +91,26 @@ async def test_auth_not_configured_returns_503() -> None:
 
     assert response.status_code == 503
     assert response.json()["error"]["code"] == "service_unavailable"
+
+
+async def test_reads_the_email_from_userinfo_when_the_token_has_none(client: AsyncClient) -> None:
+    """Zitadel access tokens carry no email by default: it comes from userinfo, once."""
+    from app.modules.identity.auth import get_userinfo_fetcher
+
+    calls: list[str] = []
+
+    async def fake_userinfo(access_token: str) -> dict[str, object]:
+        calls.append(access_token)
+        return {"email": "Dana@Example.com", "name": "Dana"}
+
+    app = client._transport.app  # type: ignore[attr-defined]
+    app.dependency_overrides[get_userinfo_fetcher] = lambda: fake_userinfo
+    headers = bearer(make_token("sub-dana"))
+
+    first = await client.get(ME, headers=headers)
+    second = await client.get(ME, headers=headers)
+
+    assert first.json()["email"] == "dana@example.com"
+    assert first.json()["display_name"] == "Dana"
+    assert second.status_code == 200
+    assert len(calls) == 1  # not called again once the email is known

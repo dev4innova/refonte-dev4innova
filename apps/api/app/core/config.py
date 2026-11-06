@@ -30,6 +30,8 @@ class Settings(BaseSettings):
     """Expected `aud` claim: the Zitadel project ID."""
     auth_jwks_url: str | None = None
     """Defaults to {auth_issuer}/oauth/v2/keys."""
+    auth_userinfo_url: str | None = None
+    """Defaults to {auth_issuer}/oidc/v1/userinfo (Zitadel)."""
     auth_leeway_seconds: int = Field(default=30, ge=0, le=300)
     health_check_timeout_seconds: float = Field(default=2.0, gt=0)
 
@@ -42,6 +44,12 @@ class Settings(BaseSettings):
         if self.auth_jwks_url:
             return self.auth_jwks_url
         return f"{self.auth_issuer.rstrip('/')}/oauth/v2/keys" if self.auth_issuer else None
+
+    @property
+    def userinfo_url(self) -> str | None:
+        if self.auth_userinfo_url:
+            return self.auth_userinfo_url
+        return f"{self.auth_issuer.rstrip('/')}/oidc/v1/userinfo" if self.auth_issuer else None
 
 
 @lru_cache

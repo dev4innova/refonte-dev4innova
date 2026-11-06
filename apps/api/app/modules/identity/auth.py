@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any
 
+import httpx
 import jwt
 from fastapi.concurrency import run_in_threadpool
 
@@ -87,3 +88,27 @@ def get_token_verifier() -> TokenVerifier:
         resolve_key=lambda token: jwks.get_signing_key_from_jwt(token).key,
         leeway=settings.auth_leeway_seconds,
     )
+
+
+async def _fetch_userinfo(url: str, access_token: str) -> dict[str, Any]:
+    try:
+        async with httpx.AsyncClient(timeout=5) as client:
+            response = await client.get(url, headers={"Authorization": f"Bearer {access_token}"})
+            response.raise_for_status()
+            data = response.json()
+    except (httpx.HTTPError, ValueError):
+        # Not fatal: the user is provisioned without email and retried on the next call.
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def get_userinfo_fetcher() -> Callable[[str], Any] | None:
+    """FastAPI dependency; None when authentication is not configured (or in tests)."""
+    url = get_settings().userinfo_url
+    if not url:
+        return None
+
+    async def fetch(access_token: str) -> dict[str, Any]:
+        return await _fetch_userinfo(url, access_token)
+
+    return fetch
