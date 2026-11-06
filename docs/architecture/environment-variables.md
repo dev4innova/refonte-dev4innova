@@ -18,6 +18,11 @@ Lues par `app/core/config.py` (pydantic-settings). Une variable obligatoire abse
 | `DATABASE_POOL_SIZE` | non | `5` | taille du pool SQLAlchemy |
 | `DATABASE_MAX_OVERFLOW` | non | `10` | connexions supplémentaires au-delà du pool |
 | `HEALTH_CHECK_TIMEOUT_SECONDS` | non | `2.0` | délai max par dépendance dans `/health/ready` |
+| `AUTH_ISSUER` | pour l'authentification | — | URL de l'instance Zitadel (sans `/` final) |
+| `AUTH_AUDIENCE` | pour l'authentification | — | ID du projet Zitadel (claim `aud` attendu) |
+| `AUTH_JWKS_URL` | non | `{AUTH_ISSUER}/oauth/v2/keys` | clés publiques de signature |
+| `AUTH_USERINFO_URL` | non | `{AUTH_ISSUER}/oidc/v1/userinfo` | lecture de l'e-mail s'il manque dans le jeton |
+| `AUTH_LEEWAY_SECONDS` | non | `30` | tolérance d'horloge pour `exp` / `nbf` |
 
 Tests : `TEST_DATABASE_URL` et `TEST_REDIS_URL` remplacent les valeurs par défaut de `tests/conftest.py`
 (`.../dev4innova_test` et `redis://localhost:6379/15`).
@@ -27,7 +32,13 @@ Tests : `TEST_DATABASE_URL` et `TEST_REDIS_URL` remplacent les valeurs par défa
 | Variable | Côté | Description |
 |---|---|---|
 | `API_URL` | serveur uniquement | URL de l'API vue par le serveur Next.js (`http://localhost:8000` en local, `http://api:8000` dans Docker) |
-| `SITE_URL` | serveur, lu au build | origine publique du site pour les URL canoniques et `hreflang` (défaut `http://localhost:3000`) |
+| `SITE_URL` | serveur | origine publique du site : URL canoniques, `hreflang`, URL de retour OIDC (défaut `http://localhost:3000`) |
+| `AUTH_ISSUER` | serveur | URL de l'instance Zitadel |
+| `AUTH_CLIENT_ID` | serveur | Client ID de l'application Web Zitadel (PKCE) |
+| `AUTH_PROJECT_ID` | serveur | ID du projet Zitadel (audience du jeton d'accès) |
+| `AUTH_SESSION_SECRET` | serveur, **secret** | clé de chiffrement des cookies de session (≥ 32 caractères) |
+
+Procédure complète : [authentication.md](authentication.md).
 
 Seules les variables préfixées `NEXT_PUBLIC_` sont exposées au navigateur ; aucune n'existe pour l'instant.
 

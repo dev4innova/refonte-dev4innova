@@ -16,4 +16,4 @@ Statuts : **Proposé** → **Accepté** (validé par le responsable du projet) �
 | [0006](0006-multi-tenancy.md) | Multi-tenancy par organisation | Proposé |
 | [0007](0007-ai-gateway.md) | AI Gateway multi-fournisseurs | Proposé |
 | [0008](0008-internationalization.md) | Internationalisation FR/EN | Proposé |
-| [0009](0009-identity-provider.md) | Fournisseur d'identité | Proposé — décision ouverte |
+| [0009](0009-identity-provider.md) | Fournisseur d'identité : Zitadel Cloud | Accepté |

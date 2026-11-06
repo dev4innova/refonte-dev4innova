@@ -9,11 +9,15 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
 - Une fuite suspectée = rotation immédiate de la clé, même si le commit est supprimé.
 
 ## Authentification et autorisation
-- L'authentification est déléguée au fournisseur d'identité choisi (TASK-038, ADR-0009).
-  Pas de stockage maison de mots de passe sauf décision ADR contraire (alors Argon2id).
+- L'authentification est déléguée à **Zitadel** (ADR-0009, `docs/architecture/authentication.md`).
+  Aucun mot de passe n'est stocké chez nous.
+- Les jetons ne sont jamais exposés au JavaScript du navigateur : ils restent dans le cookie
+  de session chiffré, côté serveur Next.js. Toute redirection après connexion passe par
+  `sanitizeReturnTo` (pas de redirection ouverte).
 - Le backend vérifie **à chaque requête** la validité du jeton (signature, `exp`, `aud`, `iss`).
-- Autorisation côté serveur uniquement : RBAC par organisation (owner, admin, member, client…).
-  Le masquage d'un bouton dans l'UI n'est pas une protection.
+- Autorisation côté serveur uniquement : RBAC par organisation (`owner`, `admin`, `member`,
+  rôles `staff_*`), via `OrgContext` et `ctx.require(Permission…)`. Le masquage d'un bouton
+  dans l'UI n'est pas une protection.
 - Isolation des organisations : un utilisateur ne peut jamais lire ni modifier une ressource
   d'une organisation dont il n'est pas membre. Couvert par des tests dédiés (TASK-045).
   Renvoyer `404` (et non `403`) pour une ressource d'une autre organisation.

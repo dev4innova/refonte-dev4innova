@@ -31,8 +31,9 @@ Backlog et priorités : `docs/backlog.md`. Architecture : `docs/architecture/ove
 ## Règles non négociables
 
 1. **Isolation des organisations** : toute donnée métier appartient à une `organization_id`
-   et toute requête est filtrée par l'organisation du contexte courant. Jamais de requête
-   tenant-scoped sans ce filtre (ADR-0006).
+   et toute requête est filtrée par l'organisation du contexte courant (`OrgContext`). Jamais de
+   requête tenant-scoped sans ce filtre, et toujours un test d'isolation (ADR-0006,
+   `docs/architecture/authentication.md`).
 2. **Aucun secret dans le code, les logs ou le frontend.** Les clés fournisseurs IA et de
    paiement n'existent que côté backend (ADR-0007).
 3. **Toute modification de schéma passe par une migration Alembic** relue. Jamais de

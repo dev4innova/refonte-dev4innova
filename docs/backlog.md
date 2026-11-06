@@ -18,7 +18,7 @@ Une fonctionnalité ne peut pas être développée avant les fondations dont ell
 | 01 | Infrastructure Foundation | P0 | 00 | ✅ livré |
 | 02 | Design System | P0 | 01 | ✅ livré |
 | 03 | Internationalization | P0 | 01 (02 pour le sélecteur) | ✅ livré |
-| 04 | Identity & Access | P0 | 01, décision ADR-0009 | à faire |
+| 04 | Identity & Access | P0 | 01, décision ADR-0009 | ✅ livré |
 | 05 | Corporate Website | P1 | 02, 03 (06 pour le contenu dynamique) | à faire |
 | 06 | CMS & Administration | P1 | 04 | à faire |
 | 07 | CRM & Leads | P1 | 04 | à faire |
@@ -128,6 +128,21 @@ TASK-037 tests de navigation multilingue.
 TASK-038 choix de l'IdP (ADR-0009) → TASK-039 authentification → TASK-040 profils →
 TASK-041 organisations → TASK-042 memberships → TASK-043 rôles et permissions →
 TASK-044 routes privées → TASK-045 tests d'isolation.
+
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-038 | Zitadel Cloud (ADR-0009 accepté), procédure `docs/architecture/authentication.md` | ✅ |
+| TASK-039 | Web : OIDC + PKCE, session chiffrée `HttpOnly` ; API : vérification JWT (JWKS, `iss`, `aud`, `exp`) | ✅ |
+| TASK-040 | `users`, création à la première connexion, `GET`/`PATCH /api/v1/me` | ✅ |
+| TASK-041 | `organizations`, création (créateur `owner`), lecture, renommage | ✅ |
+| TASK-042 | `memberships` : ajout par e-mail, changement de rôle, retrait, départ | ✅ |
+| TASK-043 | Rôles `owner`/`admin`/`member`/`staff_*` → permissions ; règles d'attribution ; au moins un `owner` | ✅ |
+| TASK-044 | Proxy + vérification par page ; espace client `/fr/espace-client`, `/en/account` | ✅ |
+| TASK-045 | `tests/test_isolation.py` : 404 sur chaque endpoint pour un non-membre, aucune fuite | ✅ |
+
+**Suite prévue** : invitations par e-mail (avec les e-mails transactionnels), rafraîchissement
+des jetons, création de l'organisation interne DEV4INNOVA et des comptes `staff_*` (EPIC 06).
+
 
 ### EPIC 05 — Corporate Website (P1)
 TASK-046 navbar (après TASK-028) · TASK-047 homepage · TASK-048 About · TASK-049 Solutions ·
