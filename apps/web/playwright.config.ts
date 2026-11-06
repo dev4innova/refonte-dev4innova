@@ -25,10 +25,16 @@ export default defineConfig({
     { name: "desktop", use: { ...chromium, viewport: { width: 1280, height: 800 } } },
   ],
   webServer: {
-    command: `next start --port ${PORT} --hostname 127.0.0.1`,
-    url: `${baseURL}/design-system`,
+    // Same server as production: the standalone bundle (output: "standalone").
+    command: "pnpm start:standalone",
+    // A static asset: /api/health is 503 when no API runs, which Playwright treats as not ready.
+    url: `${baseURL}/icon.svg`,
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
-    env: { API_URL: process.env.API_URL ?? "http://127.0.0.1:8000" },
+    env: {
+      PORT: String(PORT),
+      HOSTNAME: "127.0.0.1",
+      API_URL: process.env.API_URL ?? "http://127.0.0.1:8000",
+    },
   },
 });

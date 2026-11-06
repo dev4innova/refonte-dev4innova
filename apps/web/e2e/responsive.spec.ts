@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-const PAGES = ["/", "/design-system"];
+const PAGES = ["/fr", "/fr/design-system", "/en"];
 const NAV = "Navigation principale";
 
 test.describe("responsive layout", () => {
@@ -22,7 +22,7 @@ test.describe("responsive layout", () => {
   test("shows the desktop navigation or the burger menu depending on the width", async ({
     page,
   }, testInfo) => {
-    await page.goto("/");
+    await page.goto("/fr");
     const desktopNav = page.getByRole("banner").getByRole("navigation", { name: NAV });
     const burger = page.getByRole("button", { name: "Ouvrir le menu" });
 
@@ -37,7 +37,7 @@ test.describe("responsive layout", () => {
 
   test("the mobile menu opens, traps focus and closes with Escape", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name === "desktop", "burger menu is hidden on desktop");
-    await page.goto("/");
+    await page.goto("/fr");
     const burger = page.getByRole("button", { name: "Ouvrir le menu" });
 
     await burger.click();
@@ -57,7 +57,7 @@ test.describe("responsive layout", () => {
   test("the skip link is the first focusable element and targets the main content", async ({
     page,
   }) => {
-    await page.goto("/");
+    await page.goto("/fr");
     await page.keyboard.press("Tab");
     const skip = page.getByRole("link", { name: "Aller au contenu principal" });
 
@@ -69,7 +69,7 @@ test.describe("responsive layout", () => {
 
   test("buttons and links are large enough to tap", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "mobile", "touch targets matter on mobile");
-    await page.goto("/");
+    await page.goto("/fr");
     for (const target of [
       page.getByRole("button", { name: "Ouvrir le menu" }),
       page.getByRole("link", { name: "Nous contacter" }).first(),
@@ -84,7 +84,7 @@ test.describe("reduced motion", () => {
   test.use({ reducedMotion: "reduce" });
 
   test("animations are effectively disabled", async ({ page }) => {
-    await page.goto("/design-system");
+    await page.goto("/fr/design-system");
     const duration = await page
       .locator(".animate-fade-in")
       .first()

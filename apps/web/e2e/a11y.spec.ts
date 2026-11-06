@@ -5,7 +5,7 @@ import { expect, test } from "@playwright/test";
  * Real-browser accessibility audit (WCAG 2.1 A/AA), including color contrast,
  * which jsdom-based unit tests cannot check.
  */
-const PAGES = ["/", "/design-system"];
+const PAGES = ["/fr", "/fr/design-system", "/en"];
 
 for (const path of PAGES) {
   test(`${path} has no WCAG 2.1 AA violations`, async ({ page }) => {
@@ -25,7 +25,7 @@ for (const path of PAGES) {
 
 test("the open mobile menu has no WCAG 2.1 AA violations", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === "desktop", "burger menu is hidden on desktop");
-  await page.goto("/");
+  await page.goto("/fr");
   await page.getByRole("button", { name: "Ouvrir le menu" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.waitForTimeout(600);
