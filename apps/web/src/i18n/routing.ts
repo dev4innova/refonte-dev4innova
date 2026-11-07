@@ -38,6 +38,11 @@ export const routing = defineRouting({
     "/admin/crm/leads/[id]": "/admin/crm/leads/[id]",
     "/admin/crm/pipeline": "/admin/crm/pipeline",
     "/admin/crm/quotes": "/admin/crm/quotes",
+    "/admin/ai": "/admin/ai",
+    "/admin/ai/models": "/admin/ai/models",
+    "/admin/ai/prompts": "/admin/ai/prompts",
+    "/admin/ai/prompts/[key]": "/admin/ai/prompts/[key]",
+    "/admin/ai/playground": "/admin/ai/playground",
   },
 });
 
