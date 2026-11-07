@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     redis_url: RedisDsn
 
     cors_allowed_origins: list[str] = ["http://localhost:3000"]
+    trust_forwarded_for: bool = False
+    """Use X-Forwarded-For for rate limiting. Enable only when the API is reachable
+    exclusively through the web app or a trusted reverse proxy."""
 
     # Identity provider (Zitadel, OIDC). Access tokens must be JWTs (ADR-0009).
     auth_issuer: str | None = None
