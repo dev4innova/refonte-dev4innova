@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Suspense } from "react";
 
 import "../globals.css";
 
-import { LocaleSwitcher } from "@/components/layout/locale-switcher";
+import { LocaleSwitcher, LocaleSwitcherView } from "@/components/layout/locale-switcher";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { ctaNavigation, footerNavigation, legalNavigation, mainNavigation } from "@/config/navigation";
@@ -49,6 +50,8 @@ export default async function LocaleLayout({ children, params }: Props) {
     getTranslations("LocaleSwitcher"),
   ]);
 
+  const localeOptions = routing.locales.map((l) => ({ locale: l, name: tLocale(l) }));
+
   return (
     <html lang={locale} className={fontVariables}>
       <body className="flex min-h-dvh flex-col">
@@ -72,10 +75,18 @@ export default async function LocaleLayout({ children, params }: Props) {
               home: tNav("home"),
             }}
             localeSwitcher={
-              <LocaleSwitcher
-                label={tLocale("label")}
-                options={routing.locales.map((l) => ({ locale: l, name: tLocale(l) }))}
-              />
+              <Suspense
+                fallback={
+                  <LocaleSwitcherView
+                    label={tLocale("label")}
+                    options={localeOptions}
+                    current={locale}
+                    href="/"
+                  />
+                }
+              >
+                <LocaleSwitcher label={tLocale("label")} options={localeOptions} />
+              </Suspense>
             }
           />
           <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">

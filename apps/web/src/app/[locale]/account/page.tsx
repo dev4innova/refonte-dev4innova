@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import { Section } from "@/components/layout/section";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getPathname } from "@/i18n/navigation";
+import { getPathname, Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { serverApi } from "@/lib/api";
 import { redirectToLogin } from "@/lib/auth/redirect";
@@ -96,6 +96,14 @@ async function AccountDetails({ locale }: { locale: Locale }) {
           </ul>
         )}
       </section>
+
+      {me.memberships.some((m) => m.role.startsWith("staff_")) ? (
+        <div>
+          <Button asChild variant="secondary">
+            <Link href="/admin">{t("admin")}</Link>
+          </Button>
+        </div>
+      ) : null}
 
       <form action="/api/auth/logout" method="post">
         <Button type="submit" variant="outline">

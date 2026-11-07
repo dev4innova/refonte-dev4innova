@@ -26,7 +26,8 @@
     "closeMenu": "Fermer le menu",
     "menuTitle": "Menu",
     "home": "DEV4INNOVA, accueil",
-    "account": "Espace client"
+    "account": "Espace client",
+    "admin": "Administration"
   },
   "Footer": {
     "landmark": "Plan du site",
@@ -212,7 +213,8 @@
       "staff_editor": "Éditeur DEV4INNOVA",
       "staff_sales": "Commercial DEV4INNOVA"
     },
-    "signOut": "Se déconnecter"
+    "signOut": "Se déconnecter",
+    "admin": "Administration du site"
   },
   "Common": {
     "learnMore": "En savoir plus",
@@ -317,67 +319,8 @@
     "eyebrow": "Services",
     "title": "Un accompagnement à chaque étape",
     "lead": "Du cadrage stratégique à l'amélioration continue, nous intervenons là où vous en avez besoin.",
-    "deliverables": "Ce que nous livrons",
-    "forWhom": "Pour qui ?",
     "ctaTitle": "Parlons de votre projet",
-    "ctaText": "Nous construisons avec vous l'accompagnement adapté à vos objectifs.",
-    "items": {
-      "ai-strategy": {
-        "title": "Conseil et stratégie IA",
-        "summary": "Identifier les cas d'usage à forte valeur et bâtir votre feuille de route.",
-        "description": "Nous évaluons votre maturité, vos données et vos processus pour prioriser les projets IA les plus pertinents, en tenant compte des enjeux réglementaires et éthiques.",
-        "deliverables": {
-          "a": "Cartographie des cas d'usage",
-          "b": "Analyse de faisabilité et de risques",
-          "c": "Feuille de route priorisée"
-        },
-        "forWhom": "Directions générales, métiers et DSI qui veulent structurer leur démarche IA."
-      },
-      "custom-development": {
-        "title": "Développement sur mesure",
-        "summary": "Concevoir des solutions IA adaptées à vos besoins spécifiques.",
-        "description": "Nos équipes conçoivent et développent des applications IA robustes, testées et documentées, en s'appuyant sur les meilleurs modèles du marché.",
-        "deliverables": {
-          "a": "Prototype et preuve de concept",
-          "b": "Application prête pour la production",
-          "c": "Documentation et code maintenables"
-        },
-        "forWhom": "Organisations dont les besoins ne sont pas couverts par des outils standards."
-      },
-      "integration-deployment": {
-        "title": "Intégration et déploiement",
-        "summary": "Connecter l'IA à votre système d'information et la mettre en production.",
-        "description": "Nous intégrons les solutions à vos outils existants, sécurisons les flux de données et assurons une mise en production maîtrisée.",
-        "deliverables": {
-          "a": "Connecteurs vers vos applications",
-          "b": "Architecture sécurisée",
-          "c": "Mise en production accompagnée"
-        },
-        "forWhom": "Équipes techniques qui veulent industrialiser un prototype ou une solution existante."
-      },
-      "training-support": {
-        "title": "Formation et accompagnement",
-        "summary": "Donner à vos équipes les clés pour utiliser l'IA efficacement.",
-        "description": "Formations adaptées à chaque profil, accompagnement au changement et bonnes pratiques d'usage responsable de l'IA.",
-        "deliverables": {
-          "a": "Parcours de formation adaptés",
-          "b": "Ateliers pratiques",
-          "c": "Guides d'usage et bonnes pratiques"
-        },
-        "forWhom": "Collaborateurs, managers et équipes techniques, quel que soit leur niveau."
-      },
-      "run-and-improve": {
-        "title": "Suivi et amélioration continue",
-        "summary": "Garantir la qualité et la performance de vos solutions dans la durée.",
-        "description": "Nous surveillons la qualité des résultats, les coûts et l'usage, puis faisons évoluer les solutions au rythme de vos besoins et des progrès technologiques.",
-        "deliverables": {
-          "a": "Suivi de la qualité et des coûts",
-          "b": "Évolutions régulières",
-          "c": "Support et maintenance"
-        },
-        "forWhom": "Organisations qui ont une solution IA en production et veulent la faire vivre."
-      }
-    }
+    "ctaText": "Nous construisons avec vous l'accompagnement adapté à vos objectifs."
   },
   "About": {
     "metaTitle": "À propos",
@@ -510,7 +453,9 @@
     "title": "Nos réalisations",
     "lead": "Des projets concrets, des résultats mesurés.",
     "emptyTitle": "Nos études de cas arrivent bientôt",
-    "emptyText": "Nous préparons la présentation de nos projets, avec l'accord de nos clients. En attendant, parlons du vôtre."
+    "emptyText": "Nous préparons la présentation de nos projets, avec l'accord de nos clients. En attendant, parlons du vôtre.",
+    "ctaTitle": "Un projet comparable ?",
+    "ctaText": "Parlons de votre contexte et de vos objectifs."
   },
   "Insights": {
     "metaTitle": "Insights",
@@ -519,7 +464,9 @@
     "title": "Analyses et retours d'expérience",
     "lead": "Nos réflexions sur l'intelligence artificielle, ses usages et ses enjeux.",
     "emptyTitle": "Premiers articles en préparation",
-    "emptyText": "Nos premières publications arrivent très bientôt. Revenez nous voir ou contactez-nous pour échanger."
+    "emptyText": "Nos premières publications arrivent très bientôt. Revenez nous voir ou contactez-nous pour échanger.",
+    "ctaTitle": "Envie d'aller plus loin ?",
+    "ctaText": "Échangeons sur vos enjeux et vos projets d'IA."
   },
   "Contact": {
     "metaTitle": "Contact",
@@ -579,6 +526,117 @@
     "privacy": {
       "metaTitle": "Politique de confidentialité",
       "title": "Politique de confidentialité"
+    }
+  },
+  "Admin": {
+    "metaTitle": "Administration",
+    "title": "Administration du site",
+    "lead": "Gérez les contenus publiés sur dev4innova en français et en anglais.",
+    "forbiddenTitle": "Accès réservé à l'équipe DEV4INNOVA",
+    "forbiddenText": "Votre compte n'a pas de rôle dans l'équipe. Demandez à un administrateur de vous l'attribuer.",
+    "unavailable": "L'administration est momentanément indisponible. Réessayez dans quelques instants.",
+    "nav": {
+      "label": "Administration",
+      "dashboard": "Tableau de bord",
+      "media": "Médias"
+    },
+    "types": {
+      "article": "Articles",
+      "project": "Projets",
+      "service": "Services",
+      "page": "Pages"
+    },
+    "typeDescriptions": {
+      "article": "Analyses et actualités de la page Insights.",
+      "project": "Études de cas de la page Portfolio.",
+      "service": "Offres de la page Services.",
+      "page": "Pages libres : mentions légales, confidentialité…"
+    },
+    "mediaDescription": "Images utilisées dans les contenus.",
+    "list": {
+      "new": "Nouveau contenu",
+      "empty": "Aucun contenu pour le moment.",
+      "title": "Titre",
+      "status": "Statut",
+      "updated": "Modifié le",
+      "edit": "Modifier",
+      "missingTranslation": "(traduction manquante)"
+    },
+    "status": {
+      "draft": "Brouillon",
+      "published": "Publié"
+    },
+    "editor": {
+      "newTitle": "Nouveau contenu",
+      "editTitle": "Modifier le contenu",
+      "back": "Retour à la liste",
+      "languages": "Langue du contenu",
+      "fr": "Français",
+      "en": "Anglais",
+      "title": "Titre",
+      "slug": "Adresse (slug)",
+      "slugHelp": "Lettres minuscules, chiffres et tirets. Fait partie de l'URL.",
+      "summary": "Résumé",
+      "summaryHelp": "Affiché dans les listes et comme description par défaut.",
+      "body": "Contenu (Markdown)",
+      "bodyHelp": "## Titre, **gras**, *italique*, - liste, [lien](https://…), ![texte](url d'image).",
+      "write": "Écrire",
+      "preview": "Aperçu",
+      "previewEmpty": "Rien à afficher pour l'instant.",
+      "seo": "Référencement (SEO)",
+      "seoTitle": "Titre SEO",
+      "seoDescription": "Description SEO",
+      "seoHelp": "Laisser vide pour reprendre le titre et le résumé.",
+      "characters": "{count} / {max} caractères",
+      "settings": "Paramètres",
+      "position": "Ordre d'affichage",
+      "icon": "Icône",
+      "industry": "Secteur",
+      "client": "Client (si autorisé)",
+      "cover": "Image de couverture",
+      "noCover": "Aucune image",
+      "manageMedia": "Gérer les médias",
+      "save": "Enregistrer",
+      "saving": "Enregistrement…",
+      "saved": "Modifications enregistrées.",
+      "publish": "Publier",
+      "unpublish": "Dépublier",
+      "published": "Contenu publié : il est visible sur le site.",
+      "unpublished": "Contenu dépublié : il n'est plus visible sur le site.",
+      "delete": "Supprimer",
+      "deleteConfirm": "Supprimer définitivement ce brouillon ?",
+      "viewOnSite": "Voir sur le site",
+      "errors": {
+        "generic": "L'opération a échoué. Vérifiez les champs puis réessayez.",
+        "slug": "Cette adresse est déjà utilisée pour ce type de contenu.",
+        "missingLocale": "Remplissez le français et l'anglais avant de publier.",
+        "publishedDelete": "Dépubliez ce contenu avant de le supprimer.",
+        "forbidden": "Votre rôle ne permet pas cette action.",
+        "validation": "Certains champs sont invalides : titre (2 caractères minimum) et adresse sont obligatoires dans chaque langue remplie."
+      }
+    },
+    "media": {
+      "title": "Médiathèque",
+      "upload": "Ajouter une image",
+      "uploadHelp": "JPEG, PNG ou WebP, 5 Mo maximum. Les métadonnées (GPS…) sont supprimées.",
+      "uploading": "Envoi…",
+      "uploaded": "Image ajoutée.",
+      "empty": "Aucune image pour le moment.",
+      "altFr": "Texte alternatif (FR)",
+      "altEn": "Texte alternatif (EN)",
+      "altHelp": "Décrivez l'image pour les personnes qui ne la voient pas.",
+      "saveAlt": "Enregistrer",
+      "delete": "Supprimer",
+      "deleteConfirm": "Supprimer cette image ? Elle sera retirée des contenus qui l'utilisent.",
+      "copyUrl": "Copier l'adresse",
+      "copied": "Adresse copiée",
+      "errors": {
+        "invalid": "Ce fichier n'est pas une image acceptée (JPEG, PNG ou WebP).",
+        "tooLarge": "Ce fichier dépasse 5 Mo.",
+        "generic": "L'opération a échoué."
+      },
+      "size": "{size} Ko",
+      "file": "Fichier image"
     }
   }
 }

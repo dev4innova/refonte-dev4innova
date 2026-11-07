@@ -1,7 +1,7 @@
 import { routing, type AppPathname } from "@/i18n/routing";
 
 /** Internal pathnames that require a signed-in user (TASK-044). */
-export const PROTECTED_PATHNAMES: AppPathname[] = ["/account"];
+export const PROTECTED_PATHNAMES: AppPathname[] = ["/account", "/admin"];
 
 function localizedPrefixes(): string[] {
   return PROTECTED_PATHNAMES.flatMap((pathname) => {

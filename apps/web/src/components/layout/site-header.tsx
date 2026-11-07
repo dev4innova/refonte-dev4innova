@@ -1,10 +1,11 @@
 import { UserRound } from "lucide-react";
 import type * as React from "react";
+import { Suspense } from "react";
 
 import { Logo } from "@/components/brand/logo";
 import { Container } from "@/components/layout/container";
 import { MobileNav } from "@/components/layout/mobile-nav";
-import { NavLinks } from "@/components/layout/nav-links";
+import { NavLinks, NavLinksList } from "@/components/layout/nav-links";
 import type { NavItem, NavLabels } from "@/components/layout/types";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
@@ -37,7 +38,9 @@ export function SiteHeader({ items, labels, cta, localeSwitcher, account }: Site
         </Link>
 
         <nav aria-label={labels.navigation} className="hidden lg:block">
-          <NavLinks items={items} />
+          <Suspense fallback={<NavLinksList items={items} pathname={null} />}>
+            <NavLinks items={items} />
+          </Suspense>
         </nav>
 
         <div className="flex items-center gap-2">

@@ -20,13 +20,27 @@ export type LocaleSwitcherProps = {
  * Links to the current page in each locale. Keeps the page (and its dynamic params);
  * next-intl stores the choice in the NEXT_LOCALE cookie for the next visit to `/`.
  */
-export function LocaleSwitcher({ label, options, className }: LocaleSwitcherProps) {
+export function LocaleSwitcher(props: LocaleSwitcherProps) {
   const current = useLocale();
   const pathname = usePathname();
   const params = useParams();
   // The pathname comes from the router, so it always matches one of the declared routes.
   const href = { pathname, params } as unknown as React.ComponentProps<typeof Link>["href"];
+  return <LocaleSwitcherView {...props} current={current} href={href} />;
+}
 
+/** The switcher itself. Used as <Suspense> fallback with `href="/"` (each locale's home)
+ * while the current page's pathname is only known at request time. */
+export function LocaleSwitcherView({
+  label,
+  options,
+  className,
+  current,
+  href,
+}: LocaleSwitcherProps & {
+  current: string;
+  href: React.ComponentProps<typeof Link>["href"];
+}) {
   return (
     <nav aria-label={label} className={className}>
       <ul className="flex items-center rounded-lg border border-border bg-card p-0.5">

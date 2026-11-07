@@ -10,13 +10,14 @@ import {
   Plug,
   Rocket,
   ServerCog,
+  ShieldCheck,
   Sparkles,
+  Users,
 } from "lucide-react";
 
 /*
- * Structure of the offer. Texts live in messages/{fr,en}.json under Solutions.items.<slug>
- * and Services.items.<slug>; slugs are shared by both languages. The CMS (EPIC 06) will
- * take over this content.
+ * Solutions: structure in code, texts in messages/{fr,en}.json (Solutions.items.<slug>).
+ * Services, articles, projects and pages come from the CMS (EPIC 06).
  */
 export const SOLUTIONS = [
   { slug: "ai-assistants", icon: Bot },
@@ -26,23 +27,28 @@ export const SOLUTIONS = [
   { slug: "ai-integration", icon: Plug },
 ] as const satisfies readonly { slug: string; icon: LucideIcon }[];
 
-export const SERVICES = [
-  { slug: "ai-strategy", icon: Compass },
-  { slug: "custom-development", icon: Hammer },
-  { slug: "integration-deployment", icon: Rocket },
-  { slug: "training-support", icon: GraduationCap },
-  { slug: "run-and-improve", icon: ServerCog },
-] as const satisfies readonly { slug: string; icon: LucideIcon }[];
-
 export type SolutionSlug = (typeof SOLUTIONS)[number]["slug"];
-export type ServiceSlug = (typeof SERVICES)[number]["slug"];
-
-export const LAB_ICON = BrainCircuit;
 
 export function isSolutionSlug(value: string): value is SolutionSlug {
   return SOLUTIONS.some((s) => s.slug === value);
 }
 
-export function isServiceSlug(value: string): value is ServiceSlug {
-  return SERVICES.some((s) => s.slug === value);
+/** Icons an editor can pick for a service (CMS attribute `icon`). */
+export const CONTENT_ICONS = {
+  compass: Compass,
+  hammer: Hammer,
+  rocket: Rocket,
+  "graduation-cap": GraduationCap,
+  "server-cog": ServerCog,
+  bot: Bot,
+  sparkles: Sparkles,
+  "brain-circuit": BrainCircuit,
+  "shield-check": ShieldCheck,
+  users: Users,
+} as const satisfies Record<string, LucideIcon>;
+
+export type ContentIconName = keyof typeof CONTENT_ICONS;
+
+export function contentIcon(name: string | undefined): LucideIcon {
+  return (name && name in CONTENT_ICONS ? CONTENT_ICONS[name as ContentIconName] : Sparkles);
 }

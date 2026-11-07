@@ -116,6 +116,8 @@ services:
     build:
       context: ../..
       dockerfile: infra/docker/web.Dockerfile
+      args:
+        SITE_URL: ${SITE_URL:-http://localhost:3000}
     image: dev4innova/web:local
     environment:
       API_URL: http://api:8000

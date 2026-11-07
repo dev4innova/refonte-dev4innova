@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
   // Workspace packages are shipped as TypeScript sources.
   transpilePackages: ["@dev4innova/api-client"],
   poweredByHeader: false,
+  experimental: {
+    // Back-office image uploads go through a Server Action (5 MB images + multipart overhead).
+    serverActions: { bodySizeLimit: "6mb" },
+  },
 };
 
 export default withNextIntl(nextConfig);

@@ -1,7 +1,10 @@
 import { ArrowRight, FlaskConical, GraduationCap } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Suspense } from "react";
 
+import { ContentGridSkeleton } from "@/components/cms/content-grid";
+import { ServicesGrid } from "@/components/cms/services-grid";
 import { Section } from "@/components/layout/section";
 import { CtaBand } from "@/components/marketing/cta-band";
 import { OfferGrid } from "@/components/marketing/offer-grid";
@@ -9,7 +12,7 @@ import { Steps } from "@/components/marketing/steps";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ctaNavigation } from "@/config/navigation";
-import { SERVICES, SOLUTIONS } from "@/config/offer";
+import { SOLUTIONS } from "@/config/offer";
 import { pageMetadata } from "@/i18n/metadata";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -30,10 +33,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Home({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [t, tSolutions, tServices, tCommon, tMeta] = await Promise.all([
+  const [t, tSolutions, tCommon, tMeta] = await Promise.all([
     getTranslations("Home"),
     getTranslations("Solutions"),
-    getTranslations("Services"),
     getTranslations("Common"),
     getTranslations("Metadata"),
   ]);
@@ -121,16 +123,9 @@ export default async function Home({ params }: Props) {
             <Link href="/services">{tCommon("allServices")}</Link>
           </Button>
         </SectionIntro>
-        <OfferGrid
-          linkLabel={tCommon("learnMore")}
-          items={SERVICES.map(({ slug, icon }) => ({
-            key: slug,
-            icon,
-            title: tServices(`items.${slug}.title`),
-            summary: tServices(`items.${slug}.summary`),
-            href: { pathname: "/services/[slug]", params: { slug } },
-          }))}
-        />
+        <Suspense fallback={<ContentGridSkeleton />}>
+          <ServicesGrid locale={locale} linkLabel={tCommon("learnMore")} />
+        </Suspense>
       </Section>
 
       <Section aria-labelledby="home-approach">
