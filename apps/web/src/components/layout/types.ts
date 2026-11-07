@@ -1,8 +1,8 @@
-import type { AppPathname } from "@/i18n/routing";
+import type { StaticPathname } from "@/i18n/routing";
 
 /** A navigation link: an internal pathname (localized by the Link) and a translated label. */
 export type NavItem = {
-  href: AppPathname;
+  href: StaticPathname;
   label: string;
 };
 

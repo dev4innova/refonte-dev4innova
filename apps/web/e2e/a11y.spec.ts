@@ -5,7 +5,22 @@ import { expect, test } from "@playwright/test";
  * Real-browser accessibility audit (WCAG 2.1 A/AA), including color contrast,
  * which jsdom-based unit tests cannot check.
  */
-const PAGES = ["/fr", "/fr/design-system", "/en"];
+const PAGES = [
+  "/fr",
+  "/en",
+  "/fr/design-system",
+  "/fr/solutions",
+  "/fr/solutions/ai-assistants",
+  "/fr/services",
+  "/en/services/run-and-improve",
+  "/fr/a-propos",
+  "/fr/innovation-lab",
+  "/fr/academy",
+  "/fr/portfolio",
+  "/en/insights",
+  "/fr/contact",
+  "/fr/mentions-legales",
+];
 
 for (const path of PAGES) {
   test(`${path} has no WCAG 2.1 AA violations`, async ({ page }) => {
