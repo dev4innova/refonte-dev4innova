@@ -666,10 +666,824 @@
           }
         }
       }
+    },
+    "/api/v1/content/{document_type}": {
+      "get": {
+        "tags": [
+          "content"
+        ],
+        "summary": "Published contents (public)",
+        "operationId": "content-list_public",
+        "parameters": [
+          {
+            "name": "document_type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "article",
+                "project",
+                "service",
+                "page"
+              ],
+              "type": "string",
+              "title": "Document Type"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PublicContentSummary"
+                  },
+                  "title": "Response Content-List Public"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/content/{document_type}/{slug}": {
+      "get": {
+        "tags": [
+          "content"
+        ],
+        "summary": "A published content (public)",
+        "operationId": "content-get_public",
+        "parameters": [
+          {
+            "name": "document_type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "article",
+                "project",
+                "service",
+                "page"
+              ],
+              "type": "string",
+              "title": "Document Type"
+            }
+          },
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No published content with this slug"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/cms/documents": {
+      "get": {
+        "tags": [
+          "cms-admin"
+        ],
+        "summary": "List contents",
+        "operationId": "cms-admin-list_documents",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "article",
+                "project",
+                "service",
+                "page"
+              ],
+              "type": "string",
+              "title": "Type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DocumentListItem"
+                  },
+                  "title": "Response Cms-Admin-List Documents"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "cms-admin"
+        ],
+        "summary": "Create a content (draft)",
+        "operationId": "cms-admin-create_document",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "409": {
+            "description": "Slug already used"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/cms/documents/{document_id}": {
+      "get": {
+        "tags": [
+          "cms-admin"
+        ],
+        "summary": "Content",
+        "operationId": "cms-admin-get_document",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "cms-admin"
+        ],
+        "summary": "Update a content (translations, SEO, cover...)",
+        "operationId": "cms-admin-update_document",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "409": {
+            "description": "Slug already used"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "cms-admin"
+        ],
+        "summary": "Delete a draft",
+        "operationId": "cms-admin-delete_document",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "409": {
+            "description": "Published contents must be unpublished first"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/cms/documents/{document_id}/publish": {
+      "post": {
+        "tags": [
+          "cms-admin"
+        ],
+        "summary": "Publish a content",
+        "operationId": "cms-admin-publish_document",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "A language is missing"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/cms/documents/{document_id}/unpublish": {
+      "post": {
+        "tags": [
+          "cms-admin"
+        ],
+        "summary": "Unpublish a content",
+        "operationId": "cms-admin-unpublish_document",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/cms/preview": {
+      "post": {
+        "tags": [
+          "cms-admin"
+        ],
+        "summary": "Render Markdown as on the site",
+        "operationId": "cms-admin-preview",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreviewIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreviewOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/cms/media": {
+      "get": {
+        "tags": [
+          "cms-admin"
+        ],
+        "summary": "Media library",
+        "operationId": "cms-admin-list_media",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MediaOut"
+                  },
+                  "type": "array",
+                  "title": "Response Cms-Admin-List Media"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "cms-admin"
+        ],
+        "summary": "Upload an image (JPEG, PNG or WebP)",
+        "operationId": "cms-admin-upload_media",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_cms-admin-upload_media"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Not an accepted image, or too large"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/cms/media/{media_id}": {
+      "patch": {
+        "tags": [
+          "cms-admin"
+        ],
+        "summary": "Edit alternative texts",
+        "operationId": "cms-admin-update_media",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "media_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Media Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "cms-admin"
+        ],
+        "summary": "Delete",
+        "operationId": "cms-admin-delete_media",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "media_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Media Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "Body_cms-admin-upload_media": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_cms-admin-upload_media"
+      },
       "ContactRequestAccepted": {
         "properties": {
           "id": {
@@ -802,6 +1616,296 @@
         ],
         "title": "DependencyCheck"
       },
+      "DocumentCreate": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "article",
+              "project",
+              "service",
+              "page"
+            ],
+            "title": "Type"
+          },
+          "translations": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TranslationIn"
+            },
+            "propertyNames": {
+              "enum": [
+                "fr",
+                "en"
+              ]
+            },
+            "type": "object",
+            "minProperties": 1,
+            "title": "Translations"
+          },
+          "attributes": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "maxProperties": 10,
+            "title": "Attributes"
+          },
+          "position": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 0.0,
+            "title": "Position",
+            "default": 0
+          },
+          "cover_media_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cover Media Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "translations"
+        ],
+        "title": "DocumentCreate"
+      },
+      "DocumentListItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "article",
+              "project",
+              "service",
+              "page"
+            ],
+            "title": "Type"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published"
+            ],
+            "title": "Status"
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          },
+          "position": {
+            "type": "integer",
+            "title": "Position"
+          },
+          "titles": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "propertyNames": {
+              "enum": [
+                "fr",
+                "en"
+              ]
+            },
+            "type": "object",
+            "title": "Titles"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "status",
+          "published_at",
+          "position",
+          "titles",
+          "updated_at"
+        ],
+        "title": "DocumentListItem"
+      },
+      "DocumentOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "article",
+              "project",
+              "service",
+              "page"
+            ],
+            "title": "Type"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published"
+            ],
+            "title": "Status"
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          },
+          "position": {
+            "type": "integer",
+            "title": "Position"
+          },
+          "attributes": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Attributes"
+          },
+          "cover": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MediaOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "translations": {
+            "items": {
+              "$ref": "#/components/schemas/TranslationOut"
+            },
+            "type": "array",
+            "title": "Translations"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "status",
+          "published_at",
+          "position",
+          "attributes",
+          "cover",
+          "translations",
+          "updated_at"
+        ],
+        "title": "DocumentOut",
+        "description": "Back-office view: every locale, drafts included."
+      },
+      "DocumentUpdate": {
+        "properties": {
+          "translations": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/TranslationIn"
+                },
+                "propertyNames": {
+                  "enum": [
+                    "fr",
+                    "en"
+                  ]
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Translations"
+          },
+          "attributes": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object",
+                "maxProperties": 10
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attributes"
+          },
+          "position": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 10000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Position"
+          },
+          "cover_media_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cover Media Id"
+          },
+          "clear_cover": {
+            "type": "boolean",
+            "title": "Clear Cover",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "DocumentUpdate"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -927,6 +2031,96 @@
         },
         "type": "object",
         "title": "MeUpdate"
+      },
+      "MediaOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "content_type": {
+            "type": "string",
+            "title": "Content Type"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "title": "Size Bytes"
+          },
+          "width": {
+            "type": "integer",
+            "title": "Width"
+          },
+          "height": {
+            "type": "integer",
+            "title": "Height"
+          },
+          "alt_fr": {
+            "type": "string",
+            "title": "Alt Fr"
+          },
+          "alt_en": {
+            "type": "string",
+            "title": "Alt En"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "url",
+          "filename",
+          "content_type",
+          "size_bytes",
+          "width",
+          "height",
+          "alt_fr",
+          "alt_en",
+          "created_at"
+        ],
+        "title": "MediaOut"
+      },
+      "MediaUpdate": {
+        "properties": {
+          "alt_fr": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alt Fr"
+          },
+          "alt_en": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alt En"
+          }
+        },
+        "type": "object",
+        "title": "MediaUpdate"
       },
       "MemberAdd": {
         "properties": {
@@ -1135,9 +2329,241 @@
           "organization:read",
           "organization:update",
           "members:read",
-          "members:manage"
+          "members:manage",
+          "content:read",
+          "content:write",
+          "content:publish",
+          "media:manage"
         ],
         "title": "Permission"
+      },
+      "PreviewIn": {
+        "properties": {
+          "body_md": {
+            "type": "string",
+            "maxLength": 100000,
+            "title": "Body Md"
+          }
+        },
+        "type": "object",
+        "required": [
+          "body_md"
+        ],
+        "title": "PreviewIn"
+      },
+      "PreviewOut": {
+        "properties": {
+          "html": {
+            "type": "string",
+            "title": "Html"
+          }
+        },
+        "type": "object",
+        "required": [
+          "html"
+        ],
+        "title": "PreviewOut"
+      },
+      "PublicContent": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "article",
+              "project",
+              "service",
+              "page"
+            ],
+            "title": "Type"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          },
+          "attributes": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Attributes"
+          },
+          "cover": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PublicImage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "body_html": {
+            "type": "string",
+            "title": "Body Html"
+          },
+          "seo_title": {
+            "type": "string",
+            "title": "Seo Title"
+          },
+          "seo_description": {
+            "type": "string",
+            "title": "Seo Description"
+          },
+          "slugs": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "propertyNames": {
+              "enum": [
+                "fr",
+                "en"
+              ]
+            },
+            "type": "object",
+            "title": "Slugs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "slug",
+          "title",
+          "summary",
+          "published_at",
+          "attributes",
+          "cover",
+          "body_html",
+          "seo_title",
+          "seo_description",
+          "slugs"
+        ],
+        "title": "PublicContent"
+      },
+      "PublicContentSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "article",
+              "project",
+              "service",
+              "page"
+            ],
+            "title": "Type"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          },
+          "attributes": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Attributes"
+          },
+          "cover": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PublicImage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "slug",
+          "title",
+          "summary",
+          "published_at",
+          "attributes",
+          "cover"
+        ],
+        "title": "PublicContentSummary"
+      },
+      "PublicImage": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "alt": {
+            "type": "string",
+            "title": "Alt"
+          },
+          "width": {
+            "type": "integer",
+            "title": "Width"
+          },
+          "height": {
+            "type": "integer",
+            "title": "Height"
+          }
+        },
+        "type": "object",
+        "required": [
+          "url",
+          "alt",
+          "width",
+          "height"
+        ],
+        "title": "PublicImage"
       },
       "ReadinessResponse": {
         "properties": {
@@ -1175,6 +2601,100 @@
           "staff_sales"
         ],
         "title": "Role"
+      },
+      "TranslationIn": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "title": "Slug"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 2,
+            "title": "Title"
+          },
+          "summary": {
+            "type": "string",
+            "maxLength": 500,
+            "title": "Summary",
+            "default": ""
+          },
+          "body_md": {
+            "type": "string",
+            "maxLength": 100000,
+            "title": "Body Md",
+            "default": ""
+          },
+          "seo_title": {
+            "type": "string",
+            "maxLength": 70,
+            "title": "Seo Title",
+            "default": ""
+          },
+          "seo_description": {
+            "type": "string",
+            "maxLength": 170,
+            "title": "Seo Description",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "title"
+        ],
+        "title": "TranslationIn"
+      },
+      "TranslationOut": {
+        "properties": {
+          "locale": {
+            "type": "string",
+            "enum": [
+              "fr",
+              "en"
+            ],
+            "title": "Locale"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          },
+          "body_md": {
+            "type": "string",
+            "title": "Body Md"
+          },
+          "seo_title": {
+            "type": "string",
+            "title": "Seo Title"
+          },
+          "seo_description": {
+            "type": "string",
+            "title": "Seo Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "locale",
+          "slug",
+          "title",
+          "summary",
+          "body_md",
+          "seo_title",
+          "seo_description"
+        ],
+        "title": "TranslationOut"
       },
       "ValidationError": {
         "properties": {

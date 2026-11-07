@@ -4,7 +4,7 @@ Override with TEST_DATABASE_URL / TEST_REDIS_URL; defaults match the Docker Comp
 """
 
 import os
-from collections.abc import AsyncIterator, Awaitable, Callable
+from collections.abc import AsyncIterator, Awaitable, Callable, Iterator
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -24,6 +24,7 @@ from sqlalchemy import text
 
 from app.core.config import get_settings
 from app.core.redis import close_redis, get_redis
+from app.core.storage import ObjectStorage, get_storage
 from app.db.session import dispose_engine, get_engine
 from app.main import create_app
 from app.modules.identity.auth import get_token_verifier
@@ -38,18 +39,45 @@ def migrated_database() -> None:
     command.upgrade(Config(str(API_ROOT / "alembic.ini")), "head")
 
 
+TEST_BUCKET = "test-media"
+TEST_MEDIA_URL = "http://localhost:9000/dev4innova-media"
+
+
 @pytest.fixture
-async def client() -> AsyncIterator[AsyncClient]:
+def storage() -> Iterator[ObjectStorage]:
+    """In-memory S3 (moto): uploads are real S3 calls, against a fake service."""
+    import boto3
+    from moto import mock_aws
+
+    with mock_aws():
+        client = boto3.client("s3", region_name="eu-west-1")
+        client.create_bucket(
+            Bucket=TEST_BUCKET, CreateBucketConfiguration={"LocationConstraint": "eu-west-1"}
+        )
+        yield ObjectStorage(client, TEST_BUCKET, TEST_MEDIA_URL)
+
+
+@pytest.fixture
+async def client(storage: ObjectStorage) -> AsyncIterator[AsyncClient]:
     get_settings.cache_clear()
     app = create_app()
     app.dependency_overrides[get_token_verifier] = make_verifier
+    app.dependency_overrides[get_storage] = lambda: storage
     await get_redis().flushdb()  # test database (15): fresh rate limit counters
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         yield ac
     async with get_engine().begin() as conn:
-        await conn.execute(
-            text("TRUNCATE memberships, organizations, users, contact_requests CASCADE")
-        )
+        # Keep what migrations seeded: the internal organization and the services content.
+        for statement in (
+            "DELETE FROM cms_documents WHERE NOT (type = 'service' AND created_by_id IS NULL)",
+            "UPDATE cms_documents SET cover_media_id = NULL",
+            "DELETE FROM cms_media",
+            "DELETE FROM memberships",
+            "DELETE FROM organizations WHERE kind <> 'internal'",
+            "DELETE FROM users",
+            "DELETE FROM contact_requests",
+        ):
+            await conn.execute(text(statement))
     await dispose_engine()
     await close_redis()
 

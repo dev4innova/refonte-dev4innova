@@ -12,6 +12,11 @@ from app.modules.identity.permissions import ROLES
 LOCALES = ("fr", "en")
 ORGANIZATION_KINDS = ("client", "internal")
 
+INTERNAL_ORGANIZATION_ID = uuid.UUID("00000000-0000-4000-8000-000000000001")
+"""The DEV4INNOVA organization itself (created by migration 0004). Its members with a
+staff_* role run the back office (CMS, CRM...)."""
+INTERNAL_ORGANIZATION_SLUG = "dev4innova"
+
 
 def _in(values: tuple[str, ...]) -> str:
     return ", ".join(f"'{v}'" for v in values)

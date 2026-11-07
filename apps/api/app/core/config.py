@@ -3,7 +3,7 @@
 from functools import lru_cache
 from typing import Literal
 
-from pydantic import Field, PostgresDsn, RedisDsn
+from pydantic import Field, PostgresDsn, RedisDsn, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -22,6 +22,17 @@ class Settings(BaseSettings):
     redis_url: RedisDsn
 
     cors_allowed_origins: list[str] = ["http://localhost:3000"]
+    # Media storage (S3-compatible object storage; MinIO locally). ADR-0010.
+    media_s3_bucket: str = "dev4innova-media"
+    media_s3_region: str = "fr-par"
+    media_s3_endpoint_url: str | None = None
+    """Set for MinIO / non-AWS providers, e.g. http://localhost:9000."""
+    media_s3_access_key_id: str | None = None
+    media_s3_secret_access_key: SecretStr | None = None
+    media_public_base_url: str = "http://localhost:9000/dev4innova-media"
+    """Public URL prefix of stored media (CDN or public bucket), without trailing slash."""
+    media_max_bytes: int = Field(default=5 * 1024 * 1024, ge=1024)
+
     trust_forwarded_for: bool = False
     """Use X-Forwarded-For for rate limiting. Enable only when the API is reachable
     exclusively through the web app or a trusted reverse proxy."""

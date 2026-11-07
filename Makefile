@@ -3,7 +3,7 @@ COMPOSE := docker compose -f infra/docker/compose.yaml
 API := cd apps/api &&
 
 .DEFAULT_GOAL := help
-.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client lint typecheck test e2e check
+.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client grant-staff lint typecheck test e2e check
 
 help: ## List commands
 	@grep -E '^[a-z0-9-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -26,8 +26,9 @@ logs: ## Follow Docker logs
 ps: ## Show Docker services and health
 	$(COMPOSE) ps
 
-services: ## Start only PostgreSQL and Redis (for api-dev / web-dev)
-	$(COMPOSE) up -d --wait postgres redis
+services: ## Start PostgreSQL, Redis and MinIO (for api-dev / web-dev)
+	$(COMPOSE) up -d --wait postgres redis minio
+	$(COMPOSE) run --rm minio-init
 
 api-dev: ## Run the API with hot reload on :8000
 	$(API) uv run alembic upgrade head && uv run uvicorn app.main:app --reload --port 8000
@@ -40,6 +41,9 @@ migrate: ## Apply database migrations
 
 migration: ## Create a migration: make migration name="add users table"
 	$(API) uv run alembic revision --autogenerate -m "$(name)"
+
+grant-staff: ## Make a signed-in user staff: make grant-staff email=a@b.c role=staff_admin
+	$(API) uv run python -m app.cli grant-staff "$(email)" "$(or $(role),staff_editor)"
 
 client: ## Regenerate packages/api-client from the API OpenAPI schema
 	pnpm --filter @dev4innova/api-client generate
