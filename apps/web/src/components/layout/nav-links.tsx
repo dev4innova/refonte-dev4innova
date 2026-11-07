@@ -18,10 +18,21 @@ type NavLinksProps = {
   className?: string;
 };
 
-/** Navigation links with aria-current on the active page. */
-export function NavLinks({ items, orientation = "horizontal", onNavigate, className }: NavLinksProps) {
-  const pathname = usePathname();
+/** Navigation links with aria-current on the active page. Render inside <Suspense> with
+ * <NavLinksList pathname={null}> as fallback: routes with request-time params read the
+ * pathname at request time (Next.js Cache Components). */
+export function NavLinks(props: NavLinksProps) {
+  return <NavLinksList {...props} pathname={usePathname()} />;
+}
 
+/** The links themselves; `pathname: null` renders them without an active page. */
+export function NavLinksList({
+  items,
+  orientation = "horizontal",
+  onNavigate,
+  className,
+  pathname,
+}: NavLinksProps & { pathname: string | null }) {
   return (
     <ul
       className={cn(
@@ -30,7 +41,7 @@ export function NavLinks({ items, orientation = "horizontal", onNavigate, classN
       )}
     >
       {items.map((item) => {
-        const active = isActivePath(pathname, item.href);
+        const active = pathname !== null && isActivePath(pathname, item.href);
         return (
           <li key={item.href}>
             <Link

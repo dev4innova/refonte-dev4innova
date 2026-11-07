@@ -149,3 +149,63 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Rich text from the CMS (Markdown rendered and sanitized by the API). */
+@layer components {
+  .prose-d4i {
+    @apply max-w-3xl text-lg leading-relaxed text-foreground;
+
+    & > * + * {
+      @apply mt-5;
+    }
+    & h2 {
+      @apply mt-12 font-heading text-display-md font-semibold;
+    }
+    & h3 {
+      @apply mt-10 font-heading text-heading-lg font-semibold;
+    }
+    & h4 {
+      @apply mt-8 font-heading text-heading-sm font-semibold;
+    }
+    & a {
+      @apply font-medium text-primary underline underline-offset-4 hover:text-primary-hover;
+    }
+    & ul {
+      @apply list-disc pl-6 marker:text-primary;
+    }
+    & ol {
+      @apply list-decimal pl-6 marker:text-primary;
+    }
+    & li + li {
+      @apply mt-2;
+    }
+    & blockquote {
+      @apply border-l-4 border-primary pl-5 text-muted-foreground italic;
+    }
+    & code {
+      @apply rounded-sm bg-muted px-1.5 py-0.5 font-mono text-base;
+    }
+    & pre {
+      @apply overflow-x-auto rounded-lg bg-inverse p-5 text-sm text-inverse-foreground;
+    }
+    & pre code {
+      @apply bg-transparent p-0 text-inherit;
+    }
+    & img {
+      @apply h-auto max-w-full rounded-lg;
+    }
+    & hr {
+      @apply my-10 border-border;
+    }
+    & table {
+      @apply w-full border-collapse text-base;
+    }
+    & th,
+    & td {
+      @apply border border-border px-3 py-2 text-left;
+    }
+    & th {
+      @apply bg-muted font-semibold;
+    }
+  }
+}

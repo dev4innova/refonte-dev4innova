@@ -42,7 +42,7 @@
 |---|---|---|
 | `core`, `db`, `health` | 01 | — |
 | `identity` (users, organizations, memberships, rôles) | 04 | 01 |
-| `cms` | 06 | 04 |
+| `cms` (documents traduits, médias S3, rendu Markdown ; ADR-0010) | 06 | 04 |
 | `crm` | 07 | 04 |
 | `ai_gateway` | 08 | 04 (quotas par organisation) |
 | `ai_experiences` | 09 | 08 |

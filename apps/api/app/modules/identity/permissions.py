@@ -28,19 +28,35 @@ class Permission(StrEnum):
     ORGANIZATION_UPDATE = "organization:update"
     MEMBERS_READ = "members:read"
     MEMBERS_MANAGE = "members:manage"
+    # CMS (EPIC 06), only meaningful in the internal DEV4INNOVA organization
+    CONTENT_READ = "content:read"
+    CONTENT_WRITE = "content:write"
+    CONTENT_PUBLISH = "content:publish"
+    MEDIA_MANAGE = "media:manage"
 
 
 _READ: Final = frozenset({Permission.ORGANIZATION_READ, Permission.MEMBERS_READ})
+_ORG_ALL: Final = _READ | {Permission.ORGANIZATION_UPDATE, Permission.MEMBERS_MANAGE}
+_CONTENT_ALL: Final = frozenset(
+    {
+        Permission.CONTENT_READ,
+        Permission.CONTENT_WRITE,
+        Permission.CONTENT_PUBLISH,
+        Permission.MEDIA_MANAGE,
+    }
+)
 _ALL: Final = frozenset(Permission)
 
 ROLE_PERMISSIONS: Final[dict[Role, frozenset[Permission]]] = {
-    Role.OWNER: _ALL,
-    Role.ADMIN: _ALL,
+    Role.OWNER: _ORG_ALL,
+    Role.ADMIN: _ORG_ALL,
     Role.MEMBER: _READ,
     Role.STAFF_ADMIN: _ALL,
-    Role.STAFF_EDITOR: _READ,
-    Role.STAFF_SALES: _READ,
+    Role.STAFF_EDITOR: _READ | _CONTENT_ALL,
+    Role.STAFF_SALES: _READ | {Permission.CONTENT_READ},
 }
+
+STAFF_ROLES: Final = frozenset({Role.STAFF_ADMIN, Role.STAFF_EDITOR, Role.STAFF_SALES})
 
 
 def permissions_for(role: str) -> frozenset[Permission]:
@@ -49,7 +65,7 @@ def permissions_for(role: str) -> frozenset[Permission]:
 
 def can_assign(actor_role: str, target_role: str) -> bool:
     """Only owners grant or revoke the owner role; nobody assigns staff roles through the API."""
-    if Role(target_role) in {Role.STAFF_ADMIN, Role.STAFF_EDITOR, Role.STAFF_SALES}:
+    if Role(target_role) in STAFF_ROLES:
         return False
     if Role(target_role) is Role.OWNER:
         return Role(actor_role) is Role.OWNER

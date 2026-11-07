@@ -1,75 +1,48 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 
-import { OfferDetail } from "@/components/marketing/offer-detail";
-import { isServiceSlug, SERVICES } from "@/config/offer";
-import { pageMetadata } from "@/i18n/metadata";
+import { CmsDetail, CmsDetailSkeleton, cmsMetadata } from "@/components/cms/cms-detail";
+import { ServicesGrid } from "@/components/cms/services-grid";
+import { Section } from "@/components/layout/section";
 import type { Locale } from "@/i18n/routing";
 
 type Props = { params: Promise<{ locale: Locale; slug: string }> };
 
-const LETTERS = ["a", "b", "c"] as const;
-
-export function generateStaticParams() {
-  return SERVICES.map(({ slug }) => ({ slug }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  if (!isServiceSlug(slug)) return {};
-  const t = await getTranslations({ locale, namespace: "Services" });
-  return pageMetadata({
-    locale,
-    href: { pathname: "/services/[slug]", params: { slug } },
-    title: t(`items.${slug}.title`),
-    description: t(`items.${slug}.summary`),
-  });
+  return cmsMetadata("service", "/services/[slug]", locale, slug);
 }
 
-/** Service detail (TASK-050). */
-export default async function ServicePage({ params }: Props) {
-  const { locale, slug } = await params;
-  if (!isServiceSlug(slug)) notFound();
-  setRequestLocale(locale);
-  const [t, tCommon] = await Promise.all([getTranslations("Services"), getTranslations("Common")]);
-  const service = SERVICES.find((s) => s.slug === slug)!;
-  const title = t(`items.${slug}.title`);
-
+/** Service detail from the CMS (TASK-050, TASK-063). */
+export default function ServicePage({ params }: Props) {
   return (
-    <OfferDetail
-      icon={service.icon}
-      eyebrow={t("eyebrow")}
-      title={title}
-      summary={t(`items.${slug}.summary`)}
-      description={t(`items.${slug}.description`)}
-      breadcrumb={{
-        label: tCommon("breadcrumb"),
-        items: [
-          { label: tCommon("home"), href: "/" },
-          { label: t("eyebrow"), href: "/services" },
-          { label: title },
-        ],
-      }}
-      lists={[
-        {
-          title: t("deliverables"),
-          items: LETTERS.map((l) => t(`items.${slug}.deliverables.${l}`)),
-        },
-      ]}
-      aside={{ title: t("forWhom"), text: t(`items.${slug}.forWhom`) }}
-      related={{
-        title: tCommon("allServices"),
-        linkLabel: tCommon("learnMore"),
-        items: SERVICES.filter((s) => s.slug !== slug).map(({ slug: other, icon }) => ({
-          key: other,
-          icon,
-          title: t(`items.${other}.title`),
-          summary: t(`items.${other}.summary`),
-          href: { pathname: "/services/[slug]", params: { slug: other } },
-        })),
-      }}
+    <Suspense fallback={<CmsDetailSkeleton />}>
+      <ServiceContent params={params} />
+    </Suspense>
+  );
+}
+
+async function ServiceContent({ params }: Props) {
+  const { locale } = await params;
+  const [t, tCommon] = await Promise.all([
+    getTranslations({ locale, namespace: "Services" }),
+    getTranslations({ locale, namespace: "Common" }),
+  ]);
+  return (
+    <CmsDetail
+      type="service"
+      pathname="/services/[slug]"
+      params={params}
+      sectionLabel={t("eyebrow")}
       cta={{ title: t("ctaTitle"), text: t("ctaText"), actionLabel: tCommon("contactUs") }}
-    />
+    >
+      {(content) => (
+        <Section aria-label={tCommon("allServices")}>
+          <h2 className="mb-10 text-display-md font-semibold">{tCommon("allServices")}</h2>
+          <ServicesGrid locale={locale} linkLabel={tCommon("learnMore")} exclude={content.id} />
+        </Section>
+      )}
+    </CmsDetail>
   );
 }

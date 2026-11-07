@@ -26,7 +26,8 @@
     "closeMenu": "Close menu",
     "menuTitle": "Menu",
     "home": "DEV4INNOVA, home",
-    "account": "Client area"
+    "account": "Client area",
+    "admin": "Administration"
   },
   "Footer": {
     "landmark": "Site map",
@@ -212,7 +213,8 @@
       "staff_editor": "DEV4INNOVA editor",
       "staff_sales": "DEV4INNOVA sales"
     },
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "admin": "Website administration"
   },
   "Common": {
     "learnMore": "Learn more",
@@ -317,67 +319,8 @@
     "eyebrow": "Services",
     "title": "Support at every stage",
     "lead": "From strategic framing to continuous improvement, we step in where you need us.",
-    "deliverables": "What we deliver",
-    "forWhom": "Who is it for?",
     "ctaTitle": "Let's talk about your project",
-    "ctaText": "Together we design the support that fits your goals.",
-    "items": {
-      "ai-strategy": {
-        "title": "AI consulting and strategy",
-        "summary": "Identify high-value use cases and build your roadmap.",
-        "description": "We assess your maturity, data and processes to prioritize the most relevant AI projects, taking regulatory and ethical issues into account.",
-        "deliverables": {
-          "a": "Use case map",
-          "b": "Feasibility and risk analysis",
-          "c": "Prioritized roadmap"
-        },
-        "forWhom": "Executives, business units and IT departments who want to structure their AI approach."
-      },
-      "custom-development": {
-        "title": "Custom development",
-        "summary": "Design AI solutions tailored to your specific needs.",
-        "description": "Our teams design and build robust, tested and documented AI applications, using the best models available.",
-        "deliverables": {
-          "a": "Prototype and proof of concept",
-          "b": "Production-ready application",
-          "c": "Maintainable code and documentation"
-        },
-        "forWhom": "Organizations whose needs are not covered by off-the-shelf tools."
-      },
-      "integration-deployment": {
-        "title": "Integration and deployment",
-        "summary": "Connect AI to your information system and take it to production.",
-        "description": "We integrate solutions with your existing tools, secure data flows and ensure a controlled go-live.",
-        "deliverables": {
-          "a": "Connectors to your applications",
-          "b": "Secure architecture",
-          "c": "Supported go-live"
-        },
-        "forWhom": "Technical teams who want to industrialize a prototype or an existing solution."
-      },
-      "training-support": {
-        "title": "Training and change support",
-        "summary": "Give your teams the keys to use AI effectively.",
-        "description": "Training adapted to each profile, change management support and good practices for responsible AI use.",
-        "deliverables": {
-          "a": "Tailored learning paths",
-          "b": "Hands-on workshops",
-          "c": "Usage guides and good practices"
-        },
-        "forWhom": "Employees, managers and technical teams, whatever their level."
-      },
-      "run-and-improve": {
-        "title": "Monitoring and continuous improvement",
-        "summary": "Keep your solutions accurate and efficient over time.",
-        "description": "We monitor result quality, costs and usage, then evolve the solutions as your needs and technology progress.",
-        "deliverables": {
-          "a": "Quality and cost monitoring",
-          "b": "Regular improvements",
-          "c": "Support and maintenance"
-        },
-        "forWhom": "Organizations with an AI solution in production that they want to keep improving."
-      }
-    }
+    "ctaText": "Together we design the support that fits your goals."
   },
   "About": {
     "metaTitle": "About",
@@ -510,7 +453,9 @@
     "title": "Our work",
     "lead": "Concrete projects, measured results.",
     "emptyTitle": "Our case studies are coming soon",
-    "emptyText": "We are preparing the presentation of our projects, with our clients' approval. In the meantime, let's talk about yours."
+    "emptyText": "We are preparing the presentation of our projects, with our clients' approval. In the meantime, let's talk about yours.",
+    "ctaTitle": "A similar project?",
+    "ctaText": "Let's talk about your context and goals."
   },
   "Insights": {
     "metaTitle": "Insights",
@@ -519,7 +464,9 @@
     "title": "Analysis and lessons learned",
     "lead": "Our thoughts on artificial intelligence, its uses and its challenges.",
     "emptyTitle": "First articles in preparation",
-    "emptyText": "Our first publications are coming very soon. Come back later or contact us to talk."
+    "emptyText": "Our first publications are coming very soon. Come back later or contact us to talk.",
+    "ctaTitle": "Want to go further?",
+    "ctaText": "Let's talk about your challenges and AI projects."
   },
   "Contact": {
     "metaTitle": "Contact",
@@ -579,6 +526,117 @@
     "privacy": {
       "metaTitle": "Privacy policy",
       "title": "Privacy policy"
+    }
+  },
+  "Admin": {
+    "metaTitle": "Administration",
+    "title": "Website administration",
+    "lead": "Manage the content published on dev4innova, in French and English.",
+    "forbiddenTitle": "Restricted to the DEV4INNOVA team",
+    "forbiddenText": "Your account has no team role. Ask an administrator to grant you one.",
+    "unavailable": "The administration is temporarily unavailable. Please try again in a moment.",
+    "nav": {
+      "label": "Administration",
+      "dashboard": "Dashboard",
+      "media": "Media"
+    },
+    "types": {
+      "article": "Articles",
+      "project": "Projects",
+      "service": "Services",
+      "page": "Pages"
+    },
+    "typeDescriptions": {
+      "article": "Analysis and news of the Insights page.",
+      "project": "Case studies of the Portfolio page.",
+      "service": "Offers of the Services page.",
+      "page": "Free pages: legal notice, privacy…"
+    },
+    "mediaDescription": "Images used in content.",
+    "list": {
+      "new": "New content",
+      "empty": "No content yet.",
+      "title": "Title",
+      "status": "Status",
+      "updated": "Updated",
+      "edit": "Edit",
+      "missingTranslation": "(missing translation)"
+    },
+    "status": {
+      "draft": "Draft",
+      "published": "Published"
+    },
+    "editor": {
+      "newTitle": "New content",
+      "editTitle": "Edit content",
+      "back": "Back to the list",
+      "languages": "Content language",
+      "fr": "French",
+      "en": "English",
+      "title": "Title",
+      "slug": "Address (slug)",
+      "slugHelp": "Lowercase letters, numbers and hyphens. Part of the URL.",
+      "summary": "Summary",
+      "summaryHelp": "Shown in lists and as the default description.",
+      "body": "Content (Markdown)",
+      "bodyHelp": "## Heading, **bold**, *italic*, - list, [link](https://…), ![text](image url).",
+      "write": "Write",
+      "preview": "Preview",
+      "previewEmpty": "Nothing to show yet.",
+      "seo": "Search engines (SEO)",
+      "seoTitle": "SEO title",
+      "seoDescription": "SEO description",
+      "seoHelp": "Leave empty to reuse the title and summary.",
+      "characters": "{count} / {max} characters",
+      "settings": "Settings",
+      "position": "Display order",
+      "icon": "Icon",
+      "industry": "Industry",
+      "client": "Client (if allowed)",
+      "cover": "Cover image",
+      "noCover": "No image",
+      "manageMedia": "Manage media",
+      "save": "Save",
+      "saving": "Saving…",
+      "saved": "Changes saved.",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "published": "Content published: it is visible on the website.",
+      "unpublished": "Content unpublished: it is no longer visible on the website.",
+      "delete": "Delete",
+      "deleteConfirm": "Permanently delete this draft?",
+      "viewOnSite": "View on the website",
+      "errors": {
+        "generic": "The operation failed. Check the fields and try again.",
+        "slug": "This address is already used for this content type.",
+        "missingLocale": "Fill in French and English before publishing.",
+        "publishedDelete": "Unpublish this content before deleting it.",
+        "forbidden": "Your role does not allow this action.",
+        "validation": "Some fields are invalid: title (at least 2 characters) and address are required in each language filled in."
+      }
+    },
+    "media": {
+      "title": "Media library",
+      "upload": "Add an image",
+      "uploadHelp": "JPEG, PNG or WebP, 5 MB maximum. Metadata (GPS…) is removed.",
+      "uploading": "Uploading…",
+      "uploaded": "Image added.",
+      "empty": "No images yet.",
+      "altFr": "Alternative text (FR)",
+      "altEn": "Alternative text (EN)",
+      "altHelp": "Describe the image for people who cannot see it.",
+      "saveAlt": "Save",
+      "delete": "Delete",
+      "deleteConfirm": "Delete this image? It will be removed from the content using it.",
+      "copyUrl": "Copy address",
+      "copied": "Address copied",
+      "errors": {
+        "invalid": "This file is not an accepted image (JPEG, PNG or WebP).",
+        "tooLarge": "This file exceeds 5 MB.",
+        "generic": "The operation failed."
+      },
+      "size": "{size} KB",
+      "file": "Image file"
     }
   }
 }

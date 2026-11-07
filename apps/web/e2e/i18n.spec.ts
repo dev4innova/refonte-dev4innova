@@ -89,7 +89,10 @@ test.describe("language switcher", () => {
     const switcher = page.getByRole("navigation", { name: "Langue" });
     await expect(switcher.getByRole("link", { name: "Français" })).toHaveAttribute("aria-current", "true");
 
-    await switcher.getByRole("link", { name: "English" }).click();
+    // The switcher streams in after the static shell (whose fallback links to each home page).
+    const english = switcher.getByRole("link", { name: "English" });
+    await expect(english).toHaveAttribute("href", "/en/design-system");
+    await english.click();
     await expect(page).toHaveURL(/\/en\/design-system$/);
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("DEV4INNOVA design system");

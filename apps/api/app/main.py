@@ -13,6 +13,8 @@ from app.core.errors import register_exception_handlers
 from app.core.logging import configure_logging
 from app.core.redis import close_redis
 from app.db.session import dispose_engine
+from app.modules.cms.router import admin_router as cms_admin_router
+from app.modules.cms.router import public_router as content_router
 from app.modules.contact.router import router as contact_router
 from app.modules.health.router import router as health_router
 from app.modules.identity.router import me_router, org_router
@@ -62,6 +64,8 @@ def create_app() -> FastAPI:
     api_v1.include_router(me_router)
     api_v1.include_router(org_router)
     api_v1.include_router(contact_router)
+    api_v1.include_router(content_router)
+    api_v1.include_router(cms_admin_router)
     app.include_router(api_v1)
     return app
 

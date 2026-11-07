@@ -13,6 +13,12 @@ x-api-env: &api-env
   AUTH_AUDIENCE: ${AUTH_AUDIENCE:-}
   # The API is only reached through the web app here: trust its X-Forwarded-For.
   TRUST_FORWARDED_FOR: "true"
+  MEDIA_S3_ENDPOINT_URL: http://minio:9000
+  MEDIA_S3_BUCKET: dev4innova-media
+  MEDIA_S3_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-dev4innova}
+  MEDIA_S3_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-dev4innova-secret}
+  # URL seen by browsers.
+  MEDIA_PUBLIC_BASE_URL: http://localhost:${MINIO_PORT:-9000}/dev4innova-media
 
 services:
   postgres:
@@ -45,6 +51,41 @@ services:
       timeout: 3s
       retries: 10
 
+  # S3-compatible object storage for CMS media (ADR-0010). Console on :9001.
+  minio:
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-dev4innova}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-dev4innova-secret}
+    ports:
+      - "127.0.0.1:${MINIO_PORT:-9000}:9000"
+      - "127.0.0.1:9001:9001"
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # One-shot: creates the media bucket, readable by anyone (published website images).
+  minio-init:
+    image: minio/mc:RELEASE.2025-04-16T18-13-26Z
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - >-
+        mc alias set local http://minio:9000 "$$MINIO_ROOT_USER" "$$MINIO_ROOT_PASSWORD" &&
+        mc mb --ignore-existing local/dev4innova-media &&
+        mc anonymous set download local/dev4innova-media
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-dev4innova}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-dev4innova-secret}
+    depends_on:
+      minio:
+        condition: service_healthy
+    restart: "no"
+
   # One-shot: applies Alembic migrations before the API starts.
   migrate:
     build:
@@ -68,11 +109,15 @@ services:
         condition: service_completed_successfully
       redis:
         condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
 
   web:
     build:
       context: ../..
       dockerfile: infra/docker/web.Dockerfile
+      args:
+        SITE_URL: ${SITE_URL:-http://localhost:3000}
     image: dev4innova/web:local
     environment:
       API_URL: http://api:8000
@@ -91,3 +136,4 @@ services:
 volumes:
   postgres-data:
   redis-data:
+  minio-data:

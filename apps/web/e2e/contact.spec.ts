@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
 
 /*
- * Contact form (TASK-055, TASK-057). The API is not running in this suite: a valid
- * submission ends with the "unavailable" message, which also proves the server action ran.
- * The success path is covered by unit tests (actions.test.ts) and the API tests.
+ * Contact form (TASK-055, TASK-057), against the running API (stored in PostgreSQL).
+ * Errors that keep what the visitor typed (API unavailable, rate limit) are covered by the
+ * unit tests (actions.test.ts, contact-form.test.tsx).
  */
 test.beforeEach(({}, testInfo) => {
   test.skip(testInfo.project.name === "tablet", "covered on mobile and desktop");
@@ -20,10 +20,10 @@ test("server-side validation explains each error", async ({ page }) => {
   await expect(page.getByText("Votre accord est nécessaire pour que nous puissions vous répondre.")).toBeVisible();
 });
 
-test("a valid message reaches the server and the visitor keeps what they typed", async ({ page }) => {
+test("a valid message is stored and confirmed", async ({ page }, testInfo) => {
   await page.goto("/en/contact");
   await page.getByRole("textbox", { name: /Full name/ }).fill("Camille Durand");
-  await page.getByRole("textbox", { name: /Work email address/ }).fill("camille@example.com");
+  await page.getByRole("textbox", { name: /Work email address/ }).fill(`camille+${testInfo.project.name}-${Date.now()}@example.com`);
   await page.getByRole("combobox", { name: "Subject" }).selectOption("training");
   await page
     .getByRole("textbox", { name: /Your message/ })
@@ -32,13 +32,8 @@ test("a valid message reaches the server and the visitor keeps what they typed",
   await page.getByRole("button", { name: "Send message" }).click();
 
   await expect(
-    page.getByText("The service is temporarily unavailable. Please try again later."),
+    page.getByRole("heading", { name: "Thank you, your message has been sent" }),
   ).toBeVisible();
-  await expect(page.getByRole("textbox", { name: /Full name/ })).toHaveValue("Camille Durand");
-  await expect(page.getByRole("combobox", { name: "Subject" })).toHaveValue("training");
-  await expect(page.getByRole("textbox", { name: /Your message/ })).toHaveValue(
-    "We would like to train our teams in generative AI.",
-  );
 });
 
 test("the honeypot is invisible", async ({ page }) => {

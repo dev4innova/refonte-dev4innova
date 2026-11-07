@@ -12,7 +12,10 @@ RUN pnpm install --frozen-lockfile --filter "@dev4innova/web..."
 FROM deps AS build
 COPY packages ./packages
 COPY apps/web ./apps/web
-ENV NEXT_TELEMETRY_DISABLED=1
+# Public origin, baked into statically prerendered metadata (canonical, hreflang, Open Graph).
+ARG SITE_URL=http://localhost:3000
+ENV NEXT_TELEMETRY_DISABLED=1 \
+    SITE_URL=${SITE_URL}
 RUN pnpm --filter @dev4innova/web build
 
 FROM node:22-alpine AS runtime

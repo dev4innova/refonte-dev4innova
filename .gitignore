@@ -39,3 +39,6 @@ htmlcov/
 # Docker / data
 infra/docker/data/
 *.log
+
+# Redis snapshots written by a local redis-server
+*.rdb

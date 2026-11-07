@@ -20,7 +20,7 @@ from app.modules.identity.auth import (
     get_token_verifier,
     get_userinfo_fetcher,
 )
-from app.modules.identity.models import User
+from app.modules.identity.models import INTERNAL_ORGANIZATION_ID, User
 
 _bearer = HTTPBearer(auto_error=False, description="Zitadel access token (JWT)")
 
@@ -63,3 +63,12 @@ async def get_org_context(
 
 
 OrgContext = Annotated[service.OrganizationContext, Depends(get_org_context)]
+
+
+async def get_staff_context(user: CurrentUser, session: Session) -> service.OrganizationContext:
+    """The current user acting as DEV4INNOVA staff (member of the internal organization).
+    Anyone else gets 404, like for any organization they do not belong to."""
+    return await service.resolve_context(session, user, INTERNAL_ORGANIZATION_ID)
+
+
+StaffContext = Annotated[service.OrganizationContext, Depends(get_staff_context)]

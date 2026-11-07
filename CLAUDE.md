@@ -61,9 +61,10 @@ Tout passe par le `Makefile` racine (`make help`) :
 |---|---|
 | `make setup` | installe les dépendances JS (pnpm) et Python (uv), crée les `.env` locaux |
 | `make up` / `make down` | stack Docker complète (web :3000, api :8000, PostgreSQL, Redis) |
-| `make services` | PostgreSQL + Redis seuls, pour développer en local avec rechargement |
+| `make services` | PostgreSQL, Redis et MinIO seuls, pour développer en local avec rechargement |
 | `make api-dev` / `make web-dev` | API (uvicorn --reload) / web (next dev) |
 | `make migration name="..."` / `make migrate` | créer / appliquer une migration Alembic |
+| `make grant-staff email=... role=staff_editor` | donner l'accès au back-office (`/admin`) à un compte déjà connecté une fois |
 | `make client` | régénérer `packages/api-client` après un changement d'API |
 | `make check` | lint + typecheck + tests (à lancer avant de pousser ; nécessite `make services`) |
 | `make e2e` | build du web + Playwright (responsive 375/768/1280 px, accessibilité, FR/EN) |

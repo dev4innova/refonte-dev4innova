@@ -26,10 +26,14 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
 
 ## Entrées et sorties
 - Toute entrée est validée par un schéma Pydantic (backend) ; le frontend valide pour l'UX seulement.
-- Pas de SQL concaténé, pas de `dangerouslySetInnerHTML` sans sanitisation (DOMPurify) —
-  contenus CMS riches compris.
-- Uploads : vérification du type MIME réel et de la taille, renommage, stockage hors
-  webroot (stockage objet), URLs signées à durée limitée, analyse antivirus si possible.
+- Pas de SQL concaténé, pas de `dangerouslySetInnerHTML` sans sanitisation. Contenus CMS :
+  Markdown rendu par l'API avec HTML brut désactivé puis assaini par nh3 (liste blanche) ;
+  le web n'affiche que ce HTML assaini (`components/cms/prose.tsx`, ADR-0010).
+- Uploads : vérification du contenu réel (décodage Pillow, pas l'extension ni le type annoncé),
+  taille et dimensions maximales, **ré-encodage** (supprime EXIF et charges cachées), clé
+  aléatoire, stockage hors webroot (stockage objet). Médias publics du site : bucket en lecture
+  publique ; fichiers privés (portail client, EPIC 11) : URLs signées à durée limitée,
+  analyse antivirus si possible.
 - En-têtes HTTP : CSP stricte, HSTS, `X-Content-Type-Options`, `Referrer-Policy`,
   `frame-ancestors`. CORS limité aux origines connues.
 
