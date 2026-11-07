@@ -56,6 +56,9 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
   instructions (refusé par l'API). Sorties de modèle affichées en texte brut, jamais en HTML.
 - Coût borné : chaque appel est refusé avant l'appel fournisseur si son coût maximal possible
   dépasse le budget mensuel restant de l'organisation (ADR-0012).
+- Expériences IA (ADR-0013) : sessions privées à leur auteur ; documents analysés non
+  conservés (texte extrait seulement, transmis entre balises `<document>` comme données) ;
+  plafond quotidien par utilisateur ; purge des sessions inactives après 90 jours.
 - Ne pas envoyer de données personnelles ou confidentielles à un fournisseur sans base
   légale et sans que l'organisation l'ait accepté. Journaliser l'usage (tokens, coût), pas
   le contenu sensible.

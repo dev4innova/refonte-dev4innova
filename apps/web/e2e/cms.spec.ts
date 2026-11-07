@@ -61,6 +61,10 @@ test.describe("back office", () => {
     ["/en/admin/crm/leads", "%2Fen%2Fadmin%2Fcrm%2Fleads"],
     ["/fr/admin/ai", "%2Ffr%2Fadmin%2Fai"],
     ["/en/admin/ai/playground", "%2Fen%2Fadmin%2Fai%2Fplayground"],
+    [
+      "/fr/espace-client/ia/11111111-2222-4333-8444-555555555555",
+      "%2Ffr%2Fespace-client%2Fia%2F11111111-2222-4333-8444-555555555555",
+    ],
   ] as const) {
     test(`${path} sends anonymous visitors to sign-in`, async ({ request }) => {
       const response = await request.get(path, { maxRedirects: 0 });
@@ -80,6 +84,14 @@ test.describe("back office", () => {
     const site = new URL(process.env.SITE_URL ?? "http://localhost:3000").origin;
     const anonymous = await request.post(url, { data, headers: { Origin: site } });
     expect(anonymous.status()).toBe(401);
+  });
+
+  test("the AI session stream refuses other sites and anonymous visitors", async ({ request }) => {
+    const url = "/api/ai/11111111-2222-4333-8444-555555555555/sessions/66666666-7777-4888-9999-000000000000/messages";
+    const data = { text: "Bonjour" };
+    expect((await request.post(url, { data, headers: { Origin: "https://evil.example" } })).status()).toBe(403);
+    const site = new URL(process.env.SITE_URL ?? "http://localhost:3000").origin;
+    expect((await request.post(url, { data, headers: { Origin: site } })).status()).toBe(401);
   });
 
   test("is never indexed nor listed in the sitemap", async ({ request }) => {

@@ -187,7 +187,10 @@ async def prepare(
     messages: Sequence[ChatMessage] = (),
     variables: dict[str, str] | None = None,
     max_tokens: int | None = None,
+    append_template: bool = True,
 ) -> PreparedCall:
+    """`append_template`: add the prompt's rendered template as the last user message.
+    Callers that place the template themselves (e.g. as the first turn) pass False."""
     settings = get_settings()
     if user_id is not None:
         await rate_limit.hit(
@@ -200,7 +203,7 @@ async def prepare(
 
     version = await _prompt_version(session, prompt_key, prompt_version) if prompt_key else None
     conversation = list(messages)
-    if version is not None and version.template:
+    if version is not None and version.template and append_template:
         conversation.append(ChatMessage("user", render(version.template, variables or {})))
     if not conversation or conversation[-1].role != "user" or not conversation[-1].content.strip():
         raise UnprocessableError(
@@ -323,3 +326,9 @@ async def complete(call: PreparedCall) -> Answer:
         else:
             return Answer("".join(parts), event)
     raise AIUnavailableError("The AI provider could not answer")
+
+
+async def render_prompt_template(session: AsyncSession, key: str, variables: dict[str, str]) -> str:
+    """The active version's template of a prompt, with its variables filled in."""
+    version = await _prompt_version(session, key, None)
+    return render(version.template, variables)
