@@ -45,7 +45,7 @@
 | `cms` (documents traduits, médias S3, rendu Markdown ; ADR-0010) | 06 | 04 |
 | `crm` (prospects, opportunités, activités, demandes de devis ; ADR-0011) | 07 | 04 |
 | `ai_gateway` (contrat fournisseur, adaptateurs Anthropic / OpenAI / Gemini, registre, prompts versionnés, usage, budgets ; ADR-0007, ADR-0012) | 08 | 04 (quotas par organisation) |
-| `ai_experiences` | 09 | 08 |
+| `ai_experiences` (assistant, analyse de documents, générateur de contenus, sessions privées ; ADR-0013) | 09 | 08 |
 | `diagnostic` | 10 | 08, 07 |
 | `portal` | 11 | 04 |
 | `academy` | 12 | 04 (06 pour les contenus) |

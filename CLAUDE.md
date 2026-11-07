@@ -65,6 +65,7 @@ Tout passe par le `Makefile` racine (`make help`) :
 | `make api-dev` / `make web-dev` | API (uvicorn --reload) / web (next dev) |
 | `make migration name="..."` / `make migrate` | créer / appliquer une migration Alembic |
 | `make grant-staff email=... role=staff_editor` | donner l'accès au back-office (`/admin`) à un compte déjà connecté une fois |
+| `make purge-ai-sessions` | supprimer les sessions IA inactives (à planifier chaque jour en production) |
 | `make client` | régénérer `packages/api-client` après un changement d'API |
 | `make check` | lint + typecheck + tests (à lancer avant de pousser ; nécessite `make services`) |
 | `make e2e` | build du web + Playwright (responsive 375/768/1280 px, accessibilité, FR/EN) |
