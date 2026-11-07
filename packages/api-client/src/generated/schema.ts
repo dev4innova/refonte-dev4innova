@@ -312,10 +312,259 @@ export interface paths {
         patch: operations["cms-admin-update_media"];
         trace?: never;
     };
+    "/api/v1/quote-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Ask for a quote from the website (public) */
+        post: operations["crm-create_quote_request"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/crm/leads": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search prospects */
+        get: operations["crm-admin-list_leads"];
+        put?: never;
+        /** Create a prospect */
+        post: operations["crm-admin-create_lead"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/crm/leads/{lead_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Prospect and history */
+        get: operations["crm-admin-get_lead"];
+        put?: never;
+        post?: never;
+        /** Erase a prospect and its history (GDPR) */
+        delete: operations["crm-admin-delete_lead"];
+        options?: never;
+        head?: never;
+        /** Update a prospect */
+        patch: operations["crm-admin-update_lead"];
+        trace?: never;
+    };
+    "/api/v1/admin/crm/leads/{lead_id}/owner": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Assign a prospect to a sales person (or unassign it) */
+        put: operations["crm-admin-set_owner"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/crm/leads/{lead_id}/activities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Log a note, call, email or meeting */
+        post: operations["crm-admin-add_activity"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/crm/team": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Staff who can own prospects */
+        get: operations["crm-admin-list_team"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/crm/opportunities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Pipeline opportunities */
+        get: operations["crm-admin-list_opportunities"];
+        put?: never;
+        /** Open an opportunity for a prospect */
+        post: operations["crm-admin-create_opportunity"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/crm/opportunities/{opportunity_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update an opportunity or move it to another stage */
+        patch: operations["crm-admin-update_opportunity"];
+        trace?: never;
+    };
+    "/api/v1/admin/crm/quote-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Quotes */
+        get: operations["crm-admin-list_quote_requests"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/crm/quote-requests/{quote_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Follow up a quote */
+        patch: operations["crm-admin-update_quote_request"];
+        trace?: never;
+    };
+    "/api/v1/admin/crm/dashboard": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Sales dashboard */
+        get: operations["crm-admin-dashboard"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/crm/inbox": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** New prospects and quote requests */
+        get: operations["crm-admin-inbox"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** ActivityCreate */
+        ActivityCreate: {
+            /**
+             * Type
+             * @enum {string}
+             */
+            type: "note" | "call" | "email" | "meeting";
+            /** Body */
+            body: string;
+            /** Occurred At */
+            occurred_at?: string | null;
+            /** Opportunity Id */
+            opportunity_id?: string | null;
+        };
+        /** ActivityOut */
+        ActivityOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Type
+             * @enum {string}
+             */
+            type: "note" | "call" | "email" | "meeting" | "contact_message" | "quote_request" | "status_change" | "stage_change" | "assignment";
+            /** Body */
+            body: string;
+            /** Details */
+            details: {
+                [key: string]: unknown;
+            };
+            /**
+             * Occurred At
+             * Format: date-time
+             */
+            occurred_at: string;
+            author: components["schemas"]["Person"] | null;
+            /** Opportunity Id */
+            opportunity_id: string | null;
+        };
         /** Body_cms-admin-upload_media */
         "Body_cms-admin-upload_media": {
             /** File */
@@ -361,6 +610,37 @@ export interface components {
              * @default
              */
             website: string;
+        };
+        /**
+         * Dashboard
+         * @description Sales figures, in EUR
+         */
+        Dashboard: {
+            /** Leads By Status */
+            leads_by_status: {
+                [key: string]: number;
+            };
+            /** New Leads 30 Days */
+            new_leads_30_days: number;
+            /** Leads By Source 30 Days */
+            leads_by_source_30_days: {
+                [key: string]: number;
+            };
+            /** Unassigned Open Leads */
+            unassigned_open_leads: number;
+            /** My Open Leads */
+            my_open_leads: number;
+            /** New Quote Requests */
+            new_quote_requests: number;
+            /** Pipeline */
+            pipeline: components["schemas"]["StageTotal"][];
+            /** Open Pipeline Amount */
+            open_pipeline_amount: string;
+            won_90_days: components["schemas"]["StageTotal"];
+            /** Lost 90 Days */
+            lost_90_days: number;
+            /** Win Rate 90 Days */
+            win_rate_90_days: number | null;
         };
         /** DependencyCheck */
         DependencyCheck: {
@@ -490,6 +770,143 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /**
+         * Inbox
+         * @description What needs attention, for the back-office navigation badge.
+         */
+        Inbox: {
+            /** New Leads */
+            new_leads: number;
+            /** New Quote Requests */
+            new_quote_requests: number;
+        };
+        /** LeadCreate */
+        LeadCreate: {
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /** Name */
+            name: string;
+            /** Company */
+            company?: string | null;
+            /** Phone */
+            phone?: string | null;
+            /**
+             * Locale
+             * @default fr
+             * @enum {string}
+             */
+            locale: "fr" | "en";
+        };
+        /** LeadDetail */
+        LeadDetail: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Email */
+            email: string;
+            /** Name */
+            name: string;
+            /** Company */
+            company: string | null;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "new" | "contacted" | "qualified" | "customer" | "unqualified";
+            /**
+             * Source
+             * @enum {string}
+             */
+            source: "contact_form" | "quote_request" | "manual";
+            owner: components["schemas"]["Person"] | null;
+            /**
+             * Last Activity At
+             * Format: date-time
+             */
+            last_activity_at: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Phone */
+            phone: string | null;
+            /**
+             * Locale
+             * @enum {string}
+             */
+            locale: "fr" | "en";
+            /** Activities */
+            activities: components["schemas"]["ActivityOut"][];
+            /** Opportunities */
+            opportunities: components["schemas"]["OpportunityOut"][];
+            /** Quote Requests */
+            quote_requests: components["schemas"]["QuoteRequestOut"][];
+        };
+        /** LeadPage */
+        LeadPage: {
+            /** Items */
+            items: components["schemas"]["LeadSummary"][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Page Size */
+            page_size: number;
+        };
+        /** LeadSummary */
+        LeadSummary: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Email */
+            email: string;
+            /** Name */
+            name: string;
+            /** Company */
+            company: string | null;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "new" | "contacted" | "qualified" | "customer" | "unqualified";
+            /**
+             * Source
+             * @enum {string}
+             */
+            source: "contact_form" | "quote_request" | "manual";
+            owner: components["schemas"]["Person"] | null;
+            /**
+             * Last Activity At
+             * Format: date-time
+             */
+            last_activity_at: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** LeadUpdate */
+        LeadUpdate: {
+            /** Name */
+            name?: string | null;
+            /** Company */
+            company?: string | null;
+            /** Phone */
+            phone?: string | null;
+            /** Locale */
+            locale?: ("fr" | "en") | null;
+            /** Status */
+            status?: ("new" | "contacted" | "qualified" | "customer" | "unqualified") | null;
+        };
         /** LivenessResponse */
         LivenessResponse: {
             /**
@@ -612,6 +1029,93 @@ export interface components {
             organization_slug: string;
             role: components["schemas"]["Role"];
         };
+        /** OpportunityCreate */
+        OpportunityCreate: {
+            /**
+             * Lead Id
+             * Format: uuid
+             */
+            lead_id: string;
+            /** Title */
+            title: string;
+            /**
+             * Stage
+             * @default qualification
+             * @enum {string}
+             */
+            stage: "qualification" | "proposal" | "negotiation" | "won" | "lost";
+            /** Amount */
+            amount?: number | string | null;
+            /**
+             * Currency
+             * @default EUR
+             * @constant
+             */
+            currency: "EUR";
+            /** Expected Close On */
+            expected_close_on?: string | null;
+        };
+        /** OpportunityOut */
+        OpportunityOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            lead: components["schemas"]["LeadSummary"];
+            /** Title */
+            title: string;
+            /**
+             * Stage
+             * @enum {string}
+             */
+            stage: "qualification" | "proposal" | "negotiation" | "won" | "lost";
+            /** Amount */
+            amount: string | null;
+            /**
+             * Currency
+             * @constant
+             */
+            currency: "EUR";
+            /** Expected Close On */
+            expected_close_on: string | null;
+            /** Closed At */
+            closed_at: string | null;
+            owner: components["schemas"]["Person"] | null;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** OpportunityUpdate */
+        OpportunityUpdate: {
+            /** Title */
+            title?: string | null;
+            /** Stage */
+            stage?: ("qualification" | "proposal" | "negotiation" | "won" | "lost") | null;
+            /** Amount */
+            amount?: number | string | null;
+            /**
+             * Clear Amount
+             * @default false
+             */
+            clear_amount: boolean;
+            /** Expected Close On */
+            expected_close_on?: string | null;
+            /**
+             * Clear Expected Close On
+             * @default false
+             */
+            clear_expected_close_on: boolean;
+            /** Owner Id */
+            owner_id?: string | null;
+            /**
+             * Clear Owner
+             * @default false
+             */
+            clear_owner: boolean;
+        };
         /** OrganizationCreate */
         OrganizationCreate: {
             /** Name */
@@ -649,11 +1153,31 @@ export interface components {
             /** Permissions */
             permissions: components["schemas"]["Permission"][];
         };
+        /** OwnerUpdate */
+        OwnerUpdate: {
+            /** Owner Id */
+            owner_id: string | null;
+        };
         /**
          * Permission
          * @enum {string}
          */
-        Permission: "organization:read" | "organization:update" | "members:read" | "members:manage" | "content:read" | "content:write" | "content:publish" | "media:manage";
+        Permission: "organization:read" | "organization:update" | "members:read" | "members:manage" | "content:read" | "content:write" | "content:publish" | "media:manage" | "crm:read" | "crm:write" | "crm:assign" | "crm:delete";
+        /**
+         * Person
+         * @description A staff member, as shown next to the records they own or wrote.
+         */
+        Person: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Display Name */
+            display_name: string | null;
+            /** Email */
+            email: string | null;
+        };
         /** PreviewIn */
         PreviewIn: {
             /** Body Md */
@@ -737,6 +1261,105 @@ export interface components {
             /** Height */
             height: number;
         };
+        /** QuoteRequestAccepted */
+        QuoteRequestAccepted: {
+            /** Id */
+            id: string | null;
+        };
+        /** QuoteRequestCreate */
+        QuoteRequestCreate: {
+            /** Name */
+            name: string;
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /** Company */
+            company?: string | null;
+            /** Phone */
+            phone?: string | null;
+            /** Service */
+            service?: string | null;
+            /** Need */
+            need: string;
+            /**
+             * Budget
+             * @default unknown
+             * @enum {string}
+             */
+            budget: "lt_10k" | "10k_30k" | "30k_100k" | "gt_100k" | "unknown";
+            /**
+             * Timeline
+             * @default unknown
+             * @enum {string}
+             */
+            timeline: "asap" | "within_3_months" | "within_6_months" | "unknown";
+            /**
+             * Locale
+             * @default fr
+             * @enum {string}
+             */
+            locale: "fr" | "en";
+            /**
+             * Consent
+             * @constant
+             */
+            consent: true;
+            /**
+             * Website
+             * @default
+             */
+            website: string;
+        };
+        /** QuoteRequestOut */
+        QuoteRequestOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            lead: components["schemas"]["LeadSummary"];
+            /** Opportunity Id */
+            opportunity_id: string | null;
+            /** Service */
+            service: string | null;
+            /** Need */
+            need: string;
+            /**
+             * Budget
+             * @enum {string}
+             */
+            budget: "lt_10k" | "10k_30k" | "30k_100k" | "gt_100k" | "unknown";
+            /**
+             * Timeline
+             * @enum {string}
+             */
+            timeline: "asap" | "within_3_months" | "within_6_months" | "unknown";
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "new" | "in_review" | "answered" | "declined";
+            /**
+             * Locale
+             * @enum {string}
+             */
+            locale: "fr" | "en";
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** QuoteRequestUpdate */
+        QuoteRequestUpdate: {
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "new" | "in_review" | "answered" | "declined";
+        };
         /** ReadinessResponse */
         ReadinessResponse: {
             /**
@@ -754,6 +1377,18 @@ export interface components {
          * @enum {string}
          */
         Role: "owner" | "admin" | "member" | "staff_admin" | "staff_editor" | "staff_sales";
+        /** StageTotal */
+        StageTotal: {
+            /**
+             * Stage
+             * @enum {string}
+             */
+            stage: "qualification" | "proposal" | "negotiation" | "won" | "lost";
+            /** Count */
+            count: number;
+            /** Amount */
+            amount: string;
+        };
         /** TranslationIn */
         TranslationIn: {
             /** Slug */
@@ -2137,6 +2772,825 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
                 };
+            };
+        };
+    };
+    "crm-create_quote_request": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QuoteRequestCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuoteRequestAccepted"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+            /** @description Too many requests from this client or email */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "crm-admin-list_leads": {
+        parameters: {
+            query?: {
+                status?: ("new" | "contacted" | "qualified" | "customer" | "unqualified") | null;
+                owner?: "me" | "unassigned" | "any";
+                q?: string | null;
+                page?: number;
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeadPage"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-create_lead": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LeadCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeadDetail"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description A prospect already uses this email address */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-get_lead": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lead_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeadDetail"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-delete_lead": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lead_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-update_lead": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lead_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LeadUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeadDetail"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-set_owner": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lead_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OwnerUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeadDetail"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description This person cannot be assigned prospects */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "crm-admin-add_activity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                lead_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ActivityCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LeadDetail"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-list_team": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Person"][];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "crm-admin-list_opportunities": {
+        parameters: {
+            query?: {
+                owner?: "me" | "unassigned" | "any";
+                closed_within_days?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OpportunityOut"][];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-create_opportunity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpportunityCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OpportunityOut"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-update_opportunity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                opportunity_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpportunityUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OpportunityOut"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-list_quote_requests": {
+        parameters: {
+            query?: {
+                status?: ("new" | "in_review" | "answered" | "declined") | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuoteRequestOut"][];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-update_quote_request": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                quote_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QuoteRequestUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuoteRequestOut"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-dashboard": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Dashboard"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "crm-admin-inbox": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Inbox"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

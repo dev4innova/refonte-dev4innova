@@ -1466,10 +1466,1100 @@
           }
         }
       }
+    },
+    "/api/v1/quote-requests": {
+      "post": {
+        "tags": [
+          "crm"
+        ],
+        "summary": "Ask for a quote from the website (public)",
+        "operationId": "crm-create_quote_request",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuoteRequestCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteRequestAccepted"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests from this client or email"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/crm/leads": {
+      "get": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Search prospects",
+        "operationId": "crm-admin-list_leads",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "new",
+                    "contacted",
+                    "qualified",
+                    "customer",
+                    "unqualified"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "owner",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "me",
+                "unassigned",
+                "any"
+              ],
+              "type": "string",
+              "default": "any",
+              "title": "Owner"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 25,
+              "title": "Page Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Create a prospect",
+        "operationId": "crm-admin-create_lead",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeadCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "409": {
+            "description": "A prospect already uses this email address"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/crm/leads/{lead_id}": {
+      "get": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Prospect and history",
+        "operationId": "crm-admin-get_lead",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lead_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Lead Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Update a prospect",
+        "operationId": "crm-admin-update_lead",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lead_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Lead Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeadUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Erase a prospect and its history (GDPR)",
+        "operationId": "crm-admin-delete_lead",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lead_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Lead Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/crm/leads/{lead_id}/owner": {
+      "put": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Assign a prospect to a sales person (or unassign it)",
+        "operationId": "crm-admin-set_owner",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lead_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Lead Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OwnerUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "This person cannot be assigned prospects"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/crm/leads/{lead_id}/activities": {
+      "post": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Log a note, call, email or meeting",
+        "operationId": "crm-admin-add_activity",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lead_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Lead Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/crm/team": {
+      "get": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Staff who can own prospects",
+        "operationId": "crm-admin-list_team",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Person"
+                  },
+                  "type": "array",
+                  "title": "Response Crm-Admin-List Team"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/crm/opportunities": {
+      "get": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Pipeline opportunities",
+        "operationId": "crm-admin-list_opportunities",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "owner",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "me",
+                "unassigned",
+                "any"
+              ],
+              "type": "string",
+              "default": "any",
+              "title": "Owner"
+            }
+          },
+          {
+            "name": "closed_within_days",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 365,
+              "minimum": 0,
+              "default": 30,
+              "title": "Closed Within Days"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OpportunityOut"
+                  },
+                  "title": "Response Crm-Admin-List Opportunities"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Open an opportunity for a prospect",
+        "operationId": "crm-admin-create_opportunity",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OpportunityCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpportunityOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/crm/opportunities/{opportunity_id}": {
+      "patch": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Update an opportunity or move it to another stage",
+        "operationId": "crm-admin-update_opportunity",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "opportunity_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Opportunity Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OpportunityUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpportunityOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/crm/quote-requests": {
+      "get": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Quotes",
+        "operationId": "crm-admin-list_quote_requests",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "new",
+                    "in_review",
+                    "answered",
+                    "declined"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QuoteRequestOut"
+                  },
+                  "title": "Response Crm-Admin-List Quote Requests"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/crm/quote-requests/{quote_id}": {
+      "patch": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Follow up a quote",
+        "operationId": "crm-admin-update_quote_request",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuoteRequestUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteRequestOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/crm/dashboard": {
+      "get": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Sales dashboard",
+        "operationId": "crm-admin-dashboard",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dashboard"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/crm/inbox": {
+      "get": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "New prospects and quote requests",
+        "operationId": "crm-admin-inbox",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Inbox"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
     }
   },
   "components": {
     "schemas": {
+      "ActivityCreate": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "note",
+              "call",
+              "email",
+              "meeting"
+            ],
+            "title": "Type"
+          },
+          "body": {
+            "type": "string",
+            "maxLength": 5000,
+            "minLength": 1,
+            "title": "Body"
+          },
+          "occurred_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Occurred At"
+          },
+          "opportunity_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opportunity Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "body"
+        ],
+        "title": "ActivityCreate"
+      },
+      "ActivityOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "note",
+              "call",
+              "email",
+              "meeting",
+              "contact_message",
+              "quote_request",
+              "status_change",
+              "stage_change",
+              "assignment"
+            ],
+            "title": "Type"
+          },
+          "body": {
+            "type": "string",
+            "title": "Body"
+          },
+          "details": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Details"
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Occurred At"
+          },
+          "author": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Person"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "opportunity_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opportunity Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "body",
+          "details",
+          "occurred_at",
+          "author",
+          "opportunity_id"
+        ],
+        "title": "ActivityOut"
+      },
       "Body_cms-admin-upload_media": {
         "properties": {
           "file": {
@@ -1576,6 +2666,85 @@
           "consent"
         ],
         "title": "ContactRequestCreate"
+      },
+      "Dashboard": {
+        "properties": {
+          "leads_by_status": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Leads By Status"
+          },
+          "new_leads_30_days": {
+            "type": "integer",
+            "title": "New Leads 30 Days"
+          },
+          "leads_by_source_30_days": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Leads By Source 30 Days"
+          },
+          "unassigned_open_leads": {
+            "type": "integer",
+            "title": "Unassigned Open Leads"
+          },
+          "my_open_leads": {
+            "type": "integer",
+            "title": "My Open Leads"
+          },
+          "new_quote_requests": {
+            "type": "integer",
+            "title": "New Quote Requests"
+          },
+          "pipeline": {
+            "items": {
+              "$ref": "#/components/schemas/StageTotal"
+            },
+            "type": "array",
+            "title": "Pipeline"
+          },
+          "open_pipeline_amount": {
+            "type": "string",
+            "title": "Open Pipeline Amount"
+          },
+          "won_90_days": {
+            "$ref": "#/components/schemas/StageTotal"
+          },
+          "lost_90_days": {
+            "type": "integer",
+            "title": "Lost 90 Days"
+          },
+          "win_rate_90_days": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Win Rate 90 Days"
+          }
+        },
+        "type": "object",
+        "required": [
+          "leads_by_status",
+          "new_leads_30_days",
+          "leads_by_source_30_days",
+          "unassigned_open_leads",
+          "my_open_leads",
+          "new_quote_requests",
+          "pipeline",
+          "open_pipeline_amount",
+          "won_90_days",
+          "lost_90_days",
+          "win_rate_90_days"
+        ],
+        "title": "Dashboard",
+        "description": "Sales figures, in EUR"
       },
       "DependencyCheck": {
         "properties": {
@@ -1919,6 +3088,393 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "Inbox": {
+        "properties": {
+          "new_leads": {
+            "type": "integer",
+            "title": "New Leads"
+          },
+          "new_quote_requests": {
+            "type": "integer",
+            "title": "New Quote Requests"
+          }
+        },
+        "type": "object",
+        "required": [
+          "new_leads",
+          "new_quote_requests"
+        ],
+        "title": "Inbox",
+        "description": "What needs attention, for the back-office navigation badge."
+      },
+      "LeadCreate": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Name"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 160
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "fr",
+              "en"
+            ],
+            "title": "Locale",
+            "default": "fr"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "name"
+        ],
+        "title": "LeadCreate"
+      },
+      "LeadDetail": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "new",
+              "contacted",
+              "qualified",
+              "customer",
+              "unqualified"
+            ],
+            "title": "Status"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "contact_form",
+              "quote_request",
+              "manual"
+            ],
+            "title": "Source"
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Person"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "last_activity_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Activity At"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "fr",
+              "en"
+            ],
+            "title": "Locale"
+          },
+          "activities": {
+            "items": {
+              "$ref": "#/components/schemas/ActivityOut"
+            },
+            "type": "array",
+            "title": "Activities"
+          },
+          "opportunities": {
+            "items": {
+              "$ref": "#/components/schemas/OpportunityOut"
+            },
+            "type": "array",
+            "title": "Opportunities"
+          },
+          "quote_requests": {
+            "items": {
+              "$ref": "#/components/schemas/QuoteRequestOut"
+            },
+            "type": "array",
+            "title": "Quote Requests"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "name",
+          "company",
+          "status",
+          "source",
+          "owner",
+          "last_activity_at",
+          "created_at",
+          "phone",
+          "locale",
+          "activities",
+          "opportunities",
+          "quote_requests"
+        ],
+        "title": "LeadDetail"
+      },
+      "LeadPage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/LeadSummary"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size"
+        ],
+        "title": "LeadPage"
+      },
+      "LeadSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "new",
+              "contacted",
+              "qualified",
+              "customer",
+              "unqualified"
+            ],
+            "title": "Status"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "contact_form",
+              "quote_request",
+              "manual"
+            ],
+            "title": "Source"
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Person"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "last_activity_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Activity At"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "name",
+          "company",
+          "status",
+          "source",
+          "owner",
+          "last_activity_at",
+          "created_at"
+        ],
+        "title": "LeadSummary"
+      },
+      "LeadUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 120,
+                "minLength": 2
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 160
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "locale": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "fr",
+                  "en"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Locale"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "new",
+                  "contacted",
+                  "qualified",
+                  "customer",
+                  "unqualified"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "title": "LeadUpdate"
+      },
       "LivenessResponse": {
         "properties": {
           "status": {
@@ -2234,6 +3790,259 @@
         ],
         "title": "MembershipSummary"
       },
+      "OpportunityCreate": {
+        "properties": {
+          "lead_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Lead Id"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 2,
+            "title": "Title"
+          },
+          "stage": {
+            "type": "string",
+            "enum": [
+              "qualification",
+              "proposal",
+              "negotiation",
+              "won",
+              "lost"
+            ],
+            "title": "Stage",
+            "default": "qualification"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "const": "EUR",
+            "title": "Currency",
+            "default": "EUR"
+          },
+          "expected_close_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Close On"
+          }
+        },
+        "type": "object",
+        "required": [
+          "lead_id",
+          "title"
+        ],
+        "title": "OpportunityCreate"
+      },
+      "OpportunityOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "lead": {
+            "$ref": "#/components/schemas/LeadSummary"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "stage": {
+            "type": "string",
+            "enum": [
+              "qualification",
+              "proposal",
+              "negotiation",
+              "won",
+              "lost"
+            ],
+            "title": "Stage"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount"
+          },
+          "currency": {
+            "type": "string",
+            "const": "EUR",
+            "title": "Currency"
+          },
+          "expected_close_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Close On"
+          },
+          "closed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Closed At"
+          },
+          "owner": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Person"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "lead",
+          "title",
+          "stage",
+          "amount",
+          "currency",
+          "expected_close_on",
+          "closed_at",
+          "owner",
+          "updated_at"
+        ],
+        "title": "OpportunityOut"
+      },
+      "OpportunityUpdate": {
+        "properties": {
+          "title": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 2
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "qualification",
+                  "proposal",
+                  "negotiation",
+                  "won",
+                  "lost"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stage"
+          },
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount"
+          },
+          "clear_amount": {
+            "type": "boolean",
+            "title": "Clear Amount",
+            "default": false
+          },
+          "expected_close_on": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Close On"
+          },
+          "clear_expected_close_on": {
+            "type": "boolean",
+            "title": "Clear Expected Close On",
+            "default": false
+          },
+          "owner_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Owner Id"
+          },
+          "clear_owner": {
+            "type": "boolean",
+            "title": "Clear Owner",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "OpportunityUpdate"
+      },
       "OrganizationCreate": {
         "properties": {
           "name": {
@@ -2323,6 +4132,27 @@
         ],
         "title": "OrganizationWithRole"
       },
+      "OwnerUpdate": {
+        "properties": {
+          "owner_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Owner Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "owner_id"
+        ],
+        "title": "OwnerUpdate"
+      },
       "Permission": {
         "type": "string",
         "enum": [
@@ -2333,9 +4163,52 @@
           "content:read",
           "content:write",
           "content:publish",
-          "media:manage"
+          "media:manage",
+          "crm:read",
+          "crm:write",
+          "crm:assign",
+          "crm:delete"
         ],
         "title": "Permission"
+      },
+      "Person": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "display_name",
+          "email"
+        ],
+        "title": "Person",
+        "description": "A staff member, as shown next to the records they own or wrote."
       },
       "PreviewIn": {
         "properties": {
@@ -2565,6 +4438,252 @@
         ],
         "title": "PublicImage"
       },
+      "QuoteRequestAccepted": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "QuoteRequestAccepted"
+      },
+      "QuoteRequestCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 160
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone"
+          },
+          "service": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 120,
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Service"
+          },
+          "need": {
+            "type": "string",
+            "maxLength": 5000,
+            "minLength": 20,
+            "title": "Need"
+          },
+          "budget": {
+            "type": "string",
+            "enum": [
+              "lt_10k",
+              "10k_30k",
+              "30k_100k",
+              "gt_100k",
+              "unknown"
+            ],
+            "title": "Budget",
+            "default": "unknown"
+          },
+          "timeline": {
+            "type": "string",
+            "enum": [
+              "asap",
+              "within_3_months",
+              "within_6_months",
+              "unknown"
+            ],
+            "title": "Timeline",
+            "default": "unknown"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "fr",
+              "en"
+            ],
+            "title": "Locale",
+            "default": "fr"
+          },
+          "consent": {
+            "type": "boolean",
+            "const": true,
+            "title": "Consent"
+          },
+          "website": {
+            "type": "string",
+            "maxLength": 200,
+            "title": "Website",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "need",
+          "consent"
+        ],
+        "title": "QuoteRequestCreate"
+      },
+      "QuoteRequestOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "lead": {
+            "$ref": "#/components/schemas/LeadSummary"
+          },
+          "opportunity_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opportunity Id"
+          },
+          "service": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Service"
+          },
+          "need": {
+            "type": "string",
+            "title": "Need"
+          },
+          "budget": {
+            "type": "string",
+            "enum": [
+              "lt_10k",
+              "10k_30k",
+              "30k_100k",
+              "gt_100k",
+              "unknown"
+            ],
+            "title": "Budget"
+          },
+          "timeline": {
+            "type": "string",
+            "enum": [
+              "asap",
+              "within_3_months",
+              "within_6_months",
+              "unknown"
+            ],
+            "title": "Timeline"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "new",
+              "in_review",
+              "answered",
+              "declined"
+            ],
+            "title": "Status"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "fr",
+              "en"
+            ],
+            "title": "Locale"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "lead",
+          "opportunity_id",
+          "service",
+          "need",
+          "budget",
+          "timeline",
+          "status",
+          "locale",
+          "created_at"
+        ],
+        "title": "QuoteRequestOut"
+      },
+      "QuoteRequestUpdate": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "new",
+              "in_review",
+              "answered",
+              "declined"
+            ],
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "QuoteRequestUpdate"
+      },
       "ReadinessResponse": {
         "properties": {
           "status": {
@@ -2601,6 +4720,36 @@
           "staff_sales"
         ],
         "title": "Role"
+      },
+      "StageTotal": {
+        "properties": {
+          "stage": {
+            "type": "string",
+            "enum": [
+              "qualification",
+              "proposal",
+              "negotiation",
+              "won",
+              "lost"
+            ],
+            "title": "Stage"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "amount": {
+            "type": "string",
+            "title": "Amount"
+          }
+        },
+        "type": "object",
+        "required": [
+          "stage",
+          "count",
+          "amount"
+        ],
+        "title": "StageTotal"
       },
       "TranslationIn": {
         "properties": {

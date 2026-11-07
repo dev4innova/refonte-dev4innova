@@ -33,6 +33,12 @@ class Permission(StrEnum):
     CONTENT_WRITE = "content:write"
     CONTENT_PUBLISH = "content:publish"
     MEDIA_MANAGE = "media:manage"
+    # CRM (EPIC 07), only meaningful in the internal DEV4INNOVA organization
+    CRM_READ = "crm:read"
+    CRM_WRITE = "crm:write"
+    CRM_ASSIGN = "crm:assign"
+    CRM_DELETE = "crm:delete"
+    """Erase a prospect and its history (GDPR right to erasure)."""
 
 
 _READ: Final = frozenset({Permission.ORGANIZATION_READ, Permission.MEMBERS_READ})
@@ -45,6 +51,7 @@ _CONTENT_ALL: Final = frozenset(
         Permission.MEDIA_MANAGE,
     }
 )
+_CRM_SALES: Final = frozenset({Permission.CRM_READ, Permission.CRM_WRITE, Permission.CRM_ASSIGN})
 _ALL: Final = frozenset(Permission)
 
 ROLE_PERMISSIONS: Final[dict[Role, frozenset[Permission]]] = {
@@ -53,7 +60,7 @@ ROLE_PERMISSIONS: Final[dict[Role, frozenset[Permission]]] = {
     Role.MEMBER: _READ,
     Role.STAFF_ADMIN: _ALL,
     Role.STAFF_EDITOR: _READ | _CONTENT_ALL,
-    Role.STAFF_SALES: _READ | {Permission.CONTENT_READ},
+    Role.STAFF_SALES: _READ | _CRM_SALES | {Permission.CONTENT_READ},
 }
 
 STAFF_ROLES: Final = frozenset({Role.STAFF_ADMIN, Role.STAFF_EDITOR, Role.STAFF_SALES})

@@ -72,10 +72,11 @@ async def client(storage: ObjectStorage) -> AsyncIterator[AsyncClient]:
             "DELETE FROM cms_documents WHERE NOT (type = 'service' AND created_by_id IS NULL)",
             "UPDATE cms_documents SET cover_media_id = NULL",
             "DELETE FROM cms_media",
+            "DELETE FROM contact_requests",
+            "DELETE FROM crm_leads",  # cascades to opportunities, activities, quote requests
             "DELETE FROM memberships",
             "DELETE FROM organizations WHERE kind <> 'internal'",
             "DELETE FROM users",
-            "DELETE FROM contact_requests",
         ):
             await conn.execute(text(statement))
     await dispose_engine()

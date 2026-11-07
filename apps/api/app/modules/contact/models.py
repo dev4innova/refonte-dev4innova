@@ -1,12 +1,14 @@
 """Inbound contact requests from the public website (TASK-055, TASK-057).
 
-Not tenant-scoped: these are leads addressed to DEV4INNOVA itself. The CRM (EPIC 07) will
-turn them into prospects of the internal organization, which does not exist yet.
+Not tenant-scoped: the raw messages addressed to DEV4INNOVA itself, kept as the proof of
+consent. Each one also creates or updates a prospect of the internal organization in the
+CRM (EPIC 07), linked by `lead_id`.
 """
 
+import uuid
 from datetime import datetime
 
-from sqlalchemy import CheckConstraint, DateTime, String, Text
+from sqlalchemy import CheckConstraint, DateTime, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base, TimestampMixin, UUIDPrimaryKeyMixin
@@ -36,3 +38,7 @@ class ContactRequest(UUIDPrimaryKeyMixin, TimestampMixin, Base):
     consent_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     """When the person accepted the privacy notice (GDPR proof of consent)."""
     status: Mapped[str] = mapped_column(String(20), default="new", server_default="new")
+    lead_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("crm_leads.id", ondelete="SET NULL"), index=True
+    )
+    """The CRM prospect created or updated from this message."""
