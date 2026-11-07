@@ -172,6 +172,21 @@ la durée de conservation des demandes de contact et l'alerte e-mail à l'équip
 TASK-058 modèles CMS → TASK-059 traductions → TASK-060 interface admin → TASK-061 pages ·
 TASK-062 articles · TASK-063 services · TASK-064 projets · TASK-065 médias · TASK-066 SEO.
 
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-058 | Tables `cms_documents`, `cms_document_translations`, `cms_media` (migration 0004), organisation interne DEV4INNOVA, rôles `staff_*` | ✅ |
+| TASK-059 | Traductions FR/EN par document (slug par langue, langue requise à la publication), bascule de langue vers le slug traduit | ✅ |
+| TASK-060 | Back-office `/admin` : tableau de bord, listes, éditeur Markdown + aperçu, publication ; `make grant-staff` | ✅ |
+| TASK-061 | Pages libres : mentions légales et confidentialité servies par le CMS (en attente et non indexées tant qu'elles ne sont pas publiées) | ✅ |
+| TASK-062 | Articles : `/insights` et `/insights/[slug]` | ✅ |
+| TASK-063 | Services : 5 services repris dans le CMS (migration), accueil et `/services` | ✅ |
+| TASK-064 | Projets : `/portfolio` et `/portfolio/[slug]` (secteur, client) | ✅ |
+| TASK-065 | Médiathèque : envoi d'images ré-encodées vers S3 (MinIO en local), textes alternatifs FR/EN, couvertures | ✅ |
+| TASK-066 | SEO par langue (titre, description), canonique et `hreflang` des slugs traduits, `sitemap.xml` dynamique | ✅ |
+
+**À prévoir** : choisir le stockage objet de production (EPIC 13), publier les mentions
+légales et la politique de confidentialité, donner le rôle `staff_editor` aux rédacteurs.
+
 ### EPIC 07 — CRM & Leads (P1)
 TASK-067 prospects → TASK-068 activités · TASK-069 pipeline · TASK-070 attribution ·
 TASK-071 tableau de bord · TASK-072 demandes de devis.
