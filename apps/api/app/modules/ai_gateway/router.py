@@ -1,18 +1,15 @@
-import json
 import uuid
-from collections.abc import AsyncIterator
-from typing import Annotated, Any
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, Response, status
 from fastapi.responses import StreamingResponse
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.errors import AppError
 from app.core.redis import get_redis
 from app.db.session import get_session
-from app.modules.ai_gateway import admin, gateway
-from app.modules.ai_gateway.providers.base import ChatMessage, TextDelta
+from app.modules.ai_gateway import admin, gateway, sse
+from app.modules.ai_gateway.providers.base import ChatMessage
 from app.modules.ai_gateway.schemas import (
     ModelIn,
     ModelOut,
@@ -136,32 +133,6 @@ async def set_quota(
 # --- Playground (TASK-079) -----------------------------------------------------------
 
 
-def _sse(event: str, data: dict[str, Any]) -> bytes:
-    return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n".encode()
-
-
-async def _events(call: gateway.PreparedCall) -> AsyncIterator[bytes]:
-    try:
-        async for event in gateway.run(call):
-            if isinstance(event, TextDelta):
-                yield _sse("delta", {"text": event.text})
-            else:
-                yield _sse(
-                    "done",
-                    {
-                        "input_tokens": event.input_tokens,
-                        "output_tokens": event.output_tokens,
-                        "cost_eur": str(event.cost_eur),
-                        "stop_reason": event.stop_reason,
-                        "served_model": event.served_model,
-                        "latency_ms": event.latency_ms,
-                    },
-                )
-    except AppError as error:
-        # Headers are already sent: the error travels as the last event.
-        yield _sse("error", {"code": error.code, "message": error.message})
-
-
 @router.post(
     "/playground",
     summary="Try a model or a prompt (Server-Sent Events: delta, done, error)",
@@ -193,7 +164,7 @@ async def playground(
         max_tokens=data.max_tokens,
     )
     return StreamingResponse(
-        _events(call),
+        sse.events(gateway.run(call), with_costs=True),
         media_type="text/event-stream",
-        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+        headers=sse.SSE_HEADERS,
     )
