@@ -45,11 +45,17 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
 - Quotas IA par organisation et par utilisateur (TASK-081) ; coût maximal par requête borné.
 
 ## IA (AI Gateway)
-- Les clés Anthropic/OpenAI/Gemini ne sortent jamais du backend.
+- Les clés Anthropic/OpenAI/Gemini ne sortent jamais du backend. Le bac à sable du back-office
+  passe par une route Next.js même origine qui relaie le flux SSE avec le jeton de session
+  (`/api/admin/ai/playground`) : ni clé ni jeton n'atteignent le navigateur.
 - Traiter toute sortie de modèle comme non fiable : pas d'exécution, pas de rendu HTML non
   sanitisé, pas d'action à privilège déclenchée sans validation.
 - Défense contre l'injection de prompt : séparer instructions système et contenu utilisateur,
-  ne pas exposer de données d'autres organisations dans le contexte.
+  ne pas exposer de données d'autres organisations dans le contexte. Les variables des prompts
+  versionnés ne sont autorisées que dans le gabarit du message utilisateur, jamais dans les
+  instructions (refusé par l'API). Sorties de modèle affichées en texte brut, jamais en HTML.
+- Coût borné : chaque appel est refusé avant l'appel fournisseur si son coût maximal possible
+  dépasse le budget mensuel restant de l'organisation (ADR-0012).
 - Ne pas envoyer de données personnelles ou confidentielles à un fournisseur sans base
   légale et sans que l'organisation l'ait accepté. Journaliser l'usage (tokens, coût), pas
   le contenu sensible.

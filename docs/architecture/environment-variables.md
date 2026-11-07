@@ -29,6 +29,13 @@ Lues par `app/core/config.py` (pydantic-settings). Une variable obligatoire abse
 | `MEDIA_S3_REGION` | non | `fr-par` | région du stockage objet |
 | `MEDIA_S3_ACCESS_KEY_ID` / `MEDIA_S3_SECRET_ACCESS_KEY` | pour les médias | — | identifiants du stockage objet (**secret**) |
 | `MEDIA_PUBLIC_BASE_URL` | non | `http://localhost:9000/dev4innova-media` | URL publique des fichiers (bucket public en lecture ou CDN) ; seules ces images sont acceptées dans le Markdown |
+| `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` / `GEMINI_API_KEY` | pour l'IA | — | clés des fournisseurs (**secret**, backend uniquement) ; sans clé, le fournisseur est « non configuré » (503) |
+| `ANTHROPIC_BASE_URL` / `OPENAI_BASE_URL` / `GEMINI_BASE_URL` | non | — | uniquement pour viser un fournisseur simulé ou un proxy |
+| `AI_REQUEST_TIMEOUT_SECONDS` | non | `120` | délai maximal d'un appel fournisseur |
+| `AI_EUR_PER_USD` | non | `0.86` | taux de conversion des prix (USD) vers les budgets (EUR) ; **à tenir à jour** |
+| `AI_DEFAULT_MONTHLY_BUDGET_EUR` | non | `20` | budget IA mensuel d'une organisation sans budget spécifique |
+| `AI_USER_REQUESTS_PER_MINUTE` | non | `20` | appels IA par utilisateur et par minute |
+| `AI_ENABLE_SIMULATED_PROVIDER` | non | `false` | fournisseur « simulation » hors ligne (développement local, jamais en production) |
 | `MEDIA_MAX_BYTES` | non | `5242880` | taille maximale d'une image envoyée |
 
 Tests : `TEST_DATABASE_URL` et `TEST_REDIS_URL` remplacent les valeurs par défaut de `tests/conftest.py`

@@ -209,6 +209,23 @@ TASK-073 contrat fournisseur → TASK-074 Anthropic · TASK-075 OpenAI · TASK-0
 TASK-077 registre des modèles · TASK-078 prompts · TASK-079 streaming · TASK-080 tokens et coûts ·
 TASK-081 quotas · TASK-082 tests des fournisseurs.
 
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-073 | Contrat `AIProvider` : flux de texte, usage, raison d'arrêt et erreurs normalisés ; instructions séparées du contenu | ✅ |
+| TASK-074 | Adaptateur Anthropic (SDK `anthropic`, streaming, `effort`, repli serveur en cas de refus) | ✅ |
+| TASK-075 | Adaptateur OpenAI (SDK `openai`, Chat Completions en streaming avec usage) | ✅ |
+| TASK-076 | Adaptateur Gemini (SDK `google-genai`, streaming asynchrone) | ✅ |
+| TASK-077 | Registre des modèles en base (prix, plafonds, options, défaut) ; Claude Opus 5.5 / Sonnet 5.5 / Haiku 5.5 amorcés ; écran d'administration | ✅ |
+| TASK-078 | Prompts versionnés (clé, versions immuables, activation, retour arrière, variables dans le gabarit uniquement) | ✅ |
+| TASK-079 | Streaming SSE de bout en bout : API → route Next.js même origine → navigateur (bac à sable, arrêt possible) | ✅ |
+| TASK-080 | Journal d'usage sans contenu : tokens, coûts USD/EUR, latence, statut ; rapport mensuel par organisation et par modèle | ✅ |
+| TASK-081 | Budgets mensuels en € par organisation (coût maximal par appel vérifié avant l'appel) et limite par utilisateur | ✅ |
+| TASK-082 | Tests de contrat : vrais SDK contre des fournisseurs simulés (flux, usage, refus, 401/429/500, réseau) | ✅ |
+
+**À prévoir** : renseigner les clés des fournisseurs (secrets de déploiement), ajouter les
+modèles OpenAI / Gemini souhaités avec leurs prix du moment, tenir à jour `AI_EUR_PER_USD`,
+fixer les budgets des organisations clientes avant l'ouverture des expériences IA (EPIC 09).
+
 ### EPIC 09 — AI Experiences (P2)
 TASK-083 AI Assistant · TASK-084 Document Analyzer · TASK-085 Content Generator ·
 TASK-086 sessions · TASK-087 historiques · TASK-088 limitation des abus.

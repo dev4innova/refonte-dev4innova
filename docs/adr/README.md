@@ -19,3 +19,4 @@ Statuts : **Proposé** → **Accepté** (validé par le responsable du projet) �
 | [0009](0009-identity-provider.md) | Fournisseur d'identité : Zitadel Cloud | Accepté |
 | [0010](0010-cms-and-media-storage.md) | CMS intégré, Markdown et stockage objet des médias | Proposé |
 | [0011](0011-crm.md) | CRM intégré : prospects, opportunités et demandes de devis | Proposé |
+| [0012](0012-ai-gateway-implementation.md) | AI Gateway : budgets en euros, prompts versionnés, exposition interne | Proposé |
