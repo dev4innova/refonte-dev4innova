@@ -57,6 +57,8 @@ test.describe("back office", () => {
     ["/fr/admin", "%2Ffr%2Fadmin"],
     ["/en/admin/content/article", "%2Fen%2Fadmin%2Fcontent%2Farticle"],
     ["/fr/admin/media", "%2Ffr%2Fadmin%2Fmedia"],
+    ["/fr/admin/crm", "%2Ffr%2Fadmin%2Fcrm"],
+    ["/en/admin/crm/leads", "%2Fen%2Fadmin%2Fcrm%2Fleads"],
   ] as const) {
     test(`${path} sends anonymous visitors to sign-in`, async ({ request }) => {
       const response = await request.get(path, { maxRedirects: 0 });

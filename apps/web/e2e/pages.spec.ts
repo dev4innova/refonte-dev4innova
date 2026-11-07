@@ -16,6 +16,7 @@ const PAGES: { fr: string; en: string }[] = [
   { fr: "/fr/portfolio", en: "/en/portfolio" },
   { fr: "/fr/insights", en: "/en/insights" },
   { fr: "/fr/contact", en: "/en/contact" },
+  { fr: "/fr/devis", en: "/en/quote" },
 ];
 
 test.beforeEach(({}, testInfo) => {

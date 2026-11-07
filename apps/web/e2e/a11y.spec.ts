@@ -20,6 +20,7 @@ const PAGES = [
   "/en/insights",
   "/fr/contact",
   "/fr/mentions-legales",
+  "/fr/devis",
 ];
 
 for (const path of PAGES) {
