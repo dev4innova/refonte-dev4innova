@@ -6,7 +6,7 @@ import type * as React from "react";
 
 import { Section } from "@/components/layout/section";
 import { Breadcrumb } from "@/components/marketing/breadcrumb";
-import { CtaBand } from "@/components/marketing/cta-band";
+import { CtaBand, type CtaBandProps } from "@/components/marketing/cta-band";
 import { PageHeader } from "@/components/marketing/page-header";
 import { getPathname, redirect } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
@@ -61,7 +61,13 @@ type CmsDetailProps = {
   params: Promise<{ locale: Locale; slug: string }>;
   /** Section name in the breadcrumb and eyebrow, e.g. "Insights". */
   sectionLabel: string;
-  cta: { title: string; text: string; actionLabel: string };
+  cta: {
+    title: string;
+    text: string;
+    actionLabel: string;
+    /** Second action, built from the content (e.g. a quote request for this service). */
+    secondary?: (content: Content) => CtaBandProps["secondary"];
+  };
   /** Extra content under the body (e.g. related items). */
   children?: (content: Content) => React.ReactNode;
 };
@@ -120,7 +126,12 @@ export async function CmsDetail({ type, pathname, params, sectionLabel, cta, chi
         <Prose html={content.body_html} />
       </Section>
       {children?.(content)}
-      <CtaBand title={cta.title} text={cta.text} actionLabel={cta.actionLabel} />
+      <CtaBand
+        title={cta.title}
+        text={cta.text}
+        actionLabel={cta.actionLabel}
+        secondary={cta.secondary?.(content)}
+      />
     </>
   );
 }

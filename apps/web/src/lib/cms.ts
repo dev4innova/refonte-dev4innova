@@ -3,7 +3,7 @@ import "server-only";
 import type { components } from "@dev4innova/api-client";
 import { cacheLife, cacheTag } from "next/cache";
 
-import type { Locale } from "@/i18n/routing";
+import { type Locale, routing } from "@/i18n/routing";
 import { serverApi } from "@/lib/api";
 
 /*
@@ -54,6 +54,8 @@ async function fetchOne(
 
 /** Published contents of a type, in display order. Empty when the API is unavailable. */
 export async function getContentList(type: ContentType, locale: Locale): Promise<ContentSummary[]> {
+  // Requests such as /favicon.ico reach the [locale] segment before it answers 404.
+  if (!routing.locales.includes(locale)) return [];
   try {
     return await fetchList(type, locale);
   } catch {
@@ -67,6 +69,7 @@ export async function getContent(
   locale: Locale,
   slug: string,
 ): Promise<Content | null> {
+  if (!routing.locales.includes(locale)) return null;
   try {
     return await fetchOne(type, locale, slug);
   } catch {

@@ -90,6 +90,7 @@ mouvements, toutes les animations et transitions sont neutralisées globalement.
 | `Button` | `ui/button.tsx` | variantes `primary`, `secondary`, `outline`, `ghost`, `link`, `inverse` ; tailles `sm`, `md`, `lg`, `icon` ; `asChild` pour les liens ; `loading` (`aria-busy`) |
 | `Card` (+ `Header`, `Title`, `Description`, `Content`, `Footer`) | `ui/card.tsx` | variantes `default`, `elevated`, `inverse` ; `interactive` ; niveau de titre réglable (`as`) |
 | `Input`, `Textarea`, `Label`, `Checkbox` | `ui/*.tsx` | bordures ≥ 3:1, état `aria-invalid` stylé |
+| `NativeSelect` | `ui/native-select.tsx` | `<select>` natif au style des champs, utilisable dans `FormField` |
 | `FormField` | `ui/form-field.tsx` | relie label, description et erreur (`aria-describedby`, `aria-invalid`, `aria-required`, `role="alert"`) |
 | `Sheet` | `ui/sheet.tsx` | panneau latéral (Radix Dialog) : focus piégé, Échap, retour du focus |
 | `Logo`, `LogoMark` | `brand/logo.tsx` | ampoule D4I vectorisée et logotype « Dev4Innova » (« 4 » rouge, soulignement rouge) |

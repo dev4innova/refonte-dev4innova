@@ -4,7 +4,8 @@ import { getMessages, getTranslations, setRequestLocale } from "next-intl/server
 
 import { Suspense } from "react";
 
-import { AdminNav, AdminNavView } from "@/components/admin/admin-nav";
+import { AdminNavView } from "@/components/admin/admin-nav";
+import { AdminNavLoader } from "@/components/admin/admin-nav-loader";
 import { Container } from "@/components/layout/container";
 import type { Locale } from "@/i18n/routing";
 
@@ -30,7 +31,7 @@ export default async function AdminLayout({ children, params }: Props) {
           {t("nav.label")}
         </p>
         <Suspense fallback={<AdminNavView pathname={null} />}>
-          <AdminNav />
+          <AdminNavLoader />
         </Suspense>
         {children}
       </Container>

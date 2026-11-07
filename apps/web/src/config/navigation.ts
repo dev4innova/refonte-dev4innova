@@ -44,6 +44,7 @@ export const footerNavigation: {
     links: [
       { href: "/about", labelKey: "about" },
       { href: "/contact", labelKey: "contact" },
+      { href: "/quote", labelKey: "quote" },
     ],
   },
 ];

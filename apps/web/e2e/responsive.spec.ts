@@ -15,6 +15,7 @@ const PAGES = [
   "/en/insights",
   "/fr/contact",
   "/fr/mentions-legales",
+  "/en/quote",
 ];
 const NAV = "Navigation principale";
 

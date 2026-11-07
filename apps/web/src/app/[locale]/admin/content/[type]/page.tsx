@@ -58,7 +58,7 @@ async function ContentList({ params }: Props) {
           {t("list.empty")}
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-border bg-card">
+        <div className="relative overflow-x-auto rounded-xl border border-border bg-card">
           <table className="w-full min-w-[36rem] text-left text-sm">
             <thead className="border-b border-border bg-muted text-muted-foreground">
               <tr>

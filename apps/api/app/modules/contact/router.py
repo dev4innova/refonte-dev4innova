@@ -12,6 +12,7 @@ from app.core.redis import get_redis
 from app.db.session import get_session
 from app.modules.contact.models import ContactRequest
 from app.modules.contact.schemas import ContactRequestAccepted, ContactRequestCreate
+from app.modules.crm.service import record_inbound
 
 router = APIRouter(prefix="/contact-requests", tags=["contact"])
 
@@ -73,5 +74,19 @@ async def create_contact_request(
         consent_at=datetime.now(UTC),
     )
     session.add(contact)
+    await session.flush()
+    # The message also creates or updates the CRM prospect of this address (TASK-067).
+    lead = await record_inbound(
+        session,
+        email=email,
+        name=data.name,
+        company=data.company or None,
+        locale=data.locale,
+        source="contact_form",
+        activity_type="contact_message",
+        body=data.message,
+        details={"topic": data.topic, "contact_request_id": str(contact.id)},
+    )
+    contact.lead_id = lead.id
     await session.commit()
     return ContactRequestAccepted(id=contact.id)
