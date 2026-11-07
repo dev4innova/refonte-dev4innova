@@ -74,11 +74,53 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.65.0-noble
       options: --user 1001
+    # The CMS pages (services, insights, portfolio, legal pages) read the API: run it with
+    # its database, migrated (the migrations seed the five services).
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: dev4innova
+          POSTGRES_PASSWORD: dev4innova
+          POSTGRES_DB: dev4innova
+        options: >-
+          --health-cmd "pg_isready -U dev4innova -d dev4innova"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s --health-timeout 3s --health-retries 10
     defaults:
       run:
         working-directory: apps/web
     steps:
       - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          version: ${{ env.UV_VERSION }}
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+      - name: Start the API
+        working-directory: apps/api
+        env:
+          DATABASE_URL: postgresql+asyncpg://dev4innova:dev4innova@postgres:5432/dev4innova
+          REDIS_URL: redis://redis:6379/0
+        run: |
+          uv sync --frozen --no-dev
+          uv run alembic upgrade head
+          nohup uv run uvicorn app.main:app --host 127.0.0.1 --port 8000 > "$RUNNER_TEMP/api.log" 2>&1 &
+          uv run python -c "
+          import time, urllib.request
+          for _ in range(30):
+              try:
+                  urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health/ready', timeout=2)
+                  break
+              except Exception:
+                  time.sleep(1)
+          else:
+              raise SystemExit('API not ready')
+          "
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with:
@@ -96,6 +138,9 @@ jobs:
           name: playwright-report
           path: apps/web/playwright-report
           retention-days: 14
+      - name: API logs
+        if: ${{ failure() }}
+        run: cat "$RUNNER_TEMP/api.log"
 
   api:
     name: API (lint, typecheck, test)
