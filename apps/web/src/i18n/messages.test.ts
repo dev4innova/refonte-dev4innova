@@ -1,3 +1,4 @@
+import { createTranslator } from "next-intl";
 import { describe, expect, it } from "vitest";
 
 import en from "../../messages/en.json";
@@ -38,12 +39,33 @@ describe("translation dictionaries", () => {
 
   it("uses the same ICU placeholders in both languages", () => {
     // `{name}` or `{name, plural, ...}`; plural branch texts (`=0 {no item}`) are not variables.
-    const placeholders = (s: string) => [...s.matchAll(/\{(\w+)\s*[,}]/g)].map((m) => m[1]).sort();
+    // ICU-quoted text ('{{name}}') is literal, not a variable.
+    const placeholders = (s: string) =>
+      [...s.replace(/'[{}][^']*'/g, "").matchAll(/\{(\w+)\s*[,}]/g)].map((m) => m[1]).sort();
     const mismatches = [...dictionaries.fr!].filter(
       ([key, value]) =>
         JSON.stringify(placeholders(value)) !==
         JSON.stringify(placeholders(dictionaries.en!.get(key) ?? "")),
     );
     expect(mismatches.map(([k]) => k)).toEqual([]);
+  });
+
+  it.each([
+    ["fr", fr],
+    ["en", en],
+  ] as const)("%s messages are all valid ICU and format without error", (locale, messages) => {
+    const failures: string[] = [];
+    const t = createTranslator({
+      locale,
+      messages,
+      onError: (error) => failures.push(error.message),
+    });
+    for (const [key, message] of dictionaries[locale]!) {
+      // Every variable gets the number 1: valid for text, numbers and plurals.
+      const names = message.replace(/'[{}][^']*'/g, "").matchAll(/\{(\w+)\s*[,}]/g);
+      const values = Object.fromEntries([...names].map((m) => [m[1], 1]));
+      t(key as Parameters<typeof t>[0], values);
+    }
+    expect(failures).toEqual([]);
   });
 });

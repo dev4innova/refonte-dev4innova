@@ -520,6 +520,161 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/ai/models": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Model registry */
+        get: operations["ai-admin-list_models"];
+        put?: never;
+        /** Add a model */
+        post: operations["ai-admin-create_model"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ai/models/{model_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update a model */
+        patch: operations["ai-admin-update_model"];
+        trace?: never;
+    };
+    "/api/v1/admin/ai/prompts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Prompts */
+        get: operations["ai-admin-list_prompts"];
+        put?: never;
+        /** Create a prompt (version 1, active) */
+        post: operations["ai-admin-create_prompt"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ai/prompts/{key}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Prompt and its versions */
+        get: operations["ai-admin-get_prompt"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ai/prompts/{key}/versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Save a new version (versions are immutable) */
+        post: operations["ai-admin-add_version"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ai/prompts/{key}/versions/{version}/activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Make a version the active one (or roll back) */
+        post: operations["ai-admin-activate_version"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ai/usage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Usage and costs of the month */
+        get: operations["ai-admin-usage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ai/quotas/{organization_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Set the monthly budget of an organization (null: default budget) */
+        put: operations["ai-admin-set_quota"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/ai/playground": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Try a model or a prompt (Server-Sent Events: delta, done, error) */
+        post: operations["ai-admin-playground"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1029,6 +1184,114 @@ export interface components {
             organization_slug: string;
             role: components["schemas"]["Role"];
         };
+        /** ModelIn */
+        ModelIn: {
+            /**
+             * Provider
+             * @enum {string}
+             */
+            provider: "anthropic" | "openai" | "gemini" | "simulated";
+            /** Model Id */
+            model_id: string;
+            /** Display Name */
+            display_name: string;
+            /** Input Price Usd Per Mtok */
+            input_price_usd_per_mtok: number | string;
+            /** Output Price Usd Per Mtok */
+            output_price_usd_per_mtok: number | string;
+            /** Context Window */
+            context_window: number;
+            /** Max Output Tokens */
+            max_output_tokens: number;
+            /** Options */
+            options?: {
+                [key: string]: string;
+            };
+            /**
+             * Is Enabled
+             * @default true
+             */
+            is_enabled: boolean;
+            /**
+             * Is Default
+             * @default false
+             */
+            is_default: boolean;
+        };
+        /** ModelOut */
+        ModelOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Provider
+             * @enum {string}
+             */
+            provider: "anthropic" | "openai" | "gemini" | "simulated";
+            /** Model Id */
+            model_id: string;
+            /** Display Name */
+            display_name: string;
+            /** Input Price Usd Per Mtok */
+            input_price_usd_per_mtok: string;
+            /** Output Price Usd Per Mtok */
+            output_price_usd_per_mtok: string;
+            /** Context Window */
+            context_window: number;
+            /** Max Output Tokens */
+            max_output_tokens: number;
+            /** Options */
+            options: {
+                [key: string]: unknown;
+            };
+            /** Is Enabled */
+            is_enabled: boolean;
+            /** Is Default */
+            is_default: boolean;
+            /**
+             * Provider Configured
+             * @default false
+             */
+            provider_configured: boolean;
+        };
+        /** ModelUpdate */
+        ModelUpdate: {
+            /** Display Name */
+            display_name?: string | null;
+            /** Input Price Usd Per Mtok */
+            input_price_usd_per_mtok?: number | string | null;
+            /** Output Price Usd Per Mtok */
+            output_price_usd_per_mtok?: number | string | null;
+            /** Context Window */
+            context_window?: number | null;
+            /** Max Output Tokens */
+            max_output_tokens?: number | null;
+            /** Options */
+            options?: {
+                [key: string]: string;
+            } | null;
+            /** Is Enabled */
+            is_enabled?: boolean | null;
+            /** Is Default */
+            is_default?: boolean | null;
+        };
+        /** ModelUsage */
+        ModelUsage: {
+            /** Provider */
+            provider: string;
+            /** Model */
+            model: string;
+            /** Calls */
+            calls: number;
+            /** Input Tokens */
+            input_tokens: number;
+            /** Output Tokens */
+            output_tokens: number;
+            /** Cost Eur */
+            cost_eur: string;
+        };
         /** OpportunityCreate */
         OpportunityCreate: {
             /**
@@ -1128,6 +1391,24 @@ export interface components {
             /** Name */
             name: string;
         };
+        /** OrganizationUsage */
+        OrganizationUsage: {
+            /**
+             * Organization Id
+             * Format: uuid
+             */
+            organization_id: string;
+            /** Organization Name */
+            organization_name: string;
+            /** Monthly Budget Eur */
+            monthly_budget_eur: string;
+            /** Has Specific Budget */
+            has_specific_budget: boolean;
+            /** Spent Eur */
+            spent_eur: string;
+            /** Calls */
+            calls: number;
+        };
         /** OrganizationWithRole */
         OrganizationWithRole: {
             /**
@@ -1162,7 +1443,7 @@ export interface components {
          * Permission
          * @enum {string}
          */
-        Permission: "organization:read" | "organization:update" | "members:read" | "members:manage" | "content:read" | "content:write" | "content:publish" | "media:manage" | "crm:read" | "crm:write" | "crm:assign" | "crm:delete";
+        Permission: "organization:read" | "organization:update" | "members:read" | "members:manage" | "content:read" | "content:write" | "content:publish" | "media:manage" | "crm:read" | "crm:write" | "crm:assign" | "crm:delete" | "ai:manage";
         /**
          * Person
          * @description A staff member, as shown next to the records they own or wrote.
@@ -1178,6 +1459,28 @@ export interface components {
             /** Email */
             email: string | null;
         };
+        /** PlaygroundIn */
+        PlaygroundIn: {
+            /** Model Id */
+            model_id?: string | null;
+            /** Prompt Key */
+            prompt_key?: string | null;
+            /** Prompt Version */
+            prompt_version?: number | null;
+            /** System */
+            system?: string | null;
+            /**
+             * Message
+             * @default
+             */
+            message: string;
+            /** Variables */
+            variables?: {
+                [key: string]: string;
+            };
+            /** Max Tokens */
+            max_tokens?: number | null;
+        };
         /** PreviewIn */
         PreviewIn: {
             /** Body Md */
@@ -1187,6 +1490,125 @@ export interface components {
         PreviewOut: {
             /** Html */
             html: string;
+        };
+        /** PromptCreate */
+        PromptCreate: {
+            /** System */
+            system: string;
+            /**
+             * Template
+             * @default
+             */
+            template: string;
+            /** Model Id */
+            model_id?: string | null;
+            /** Max Tokens */
+            max_tokens?: number | null;
+            /**
+             * Notes
+             * @default
+             */
+            notes: string;
+            /**
+             * Activate
+             * @default true
+             */
+            activate: boolean;
+            /** Key */
+            key: string;
+            /**
+             * Description
+             * @default
+             */
+            description: string;
+        };
+        /** PromptOut */
+        PromptOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Key */
+            key: string;
+            /** Description */
+            description: string;
+            /** Active Version */
+            active_version: number | null;
+            /** Versions */
+            versions: components["schemas"]["PromptVersionOut"][];
+        };
+        /** PromptSummary */
+        PromptSummary: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Key */
+            key: string;
+            /** Description */
+            description: string;
+            /** Active Version */
+            active_version: number | null;
+            /** Versions */
+            versions: number;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** PromptVersionIn */
+        PromptVersionIn: {
+            /** System */
+            system: string;
+            /**
+             * Template
+             * @default
+             */
+            template: string;
+            /** Model Id */
+            model_id?: string | null;
+            /** Max Tokens */
+            max_tokens?: number | null;
+            /**
+             * Notes
+             * @default
+             */
+            notes: string;
+            /**
+             * Activate
+             * @default true
+             */
+            activate: boolean;
+        };
+        /** PromptVersionOut */
+        PromptVersionOut: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Version */
+            version: number;
+            /** System */
+            system: string;
+            /** Template */
+            template: string;
+            /** Variables */
+            variables: string[];
+            /** Model Id */
+            model_id: string | null;
+            /** Max Tokens */
+            max_tokens: number | null;
+            /** Notes */
+            notes: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
         };
         /** PublicContent */
         PublicContent: {
@@ -1260,6 +1682,11 @@ export interface components {
             width: number;
             /** Height */
             height: number;
+        };
+        /** QuotaIn */
+        QuotaIn: {
+            /** Monthly Budget Eur */
+            monthly_budget_eur: number | string | null;
         };
         /** QuoteRequestAccepted */
         QuoteRequestAccepted: {
@@ -1435,6 +1862,63 @@ export interface components {
             seo_title: string;
             /** Seo Description */
             seo_description: string;
+        };
+        /** UsageRecord */
+        UsageRecord: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Organization Id
+             * Format: uuid
+             */
+            organization_id: string;
+            /** Feature */
+            feature: string;
+            /** Provider */
+            provider: string;
+            /** Model */
+            model: string;
+            /** Prompt Key */
+            prompt_key: string | null;
+            /** Prompt Version */
+            prompt_version: number | null;
+            /** Status */
+            status: string;
+            /** Error Code */
+            error_code: string | null;
+            /** Input Tokens */
+            input_tokens: number;
+            /** Output Tokens */
+            output_tokens: number;
+            /** Cost Eur */
+            cost_eur: string;
+            /** Latency Ms */
+            latency_ms: number;
+        };
+        /** UsageReport */
+        UsageReport: {
+            /** Month */
+            month: string;
+            /** Eur Per Usd */
+            eur_per_usd: string;
+            /** Default Budget Eur */
+            default_budget_eur: string;
+            /** Total Cost Eur */
+            total_cost_eur: string;
+            /** Organizations */
+            organizations: components["schemas"]["OrganizationUsage"][];
+            /** Models */
+            models: components["schemas"]["ModelUsage"][];
+            /** Recent */
+            recent: components["schemas"]["UsageRecord"][];
         };
         /** ValidationError */
         ValidationError: {
@@ -3587,6 +4071,588 @@ export interface operations {
             };
             /** @description Not found, or the user is not DEV4INNOVA staff */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "ai-admin-list_models": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ModelOut"][];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Reserved to staff admins (ai:manage) */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "ai-admin-create_model": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ModelIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ModelOut"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Reserved to staff admins (ai:manage) */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Already in the registry */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "ai-admin-update_model": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                model_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ModelUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ModelOut"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Reserved to staff admins (ai:manage) */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "ai-admin-list_prompts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromptSummary"][];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Reserved to staff admins (ai:manage) */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "ai-admin-create_prompt": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PromptCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromptOut"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Reserved to staff admins (ai:manage) */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Key already used */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "ai-admin-get_prompt": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromptOut"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Reserved to staff admins (ai:manage) */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "ai-admin-add_version": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PromptVersionIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromptOut"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Reserved to staff admins (ai:manage) */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "ai-admin-activate_version": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key: string;
+                version: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PromptOut"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Reserved to staff admins (ai:manage) */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "ai-admin-usage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UsageReport"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Reserved to staff admins (ai:manage) */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "ai-admin-set_quota": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                organization_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QuotaIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Reserved to staff admins (ai:manage) */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "ai-admin-playground": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PlaygroundIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": unknown;
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Reserved to staff admins (ai:manage) */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing variables, unknown model... */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Rate limit or monthly budget reached */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Provider not configured */
+            503: {
                 headers: {
                     [name: string]: unknown;
                 };

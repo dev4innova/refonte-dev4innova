@@ -1,33 +1,12 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState, useTransition } from "react";
 
-import type { CrmResult } from "@/app/[locale]/admin/crm/actions";
-import { useRouter } from "@/i18n/navigation";
+import type { CrmError } from "@/app/[locale]/admin/crm/actions";
+import { useAdminAction } from "@/components/admin/use-admin-action";
 
-/**
- * Runs a CRM Server Action in a transition, refreshes the page data on success (pages are
- * rendered per request) and exposes a translated error message on failure.
- */
+/** CRM flavour of useAdminAction (messages from Admin.crm.errors). */
 export function useCrmAction() {
   const t = useTranslations("Admin.crm.errors");
-  const router = useRouter();
-  const [pending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
-
-  function run<T>(action: () => Promise<CrmResult<T>>, onSuccess?: (data: T) => void) {
-    setError(null);
-    startTransition(async () => {
-      const result = await action();
-      if (!result.ok) {
-        setError(t(result.error));
-        return;
-      }
-      onSuccess?.(result.data);
-      router.refresh();
-    });
-  }
-
-  return { pending, error, run, setError };
+  return useAdminAction((code) => t(code as CrmError));
 }

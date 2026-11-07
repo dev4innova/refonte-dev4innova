@@ -12,6 +12,8 @@ export type AdminNavProps = {
   crm?: boolean;
   /** New prospects and quote requests, shown on the CRM tab. */
   crmBadge?: number;
+  /** Show the AI tab (staff admins). */
+  ai?: boolean;
 };
 
 /** Back-office tabs; the current section is marked with aria-current. */
@@ -24,6 +26,7 @@ export function AdminNavView({
   pathname: currentPathname,
   crm = false,
   crmBadge = 0,
+  ai = false,
 }: AdminNavProps & { pathname: string | null }) {
   const t = useTranslations("Admin");
   const pathname = currentPathname ?? "";
@@ -38,6 +41,9 @@ export function AdminNavView({
     { key: "media", label: t("nav.media"), href: "/admin/media" as const, active: pathname === "/admin/media" },
     ...(crm
       ? [{ key: "crm", label: t("nav.crm"), href: "/admin/crm" as const, active: pathname.startsWith("/admin/crm") }]
+      : []),
+    ...(ai
+      ? [{ key: "ai", label: t("nav.ai"), href: "/admin/ai" as const, active: pathname.startsWith("/admin/ai") }]
       : []),
   ];
 

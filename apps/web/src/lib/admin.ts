@@ -47,7 +47,13 @@ export type StaffRole = "staff_admin" | "staff_editor" | "staff_sales";
 
 /** What the back office shows to a staff role. The API enforces the same rules (403);
  * this only hides what the role cannot use. */
-export type StaffAccess = { content: boolean; contentWrite: boolean; crm: boolean; crmDelete: boolean };
+export type StaffAccess = {
+  content: boolean;
+  contentWrite: boolean;
+  crm: boolean;
+  crmDelete: boolean;
+  ai: boolean;
+};
 
 export function staffAccess(role: StaffRole | null): StaffAccess {
   return {
@@ -55,6 +61,7 @@ export function staffAccess(role: StaffRole | null): StaffAccess {
     contentWrite: role === "staff_admin" || role === "staff_editor",
     crm: role === "staff_admin" || role === "staff_sales",
     crmDelete: role === "staff_admin",
+    ai: role === "staff_admin",
   };
 }
 

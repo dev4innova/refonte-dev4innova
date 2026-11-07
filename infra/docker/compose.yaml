@@ -19,6 +19,11 @@ x-api-env: &api-env
   MEDIA_S3_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-dev4innova-secret}
   # URL seen by browsers.
   MEDIA_PUBLIC_BASE_URL: http://localhost:${MINIO_PORT:-9000}/dev4innova-media
+  # AI Gateway: provider keys from infra/docker/.env (never committed).
+  ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+  OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+  GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+  AI_ENABLE_SIMULATED_PROVIDER: ${AI_ENABLE_SIMULATED_PROVIDER:-true}
 
 services:
   postgres:

@@ -39,6 +39,8 @@ class Permission(StrEnum):
     CRM_ASSIGN = "crm:assign"
     CRM_DELETE = "crm:delete"
     """Erase a prospect and its history (GDPR right to erasure)."""
+    # AI Gateway (EPIC 08): model registry, prompts, quotas, usage and playground
+    AI_MANAGE = "ai:manage"
 
 
 _READ: Final = frozenset({Permission.ORGANIZATION_READ, Permission.MEMBERS_READ})
