@@ -37,7 +37,8 @@ describe("translation dictionaries", () => {
   });
 
   it("uses the same ICU placeholders in both languages", () => {
-    const placeholders = (s: string) => [...s.matchAll(/\{(\w+)/g)].map((m) => m[1]).sort();
+    // `{name}` or `{name, plural, ...}`; plural branch texts (`=0 {no item}`) are not variables.
+    const placeholders = (s: string) => [...s.matchAll(/\{(\w+)\s*[,}]/g)].map((m) => m[1]).sort();
     const mismatches = [...dictionaries.fr!].filter(
       ([key, value]) =>
         JSON.stringify(placeholders(value)) !==
