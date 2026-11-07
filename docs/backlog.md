@@ -19,7 +19,7 @@ Une fonctionnalité ne peut pas être développée avant les fondations dont ell
 | 02 | Design System | P0 | 01 | ✅ livré |
 | 03 | Internationalization | P0 | 01 (02 pour le sélecteur) | ✅ livré |
 | 04 | Identity & Access | P0 | 01, décision ADR-0009 | ✅ livré |
-| 05 | Corporate Website | P1 | 02, 03 (06 pour le contenu dynamique) | à faire |
+| 05 | Corporate Website | P1 | 02, 03 (06 pour le contenu dynamique) | ✅ livré (contenus à valider) |
 | 06 | CMS & Administration | P1 | 04 | à faire |
 | 07 | CRM & Leads | P1 | 04 | à faire |
 | 14a | CI/CD minimal (TASK-116) | **P0** — avancé | 01 | ✅ CI livrée (CD avec TASK-122) |
@@ -148,6 +148,25 @@ des jetons, création de l'organisation interne DEV4INNOVA et des comptes `staff
 TASK-046 navbar (après TASK-028) · TASK-047 homepage · TASK-048 About · TASK-049 Solutions ·
 TASK-050 Services · TASK-051 Portfolio · TASK-052 Innovation Lab · TASK-053 Academy ·
 TASK-054 Insights · TASK-055 Contact · TASK-056 SEO · TASK-057 formulaires (après TASK-067).
+
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-046 | Navbar (EPIC 02) : `aria-current` aussi sur les pages de détail | ✅ |
+| TASK-047 | Accueil : hero, piliers, solutions, services, démarche, Lab, Academy, appel à l'action, JSON-LD | ✅ |
+| TASK-048 | À propos : mission, démarche, valeurs | ✅ |
+| TASK-049 | Solutions : index + 5 fiches (`/solutions/[slug]`) | ✅ |
+| TASK-050 | Services : index + 5 fiches (`/services/[slug]`) | ✅ |
+| TASK-051 | Portfolio : page et état vide (études de cas via le CMS, EPIC 06) | ✅ |
+| TASK-052 | Innovation Lab : thèmes explorés, programme de prototypage | ✅ |
+| TASK-053 | Academy (présentation) : thèmes, formats ; catalogue en EPIC 12 | ✅ |
+| TASK-054 | Insights : page et état vide (articles via le CMS, EPIC 06) | ✅ |
+| TASK-055 | Contact : formulaire + étapes | ✅ |
+| TASK-056 | Métadonnées par page, canonique, `hreflang`, Open Graph, `sitemap.xml`, `robots.txt` | ✅ |
+| TASK-057 | Server action + `POST /api/v1/contact-requests` (consentement, honeypot, limites Redis) ; table `contact_requests` reprise par le CRM (EPIC 07) | ✅ |
+
+**Avant la mise en ligne** : relire et valider les textes (`messages/{fr,en}.json`), rédiger les
+mentions légales et la politique de confidentialité (pages en attente, non indexées), définir
+la durée de conservation des demandes de contact et l'alerte e-mail à l'équipe (EPIC 07).
 
 ### EPIC 06 — CMS & Administration (P1)
 TASK-058 modèles CMS → TASK-059 traductions → TASK-060 interface admin → TASK-061 pages ·

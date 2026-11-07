@@ -34,8 +34,10 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
   `frame-ancestors`. CORS limité aux origines connues.
 
 ## Abus et disponibilité
-- Rate limiting (Redis) sur l'authentification, les formulaires publics (contact, devis,
-  diagnostic) et **tous** les endpoints IA. Captcha/anti-bot sur les formulaires publics.
+- Rate limiting (Redis, `app/core/rate_limit.py`) sur l'authentification, les formulaires
+  publics (contact, devis, diagnostic) et **tous** les endpoints IA. Anti-bot sur les
+  formulaires publics : champ piège (honeypot) au minimum, captcha si l'abus le justifie.
+  Les adresses IP ne sont jamais stockées : seulement hachées dans les clés de limite.
 - Quotas IA par organisation et par utilisateur (TASK-081) ; coût maximal par requête borné.
 
 ## IA (AI Gateway)

@@ -23,6 +23,7 @@ Lues par `app/core/config.py` (pydantic-settings). Une variable obligatoire abse
 | `AUTH_JWKS_URL` | non | `{AUTH_ISSUER}/oauth/v2/keys` | clés publiques de signature |
 | `AUTH_USERINFO_URL` | non | `{AUTH_ISSUER}/oidc/v1/userinfo` | lecture de l'e-mail s'il manque dans le jeton |
 | `AUTH_LEEWAY_SECONDS` | non | `30` | tolérance d'horloge pour `exp` / `nbf` |
+| `TRUST_FORWARDED_FOR` | non | `false` | utiliser `X-Forwarded-For` pour les limites de débit ; `true` seulement si l'API n'est joignable que via le web ou un proxy de confiance |
 
 Tests : `TEST_DATABASE_URL` et `TEST_REDIS_URL` remplacent les valeurs par défaut de `tests/conftest.py`
 (`.../dev4innova_test` et `redis://localhost:6379/15`).
@@ -37,6 +38,7 @@ Tests : `TEST_DATABASE_URL` et `TEST_REDIS_URL` remplacent les valeurs par défa
 | `AUTH_CLIENT_ID` | serveur | Client ID de l'application Web Zitadel (PKCE) |
 | `AUTH_PROJECT_ID` | serveur | ID du projet Zitadel (audience du jeton d'accès) |
 | `AUTH_SESSION_SECRET` | serveur, **secret** | clé de chiffrement des cookies de session (≥ 32 caractères) |
+| `ALLOW_INDEXING` | serveur | `true` uniquement en production : autorise l'indexation dans `robots.txt` (défaut `false`) |
 
 Procédure complète : [authentication.md](authentication.md).
 
