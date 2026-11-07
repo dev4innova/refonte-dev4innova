@@ -57,7 +57,11 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
 ## Données personnelles (RGPD)
 - Minimisation : ne collecter que le nécessaire. Consentement explicite pour le marketing
   et les cookies non essentiels.
-- Droit d'accès / d'effacement / de portabilité réalisables techniquement.
+- Droit d'accès / d'effacement / de portabilité réalisables techniquement. CRM : l'effacement
+  d'un prospect (`DELETE /api/v1/admin/crm/leads/{id}`, `staff_admin`) supprime aussi son
+  historique, ses demandes de devis et ses messages de contact bruts (ADR-0011).
+- Formulaires publics (contact, devis) : consentement horodaté, honeypot, limites de débit
+  Redis par visiteur et par adresse e-mail.
 - Les logs ne contiennent ni mot de passe, ni jeton, ni contenu de document, ni donnée de paiement.
 
 ## Paiements

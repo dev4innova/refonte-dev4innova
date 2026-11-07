@@ -33,7 +33,11 @@ Navigateur ──(1) /fr/espace-client──▶ Next.js proxy ── pas de cook
 | `owner` | client | tout, y compris accorder ou retirer le rôle `owner` |
 | `admin` | client | lire, renommer, gérer les membres (sauf les `owner`) |
 | `member` | client | lire l'organisation et ses membres |
-| `staff_admin`, `staff_editor`, `staff_sales` | interne DEV4INNOVA | attribués hors API ; permissions métier ajoutées par les EPIC 06 et 07 |
+| `staff_admin` | interne DEV4INNOVA | tout : contenus, médias, CRM, effacement d'un prospect (RGPD) |
+| `staff_editor` | interne DEV4INNOVA | contenus et médias (CMS) : lire, écrire, publier |
+| `staff_sales` | interne DEV4INNOVA | CRM : lire, écrire, attribuer ; lecture des contenus |
+
+Les rôles `staff_*` sont attribués hors API (`make grant-staff email=... role=...`).
 
 Règles garanties par les tests :
 - une organisation garde toujours au moins un `owner` ;

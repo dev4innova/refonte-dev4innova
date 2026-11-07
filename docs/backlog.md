@@ -166,7 +166,7 @@ TASK-054 Insights · TASK-055 Contact · TASK-056 SEO · TASK-057 formulaires (a
 
 **Avant la mise en ligne** : relire et valider les textes (`messages/{fr,en}.json`), rédiger les
 mentions légales et la politique de confidentialité (pages en attente, non indexées), définir
-la durée de conservation des demandes de contact et l'alerte e-mail à l'équipe (EPIC 07).
+la durée de conservation des demandes de contact et l'alerte e-mail à l'équipe (voir EPIC 07).
 
 ### EPIC 06 — CMS & Administration (P1)
 TASK-058 modèles CMS → TASK-059 traductions → TASK-060 interface admin → TASK-061 pages ·
@@ -190,6 +190,19 @@ légales et la politique de confidentialité, donner le rôle `staff_editor` aux
 ### EPIC 07 — CRM & Leads (P1)
 TASK-067 prospects → TASK-068 activités · TASK-069 pipeline · TASK-070 attribution ·
 TASK-071 tableau de bord · TASK-072 demandes de devis.
+
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-067 | Prospects (`crm_leads`, un par e-mail) créés ou complétés par les formulaires de contact et de devis, saisie manuelle, recherche et filtres ; reprise des messages existants (migration 0005) | ✅ |
+| TASK-068 | Historique : notes, appels, e-mails, rendez-vous, et événements automatiques (messages, devis, statut, étape, attribution) | ✅ |
+| TASK-069 | Opportunités (qualification → proposition → négociation → gagnée / perdue), montant en EUR, pipeline par étape | ✅ |
+| TASK-070 | Attribution d'un prospect ou d'une opportunité à un commercial (`staff_sales`, `staff_admin`) | ✅ |
+| TASK-071 | Tableau de bord : nouveaux prospects, non attribués, pipeline ouvert, gagné et taux de transformation sur 90 jours ; compteur des nouveautés sur l'onglet CRM | ✅ |
+| TASK-072 | Page publique `/devis` · `/quote` (service, besoin, budget, délai) → prospect + opportunité ; suivi des demandes dans le CRM | ✅ |
+
+**À prévoir** : durée de conservation des prospects et messages (purge automatique),
+alertes e-mail (service d'envoi à choisir), devis chiffrés avec la facturation (EPIC 13),
+donner le rôle `staff_sales` aux commerciaux.
 
 ### EPIC 08 — AI Gateway (P1)
 TASK-073 contrat fournisseur → TASK-074 Anthropic · TASK-075 OpenAI · TASK-076 Gemini ·
