@@ -142,6 +142,11 @@ async def test_full_editorial_workflow(client: AsyncClient, sign_in: SignIn) -> 
     assert detail["seo_title"] == "Premier article sur l'IA"
     assert detail["slugs"] == {"fr": "premier-article", "en": "premier-article-en"}
 
+    # The French slug also finds the English version (language switch); the caller
+    # redirects to the canonical English slug.
+    switched = (await client.get(f"{PUBLIC}/article/premier-article?locale=en")).json()
+    assert (switched["title"], switched["slug"]) == ("First article", "premier-article-en")
+
     # Edit, then unpublish: the article disappears from the website.
     updated = await client.patch(
         f"{ADMIN}/documents/{doc_id}",
@@ -233,7 +238,7 @@ async def test_unknown_document_types_are_rejected(client: AsyncClient) -> None:
         ("<script>alert(1)</script>", "<script"),
         # Raw HTML is escaped into text: no real tag may remain.
         ('<img src=x onerror="alert(1)">', "<img"),
-        ("[click](javascript:alert(1))", "href=\"javascript"),
+        ("[click](javascript:alert(1))", 'href="javascript'),
         ("![x](https://evil.example.com/track.png)", "evil.example.com"),
         ('<a href="https://x" style="color:red">x</a>', "<a "),
         ("<iframe src='https://evil.example.com'></iframe>", "<iframe"),

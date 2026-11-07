@@ -406,17 +406,22 @@ async def list_published(
 async def get_published(
     session: AsyncSession, organization_id: uuid.UUID, document_type: str, locale: str, slug: str
 ) -> Document:
-    document = await session.scalar(
+    """Finds a published document by its slug in `locale`, or else by its slug in another
+    locale (a visitor who switched language keeps the previous slug): the caller then
+    redirects to the canonical slug returned in `slugs`."""
+    base = (
         select(Document)
         .join(DocumentTranslation)
         .where(
             Document.organization_id == organization_id,
             Document.type == document_type,
             Document.status == "published",
-            DocumentTranslation.locale == locale,
             DocumentTranslation.slug == slug,
         )
     )
+    document = await session.scalar(base.where(DocumentTranslation.locale == locale))
+    if document is None:
+        document = await session.scalar(base.limit(1))
     if document is None:
         raise NotFoundError("Content not found")
     return document
