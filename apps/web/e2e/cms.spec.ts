@@ -59,6 +59,8 @@ test.describe("back office", () => {
     ["/fr/admin/media", "%2Ffr%2Fadmin%2Fmedia"],
     ["/fr/admin/crm", "%2Ffr%2Fadmin%2Fcrm"],
     ["/en/admin/crm/leads", "%2Fen%2Fadmin%2Fcrm%2Fleads"],
+    ["/fr/admin/ai", "%2Ffr%2Fadmin%2Fai"],
+    ["/en/admin/ai/playground", "%2Fen%2Fadmin%2Fai%2Fplayground"],
   ] as const) {
     test(`${path} sends anonymous visitors to sign-in`, async ({ request }) => {
       const response = await request.get(path, { maxRedirects: 0 });
@@ -68,6 +70,17 @@ test.describe("back office", () => {
       );
     });
   }
+
+  test("the AI playground stream refuses other sites and anonymous visitors", async ({ request }) => {
+    const url = "/api/admin/ai/playground";
+    const data = { message: "Bonjour" };
+    const crossSite = await request.post(url, { data, headers: { Origin: "https://evil.example" } });
+    expect(crossSite.status()).toBe(403);
+    // The site's own origin (SITE_URL, as in the build).
+    const site = new URL(process.env.SITE_URL ?? "http://localhost:3000").origin;
+    const anonymous = await request.post(url, { data, headers: { Origin: site } });
+    expect(anonymous.status()).toBe(401);
+  });
 
   test("is never indexed nor listed in the sitemap", async ({ request }) => {
     const xml = await (await request.get("/sitemap.xml")).text();
