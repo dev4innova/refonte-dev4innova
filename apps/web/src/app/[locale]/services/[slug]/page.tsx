@@ -25,9 +25,10 @@ export default function ServicePage({ params }: Props) {
 
 async function ServiceContent({ params }: Props) {
   const { locale } = await params;
-  const [t, tCommon] = await Promise.all([
+  const [t, tCommon, tQuote] = await Promise.all([
     getTranslations({ locale, namespace: "Services" }),
     getTranslations({ locale, namespace: "Common" }),
+    getTranslations({ locale, namespace: "Quote" }),
   ]);
   return (
     <CmsDetail
@@ -35,7 +36,15 @@ async function ServiceContent({ params }: Props) {
       pathname="/services/[slug]"
       params={params}
       sectionLabel={t("eyebrow")}
-      cta={{ title: t("ctaTitle"), text: t("ctaText"), actionLabel: tCommon("contactUs") }}
+      cta={{
+        title: t("ctaTitle"),
+        text: t("ctaText"),
+        actionLabel: tCommon("contactUs"),
+        secondary: (content) => ({
+          label: tQuote("cta"),
+          href: { pathname: "/quote", query: { service: content.slug } },
+        }),
+      }}
     >
       {(content) => (
         <Section aria-label={tCommon("allServices")}>

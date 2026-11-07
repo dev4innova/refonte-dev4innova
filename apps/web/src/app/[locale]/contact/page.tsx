@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ContactForm } from "@/components/contact/contact-form";
 import { Section } from "@/components/layout/section";
 import { PageHeader } from "@/components/marketing/page-header";
+import { Link } from "@/i18n/navigation";
 import { pageMetadata } from "@/i18n/metadata";
 import type { Locale } from "@/i18n/routing";
 import { CONTACT_TOPICS } from "@/lib/contact/schema";
@@ -87,6 +88,12 @@ export default async function ContactPage({ params }: Props) {
                 </li>
               ))}
             </ol>
+            <p className="text-muted-foreground">
+              {t("asideQuote")}{" "}
+              <Link href="/quote" className="font-medium text-primary underline underline-offset-4">
+                {t("asideQuoteLink")}
+              </Link>
+            </p>
           </aside>
         </div>
       </Section>

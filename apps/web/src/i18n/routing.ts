@@ -22,6 +22,7 @@ export const routing = defineRouting({
     "/insights": "/insights",
     "/insights/[slug]": "/insights/[slug]",
     "/contact": "/contact",
+    "/quote": { fr: "/devis", en: "/quote" },
     "/about": { fr: "/a-propos", en: "/about" },
     "/legal-notice": { fr: "/mentions-legales", en: "/legal-notice" },
     "/privacy": { fr: "/confidentialite", en: "/privacy" },
@@ -32,6 +33,11 @@ export const routing = defineRouting({
     "/admin/content/[type]": "/admin/content/[type]",
     "/admin/content/[type]/new": "/admin/content/[type]/new",
     "/admin/content/[type]/[id]": "/admin/content/[type]/[id]",
+    "/admin/crm": "/admin/crm",
+    "/admin/crm/leads": "/admin/crm/leads",
+    "/admin/crm/leads/[id]": "/admin/crm/leads/[id]",
+    "/admin/crm/pipeline": "/admin/crm/pipeline",
+    "/admin/crm/quotes": "/admin/crm/quotes",
   },
 });
 

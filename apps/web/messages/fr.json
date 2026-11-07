@@ -20,6 +20,7 @@
     "insights": "Insights",
     "about": "À propos",
     "contact": "Contact",
+    "quote": "Demander un devis",
     "cta": "Nous contacter",
     "landmark": "Navigation principale",
     "openMenu": "Ouvrir le menu",
@@ -514,7 +515,9 @@
       "consent": "Votre accord est nécessaire pour que nous puissions vous répondre.",
       "rateLimited": "Trop de messages envoyés. Merci de réessayer dans une heure.",
       "unavailable": "Le service est momentanément indisponible. Merci de réessayer plus tard."
-    }
+    },
+    "asideQuote": "Besoin d'une proposition chiffrée ?",
+    "asideQuoteLink": "Demander un devis"
   },
   "Legal": {
     "pendingTitle": "Contenu en cours de rédaction",
@@ -538,7 +541,9 @@
     "nav": {
       "label": "Administration",
       "dashboard": "Tableau de bord",
-      "media": "Médias"
+      "media": "Médias",
+      "crm": "CRM",
+      "crmBadge": "{count, plural, one {# nouveauté à traiter} other {# nouveautés à traiter}}"
     },
     "types": {
       "article": "Articles",
@@ -637,6 +642,248 @@
       },
       "size": "{size} Ko",
       "file": "Fichier image"
+    },
+    "crm": {
+      "nav": {
+        "label": "Rubriques du CRM",
+        "overview": "Vue d'ensemble",
+        "leads": "Prospects",
+        "pipeline": "Pipeline",
+        "quotes": "Demandes de devis"
+      },
+      "statuses": {
+        "new": "Nouveau",
+        "contacted": "Contacté",
+        "qualified": "Qualifié",
+        "customer": "Client",
+        "unqualified": "Écarté"
+      },
+      "stages": {
+        "qualification": "Qualification",
+        "proposal": "Proposition",
+        "negotiation": "Négociation",
+        "won": "Gagnée",
+        "lost": "Perdue"
+      },
+      "sources": {
+        "contact_form": "Formulaire de contact",
+        "quote_request": "Demande de devis",
+        "manual": "Saisie manuelle"
+      },
+      "owners": {
+        "any": "Tous",
+        "me": "Mes prospects",
+        "unassigned": "Non attribués"
+      },
+      "quoteStatuses": {
+        "new": "Nouvelle",
+        "in_review": "En cours d'étude",
+        "answered": "Répondue",
+        "declined": "Déclinée"
+      },
+      "activityTypes": {
+        "note": "Note",
+        "call": "Appel",
+        "email": "E-mail",
+        "meeting": "Rendez-vous",
+        "contact_message": "Message reçu",
+        "quote_request": "Demande de devis",
+        "status_change": "Changement de statut",
+        "stage_change": "Changement d'étape",
+        "assignment": "Attribution"
+      },
+      "topics": {
+        "project": "Un projet IA",
+        "training": "Une formation",
+        "partnership": "Un partenariat",
+        "other": "Autre demande"
+      },
+      "locales": {
+        "fr": "Français",
+        "en": "Anglais"
+      },
+      "unassigned": "Non attribué",
+      "required": "obligatoire",
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "errors": {
+        "signin": "Votre session a expiré : reconnectez-vous.",
+        "forbidden": "Votre rôle ne permet pas cette action.",
+        "duplicate": "Un prospect utilise déjà cette adresse e-mail.",
+        "notAssignable": "Cette personne ne peut pas se voir attribuer de prospects.",
+        "validation": "Vérifiez les informations saisies (montant : nombre avec au plus deux décimales).",
+        "generic": "L'opération a échoué. Réessayez dans un instant."
+      },
+      "dashboard": {
+        "title": "Tableau de bord commercial",
+        "lead": "Prospects, pipeline et demandes de devis, en un coup d'œil.",
+        "figures": {
+          "newLeads": "Nouveaux prospects (30 jours)",
+          "unassigned": "Prospects ouverts non attribués",
+          "mine": "Mes prospects ouverts",
+          "newQuotes": "Demandes de devis à traiter",
+          "openPipeline": "Pipeline ouvert",
+          "won": "Gagné (90 jours)",
+          "winRate": "Taux de transformation (90 jours)"
+        },
+        "wonDetail": "{count, plural, =0 {aucune opportunité} one {# opportunité} other {# opportunités}}",
+        "winRateDetail": "{won} gagnée(s), {lost} perdue(s)",
+        "pipeline": "Pipeline par étape",
+        "stage": "Étape",
+        "count": "Opportunités",
+        "amount": "Montant",
+        "statuses": "Prospects par statut",
+        "sources": "Origine des prospects (30 jours)"
+      },
+      "leads": {
+        "title": "Prospects",
+        "filters": "Filtrer les prospects",
+        "search": "Rechercher",
+        "searchPlaceholder": "Nom, organisation ou e-mail",
+        "status": "Statut",
+        "allStatuses": "Tous les statuts",
+        "owner": "Responsable",
+        "apply": "Filtrer",
+        "count": "{count, plural, =0 {Aucun prospect} one {# prospect} other {# prospects}}",
+        "empty": "Aucun prospect ne correspond à ces critères.",
+        "prospect": "Prospect",
+        "source": "Origine",
+        "lastActivity": "Dernière activité",
+        "pagination": "Pages de résultats",
+        "previous": "Page précédente",
+        "next": "Page suivante",
+        "page": "Page {page} sur {pages}",
+        "new": "Nouveau prospect",
+        "create": "Créer le prospect",
+        "openExisting": "Ouvrir sa fiche"
+      },
+      "lead": {
+        "back": "Retour aux prospects",
+        "since": "Depuis le {date} · {source}",
+        "followUp": "Suivi",
+        "status": "Statut",
+        "owner": "Responsable",
+        "details": "Coordonnées",
+        "name": "Nom",
+        "email": "Adresse e-mail",
+        "company": "Organisation",
+        "phone": "Téléphone",
+        "locale": "Langue de contact",
+        "delete": "Effacer ce prospect",
+        "deleteHelp": "Droit à l'effacement (RGPD) : supprime le prospect, son historique, ses opportunités, ses demandes de devis et ses messages reçus. Irréversible.",
+        "deleteConfirm": "Effacer définitivement {name} et tout son historique ?"
+      },
+      "timeline": {
+        "title": "Historique",
+        "empty": "Aucune activité pour l'instant.",
+        "system": "Site web",
+        "formerMember": "un ancien membre de l'équipe",
+        "contactMessage": "Message via le formulaire de contact ({topic})",
+        "quoteRequest": "Demande de devis via le site",
+        "statusChange": "Statut : {from} → {to}",
+        "stageChange": "« {title} » : {from} → {to}",
+        "assigned": "Attribué à {name}",
+        "unassigned": "Attribution retirée"
+      },
+      "activity": {
+        "new": "Ajouter une activité",
+        "type": "Type",
+        "occurredAt": "Date",
+        "occurredAtHelp": "Laisser vide pour maintenant.",
+        "opportunity": "Opportunité liée",
+        "noOpportunity": "Aucune",
+        "body": "Compte rendu",
+        "add": "Ajouter"
+      },
+      "opportunity": {
+        "titlePlural": "Opportunités",
+        "new": "Nouvelle opportunité",
+        "title": "Intitulé",
+        "amount": "Montant estimé (€ HT)",
+        "amountHelp": "Facultatif, par exemple 12 000.",
+        "expectedCloseOn": "Signature prévue",
+        "stage": "Étape",
+        "create": "Ajouter l'opportunité"
+      },
+      "pipeline": {
+        "title": "Pipeline",
+        "lead": "Opportunités en cours par étape, et celles conclues ces 30 derniers jours.",
+        "empty": "Aucune opportunité.",
+        "last30Days": "30 derniers jours"
+      },
+      "quotes": {
+        "title": "Demandes de devis",
+        "all": "Toutes",
+        "status": "Suivi",
+        "empty": "Aucune demande de devis.",
+        "date": "Reçue le",
+        "service": "Service",
+        "budget": "Budget",
+        "timeline": "Délai"
+      }
     }
+  },
+  "Quote": {
+    "metaTitle": "Demander un devis",
+    "metaDescription": "Décrivez votre projet d'intelligence artificielle : DEV4INNOVA vous adresse une proposition chiffrée.",
+    "eyebrow": "Devis",
+    "title": "Demander un devis",
+    "lead": "Quelques informations sur votre projet nous suffisent pour préparer une première proposition.",
+    "asideTitle": "Après votre demande",
+    "asideSteps": {
+      "a": "Un interlocuteur dédié étudie votre besoin.",
+      "b": "Nous échangeons pour préciser le périmètre.",
+      "c": "Vous recevez une proposition chiffrée."
+    },
+    "asideContact": "Une simple question ?",
+    "asideContactLink": "Écrivez-nous",
+    "form": {
+      "name": "Nom complet",
+      "email": "Adresse e-mail professionnelle",
+      "company": "Organisation",
+      "phone": "Téléphone",
+      "service": "Service concerné",
+      "anyService": "Je ne sais pas encore",
+      "need": "Votre besoin",
+      "needHelp": "20 caractères minimum. Contexte, objectifs, contraintes, outils existants…",
+      "budget": "Budget indicatif",
+      "timeline": "Délai souhaité",
+      "consent": "J'accepte que DEV4INNOVA utilise ces informations pour répondre à ma demande, conformément à la politique de confidentialité.",
+      "privacyLink": "Lire la politique de confidentialité",
+      "required": "obligatoire",
+      "optional": "facultatif",
+      "submit": "Envoyer la demande",
+      "sending": "Envoi en cours",
+      "honeypot": "Ne pas remplir ce champ"
+    },
+    "budgets": {
+      "lt_10k": "Moins de 10 000 €",
+      "10k_30k": "De 10 000 à 30 000 €",
+      "30k_100k": "De 30 000 à 100 000 €",
+      "gt_100k": "Plus de 100 000 €",
+      "unknown": "Je ne sais pas encore"
+    },
+    "timelines": {
+      "asap": "Dès que possible",
+      "within_3_months": "Dans les 3 mois",
+      "within_6_months": "Dans les 6 mois",
+      "unknown": "Pas encore défini"
+    },
+    "success": {
+      "title": "Merci, votre demande de devis est bien envoyée",
+      "text": "Un membre de l'équipe vous recontacte rapidement pour en parler."
+    },
+    "errors": {
+      "summary": "Le formulaire contient des erreurs.",
+      "name": "Indiquez votre nom (2 caractères minimum).",
+      "email": "Saisissez une adresse e-mail valide.",
+      "company": "Le nom de l'organisation est trop long.",
+      "phone": "Le numéro de téléphone est trop long.",
+      "need": "Votre besoin doit contenir entre 20 et 5 000 caractères.",
+      "consent": "Votre accord est nécessaire pour que nous puissions vous répondre.",
+      "rateLimited": "Trop de demandes envoyées. Merci de réessayer dans une heure.",
+      "unavailable": "Le service est momentanément indisponible. Merci de réessayer plus tard."
+    },
+    "cta": "Demander un devis"
   }
 }

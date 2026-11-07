@@ -20,6 +20,7 @@
     "insights": "Insights",
     "about": "About",
     "contact": "Contact",
+    "quote": "Request a quote",
     "cta": "Contact us",
     "landmark": "Main navigation",
     "openMenu": "Open menu",
@@ -514,7 +515,9 @@
       "consent": "Your agreement is required so that we can reply.",
       "rateLimited": "Too many messages sent. Please try again in an hour.",
       "unavailable": "The service is temporarily unavailable. Please try again later."
-    }
+    },
+    "asideQuote": "Need a costed proposal?",
+    "asideQuoteLink": "Request a quote"
   },
   "Legal": {
     "pendingTitle": "Content being written",
@@ -538,7 +541,9 @@
     "nav": {
       "label": "Administration",
       "dashboard": "Dashboard",
-      "media": "Media"
+      "media": "Media",
+      "crm": "CRM",
+      "crmBadge": "{count, plural, one {# new item to handle} other {# new items to handle}}"
     },
     "types": {
       "article": "Articles",
@@ -637,6 +642,248 @@
       },
       "size": "{size} KB",
       "file": "Image file"
+    },
+    "crm": {
+      "nav": {
+        "label": "CRM sections",
+        "overview": "Overview",
+        "leads": "Prospects",
+        "pipeline": "Pipeline",
+        "quotes": "Quote requests"
+      },
+      "statuses": {
+        "new": "New",
+        "contacted": "Contacted",
+        "qualified": "Qualified",
+        "customer": "Customer",
+        "unqualified": "Set aside"
+      },
+      "stages": {
+        "qualification": "Qualification",
+        "proposal": "Proposal",
+        "negotiation": "Negotiation",
+        "won": "Won",
+        "lost": "Lost"
+      },
+      "sources": {
+        "contact_form": "Contact form",
+        "quote_request": "Quote request",
+        "manual": "Manual entry"
+      },
+      "owners": {
+        "any": "All",
+        "me": "My prospects",
+        "unassigned": "Unassigned"
+      },
+      "quoteStatuses": {
+        "new": "New",
+        "in_review": "Under review",
+        "answered": "Answered",
+        "declined": "Declined"
+      },
+      "activityTypes": {
+        "note": "Note",
+        "call": "Call",
+        "email": "Email",
+        "meeting": "Meeting",
+        "contact_message": "Message received",
+        "quote_request": "Quote request",
+        "status_change": "Status change",
+        "stage_change": "Stage change",
+        "assignment": "Assignment"
+      },
+      "topics": {
+        "project": "An AI project",
+        "training": "Training",
+        "partnership": "A partnership",
+        "other": "Something else"
+      },
+      "locales": {
+        "fr": "French",
+        "en": "English"
+      },
+      "unassigned": "Unassigned",
+      "required": "required",
+      "save": "Save",
+      "cancel": "Cancel",
+      "errors": {
+        "signin": "Your session has expired: please sign in again.",
+        "forbidden": "Your role does not allow this action.",
+        "duplicate": "A prospect already uses this email address.",
+        "notAssignable": "This person cannot be assigned prospects.",
+        "validation": "Check the information entered (amount: a number with at most two decimals).",
+        "generic": "The operation failed. Please try again in a moment."
+      },
+      "dashboard": {
+        "title": "Sales dashboard",
+        "lead": "Prospects, pipeline and quote requests at a glance.",
+        "figures": {
+          "newLeads": "New prospects (30 days)",
+          "unassigned": "Unassigned open prospects",
+          "mine": "My open prospects",
+          "newQuotes": "Quote requests to handle",
+          "openPipeline": "Open pipeline",
+          "won": "Won (90 days)",
+          "winRate": "Win rate (90 days)"
+        },
+        "wonDetail": "{count, plural, =0 {no opportunity} one {# opportunity} other {# opportunities}}",
+        "winRateDetail": "{won} won, {lost} lost",
+        "pipeline": "Pipeline by stage",
+        "stage": "Stage",
+        "count": "Opportunities",
+        "amount": "Amount",
+        "statuses": "Prospects by status",
+        "sources": "Where prospects come from (30 days)"
+      },
+      "leads": {
+        "title": "Prospects",
+        "filters": "Filter prospects",
+        "search": "Search",
+        "searchPlaceholder": "Name, organization or email",
+        "status": "Status",
+        "allStatuses": "All statuses",
+        "owner": "Owner",
+        "apply": "Filter",
+        "count": "{count, plural, =0 {No prospects} one {# prospect} other {# prospects}}",
+        "empty": "No prospect matches these criteria.",
+        "prospect": "Prospect",
+        "source": "Source",
+        "lastActivity": "Last activity",
+        "pagination": "Result pages",
+        "previous": "Previous page",
+        "next": "Next page",
+        "page": "Page {page} of {pages}",
+        "new": "New prospect",
+        "create": "Create the prospect",
+        "openExisting": "Open their record"
+      },
+      "lead": {
+        "back": "Back to prospects",
+        "since": "Since {date} · {source}",
+        "followUp": "Follow-up",
+        "status": "Status",
+        "owner": "Owner",
+        "details": "Contact details",
+        "name": "Name",
+        "email": "Email address",
+        "company": "Organization",
+        "phone": "Phone",
+        "locale": "Contact language",
+        "delete": "Erase this prospect",
+        "deleteHelp": "Right to erasure (GDPR): deletes the prospect, their history, opportunities, quote requests and messages received. Cannot be undone.",
+        "deleteConfirm": "Permanently erase {name} and their whole history?"
+      },
+      "timeline": {
+        "title": "History",
+        "empty": "No activity yet.",
+        "system": "Website",
+        "formerMember": "a former team member",
+        "contactMessage": "Message from the contact form ({topic})",
+        "quoteRequest": "Quote request from the website",
+        "statusChange": "Status: {from} → {to}",
+        "stageChange": "“{title}”: {from} → {to}",
+        "assigned": "Assigned to {name}",
+        "unassigned": "Assignment removed"
+      },
+      "activity": {
+        "new": "Add an activity",
+        "type": "Type",
+        "occurredAt": "Date",
+        "occurredAtHelp": "Leave empty for now.",
+        "opportunity": "Related opportunity",
+        "noOpportunity": "None",
+        "body": "Summary",
+        "add": "Add"
+      },
+      "opportunity": {
+        "titlePlural": "Opportunities",
+        "new": "New opportunity",
+        "title": "Title",
+        "amount": "Estimated amount (€ excl. VAT)",
+        "amountHelp": "Optional, for example 12000.",
+        "expectedCloseOn": "Expected signature",
+        "stage": "Stage",
+        "create": "Add the opportunity"
+      },
+      "pipeline": {
+        "title": "Pipeline",
+        "lead": "Ongoing opportunities by stage, and those closed in the last 30 days.",
+        "empty": "No opportunities.",
+        "last30Days": "last 30 days"
+      },
+      "quotes": {
+        "title": "Quote requests",
+        "all": "All",
+        "status": "Follow-up",
+        "empty": "No quote requests.",
+        "date": "Received on",
+        "service": "Service",
+        "budget": "Budget",
+        "timeline": "Timeline"
+      }
     }
+  },
+  "Quote": {
+    "metaTitle": "Request a quote",
+    "metaDescription": "Describe your artificial intelligence project: DEV4INNOVA will send you a costed proposal.",
+    "eyebrow": "Quote",
+    "title": "Request a quote",
+    "lead": "A few details about your project are all we need to prepare a first proposal.",
+    "asideTitle": "After your request",
+    "asideSteps": {
+      "a": "A dedicated contact studies your needs.",
+      "b": "We talk to clarify the scope.",
+      "c": "You receive a costed proposal."
+    },
+    "asideContact": "Just a question?",
+    "asideContactLink": "Write to us",
+    "form": {
+      "name": "Full name",
+      "email": "Work email address",
+      "company": "Organization",
+      "phone": "Phone",
+      "service": "Related service",
+      "anyService": "I don't know yet",
+      "need": "Your needs",
+      "needHelp": "At least 20 characters. Context, goals, constraints, existing tools…",
+      "budget": "Indicative budget",
+      "timeline": "Desired timeline",
+      "consent": "I agree that DEV4INNOVA may use this information to answer my request, in accordance with the privacy policy.",
+      "privacyLink": "Read the privacy policy",
+      "required": "required",
+      "optional": "optional",
+      "submit": "Send the request",
+      "sending": "Sending",
+      "honeypot": "Do not fill in this field"
+    },
+    "budgets": {
+      "lt_10k": "Less than €10,000",
+      "10k_30k": "€10,000 to €30,000",
+      "30k_100k": "€30,000 to €100,000",
+      "gt_100k": "More than €100,000",
+      "unknown": "I don't know yet"
+    },
+    "timelines": {
+      "asap": "As soon as possible",
+      "within_3_months": "Within 3 months",
+      "within_6_months": "Within 6 months",
+      "unknown": "Not defined yet"
+    },
+    "success": {
+      "title": "Thank you, your quote request has been sent",
+      "text": "A team member will get back to you shortly to discuss it."
+    },
+    "errors": {
+      "summary": "The form contains errors.",
+      "name": "Enter your name (at least 2 characters).",
+      "email": "Enter a valid email address.",
+      "company": "The organization name is too long.",
+      "phone": "The phone number is too long.",
+      "need": "Your needs must be between 20 and 5,000 characters long.",
+      "consent": "We need your agreement to be able to answer you.",
+      "rateLimited": "Too many requests sent. Please try again in an hour.",
+      "unavailable": "The service is temporarily unavailable. Please try again later."
+    },
+    "cta": "Request a quote"
   }
 }

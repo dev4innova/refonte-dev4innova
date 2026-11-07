@@ -23,6 +23,7 @@ const STATIC_PAGES: Entry[] = [
   ["/portfolio", 0.6],
   ["/insights", 0.6],
   ["/contact", 0.8],
+  ["/quote", 0.7],
 ].map(([href, priority]) => ({ href: () => href as Href, priority: priority as number }));
 
 const SOLUTION_PAGES: Entry[] = SOLUTIONS.map(({ slug }) => ({
