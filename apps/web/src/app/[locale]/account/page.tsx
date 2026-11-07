@@ -1,4 +1,4 @@
-import { Building2, LogOut } from "lucide-react";
+import { Building2, LogOut, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
@@ -90,6 +90,15 @@ async function AccountDetails({ locale }: { locale: Locale }) {
                       {t("role", { role: t(`roles.${membership.role}`) })}
                     </CardDescription>
                   </CardHeader>
+                  <div>
+                    <Button asChild size="sm" variant="outline">
+                      <Link href={{ pathname: "/account/ai/[org]", params: { org: membership.organization_id } }}>
+                        <Sparkles aria-hidden="true" />
+                        {t("aiTools")}
+                        <span className="sr-only"> : {membership.organization_name}</span>
+                      </Link>
+                    </Button>
+                  </div>
                 </Card>
               </li>
             ))}

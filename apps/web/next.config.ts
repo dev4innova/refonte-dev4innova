@@ -15,8 +15,9 @@ const nextConfig: NextConfig = {
   transpilePackages: ["@dev4innova/api-client"],
   poweredByHeader: false,
   experimental: {
-    // Back-office image uploads go through a Server Action (5 MB images + multipart overhead).
-    serverActions: { bodySizeLimit: "6mb" },
+    // Uploads go through Server Actions: back-office images (5 MB) and documents for the
+    // AI analyzer (10 MB), plus multipart overhead.
+    serverActions: { bodySizeLimit: "11mb" },
   },
 };
 

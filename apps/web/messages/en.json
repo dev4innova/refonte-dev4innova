@@ -215,7 +215,8 @@
       "staff_sales": "DEV4INNOVA sales"
     },
     "signOut": "Sign out",
-    "admin": "Website administration"
+    "admin": "Website administration",
+    "aiTools": "AI tools"
   },
   "Common": {
     "learnMore": "Learn more",
@@ -1047,5 +1048,137 @@
       "unavailable": "The service is temporarily unavailable. Please try again later."
     },
     "cta": "Request a quote"
+  },
+  "AI": {
+    "metaTitle": "AI tools",
+    "title": "AI tools",
+    "lead": "An assistant, a document analyzer and a content generator for your organization. Only you can see your conversations.",
+    "back": "Back to the client area",
+    "required": "required",
+    "save": "Save",
+    "cancel": "Cancel",
+    "kinds": {
+      "assistant": "Assistant",
+      "document": "Document analysis",
+      "content": "Content generation"
+    },
+    "assistant": {
+      "title": "AI assistant",
+      "text": "Ask questions, get help writing, analyzing or finding ideas.",
+      "start": "New conversation"
+    },
+    "document": {
+      "title": "Document analysis",
+      "text": "Summary, key points, risks, questions: the AI relies on your document only.",
+      "file": "Document",
+      "fileHelp": "PDF, Word (.docx) or text, 10 MB maximum. The file is not kept: only its text is, with the conversation.",
+      "analyze": "Analyze",
+      "reading": "Reading the document…"
+    },
+    "content": {
+      "title": "Content generator",
+      "text": "Article, LinkedIn post, newsletter, product page or email, then adjustments on request.",
+      "topic": "Topic",
+      "format": "Format",
+      "tone": "Tone",
+      "length": "Length",
+      "language": "Language",
+      "details": "Key points, audience, context",
+      "detailsHelp": "Optional. The AI does not invent figures: it leaves [to be completed] placeholders.",
+      "generate": "Generate"
+    },
+    "formats": {
+      "blog_post": "Blog article",
+      "linkedin_post": "LinkedIn post",
+      "newsletter": "Newsletter",
+      "product_description": "Product or service page",
+      "email": "Email"
+    },
+    "tones": {
+      "professional": "Professional",
+      "friendly": "Friendly",
+      "inspiring": "Inspiring",
+      "didactic": "Educational"
+    },
+    "lengths": {
+      "short": "Short",
+      "medium": "Medium",
+      "long": "Long"
+    },
+    "languages": {
+      "fr": "French",
+      "en": "English"
+    },
+    "usage": {
+      "title": "AI usage of the organization",
+      "spent": "{spent} used of a {budget} monthly budget · {calls, plural, =0 {no calls} one {# call} other {# calls}}",
+      "calls": "{count, plural, =0 {no calls} one {# call} other {# calls}}",
+      "help": "Visible to owners and administrators. The content of conversations is never shown."
+    },
+    "history": {
+      "title": "My sessions",
+      "retention": "Deleted automatically after 90 days of inactivity. You can delete them at any time.",
+      "empty": "No sessions yet.",
+      "untitled": "New conversation",
+      "deleteAll": "Delete all",
+      "deleteAllConfirm": "Permanently delete all your sessions in this organization?"
+    },
+    "session": {
+      "back": "Back to the AI tools of {organization}",
+      "title": "Session title",
+      "rename": "Rename",
+      "delete": "Delete",
+      "deleteConfirm": "Permanently delete this session?",
+      "messages": "Conversation",
+      "you": "You",
+      "ai": "AI",
+      "writing": "Writing…",
+      "stop": "Stop",
+      "send": "Send",
+      "copy": "Copy",
+      "copied": "Copied",
+      "document": "{name} · {chars} characters"
+    },
+    "input": {
+      "assistant": "Your message",
+      "document": "Your question about the document",
+      "content": "Requested change (e.g. shorter, another hook)",
+      "help": "Enter to send, Shift + Enter for a new line."
+    },
+    "empty": {
+      "assistant": "Ask your first question.",
+      "document": "What do you want to know about this document? For example: \"Summarize it in 5 points\".",
+      "content": "Generation is about to start."
+    },
+    "statuses": {
+      "refused": "The AI declined to answer this request.",
+      "incomplete": "Answer interrupted or too long: ask for the rest.",
+      "error": "The answer could not be obtained."
+    },
+    "disclaimer": "AI answers may contain mistakes: check important information.",
+    "errors": {
+      "signin": "Your session has expired: please sign in again.",
+      "notFound": "Session or organization not found.",
+      "documentType": "Unsupported format: use a PDF, a Word file (.docx) or a text file.",
+      "documentEmpty": "No text found in this document (a scanned PDF cannot be read).",
+      "documentEncrypted": "This PDF is password-protected.",
+      "documentUnreadable": "This document is unreadable or damaged.",
+      "documentTooLarge": "File too large (10 MB maximum).",
+      "documentTooLong": "Document too long to be analyzed at once: send part of it.",
+      "dailyLimit": "Daily limit reached: come back tomorrow.",
+      "rateLimited": "Too many requests: wait a minute.",
+      "validation": "Check the information entered.",
+      "generic": "Something went wrong. Please try again in a moment.",
+      "ai_quota_exceeded": "Your organization's monthly AI budget is reached. Contact its administrator.",
+      "ai_daily_limit": "Daily limit reached: come back tomorrow.",
+      "rate_limited": "Too many requests: wait a minute.",
+      "ai_unavailable": "The AI service is temporarily unavailable. Please try again later.",
+      "ai_provider_error": "The AI service could not answer. Please try again later.",
+      "unprocessable": "Empty or too long message.",
+      "validation_error": "Empty or too long message.",
+      "not_found": "Session not found.",
+      "unauthorized": "Your session has expired: please sign in again.",
+      "unavailable": "Service unavailable. Please try again later."
+    }
   }
 }

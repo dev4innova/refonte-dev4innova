@@ -28,6 +28,11 @@ export const routing = defineRouting({
     "/privacy": { fr: "/confidentialite", en: "/privacy" },
     "/design-system": "/design-system",
     "/account": { fr: "/espace-client", en: "/account" },
+    "/account/ai/[org]": { fr: "/espace-client/ia/[org]", en: "/account/ai/[org]" },
+    "/account/ai/[org]/[session]": {
+      fr: "/espace-client/ia/[org]/[session]",
+      en: "/account/ai/[org]/[session]",
+    },
     "/admin": "/admin",
     "/admin/media": "/admin/media",
     "/admin/content/[type]": "/admin/content/[type]",
