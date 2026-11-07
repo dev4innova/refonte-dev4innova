@@ -72,6 +72,15 @@ async def client(storage: ObjectStorage) -> AsyncIterator[AsyncClient]:
             "DELETE FROM cms_documents WHERE NOT (type = 'service' AND created_by_id IS NULL)",
             "UPDATE cms_documents SET cover_media_id = NULL",
             "DELETE FROM cms_media",
+            "DELETE FROM ai_usage",
+            "DELETE FROM ai_quotas",
+            "UPDATE ai_prompts SET active_version_id = NULL",
+            "DELETE FROM ai_prompt_versions",
+            "DELETE FROM ai_prompts",
+            # Keep the seeded Claude models, as seeded.
+            "DELETE FROM ai_models WHERE provider <> 'anthropic' OR model_id NOT IN"
+            " ('claude-opus-5-5', 'claude-sonnet-5-5', 'claude-haiku-5-5')",
+            "UPDATE ai_models SET is_enabled = true, is_default = (model_id = 'claude-opus-5-5')",
             "DELETE FROM contact_requests",
             "DELETE FROM crm_leads",  # cascades to opportunities, activities, quote requests
             "DELETE FROM memberships",

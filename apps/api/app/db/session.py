@@ -43,3 +43,10 @@ async def dispose_engine() -> None:
         await _engine.dispose()
         _engine = None
         _sessionmaker = None
+
+
+def new_session() -> AsyncSession:
+    """A session outside a request dependency (e.g. work done while a response streams)."""
+    get_engine()
+    assert _sessionmaker is not None
+    return _sessionmaker()

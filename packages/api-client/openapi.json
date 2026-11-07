@@ -2435,6 +2435,595 @@
           }
         ]
       }
+    },
+    "/api/v1/admin/ai/models": {
+      "get": {
+        "tags": [
+          "ai-admin"
+        ],
+        "summary": "Model registry",
+        "operationId": "ai-admin-list_models",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ModelOut"
+                  },
+                  "type": "array",
+                  "title": "Response Ai-Admin-List Models"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Reserved to staff admins (ai:manage)"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "ai-admin"
+        ],
+        "summary": "Add a model",
+        "operationId": "ai-admin-create_model",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModelIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Reserved to staff admins (ai:manage)"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "409": {
+            "description": "Already in the registry"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/ai/models/{model_id}": {
+      "patch": {
+        "tags": [
+          "ai-admin"
+        ],
+        "summary": "Update a model",
+        "operationId": "ai-admin-update_model",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "model_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Model Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModelUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Reserved to staff admins (ai:manage)"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/ai/prompts": {
+      "get": {
+        "tags": [
+          "ai-admin"
+        ],
+        "summary": "Prompts",
+        "operationId": "ai-admin-list_prompts",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PromptSummary"
+                  },
+                  "type": "array",
+                  "title": "Response Ai-Admin-List Prompts"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Reserved to staff admins (ai:manage)"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "ai-admin"
+        ],
+        "summary": "Create a prompt (version 1, active)",
+        "operationId": "ai-admin-create_prompt",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PromptCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromptOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Reserved to staff admins (ai:manage)"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "409": {
+            "description": "Key already used"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/ai/prompts/{key}": {
+      "get": {
+        "tags": [
+          "ai-admin"
+        ],
+        "summary": "Prompt and its versions",
+        "operationId": "ai-admin-get_prompt",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromptOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Reserved to staff admins (ai:manage)"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/ai/prompts/{key}/versions": {
+      "post": {
+        "tags": [
+          "ai-admin"
+        ],
+        "summary": "Save a new version (versions are immutable)",
+        "operationId": "ai-admin-add_version",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PromptVersionIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromptOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Reserved to staff admins (ai:manage)"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/ai/prompts/{key}/versions/{version}/activate": {
+      "post": {
+        "tags": [
+          "ai-admin"
+        ],
+        "summary": "Make a version the active one (or roll back)",
+        "operationId": "ai-admin-activate_version",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Version"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PromptOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Reserved to staff admins (ai:manage)"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/ai/usage": {
+      "get": {
+        "tags": [
+          "ai-admin"
+        ],
+        "summary": "Usage and costs of the month",
+        "operationId": "ai-admin-usage",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageReport"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Reserved to staff admins (ai:manage)"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/ai/quotas/{organization_id}": {
+      "put": {
+        "tags": [
+          "ai-admin"
+        ],
+        "summary": "Set the monthly budget of an organization (null: default budget)",
+        "operationId": "ai-admin-set_quota",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuotaIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Reserved to staff admins (ai:manage)"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/ai/playground": {
+      "post": {
+        "tags": [
+          "ai-admin"
+        ],
+        "summary": "Try a model or a prompt (Server-Sent Events: delta, done, error)",
+        "operationId": "ai-admin-playground",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlaygroundIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "text/event-stream": {}
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Reserved to staff admins (ai:manage)"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Missing variables, unknown model..."
+          },
+          "429": {
+            "description": "Rate limit or monthly budget reached"
+          },
+          "503": {
+            "description": "Provider not configured"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -3790,6 +4379,324 @@
         ],
         "title": "MembershipSummary"
       },
+      "ModelIn": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": [
+              "anthropic",
+              "openai",
+              "gemini",
+              "simulated"
+            ],
+            "title": "Provider"
+          },
+          "model_id": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@-]*$",
+            "title": "Model Id"
+          },
+          "display_name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Display Name"
+          },
+          "input_price_usd_per_mtok": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Input Price Usd Per Mtok"
+          },
+          "output_price_usd_per_mtok": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Output Price Usd Per Mtok"
+          },
+          "context_window": {
+            "type": "integer",
+            "maximum": 10000000.0,
+            "minimum": 1000.0,
+            "title": "Context Window"
+          },
+          "max_output_tokens": {
+            "type": "integer",
+            "maximum": 200000.0,
+            "minimum": 1.0,
+            "title": "Max Output Tokens"
+          },
+          "options": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "maxProperties": 10,
+            "title": "Options"
+          },
+          "is_enabled": {
+            "type": "boolean",
+            "title": "Is Enabled",
+            "default": true
+          },
+          "is_default": {
+            "type": "boolean",
+            "title": "Is Default",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "provider",
+          "model_id",
+          "display_name",
+          "input_price_usd_per_mtok",
+          "output_price_usd_per_mtok",
+          "context_window",
+          "max_output_tokens"
+        ],
+        "title": "ModelIn"
+      },
+      "ModelOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "anthropic",
+              "openai",
+              "gemini",
+              "simulated"
+            ],
+            "title": "Provider"
+          },
+          "model_id": {
+            "type": "string",
+            "title": "Model Id"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "input_price_usd_per_mtok": {
+            "type": "string",
+            "title": "Input Price Usd Per Mtok"
+          },
+          "output_price_usd_per_mtok": {
+            "type": "string",
+            "title": "Output Price Usd Per Mtok"
+          },
+          "context_window": {
+            "type": "integer",
+            "title": "Context Window"
+          },
+          "max_output_tokens": {
+            "type": "integer",
+            "title": "Max Output Tokens"
+          },
+          "options": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Options"
+          },
+          "is_enabled": {
+            "type": "boolean",
+            "title": "Is Enabled"
+          },
+          "is_default": {
+            "type": "boolean",
+            "title": "Is Default"
+          },
+          "provider_configured": {
+            "type": "boolean",
+            "title": "Provider Configured",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "provider",
+          "model_id",
+          "display_name",
+          "input_price_usd_per_mtok",
+          "output_price_usd_per_mtok",
+          "context_window",
+          "max_output_tokens",
+          "options",
+          "is_enabled",
+          "is_default"
+        ],
+        "title": "ModelOut"
+      },
+      "ModelUpdate": {
+        "properties": {
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 120,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "input_price_usd_per_mtok": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Price Usd Per Mtok"
+          },
+          "output_price_usd_per_mtok": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Price Usd Per Mtok"
+          },
+          "context_window": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 10000000.0,
+                "minimum": 1000.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context Window"
+          },
+          "max_output_tokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 200000.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Output Tokens"
+          },
+          "options": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object",
+                "maxProperties": 10
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Options"
+          },
+          "is_enabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Enabled"
+          },
+          "is_default": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Default"
+          }
+        },
+        "type": "object",
+        "title": "ModelUpdate"
+      },
+      "ModelUsage": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "title": "Provider"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "calls": {
+            "type": "integer",
+            "title": "Calls"
+          },
+          "input_tokens": {
+            "type": "integer",
+            "title": "Input Tokens"
+          },
+          "output_tokens": {
+            "type": "integer",
+            "title": "Output Tokens"
+          },
+          "cost_eur": {
+            "type": "string",
+            "title": "Cost Eur"
+          }
+        },
+        "type": "object",
+        "required": [
+          "provider",
+          "model",
+          "calls",
+          "input_tokens",
+          "output_tokens",
+          "cost_eur"
+        ],
+        "title": "ModelUsage"
+      },
       "OpportunityCreate": {
         "properties": {
           "lead_id": {
@@ -4081,6 +4988,45 @@
         ],
         "title": "OrganizationUpdate"
       },
+      "OrganizationUsage": {
+        "properties": {
+          "organization_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Organization Id"
+          },
+          "organization_name": {
+            "type": "string",
+            "title": "Organization Name"
+          },
+          "monthly_budget_eur": {
+            "type": "string",
+            "title": "Monthly Budget Eur"
+          },
+          "has_specific_budget": {
+            "type": "boolean",
+            "title": "Has Specific Budget"
+          },
+          "spent_eur": {
+            "type": "string",
+            "title": "Spent Eur"
+          },
+          "calls": {
+            "type": "integer",
+            "title": "Calls"
+          }
+        },
+        "type": "object",
+        "required": [
+          "organization_id",
+          "organization_name",
+          "monthly_budget_eur",
+          "has_specific_budget",
+          "spent_eur",
+          "calls"
+        ],
+        "title": "OrganizationUsage"
+      },
       "OrganizationWithRole": {
         "properties": {
           "id": {
@@ -4167,7 +5113,8 @@
           "crm:read",
           "crm:write",
           "crm:assign",
-          "crm:delete"
+          "crm:delete",
+          "ai:manage"
         ],
         "title": "Permission"
       },
@@ -4210,6 +5157,88 @@
         "title": "Person",
         "description": "A staff member, as shown next to the records they own or wrote."
       },
+      "PlaygroundIn": {
+        "properties": {
+          "model_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Id"
+          },
+          "prompt_key": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Key"
+          },
+          "prompt_version": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Version"
+          },
+          "system": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "System"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 20000,
+            "title": "Message",
+            "default": ""
+          },
+          "variables": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "maxProperties": 30,
+            "title": "Variables"
+          },
+          "max_tokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 200000.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Tokens"
+          }
+        },
+        "type": "object",
+        "title": "PlaygroundIn"
+      },
       "PreviewIn": {
         "properties": {
           "body_md": {
@@ -4236,6 +5265,298 @@
           "html"
         ],
         "title": "PreviewOut"
+      },
+      "PromptCreate": {
+        "properties": {
+          "system": {
+            "type": "string",
+            "maxLength": 50000,
+            "minLength": 1,
+            "title": "System"
+          },
+          "template": {
+            "type": "string",
+            "maxLength": 50000,
+            "title": "Template",
+            "default": ""
+          },
+          "model_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Id"
+          },
+          "max_tokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 200000.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Tokens"
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 300,
+            "title": "Notes",
+            "default": ""
+          },
+          "activate": {
+            "type": "boolean",
+            "title": "Activate",
+            "default": true
+          },
+          "key": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$",
+            "title": "Key"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 300,
+            "title": "Description",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "system",
+          "key"
+        ],
+        "title": "PromptCreate"
+      },
+      "PromptOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "active_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active Version"
+          },
+          "versions": {
+            "items": {
+              "$ref": "#/components/schemas/PromptVersionOut"
+            },
+            "type": "array",
+            "title": "Versions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "key",
+          "description",
+          "active_version",
+          "versions"
+        ],
+        "title": "PromptOut"
+      },
+      "PromptSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "active_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active Version"
+          },
+          "versions": {
+            "type": "integer",
+            "title": "Versions"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "key",
+          "description",
+          "active_version",
+          "versions",
+          "updated_at"
+        ],
+        "title": "PromptSummary"
+      },
+      "PromptVersionIn": {
+        "properties": {
+          "system": {
+            "type": "string",
+            "maxLength": 50000,
+            "minLength": 1,
+            "title": "System"
+          },
+          "template": {
+            "type": "string",
+            "maxLength": 50000,
+            "title": "Template",
+            "default": ""
+          },
+          "model_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Id"
+          },
+          "max_tokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 200000.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Tokens"
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 300,
+            "title": "Notes",
+            "default": ""
+          },
+          "activate": {
+            "type": "boolean",
+            "title": "Activate",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "system"
+        ],
+        "title": "PromptVersionIn"
+      },
+      "PromptVersionOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "system": {
+            "type": "string",
+            "title": "System"
+          },
+          "template": {
+            "type": "string",
+            "title": "Template"
+          },
+          "variables": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Variables"
+          },
+          "model_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Id"
+          },
+          "max_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Tokens"
+          },
+          "notes": {
+            "type": "string",
+            "title": "Notes"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "version",
+          "system",
+          "template",
+          "variables",
+          "model_id",
+          "max_tokens",
+          "notes",
+          "created_at"
+        ],
+        "title": "PromptVersionOut"
       },
       "PublicContent": {
         "properties": {
@@ -4437,6 +5758,31 @@
           "height"
         ],
         "title": "PublicImage"
+      },
+      "QuotaIn": {
+        "properties": {
+          "monthly_budget_eur": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1000000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monthly Budget Eur"
+          }
+        },
+        "type": "object",
+        "required": [
+          "monthly_budget_eur"
+        ],
+        "title": "QuotaIn"
       },
       "QuoteRequestAccepted": {
         "properties": {
@@ -4844,6 +6190,160 @@
           "seo_description"
         ],
         "title": "TranslationOut"
+      },
+      "UsageRecord": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "organization_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Organization Id"
+          },
+          "feature": {
+            "type": "string",
+            "title": "Feature"
+          },
+          "provider": {
+            "type": "string",
+            "title": "Provider"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "prompt_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Key"
+          },
+          "prompt_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Version"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          },
+          "input_tokens": {
+            "type": "integer",
+            "title": "Input Tokens"
+          },
+          "output_tokens": {
+            "type": "integer",
+            "title": "Output Tokens"
+          },
+          "cost_eur": {
+            "type": "string",
+            "title": "Cost Eur"
+          },
+          "latency_ms": {
+            "type": "integer",
+            "title": "Latency Ms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "created_at",
+          "organization_id",
+          "feature",
+          "provider",
+          "model",
+          "prompt_key",
+          "prompt_version",
+          "status",
+          "error_code",
+          "input_tokens",
+          "output_tokens",
+          "cost_eur",
+          "latency_ms"
+        ],
+        "title": "UsageRecord"
+      },
+      "UsageReport": {
+        "properties": {
+          "month": {
+            "type": "string",
+            "title": "Month"
+          },
+          "eur_per_usd": {
+            "type": "string",
+            "title": "Eur Per Usd"
+          },
+          "default_budget_eur": {
+            "type": "string",
+            "title": "Default Budget Eur"
+          },
+          "total_cost_eur": {
+            "type": "string",
+            "title": "Total Cost Eur"
+          },
+          "organizations": {
+            "items": {
+              "$ref": "#/components/schemas/OrganizationUsage"
+            },
+            "type": "array",
+            "title": "Organizations"
+          },
+          "models": {
+            "items": {
+              "$ref": "#/components/schemas/ModelUsage"
+            },
+            "type": "array",
+            "title": "Models"
+          },
+          "recent": {
+            "items": {
+              "$ref": "#/components/schemas/UsageRecord"
+            },
+            "type": "array",
+            "title": "Recent"
+          }
+        },
+        "type": "object",
+        "required": [
+          "month",
+          "eur_per_usd",
+          "default_budget_eur",
+          "total_cost_eur",
+          "organizations",
+          "models",
+          "recent"
+        ],
+        "title": "UsageReport"
       },
       "ValidationError": {
         "properties": {

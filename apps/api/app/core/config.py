@@ -1,5 +1,6 @@
 """Application settings, loaded from environment variables (see .env.example)."""
 
+from decimal import Decimal
 from functools import lru_cache
 from typing import Literal
 
@@ -48,6 +49,24 @@ class Settings(BaseSettings):
     """Defaults to {auth_issuer}/oidc/v1/userinfo (Zitadel)."""
     auth_leeway_seconds: int = Field(default=30, ge=0, le=300)
     health_check_timeout_seconds: float = Field(default=2.0, gt=0)
+
+    # AI Gateway (ADR-0007, ADR-0012). Provider keys stay in the backend; a provider
+    # without a key is reported as not configured.
+    anthropic_api_key: SecretStr | None = None
+    openai_api_key: SecretStr | None = None
+    gemini_api_key: SecretStr | None = None
+    anthropic_base_url: str | None = None
+    openai_base_url: str | None = None
+    gemini_base_url: str | None = None
+    """Base URLs: only to point the SDKs at simulated providers (tests) or a proxy."""
+    ai_request_timeout_seconds: float = Field(default=120.0, gt=0)
+    ai_eur_per_usd: Decimal = Field(default=Decimal("0.86"), gt=0)
+    """Exchange rate used to convert provider prices (USD) into the EUR budgets."""
+    ai_default_monthly_budget_eur: Decimal = Field(default=Decimal("20"), ge=0)
+    """Monthly AI budget of an organization without a specific quota."""
+    ai_user_requests_per_minute: int = Field(default=20, ge=1)
+    ai_enable_simulated_provider: bool = False
+    """Offline "simulated" provider (echo) for local development and end-to-end tests."""
 
     @property
     def is_production(self) -> bool:
