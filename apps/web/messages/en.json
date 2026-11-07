@@ -47,7 +47,64 @@
     "title": "The AI solutions integrator",
     "lead": "Strategy, integration and support: we turn artificial intelligence into tangible results for your organization.",
     "primaryCta": "Contact us",
-    "secondaryCta": "Explore our solutions"
+    "secondaryCta": "Explore our solutions",
+    "metaDescription": "DEV4INNOVA designs, integrates and runs artificial intelligence solutions: assistants, document automation, data analytics and generative AI.",
+    "pillars": {
+      "title": "From idea to production, one partner",
+      "lead": "We cover the whole lifecycle of an AI project, with one requirement: it must be useful, reliable and adopted by your teams.",
+      "strategy": {
+        "title": "Frame",
+        "text": "Identify high-impact use cases, assess their feasibility and build a realistic roadmap."
+      },
+      "build": {
+        "title": "Build",
+        "text": "Design and develop tailored solutions, integrated with your tools and data."
+      },
+      "run": {
+        "title": "Run",
+        "text": "Deploy, measure, keep improving and train your teams for lasting adoption."
+      }
+    },
+    "solutions": {
+      "title": "Our solutions",
+      "lead": "Proven building blocks, adapted to your business context."
+    },
+    "services": {
+      "title": "Our services",
+      "lead": "End-to-end support, on demand or ongoing."
+    },
+    "approach": {
+      "title": "Our approach",
+      "lead": "An iterative method that reduces risk and delivers value quickly.",
+      "discover": {
+        "title": "Explore",
+        "text": "Workshops with your teams to understand the stakes, the available data and the constraints."
+      },
+      "prototype": {
+        "title": "Prototype",
+        "text": "A short proof of concept to validate the value before investing further."
+      },
+      "industrialize": {
+        "title": "Industrialize",
+        "text": "A robust, secure solution integrated with your information system."
+      },
+      "scale": {
+        "title": "Deploy and improve",
+        "text": "Go-live, usage monitoring and continuous improvement."
+      }
+    },
+    "lab": {
+      "title": "Innovation Lab",
+      "text": "Our lab explores emerging technologies and turns them into concrete prototypes for our clients."
+    },
+    "academy": {
+      "title": "Academy",
+      "text": "Training so that your teams understand, use and steer AI with confidence."
+    },
+    "finalCta": {
+      "title": "An artificial intelligence project?",
+      "text": "Let's talk about your challenges. We help you identify what AI can really bring to your organization."
+    }
   },
   "NotFound": {
     "metaTitle": "Page not found",
@@ -156,5 +213,372 @@
       "staff_sales": "DEV4INNOVA sales"
     },
     "signOut": "Sign out"
+  },
+  "Common": {
+    "learnMore": "Learn more",
+    "discover": "Discover",
+    "contactUs": "Contact us",
+    "allSolutions": "All solutions",
+    "allServices": "All services",
+    "breadcrumb": "Breadcrumb",
+    "home": "Home"
+  },
+  "Solutions": {
+    "metaTitle": "AI solutions",
+    "metaDescription": "AI assistants, document automation, data analytics, generative AI and integration with your tools: DEV4INNOVA solutions.",
+    "eyebrow": "Solutions",
+    "title": "AI solutions that serve your business",
+    "lead": "Each solution adapts to your processes, your data and your security requirements.",
+    "benefits": "What you gain",
+    "useCases": "Example use cases",
+    "ctaTitle": "Does this solution meet your needs?",
+    "ctaText": "Let's discuss your context to define the best approach.",
+    "items": {
+      "ai-assistants": {
+        "title": "AI assistants and agents",
+        "summary": "Conversational assistants that draw on your internal knowledge and act in your tools.",
+        "description": "We design assistants that answer from your documents, guide your customers or employees, and chain actions in your applications, with the right safeguards.",
+        "benefits": {
+          "a": "Reliable answers, sourced from your own content",
+          "b": "Support available at any time",
+          "c": "Fewer repetitive tasks for your teams"
+        },
+        "useCases": {
+          "a": "Customer support assistant",
+          "b": "Searchable internal knowledge base",
+          "c": "Agent that prepares files or quotes"
+        }
+      },
+      "document-automation": {
+        "title": "Document automation",
+        "summary": "Automatically extract, classify and check information from your documents.",
+        "description": "Invoices, contracts, forms, mail: we automate how your documents are read and processed, with human validation where it matters.",
+        "benefits": {
+          "a": "Faster processing",
+          "b": "Fewer data entry errors",
+          "c": "Full traceability of decisions"
+        },
+        "useCases": {
+          "a": "Supplier invoice processing",
+          "b": "Contract analysis",
+          "c": "Sorting and routing incoming mail"
+        }
+      },
+      "data-intelligence": {
+        "title": "Analytics and forecasting",
+        "summary": "Make the most of your data to anticipate, prioritize and decide.",
+        "description": "We build analysis and forecasting models from your data and make them available in dashboards everyone can understand.",
+        "benefits": {
+          "a": "Data-driven decisions",
+          "b": "Trends detected earlier",
+          "c": "Indicators shared across the organization"
+        },
+        "useCases": {
+          "a": "Demand forecasting",
+          "b": "Anomaly detection",
+          "c": "Prioritizing sales opportunities"
+        }
+      },
+      "generative-content": {
+        "title": "Generative AI for your content",
+        "summary": "Produce and adapt your content faster, in your voice and under your control.",
+        "description": "Writing, summarizing, translating, multichannel adaptation: we set up supervised generation tools that follow your guidelines and review rules.",
+        "benefits": {
+          "a": "Time saved on production",
+          "b": "Consistent editorial quality",
+          "c": "Human review built into the process"
+        },
+        "useCases": {
+          "a": "Product sheets and descriptions",
+          "b": "Meeting and report summaries",
+          "c": "Content translation and adaptation"
+        }
+      },
+      "ai-integration": {
+        "title": "AI in your existing tools",
+        "summary": "Bring AI where your teams already work: CRM, ERP, messaging, intranet.",
+        "description": "We connect AI models to your existing applications securely, so that AI fits naturally into your processes.",
+        "benefits": {
+          "a": "No new tool to learn",
+          "b": "Data that stays under control",
+          "c": "A scalable architecture, not tied to a single vendor"
+        },
+        "useCases": {
+          "a": "Automatic CRM enrichment",
+          "b": "Support ticket summaries",
+          "c": "Smart intranet search"
+        }
+      }
+    }
+  },
+  "Services": {
+    "metaTitle": "Services",
+    "metaDescription": "AI strategy consulting, custom development, integration, training and continuous improvement: DEV4INNOVA services.",
+    "eyebrow": "Services",
+    "title": "Support at every stage",
+    "lead": "From strategic framing to continuous improvement, we step in where you need us.",
+    "deliverables": "What we deliver",
+    "forWhom": "Who is it for?",
+    "ctaTitle": "Let's talk about your project",
+    "ctaText": "Together we design the support that fits your goals.",
+    "items": {
+      "ai-strategy": {
+        "title": "AI consulting and strategy",
+        "summary": "Identify high-value use cases and build your roadmap.",
+        "description": "We assess your maturity, data and processes to prioritize the most relevant AI projects, taking regulatory and ethical issues into account.",
+        "deliverables": {
+          "a": "Use case map",
+          "b": "Feasibility and risk analysis",
+          "c": "Prioritized roadmap"
+        },
+        "forWhom": "Executives, business units and IT departments who want to structure their AI approach."
+      },
+      "custom-development": {
+        "title": "Custom development",
+        "summary": "Design AI solutions tailored to your specific needs.",
+        "description": "Our teams design and build robust, tested and documented AI applications, using the best models available.",
+        "deliverables": {
+          "a": "Prototype and proof of concept",
+          "b": "Production-ready application",
+          "c": "Maintainable code and documentation"
+        },
+        "forWhom": "Organizations whose needs are not covered by off-the-shelf tools."
+      },
+      "integration-deployment": {
+        "title": "Integration and deployment",
+        "summary": "Connect AI to your information system and take it to production.",
+        "description": "We integrate solutions with your existing tools, secure data flows and ensure a controlled go-live.",
+        "deliverables": {
+          "a": "Connectors to your applications",
+          "b": "Secure architecture",
+          "c": "Supported go-live"
+        },
+        "forWhom": "Technical teams who want to industrialize a prototype or an existing solution."
+      },
+      "training-support": {
+        "title": "Training and change support",
+        "summary": "Give your teams the keys to use AI effectively.",
+        "description": "Training adapted to each profile, change management support and good practices for responsible AI use.",
+        "deliverables": {
+          "a": "Tailored learning paths",
+          "b": "Hands-on workshops",
+          "c": "Usage guides and good practices"
+        },
+        "forWhom": "Employees, managers and technical teams, whatever their level."
+      },
+      "run-and-improve": {
+        "title": "Monitoring and continuous improvement",
+        "summary": "Keep your solutions accurate and efficient over time.",
+        "description": "We monitor result quality, costs and usage, then evolve the solutions as your needs and technology progress.",
+        "deliverables": {
+          "a": "Quality and cost monitoring",
+          "b": "Regular improvements",
+          "c": "Support and maintenance"
+        },
+        "forWhom": "Organizations with an AI solution in production that they want to keep improving."
+      }
+    }
+  },
+  "About": {
+    "metaTitle": "About",
+    "metaDescription": "DEV4INNOVA, artificial intelligence solutions integrator: our mission, approach and values.",
+    "eyebrow": "About",
+    "title": "Making artificial intelligence useful, concrete and under control",
+    "lead": "DEV4INNOVA helps organizations adopt artificial intelligence, from strategy to production.",
+    "mission": {
+      "title": "Our mission",
+      "text": "Help every organization get real value from artificial intelligence, by choosing the right technologies, in the right place, with the right safeguards."
+    },
+    "approach": {
+      "title": "Our approach",
+      "text": "We focus on measurable results: start from business needs, prove value quickly, then industrialize rigorously. We stay vendor-independent so we can recommend what truly suits you."
+    },
+    "values": {
+      "title": "Our values",
+      "pragmatism": {
+        "title": "Pragmatism",
+        "text": "A technology is only worth something if it solves a real problem."
+      },
+      "transparency": {
+        "title": "Transparency",
+        "text": "Explained choices, controlled costs, acknowledged limits."
+      },
+      "responsibility": {
+        "title": "Responsibility",
+        "text": "Security, data protection and ethical use of AI."
+      },
+      "transmission": {
+        "title": "Knowledge sharing",
+        "text": "Training your teams so they become autonomous."
+      }
+    },
+    "ctaTitle": "Let's work together",
+    "ctaText": "Tell us about your project: we will reply with an initial analysis."
+  },
+  "InnovationLab": {
+    "metaTitle": "Innovation Lab",
+    "metaDescription": "The DEV4INNOVA Innovation Lab explores emerging AI technologies and turns them into concrete prototypes.",
+    "eyebrow": "Innovation Lab",
+    "title": "Exploring tomorrow's AI today",
+    "lead": "Our lab tests emerging technologies against real use cases, so you can innovate without taking unnecessary risks.",
+    "explore": {
+      "title": "What we explore",
+      "agents": {
+        "title": "Autonomous agents",
+        "text": "AI that plans and chains actions in your tools, under human control."
+      },
+      "multimodal": {
+        "title": "Multimodal AI",
+        "text": "Understanding and producing text, images, audio and documents together."
+      },
+      "sovereign": {
+        "title": "Controlled models",
+        "text": "Models hosted in Europe or in your own infrastructure for sensitive data."
+      }
+    },
+    "program": {
+      "title": "A prototyping program",
+      "lead": "In a few weeks, go from an idea to a prototype tested by your users.",
+      "frame": {
+        "title": "Framing",
+        "text": "Together we define the question to answer and the success criteria."
+      },
+      "build": {
+        "title": "Prototype",
+        "text": "We build a first working version with your data."
+      },
+      "test": {
+        "title": "Test",
+        "text": "Your users try it; we measure the results."
+      },
+      "decide": {
+        "title": "Decision",
+        "text": "You have what you need to industrialize, adjust or stop."
+      }
+    },
+    "ctaTitle": "An idea to test?",
+    "ctaText": "Suggest a topic for us to explore."
+  },
+  "AcademyPage": {
+    "metaTitle": "Academy",
+    "metaDescription": "DEV4INNOVA Academy training to understand, use and steer artificial intelligence.",
+    "eyebrow": "Academy",
+    "title": "Train your teams in artificial intelligence",
+    "lead": "Practical training so everyone can understand, use and steer AI with confidence.",
+    "themes": {
+      "title": "Topics",
+      "fundamentals": {
+        "title": "Understanding AI",
+        "text": "Key concepts, possibilities and limits, without jargon."
+      },
+      "productivity": {
+        "title": "Generative AI every day",
+        "text": "Using AI assistants well to save time, safely."
+      },
+      "leadership": {
+        "title": "Leading an AI project",
+        "text": "Framing, prioritizing, measuring value and managing risks."
+      },
+      "technical": {
+        "title": "Building with AI",
+        "text": "Integrating models into robust and secure applications."
+      }
+    },
+    "formats": {
+      "title": "Formats",
+      "intra": {
+        "title": "In-company sessions",
+        "text": "Programs adapted to your context and tools."
+      },
+      "workshops": {
+        "title": "Hands-on workshops",
+        "text": "Practical exercises on your own use cases."
+      },
+      "online": {
+        "title": "Online courses",
+        "text": "Self-paced modules, coming soon."
+      }
+    },
+    "comingSoon": "The online course catalog is being prepared.",
+    "ctaTitle": "Need training?",
+    "ctaText": "We design a program tailored to your teams."
+  },
+  "Portfolio": {
+    "metaTitle": "Portfolio",
+    "metaDescription": "Artificial intelligence projects delivered by DEV4INNOVA.",
+    "eyebrow": "Portfolio",
+    "title": "Our work",
+    "lead": "Concrete projects, measured results.",
+    "emptyTitle": "Our case studies are coming soon",
+    "emptyText": "We are preparing the presentation of our projects, with our clients' approval. In the meantime, let's talk about yours."
+  },
+  "Insights": {
+    "metaTitle": "Insights",
+    "metaDescription": "Analysis, lessons learned and good practices on artificial intelligence by DEV4INNOVA.",
+    "eyebrow": "Insights",
+    "title": "Analysis and lessons learned",
+    "lead": "Our thoughts on artificial intelligence, its uses and its challenges.",
+    "emptyTitle": "First articles in preparation",
+    "emptyText": "Our first publications are coming very soon. Come back later or contact us to talk."
+  },
+  "Contact": {
+    "metaTitle": "Contact",
+    "metaDescription": "Contact DEV4INNOVA to talk about your artificial intelligence project.",
+    "eyebrow": "Contact",
+    "title": "Let's talk about your project",
+    "lead": "Tell us what you need: a member of our team will get back to you.",
+    "asideTitle": "What happens next?",
+    "asideSteps": {
+      "a": "We review your request.",
+      "b": "We suggest a first conversation.",
+      "c": "Together we build a proposal that fits."
+    },
+    "form": {
+      "name": "Full name",
+      "email": "Work email address",
+      "company": "Organization",
+      "topic": "Subject",
+      "message": "Your message",
+      "messageHelp": "At least 20 characters. Describe your context and goals.",
+      "consent": "I agree that DEV4INNOVA may use this information to answer my request, in accordance with the privacy policy.",
+      "privacyLink": "Read the privacy policy",
+      "required": "required",
+      "optional": "optional",
+      "submit": "Send message",
+      "sending": "Sending",
+      "honeypot": "Do not fill in this field"
+    },
+    "topics": {
+      "project": "An AI project",
+      "training": "Training",
+      "partnership": "A partnership",
+      "other": "Something else"
+    },
+    "success": {
+      "title": "Thank you, your message has been sent",
+      "text": "We will get back to you as soon as possible."
+    },
+    "errors": {
+      "summary": "The form contains errors.",
+      "name": "Enter your name (at least 2 characters).",
+      "email": "Enter a valid email address.",
+      "company": "The organization name is too long.",
+      "message": "Your message must be between 20 and 5,000 characters.",
+      "consent": "Your agreement is required so that we can reply.",
+      "rateLimited": "Too many messages sent. Please try again in an hour.",
+      "unavailable": "The service is temporarily unavailable. Please try again later."
+    }
+  },
+  "Legal": {
+    "pendingTitle": "Content being written",
+    "pendingText": "This page will be published before the website goes live.",
+    "legalNotice": {
+      "metaTitle": "Legal notice",
+      "title": "Legal notice"
+    },
+    "privacy": {
+      "metaTitle": "Privacy policy",
+      "title": "Privacy policy"
+    }
   }
 }

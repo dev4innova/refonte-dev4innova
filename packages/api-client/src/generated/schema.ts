@@ -137,10 +137,68 @@ export interface paths {
         patch: operations["organizations-change_member_role"];
         trace?: never;
     };
+    "/api/v1/contact-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Send a message from the website contact form (public) */
+        post: operations["contact-create_contact_request"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** ContactRequestAccepted */
+        ContactRequestAccepted: {
+            /** Id */
+            id: string | null;
+        };
+        /** ContactRequestCreate */
+        ContactRequestCreate: {
+            /** Name */
+            name: string;
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /** Company */
+            company?: string | null;
+            /**
+             * Topic
+             * @default project
+             * @enum {string}
+             */
+            topic: "project" | "training" | "partnership" | "other";
+            /** Message */
+            message: string;
+            /**
+             * Locale
+             * @default fr
+             * @enum {string}
+             */
+            locale: "fr" | "en";
+            /**
+             * Consent
+             * @constant
+             */
+            consent: true;
+            /**
+             * Website
+             * @default
+             */
+            website: string;
+        };
         /** DependencyCheck */
         DependencyCheck: {
             /**
@@ -885,6 +943,46 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
                 };
+            };
+        };
+    };
+    "contact-create_contact_request": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ContactRequestCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ContactRequestAccepted"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+            /** @description Too many requests from this client or email */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

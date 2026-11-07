@@ -68,4 +68,5 @@ make web-dev    # terminal 2
 - EPIC 02 (design system) : livré — voir [docs/design-system.md](docs/design-system.md) et la page `/design-system`.
 - EPIC 03 (internationalisation FR/EN) : livré — `/fr`, `/en`, voir `docs/rules/frontend.md`.
 - EPIC 04 (identité et accès, Zitadel) : livré — voir [docs/architecture/authentication.md](docs/architecture/authentication.md).
+- EPIC 05 (site corporate FR/EN, formulaire de contact, SEO) : livré — textes à valider.
 - TASK-116 (intégration continue) : livrée — voir [CONTRIBUTING.md](CONTRIBUTING.md#intégration-continue).

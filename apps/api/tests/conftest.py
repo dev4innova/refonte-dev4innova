@@ -23,7 +23,7 @@ from alembic.config import Config
 from sqlalchemy import text
 
 from app.core.config import get_settings
-from app.core.redis import close_redis
+from app.core.redis import close_redis, get_redis
 from app.db.session import dispose_engine, get_engine
 from app.main import create_app
 from app.modules.identity.auth import get_token_verifier
@@ -43,10 +43,13 @@ async def client() -> AsyncIterator[AsyncClient]:
     get_settings.cache_clear()
     app = create_app()
     app.dependency_overrides[get_token_verifier] = make_verifier
+    await get_redis().flushdb()  # test database (15): fresh rate limit counters
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         yield ac
     async with get_engine().begin() as conn:
-        await conn.execute(text("TRUNCATE memberships, organizations, users CASCADE"))
+        await conn.execute(
+            text("TRUNCATE memberships, organizations, users, contact_requests CASCADE")
+        )
     await dispose_engine()
     await close_redis()
 

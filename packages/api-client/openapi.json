@@ -622,10 +622,147 @@
           }
         }
       }
+    },
+    "/api/v1/contact-requests": {
+      "post": {
+        "tags": [
+          "contact"
+        ],
+        "summary": "Send a message from the website contact form (public)",
+        "operationId": "contact-create_contact_request",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactRequestCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContactRequestAccepted"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests from this client or email"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "ContactRequestAccepted": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "ContactRequestAccepted"
+      },
+      "ContactRequestCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 160
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company"
+          },
+          "topic": {
+            "type": "string",
+            "enum": [
+              "project",
+              "training",
+              "partnership",
+              "other"
+            ],
+            "title": "Topic",
+            "default": "project"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 5000,
+            "minLength": 20,
+            "title": "Message"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "fr",
+              "en"
+            ],
+            "title": "Locale",
+            "default": "fr"
+          },
+          "consent": {
+            "type": "boolean",
+            "const": true,
+            "title": "Consent"
+          },
+          "website": {
+            "type": "string",
+            "maxLength": 200,
+            "title": "Website",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "message",
+          "consent"
+        ],
+        "title": "ContactRequestCreate"
+      },
       "DependencyCheck": {
         "properties": {
           "status": {

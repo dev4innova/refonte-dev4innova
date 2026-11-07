@@ -47,7 +47,64 @@
     "title": "L'intégrateur de solutions IA",
     "lead": "Stratégie, intégration et accompagnement : nous transformons l'intelligence artificielle en résultats concrets pour votre organisation.",
     "primaryCta": "Nous contacter",
-    "secondaryCta": "Découvrir nos solutions"
+    "secondaryCta": "Découvrir nos solutions",
+    "metaDescription": "DEV4INNOVA conçoit, intègre et fait vivre des solutions d'intelligence artificielle : assistants, automatisation documentaire, analyse de données et IA générative.",
+    "pillars": {
+      "title": "De l'idée à la production, un seul partenaire",
+      "lead": "Nous couvrons tout le cycle de vie d'un projet IA, avec une exigence : qu'il soit utile, fiable et adopté par vos équipes.",
+      "strategy": {
+        "title": "Cadrer",
+        "text": "Identifier les cas d'usage à fort impact, évaluer leur faisabilité et construire une feuille de route réaliste."
+      },
+      "build": {
+        "title": "Construire",
+        "text": "Concevoir et développer des solutions sur mesure, intégrées à vos outils et à vos données."
+      },
+      "run": {
+        "title": "Faire vivre",
+        "text": "Déployer, mesurer, améliorer en continu et former vos équipes pour un usage durable."
+      }
+    },
+    "solutions": {
+      "title": "Nos solutions",
+      "lead": "Des briques éprouvées, adaptées à votre contexte métier."
+    },
+    "services": {
+      "title": "Nos services",
+      "lead": "Un accompagnement de bout en bout, à la carte ou en continu."
+    },
+    "approach": {
+      "title": "Notre démarche",
+      "lead": "Une méthode itérative qui réduit les risques et livre de la valeur rapidement.",
+      "discover": {
+        "title": "Explorer",
+        "text": "Ateliers avec vos équipes pour comprendre les enjeux, les données disponibles et les contraintes."
+      },
+      "prototype": {
+        "title": "Prototyper",
+        "text": "Une preuve de concept courte pour valider la valeur avant d'investir davantage."
+      },
+      "industrialize": {
+        "title": "Industrialiser",
+        "text": "Une solution robuste, sécurisée et intégrée à votre système d'information."
+      },
+      "scale": {
+        "title": "Déployer et améliorer",
+        "text": "Mise en production, suivi des usages et amélioration continue."
+      }
+    },
+    "lab": {
+      "title": "Innovation Lab",
+      "text": "Notre laboratoire explore les technologies émergentes et les transforme en prototypes concrets pour nos clients."
+    },
+    "academy": {
+      "title": "Academy",
+      "text": "Des formations pour que vos équipes comprennent, utilisent et pilotent l'IA en toute confiance."
+    },
+    "finalCta": {
+      "title": "Un projet d'intelligence artificielle ?",
+      "text": "Parlons de vos enjeux. Nous vous aidons à identifier ce que l'IA peut réellement apporter à votre organisation."
+    }
   },
   "NotFound": {
     "metaTitle": "Page introuvable",
@@ -156,5 +213,372 @@
       "staff_sales": "Commercial DEV4INNOVA"
     },
     "signOut": "Se déconnecter"
+  },
+  "Common": {
+    "learnMore": "En savoir plus",
+    "discover": "Découvrir",
+    "contactUs": "Nous contacter",
+    "allSolutions": "Toutes les solutions",
+    "allServices": "Tous les services",
+    "breadcrumb": "Fil d'Ariane",
+    "home": "Accueil"
+  },
+  "Solutions": {
+    "metaTitle": "Solutions IA",
+    "metaDescription": "Assistants IA, automatisation documentaire, analyse de données, IA générative et intégration à vos outils : les solutions DEV4INNOVA.",
+    "eyebrow": "Solutions",
+    "title": "Des solutions IA au service de vos métiers",
+    "lead": "Chaque solution s'adapte à vos processus, à vos données et à vos exigences de sécurité.",
+    "benefits": "Ce que vous y gagnez",
+    "useCases": "Exemples d'usages",
+    "ctaTitle": "Cette solution répond à votre besoin ?",
+    "ctaText": "Échangeons sur votre contexte pour définir la meilleure approche.",
+    "items": {
+      "ai-assistants": {
+        "title": "Assistants et agents IA",
+        "summary": "Des assistants conversationnels qui s'appuient sur vos connaissances internes et agissent dans vos outils.",
+        "description": "Nous concevons des assistants capables de répondre à partir de vos documents, de guider vos clients ou vos collaborateurs, et d'enchaîner des actions dans vos applications, avec des garde-fous adaptés.",
+        "benefits": {
+          "a": "Des réponses fiables, sourcées dans vos propres contenus",
+          "b": "Un support disponible à tout moment",
+          "c": "Moins de tâches répétitives pour vos équipes"
+        },
+        "useCases": {
+          "a": "Assistant de support client",
+          "b": "Base de connaissances interne interrogeable",
+          "c": "Agent qui prépare des dossiers ou des devis"
+        }
+      },
+      "document-automation": {
+        "title": "Automatisation documentaire",
+        "summary": "Extraire, classer et vérifier automatiquement les informations de vos documents.",
+        "description": "Factures, contrats, formulaires, courriers : nous automatisons la lecture et le traitement de vos documents, avec validation humaine là où elle est nécessaire.",
+        "benefits": {
+          "a": "Des traitements plus rapides",
+          "b": "Moins d'erreurs de saisie",
+          "c": "Une traçabilité complète des décisions"
+        },
+        "useCases": {
+          "a": "Traitement des factures fournisseurs",
+          "b": "Analyse de contrats",
+          "c": "Tri et routage du courrier entrant"
+        }
+      },
+      "data-intelligence": {
+        "title": "Analyse et prédiction",
+        "summary": "Valoriser vos données pour anticiper, prioriser et décider.",
+        "description": "Nous construisons des modèles d'analyse et de prévision à partir de vos données, et les rendons accessibles dans des tableaux de bord compréhensibles par tous.",
+        "benefits": {
+          "a": "Des décisions fondées sur les données",
+          "b": "Des tendances détectées plus tôt",
+          "c": "Des indicateurs partagés par toute l'organisation"
+        },
+        "useCases": {
+          "a": "Prévision de la demande",
+          "b": "Détection d'anomalies",
+          "c": "Priorisation des opportunités commerciales"
+        }
+      },
+      "generative-content": {
+        "title": "IA générative pour vos contenus",
+        "summary": "Produire et adapter vos contenus plus vite, dans votre ton et sous votre contrôle.",
+        "description": "Rédaction, synthèse, traduction, déclinaison multicanale : nous mettons en place des outils de génération encadrés, qui respectent votre charte et vos règles de validation.",
+        "benefits": {
+          "a": "Un gain de temps sur la production",
+          "b": "Une cohérence éditoriale préservée",
+          "c": "Une relecture humaine intégrée au processus"
+        },
+        "useCases": {
+          "a": "Fiches produits et descriptifs",
+          "b": "Synthèses de réunions ou de rapports",
+          "c": "Traduction et adaptation de contenus"
+        }
+      },
+      "ai-integration": {
+        "title": "Intégration IA dans vos outils",
+        "summary": "Ajouter l'IA là où vos équipes travaillent déjà : CRM, ERP, messagerie, intranet.",
+        "description": "Nous connectons les modèles d'IA à vos applications existantes, de façon sécurisée, pour que l'IA s'intègre naturellement dans vos processus.",
+        "benefits": {
+          "a": "Aucun nouvel outil à apprendre",
+          "b": "Des données qui restent maîtrisées",
+          "c": "Une architecture évolutive et indépendante d'un seul fournisseur"
+        },
+        "useCases": {
+          "a": "Enrichissement automatique du CRM",
+          "b": "Résumés de tickets de support",
+          "c": "Recherche intelligente dans l'intranet"
+        }
+      }
+    }
+  },
+  "Services": {
+    "metaTitle": "Services",
+    "metaDescription": "Conseil en stratégie IA, développement sur mesure, intégration, formation et amélioration continue : les services DEV4INNOVA.",
+    "eyebrow": "Services",
+    "title": "Un accompagnement à chaque étape",
+    "lead": "Du cadrage stratégique à l'amélioration continue, nous intervenons là où vous en avez besoin.",
+    "deliverables": "Ce que nous livrons",
+    "forWhom": "Pour qui ?",
+    "ctaTitle": "Parlons de votre projet",
+    "ctaText": "Nous construisons avec vous l'accompagnement adapté à vos objectifs.",
+    "items": {
+      "ai-strategy": {
+        "title": "Conseil et stratégie IA",
+        "summary": "Identifier les cas d'usage à forte valeur et bâtir votre feuille de route.",
+        "description": "Nous évaluons votre maturité, vos données et vos processus pour prioriser les projets IA les plus pertinents, en tenant compte des enjeux réglementaires et éthiques.",
+        "deliverables": {
+          "a": "Cartographie des cas d'usage",
+          "b": "Analyse de faisabilité et de risques",
+          "c": "Feuille de route priorisée"
+        },
+        "forWhom": "Directions générales, métiers et DSI qui veulent structurer leur démarche IA."
+      },
+      "custom-development": {
+        "title": "Développement sur mesure",
+        "summary": "Concevoir des solutions IA adaptées à vos besoins spécifiques.",
+        "description": "Nos équipes conçoivent et développent des applications IA robustes, testées et documentées, en s'appuyant sur les meilleurs modèles du marché.",
+        "deliverables": {
+          "a": "Prototype et preuve de concept",
+          "b": "Application prête pour la production",
+          "c": "Documentation et code maintenables"
+        },
+        "forWhom": "Organisations dont les besoins ne sont pas couverts par des outils standards."
+      },
+      "integration-deployment": {
+        "title": "Intégration et déploiement",
+        "summary": "Connecter l'IA à votre système d'information et la mettre en production.",
+        "description": "Nous intégrons les solutions à vos outils existants, sécurisons les flux de données et assurons une mise en production maîtrisée.",
+        "deliverables": {
+          "a": "Connecteurs vers vos applications",
+          "b": "Architecture sécurisée",
+          "c": "Mise en production accompagnée"
+        },
+        "forWhom": "Équipes techniques qui veulent industrialiser un prototype ou une solution existante."
+      },
+      "training-support": {
+        "title": "Formation et accompagnement",
+        "summary": "Donner à vos équipes les clés pour utiliser l'IA efficacement.",
+        "description": "Formations adaptées à chaque profil, accompagnement au changement et bonnes pratiques d'usage responsable de l'IA.",
+        "deliverables": {
+          "a": "Parcours de formation adaptés",
+          "b": "Ateliers pratiques",
+          "c": "Guides d'usage et bonnes pratiques"
+        },
+        "forWhom": "Collaborateurs, managers et équipes techniques, quel que soit leur niveau."
+      },
+      "run-and-improve": {
+        "title": "Suivi et amélioration continue",
+        "summary": "Garantir la qualité et la performance de vos solutions dans la durée.",
+        "description": "Nous surveillons la qualité des résultats, les coûts et l'usage, puis faisons évoluer les solutions au rythme de vos besoins et des progrès technologiques.",
+        "deliverables": {
+          "a": "Suivi de la qualité et des coûts",
+          "b": "Évolutions régulières",
+          "c": "Support et maintenance"
+        },
+        "forWhom": "Organisations qui ont une solution IA en production et veulent la faire vivre."
+      }
+    }
+  },
+  "About": {
+    "metaTitle": "À propos",
+    "metaDescription": "DEV4INNOVA, intégrateur de solutions d'intelligence artificielle : notre mission, notre démarche et nos valeurs.",
+    "eyebrow": "À propos",
+    "title": "Rendre l'intelligence artificielle utile, concrète et maîtrisée",
+    "lead": "DEV4INNOVA accompagne les organisations dans l'adoption de l'intelligence artificielle, de la stratégie à la mise en production.",
+    "mission": {
+      "title": "Notre mission",
+      "text": "Aider chaque organisation à tirer un bénéfice réel de l'intelligence artificielle, en choisissant les bonnes technologies, au bon endroit, avec les bons garde-fous."
+    },
+    "approach": {
+      "title": "Notre démarche",
+      "text": "Nous privilégions les résultats mesurables : partir des besoins métier, prouver la valeur rapidement, puis industrialiser avec rigueur. Nous restons indépendants des fournisseurs pour recommander ce qui vous convient vraiment."
+    },
+    "values": {
+      "title": "Nos valeurs",
+      "pragmatism": {
+        "title": "Pragmatisme",
+        "text": "Une technologie n'a de valeur que si elle résout un vrai problème."
+      },
+      "transparency": {
+        "title": "Transparence",
+        "text": "Des choix expliqués, des coûts maîtrisés, des limites assumées."
+      },
+      "responsibility": {
+        "title": "Responsabilité",
+        "text": "Sécurité, protection des données et usage éthique de l'IA."
+      },
+      "transmission": {
+        "title": "Transmission",
+        "text": "Former vos équipes pour qu'elles gagnent en autonomie."
+      }
+    },
+    "ctaTitle": "Travaillons ensemble",
+    "ctaText": "Présentez-nous votre projet : nous vous répondons avec une première analyse."
+  },
+  "InnovationLab": {
+    "metaTitle": "Innovation Lab",
+    "metaDescription": "L'Innovation Lab DEV4INNOVA explore les technologies d'IA émergentes et les transforme en prototypes concrets.",
+    "eyebrow": "Innovation Lab",
+    "title": "Explorer aujourd'hui l'IA de demain",
+    "lead": "Notre laboratoire teste les technologies émergentes et les confronte à des cas d'usage réels, pour vous permettre d'innover sans prendre de risques inutiles.",
+    "explore": {
+      "title": "Ce que nous explorons",
+      "agents": {
+        "title": "Agents autonomes",
+        "text": "Des IA capables de planifier et d'enchaîner des actions dans vos outils, sous contrôle humain."
+      },
+      "multimodal": {
+        "title": "IA multimodale",
+        "text": "Comprendre et produire à la fois du texte, des images, de l'audio et des documents."
+      },
+      "sovereign": {
+        "title": "Modèles maîtrisés",
+        "text": "Des modèles hébergés en Europe ou dans votre infrastructure pour les données sensibles."
+      }
+    },
+    "program": {
+      "title": "Un programme de prototypage",
+      "lead": "En quelques semaines, passez d'une idée à un prototype testé par vos utilisateurs.",
+      "frame": {
+        "title": "Cadrage",
+        "text": "Nous définissons ensemble la question à résoudre et les critères de succès."
+      },
+      "build": {
+        "title": "Prototype",
+        "text": "Nous construisons une première version fonctionnelle avec vos données."
+      },
+      "test": {
+        "title": "Test",
+        "text": "Vos utilisateurs l'éprouvent ; nous mesurons les résultats."
+      },
+      "decide": {
+        "title": "Décision",
+        "text": "Vous disposez des éléments pour décider d'industrialiser, d'ajuster ou d'arrêter."
+      }
+    },
+    "ctaTitle": "Une idée à tester ?",
+    "ctaText": "Proposez-nous votre sujet d'exploration."
+  },
+  "AcademyPage": {
+    "metaTitle": "Academy",
+    "metaDescription": "Les formations DEV4INNOVA Academy pour comprendre, utiliser et piloter l'intelligence artificielle.",
+    "eyebrow": "Academy",
+    "title": "Former vos équipes à l'intelligence artificielle",
+    "lead": "Des formations concrètes pour que chacun comprenne, utilise et pilote l'IA en confiance.",
+    "themes": {
+      "title": "Thématiques",
+      "fundamentals": {
+        "title": "Comprendre l'IA",
+        "text": "Les notions essentielles, les possibilités et les limites, sans jargon."
+      },
+      "productivity": {
+        "title": "IA générative au quotidien",
+        "text": "Bien utiliser les assistants IA pour gagner du temps en toute sécurité."
+      },
+      "leadership": {
+        "title": "Piloter un projet IA",
+        "text": "Cadrer, prioriser, mesurer la valeur et gérer les risques."
+      },
+      "technical": {
+        "title": "Développer avec l'IA",
+        "text": "Intégrer les modèles dans des applications robustes et sécurisées."
+      }
+    },
+    "formats": {
+      "title": "Formats",
+      "intra": {
+        "title": "Sessions en entreprise",
+        "text": "Des programmes adaptés à votre contexte et à vos outils."
+      },
+      "workshops": {
+        "title": "Ateliers pratiques",
+        "text": "Des mises en situation sur vos propres cas d'usage."
+      },
+      "online": {
+        "title": "Parcours en ligne",
+        "text": "Des modules à suivre à votre rythme, bientôt disponibles."
+      }
+    },
+    "comingSoon": "Le catalogue de formations en ligne est en préparation.",
+    "ctaTitle": "Un besoin de formation ?",
+    "ctaText": "Nous construisons un programme adapté à vos équipes."
+  },
+  "Portfolio": {
+    "metaTitle": "Portfolio",
+    "metaDescription": "Les projets d'intelligence artificielle réalisés par DEV4INNOVA.",
+    "eyebrow": "Portfolio",
+    "title": "Nos réalisations",
+    "lead": "Des projets concrets, des résultats mesurés.",
+    "emptyTitle": "Nos études de cas arrivent bientôt",
+    "emptyText": "Nous préparons la présentation de nos projets, avec l'accord de nos clients. En attendant, parlons du vôtre."
+  },
+  "Insights": {
+    "metaTitle": "Insights",
+    "metaDescription": "Analyses, retours d'expérience et bonnes pratiques sur l'intelligence artificielle par DEV4INNOVA.",
+    "eyebrow": "Insights",
+    "title": "Analyses et retours d'expérience",
+    "lead": "Nos réflexions sur l'intelligence artificielle, ses usages et ses enjeux.",
+    "emptyTitle": "Premiers articles en préparation",
+    "emptyText": "Nos premières publications arrivent très bientôt. Revenez nous voir ou contactez-nous pour échanger."
+  },
+  "Contact": {
+    "metaTitle": "Contact",
+    "metaDescription": "Contactez DEV4INNOVA pour parler de votre projet d'intelligence artificielle.",
+    "eyebrow": "Contact",
+    "title": "Parlons de votre projet",
+    "lead": "Décrivez-nous votre besoin : un membre de l'équipe vous répondra.",
+    "asideTitle": "Comment ça se passe ?",
+    "asideSteps": {
+      "a": "Nous étudions votre demande.",
+      "b": "Nous vous proposons un premier échange.",
+      "c": "Nous construisons ensemble une proposition adaptée."
+    },
+    "form": {
+      "name": "Nom complet",
+      "email": "Adresse e-mail professionnelle",
+      "company": "Organisation",
+      "topic": "Sujet",
+      "message": "Votre message",
+      "messageHelp": "20 caractères minimum. Décrivez votre contexte et vos objectifs.",
+      "consent": "J'accepte que DEV4INNOVA utilise ces informations pour répondre à ma demande, conformément à la politique de confidentialité.",
+      "privacyLink": "Lire la politique de confidentialité",
+      "required": "obligatoire",
+      "optional": "facultatif",
+      "submit": "Envoyer le message",
+      "sending": "Envoi en cours",
+      "honeypot": "Ne pas remplir ce champ"
+    },
+    "topics": {
+      "project": "Un projet IA",
+      "training": "Une formation",
+      "partnership": "Un partenariat",
+      "other": "Autre demande"
+    },
+    "success": {
+      "title": "Merci, votre message est bien envoyé",
+      "text": "Nous revenons vers vous dans les meilleurs délais."
+    },
+    "errors": {
+      "summary": "Le formulaire contient des erreurs.",
+      "name": "Indiquez votre nom (2 caractères minimum).",
+      "email": "Saisissez une adresse e-mail valide.",
+      "company": "Le nom de l'organisation est trop long.",
+      "message": "Votre message doit contenir entre 20 et 5 000 caractères.",
+      "consent": "Votre accord est nécessaire pour que nous puissions vous répondre.",
+      "rateLimited": "Trop de messages envoyés. Merci de réessayer dans une heure.",
+      "unavailable": "Le service est momentanément indisponible. Merci de réessayer plus tard."
+    }
+  },
+  "Legal": {
+    "pendingTitle": "Contenu en cours de rédaction",
+    "pendingText": "Cette page sera publiée avant la mise en ligne du site.",
+    "legalNotice": {
+      "metaTitle": "Mentions légales",
+      "title": "Mentions légales"
+    },
+    "privacy": {
+      "metaTitle": "Politique de confidentialité",
+      "title": "Politique de confidentialité"
+    }
   }
 }

@@ -1,6 +1,21 @@
 import { expect, test } from "@playwright/test";
 
-const PAGES = ["/fr", "/fr/design-system", "/en"];
+const PAGES = [
+  "/fr",
+  "/en",
+  "/fr/design-system",
+  "/fr/solutions",
+  "/fr/solutions/ai-assistants",
+  "/fr/services",
+  "/en/services/run-and-improve",
+  "/fr/a-propos",
+  "/fr/innovation-lab",
+  "/fr/academy",
+  "/fr/portfolio",
+  "/en/insights",
+  "/fr/contact",
+  "/fr/mentions-legales",
+];
 const NAV = "Navigation principale";
 
 test.describe("responsive layout", () => {

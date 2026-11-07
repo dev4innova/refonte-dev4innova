@@ -37,6 +37,10 @@ apps/web/src/
 - Les variables serveur (`API_URL`, …) sont lues dans des modules marqués `import "server-only"`.
 - Récupération de données côté serveur (Server Components / Route Handlers) en priorité.
 - Les validations de formulaires utilisent Zod ; le backend reste l'autorité de validation.
+  Formulaires publics : *server action* + `useActionState`, fonctionnels sans JavaScript, avec
+  envoi en transition côté client pour conserver la saisie (exemple : `components/contact/`).
+- SEO : chaque page publique exporte `generateMetadata` via `pageMetadata()`
+  (`src/i18n/metadata.ts`) et figure dans `src/app/sitemap.ts`.
 - Aucune clé secrète dans le frontend. Seules les variables `NEXT_PUBLIC_*` explicitement
   publiques sont exposées au navigateur.
 
