@@ -40,6 +40,8 @@ class Settings(BaseSettings):
     endpoint above): e.g. http://localhost:9000 when the API reaches MinIO as minio:9000."""
     portal_file_max_bytes: int = Field(default=25 * 1024 * 1024, ge=1024)
     portal_download_ttl_seconds: int = Field(default=300, ge=30, le=3600)
+    site_url: str = "http://localhost:3000"
+    """Public address of the website, printed on certificates for their verification."""
 
     trust_forwarded_for: bool = False
     """Use X-Forwarded-For for rate limiting. Enable only when the API is reachable

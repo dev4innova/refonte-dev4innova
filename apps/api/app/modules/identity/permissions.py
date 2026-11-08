@@ -52,6 +52,11 @@ class Permission(StrEnum):
     """Approve deliverables or request changes on behalf of the organization."""
     PORTAL_MANAGE = "portal:manage"
     """Staff: run projects, tasks and deliverables of every client, answer support."""
+    # Academy (EPIC 12)
+    ACADEMY_MANAGE = "academy:manage"
+    """Staff: write courses, publish them, enroll the members of client organizations."""
+    ACADEMY_REPORT = "academy:report"
+    """Follow the progress of the members the team enrolled for the organization."""
 
 
 _READ: Final = frozenset(
@@ -67,6 +72,7 @@ _ORG_ALL: Final = _READ | {
     Permission.MEMBERS_MANAGE,
     Permission.AI_USAGE_READ,
     Permission.PORTAL_REVIEW,
+    Permission.ACADEMY_REPORT,
 }
 _CONTENT_ALL: Final = frozenset(
     {
@@ -86,7 +92,7 @@ ROLE_PERMISSIONS: Final[dict[Role, frozenset[Permission]]] = {
     Role.ADMIN: _ORG_ALL,
     Role.MEMBER: _READ,
     Role.STAFF_ADMIN: _ALL,
-    Role.STAFF_EDITOR: _READ | _CONTENT_ALL,
+    Role.STAFF_EDITOR: _READ | _CONTENT_ALL | {Permission.ACADEMY_MANAGE},
     Role.STAFF_SALES: _READ | _CRM_SALES | {Permission.CONTENT_READ},
 }
 
