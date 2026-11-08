@@ -781,6 +781,159 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/diagnostic/questionnaire": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The questionnaire */
+        get: operations["diagnostic-get_questionnaire"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/diagnostic": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit the answers; returns the secret token of the result */
+        post: operations["diagnostic-create_diagnostic"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/diagnostic/result": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Result (full once unlocked) */
+        get: operations["diagnostic-get_result"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/diagnostic/unlock": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Leave an email to get the full report (creates the CRM prospect) */
+        post: operations["diagnostic-unlock"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/diagnostic/analysis": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Write the personalized AI analysis (Server-Sent Events: delta, done, error) */
+        post: operations["diagnostic-analysis"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/diagnostic/report.pdf": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Full report as PDF */
+        get: operations["diagnostic-report"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/crm/diagnostics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Diagnostics */
+        get: operations["crm-admin-list_diagnostics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/crm/diagnostics/{diagnostic_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Full result */
+        get: operations["crm-admin-get_diagnostic"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/crm/diagnostics/{diagnostic_id}/report.pdf": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Full report as PDF */
+        get: operations["crm-admin-get_report"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -810,7 +963,7 @@ export interface components {
              * Type
              * @enum {string}
              */
-            type: "note" | "call" | "email" | "meeting" | "contact_message" | "quote_request" | "status_change" | "stage_change" | "assignment";
+            type: "note" | "call" | "email" | "meeting" | "contact_message" | "quote_request" | "diagnostic" | "status_change" | "stage_change" | "assignment";
             /** Body */
             body: string;
             /** Details */
@@ -960,6 +1113,140 @@ export interface components {
             latency_ms?: number | null;
             /** Error */
             error?: string | null;
+        };
+        /** DiagnosticCreate */
+        DiagnosticCreate: {
+            /**
+             * Locale
+             * @default fr
+             * @enum {string}
+             */
+            locale: "fr" | "en";
+            /** Answers */
+            answers: {
+                [key: string]: string;
+            };
+            /** Profile */
+            profile?: {
+                [key: string]: string;
+            };
+            /**
+             * Website
+             * @default
+             */
+            website: string;
+        };
+        /** DiagnosticCreated */
+        DiagnosticCreated: {
+            /** Token */
+            token: string;
+        };
+        /** DiagnosticPage */
+        DiagnosticPage: {
+            /** Items */
+            items: components["schemas"]["DiagnosticSummary"][];
+            /** Total */
+            total: number;
+            /** Page */
+            page: number;
+            /** Page Size */
+            page_size: number;
+        };
+        /** DiagnosticResult */
+        DiagnosticResult: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Locale
+             * @enum {string}
+             */
+            locale: "fr" | "en";
+            /** Questionnaire Version */
+            questionnaire_version: string;
+            /** Overall Score */
+            overall_score: number;
+            /**
+             * Level
+             * @enum {string}
+             */
+            level: "discovery" | "experimentation" | "structuring" | "transformation";
+            /** Level Label */
+            level_label: string;
+            /** Level Description */
+            level_description: string;
+            /** Dimensions */
+            dimensions: components["schemas"]["DimensionScore"][];
+            /** Priorities */
+            priorities: components["schemas"]["RecommendationOut"][];
+            /** Unlocked */
+            unlocked: boolean;
+            report: components["schemas"]["Report"] | null;
+        };
+        /** DiagnosticSummary */
+        DiagnosticSummary: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Locale
+             * @enum {string}
+             */
+            locale: "fr" | "en";
+            /** Overall Score */
+            overall_score: number;
+            /** Level */
+            level: string;
+            /** Unlocked */
+            unlocked: boolean;
+            /** Contact Name */
+            contact_name: string | null;
+            /** Contact Email */
+            contact_email: string | null;
+            /** Contact Company */
+            contact_company: string | null;
+            /** Sector */
+            sector: string | null;
+            /** Size */
+            size: string | null;
+            /** Lead Id */
+            lead_id: string | null;
+            /** Ai Status */
+            ai_status: string;
+        };
+        /** DimensionOut */
+        DimensionOut: {
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+            /** Description */
+            description: string;
+            /** Questions */
+            questions: components["schemas"]["QuestionOut"][];
+        };
+        /** DimensionScore */
+        DimensionScore: {
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+            /** Score */
+            score: number;
         };
         /** DocumentCreate */
         DocumentCreate: {
@@ -1138,7 +1425,7 @@ export interface components {
              * Source
              * @enum {string}
              */
-            source: "contact_form" | "quote_request" | "manual";
+            source: "contact_form" | "quote_request" | "diagnostic" | "manual";
             owner: components["schemas"]["Person"] | null;
             /**
              * Last Activity At
@@ -1197,7 +1484,7 @@ export interface components {
              * Source
              * @enum {string}
              */
-            source: "contact_form" | "quote_request" | "manual";
+            source: "contact_form" | "quote_request" | "diagnostic" | "manual";
             owner: components["schemas"]["Person"] | null;
             /**
              * Last Activity At
@@ -1573,6 +1860,13 @@ export interface components {
              */
             clear_owner: boolean;
         };
+        /** OptionOut */
+        OptionOut: {
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+        };
         /** OrganizationAIUsage */
         OrganizationAIUsage: {
             /** Month */
@@ -1697,6 +1991,15 @@ export interface components {
         PreviewOut: {
             /** Html */
             html: string;
+        };
+        /** ProfileFieldOut */
+        ProfileFieldOut: {
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+            /** Options */
+            options: components["schemas"]["OptionOut"][];
         };
         /** PromptCreate */
         PromptCreate: {
@@ -1890,6 +2193,24 @@ export interface components {
             /** Height */
             height: number;
         };
+        /** QuestionOut */
+        QuestionOut: {
+            /** Id */
+            id: string;
+            /** Label */
+            label: string;
+            /** Options */
+            options: components["schemas"]["OptionOut"][];
+        };
+        /** QuestionnaireOut */
+        QuestionnaireOut: {
+            /** Version */
+            version: string;
+            /** Profile */
+            profile: components["schemas"]["ProfileFieldOut"][];
+            /** Dimensions */
+            dimensions: components["schemas"]["DimensionOut"][];
+        };
         /** QuotaIn */
         QuotaIn: {
             /** Monthly Budget Eur */
@@ -2005,6 +2326,38 @@ export interface components {
             checks: {
                 [key: string]: components["schemas"]["DependencyCheck"];
             };
+        };
+        /** RecommendationOut */
+        RecommendationOut: {
+            /** Id */
+            id: string;
+            /** Dimension */
+            dimension: string;
+            /** Title */
+            title: string;
+            /** Text */
+            text: string | null;
+            /**
+             * Horizon
+             * @enum {string}
+             */
+            horizon: "quick_win" | "short_term" | "mid_term";
+            /** Service */
+            service: string;
+        };
+        /** Report */
+        Report: {
+            /** Recommendations */
+            recommendations: components["schemas"]["RecommendationOut"][];
+            /**
+             * Ai Status
+             * @enum {string}
+             */
+            ai_status: "none" | "pending" | "done" | "error";
+            /** Ai Analysis */
+            ai_analysis: string | null;
+            /** Company */
+            company: string | null;
         };
         /**
          * Role
@@ -2147,6 +2500,28 @@ export interface components {
             seo_title: string;
             /** Seo Description */
             seo_description: string;
+        };
+        /** Unlock */
+        Unlock: {
+            /** Name */
+            name: string;
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /** Company */
+            company?: string | null;
+            /**
+             * Consent
+             * @constant
+             */
+            consent: true;
+            /**
+             * Website
+             * @default
+             */
+            website: string;
         };
         /** UsageRecord */
         UsageRecord: {
@@ -5418,6 +5793,403 @@ export interface operations {
                 content?: never;
             };
             /** @description Not found, or not a member of the organization */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "diagnostic-get_questionnaire": {
+        parameters: {
+            query?: {
+                locale?: "fr" | "en";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuestionnaireOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "diagnostic-create_diagnostic": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DiagnosticCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiagnosticCreated"];
+                };
+            };
+            /** @description Missing or invalid answers */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Too many diagnostics */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "diagnostic-get_result": {
+        parameters: {
+            query: {
+                token: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiagnosticResult"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "diagnostic-unlock": {
+        parameters: {
+            query: {
+                token: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Unlock"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiagnosticResult"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+            /** @description Too many attempts */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "diagnostic-analysis": {
+        parameters: {
+            query: {
+                token: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/event-stream": unknown;
+                };
+            };
+            /** @description Report not unlocked */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Analysis already being written */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+            /** @description Daily limit or budget reached */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description AI unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "diagnostic-report": {
+        parameters: {
+            query: {
+                token: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": unknown;
+                };
+            };
+            /** @description Report not unlocked */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-list_diagnostics": {
+        parameters: {
+            query?: {
+                unlocked_only?: boolean;
+                page?: number;
+                page_size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiagnosticPage"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-get_diagnostic": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                diagnostic_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiagnosticResult"];
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "crm-admin-get_report": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                diagnostic_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": unknown;
+                };
+            };
+            /** @description Missing or invalid access token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The staff role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found, or the user is not DEV4INNOVA staff */
             404: {
                 headers: {
                     [name: string]: unknown;

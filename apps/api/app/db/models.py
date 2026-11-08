@@ -6,6 +6,7 @@ from app.modules.ai_gateway.models import AIModel, AIQuota, AIUsage, Prompt, Pro
 from app.modules.cms.models import Document, DocumentTranslation, Media
 from app.modules.contact.models import ContactRequest
 from app.modules.crm.models import Activity, Lead, Opportunity, QuoteRequest
+from app.modules.diagnostic.models import Diagnostic
 from app.modules.identity.models import Membership, Organization, User
 
 __all__ = [
@@ -17,6 +18,7 @@ __all__ = [
     "Activity",
     "Base",
     "ContactRequest",
+    "Diagnostic",
     "Document",
     "DocumentTranslation",
     "Lead",

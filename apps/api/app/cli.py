@@ -2,6 +2,7 @@
 
     uv run python -m app.cli grant-staff EMAIL ROLE
     uv run python -m app.cli purge-ai-sessions [--days N]
+    uv run python -m app.cli purge-diagnostics [--days N]
 
 Staff roles are never granted through the API (TASK-043): an operator with database
 access grants the first ones here, e.g. the first back-office administrator.
@@ -53,6 +54,16 @@ async def purge_ai_sessions(days: int | None) -> str:
     return f"{count} inactive AI session(s) deleted"
 
 
+async def purge_diagnostics(days: int) -> str:
+    """Diagnostics never unlocked (no contact) are kept 30 days for statistics (EPIC 10)."""
+    from app.db.session import new_session
+    from app.modules.diagnostic.service import purge_anonymous
+
+    async with new_session() as session:
+        count = await purge_anonymous(session, days)
+    return f"{count} anonymous diagnostic(s) deleted"
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="python -m app.cli")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -61,12 +72,16 @@ def main(argv: list[str] | None = None) -> None:
     grant.add_argument("role", choices=sorted(STAFF_ROLES))
     purge = commands.add_parser("purge-ai-sessions", help="Delete inactive AI sessions")
     purge.add_argument("--days", type=int, default=None, help="Default: AI_SESSION_RETENTION_DAYS")
+    diagnostics = commands.add_parser("purge-diagnostics", help="Delete old anonymous diagnostics")
+    diagnostics.add_argument("--days", type=int, default=30)
     args = parser.parse_args(argv)
 
     async def run() -> str:
         try:
             if args.command == "purge-ai-sessions":
                 return await purge_ai_sessions(args.days)
+            if args.command == "purge-diagnostics":
+                return await purge_diagnostics(args.days)
             return await grant_staff(args.email, args.role)
         finally:
             await dispose_engine()

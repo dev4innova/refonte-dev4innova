@@ -6,7 +6,7 @@ from typing import Any, Literal
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
 LeadStatus = Literal["new", "contacted", "qualified", "customer", "unqualified"]
-LeadSource = Literal["contact_form", "quote_request", "manual"]
+LeadSource = Literal["contact_form", "quote_request", "diagnostic", "manual"]
 Stage = Literal["qualification", "proposal", "negotiation", "won", "lost"]
 ActivityType = Literal[
     "note",
@@ -15,6 +15,7 @@ ActivityType = Literal[
     "meeting",
     "contact_message",
     "quote_request",
+    "diagnostic",
     "status_change",
     "stage_change",
     "assignment",

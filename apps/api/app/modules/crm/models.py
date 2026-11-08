@@ -29,7 +29,7 @@ from app.db.base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 
 LEAD_STATUSES = ("new", "contacted", "qualified", "customer", "unqualified")
 OPEN_LEAD_STATUSES = ("new", "contacted", "qualified")
-LEAD_SOURCES = ("contact_form", "quote_request", "manual")
+LEAD_SOURCES = ("contact_form", "quote_request", "diagnostic", "manual")
 OPPORTUNITY_STAGES = ("qualification", "proposal", "negotiation", "won", "lost")
 OPEN_STAGES = ("qualification", "proposal", "negotiation")
 CLOSED_STAGES = ("won", "lost")
@@ -42,6 +42,7 @@ ACTIVITY_TYPES = (
     # Logged automatically
     "contact_message",
     "quote_request",
+    "diagnostic",
     "status_change",
     "stage_change",
     "assignment",
