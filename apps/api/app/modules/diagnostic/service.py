@@ -142,9 +142,11 @@ def result_out(diagnostic: Diagnostic, *, staff: bool = False) -> DiagnosticResu
         level=diagnostic.level,
         level_label=label.get(locale),
         level_description=description.get(locale),
+        # Questionnaire order (JSONB does not keep the order of the keys).
         dimensions=[
-            DimensionScore(id=d, label=labels.get(d, d), score=value)
-            for d, value in diagnostic.scores.items()
+            DimensionScore(id=d.id, label=labels[d.id], score=diagnostic.scores[d.id])
+            for d in q.DIMENSIONS
+            if d.id in diagnostic.scores
         ],
         priorities=[_recommendation(r, locale, full=full) for r in priorities(diagnostic.scores)],
         unlocked=unlocked,

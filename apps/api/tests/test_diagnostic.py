@@ -162,7 +162,13 @@ async def test_result_is_a_teaser_until_an_email_is_left(client: AsyncClient) ->
         "experimentation",
         "Expérimentation",
     )
-    assert {d["id"]: d["score"] for d in result["dimensions"]}["data"] == 100
+    assert [(d["id"], d["score"]) for d in result["dimensions"]] == [
+        ("strategy", 0),
+        ("data", 100),
+        ("technology", 33),
+        ("skills", 33),
+        ("governance", 0),
+    ]
     assert [p["id"] for p in result["priorities"]] == [
         "governance.policy",
         "strategy.workshop",
