@@ -10,6 +10,7 @@ const ITEMS = [
   { key: "leads", href: "/admin/crm/leads" },
   { key: "pipeline", href: "/admin/crm/pipeline" },
   { key: "quotes", href: "/admin/crm/quotes" },
+  { key: "diagnostics", href: "/admin/crm/diagnostics" },
 ] as const;
 
 /** CRM sections; the current one is marked with aria-current. */

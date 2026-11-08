@@ -29,6 +29,7 @@ export const footerNavigation: {
       { href: "/solutions", labelKey: "solutions" },
       { href: "/services", labelKey: "services" },
       { href: "/portfolio", labelKey: "portfolio" },
+      { href: "/diagnostic", labelKey: "diagnostic" },
     ],
   },
   {

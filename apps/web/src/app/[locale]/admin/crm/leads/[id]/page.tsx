@@ -1,4 +1,4 @@
-import { ArrowLeft, CalendarDays, FileText, Mail, MessageSquare, Phone, RefreshCw, StickyNote, UserRound, Users } from "lucide-react";
+import { ArrowLeft, CalendarDays, ClipboardCheck, FileText, Mail, MessageSquare, Phone, RefreshCw, StickyNote, UserRound, Users } from "lucide-react";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
@@ -38,6 +38,7 @@ const ICONS = {
   meeting: Users,
   contact_message: MessageSquare,
   quote_request: FileText,
+  diagnostic: ClipboardCheck,
   status_change: RefreshCw,
   stage_change: RefreshCw,
   assignment: UserRound,
@@ -78,6 +79,8 @@ async function Lead({ params }: Props) {
         return t("timeline.contactMessage", { topic: typeof d.topic === "string" ? t(`topics.${d.topic}` as "topics.project") : "—" });
       case "quote_request":
         return t("timeline.quoteRequest");
+      case "diagnostic":
+        return t("timeline.diagnostic", { score: Number(d.score ?? 0), level: String(d.level_label ?? "") });
       case "status_change":
         return t("timeline.statusChange", { from: label("statuses", d.from), to: label("statuses", d.to) });
       case "stage_change":
@@ -167,6 +170,14 @@ async function Lead({ params }: Props) {
                           <span>· {personLabel(activity.author) ?? t("timeline.system")}</span>
                         </p>
                         {activity.body ? <p className="mt-1 whitespace-pre-line break-words">{activity.body}</p> : null}
+                        {activity.type === "diagnostic" && typeof (activity.details as Record<string, unknown>).diagnostic_id === "string" ? (
+                          <a
+                            href={`/api/admin/diagnostics/${String((activity.details as Record<string, unknown>).diagnostic_id)}/report`}
+                            className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+                          >
+                            {t("timeline.diagnosticReport")}
+                          </a>
+                        ) : null}
                       </div>
                     </li>
                   );

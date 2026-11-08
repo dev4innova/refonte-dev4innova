@@ -21,6 +21,7 @@
     "about": "About",
     "contact": "Contact",
     "quote": "Request a quote",
+    "diagnostic": "AI assessment",
     "cta": "Contact us",
     "landmark": "Main navigation",
     "openMenu": "Open menu",
@@ -106,6 +107,12 @@
     "finalCta": {
       "title": "An artificial intelligence project?",
       "text": "Let's talk about your challenges. We help you identify what AI can really bring to your organization."
+    },
+    "diagnostic": {
+      "eyebrow": "Free AI assessment",
+      "title": "Assess your AI maturity in 5 minutes",
+      "text": "20 questions across 5 dimensions: strategy, data, technology, skills and governance. Instant score and personalized recommendations.",
+      "cta": "Take the assessment"
     }
   },
   "NotFound": {
@@ -651,7 +658,8 @@
         "overview": "Overview",
         "leads": "Prospects",
         "pipeline": "Pipeline",
-        "quotes": "Quote requests"
+        "quotes": "Quote requests",
+        "diagnostics": "Assessments"
       },
       "statuses": {
         "new": "New",
@@ -670,7 +678,8 @@
       "sources": {
         "contact_form": "Contact form",
         "quote_request": "Quote request",
-        "manual": "Manual entry"
+        "manual": "Manual entry",
+        "diagnostic": "AI assessment"
       },
       "owners": {
         "any": "All",
@@ -692,7 +701,8 @@
         "quote_request": "Quote request",
         "status_change": "Status change",
         "stage_change": "Stage change",
-        "assignment": "Assignment"
+        "assignment": "Assignment",
+        "diagnostic": "AI assessment"
       },
       "topics": {
         "project": "An AI project",
@@ -785,7 +795,9 @@
         "statusChange": "Status: {from} → {to}",
         "stageChange": "“{title}”: {from} → {to}",
         "assigned": "Assigned to {name}",
-        "unassigned": "Assignment removed"
+        "unassigned": "Assignment removed",
+        "diagnostic": "AI assessment completed: {score}/100 ({level})",
+        "diagnosticReport": "Download the PDF report"
       },
       "activity": {
         "new": "Add an activity",
@@ -822,6 +834,27 @@
         "service": "Service",
         "budget": "Budget",
         "timeline": "Timeline"
+      },
+      "diagnosticLevels": {
+        "discovery": "Discovery",
+        "experimentation": "Experimentation",
+        "structuring": "Structuring",
+        "transformation": "Transformation"
+      },
+      "diagnostics": {
+        "title": "AI assessments",
+        "lead": "Assessments completed on the website. Those with contact details are linked to a prospect.",
+        "filter": "Filter assessments",
+        "withContact": "With contact details",
+        "all": "All (including anonymous)",
+        "count": "{count, plural, =0 {No assessments} one {# assessment} other {# assessments}}",
+        "empty": "No assessments yet.",
+        "date": "Date",
+        "contact": "Prospect",
+        "score": "Score",
+        "level": "Level",
+        "report": "PDF report",
+        "anonymous": "Anonymous"
       }
     },
     "ai": {
@@ -1179,6 +1212,99 @@
       "not_found": "Session not found.",
       "unauthorized": "Your session has expired: please sign in again.",
       "unavailable": "Service unavailable. Please try again later."
+    }
+  },
+  "Diagnostic": {
+    "metaTitle": "Free AI maturity assessment",
+    "metaDescription": "Assess your organization's AI maturity across 5 dimensions in 5 minutes and get personalized recommendations.",
+    "eyebrow": "AI assessment",
+    "title": "Where does your organization stand with AI?",
+    "lead": "20 questions, 5 minutes: get your maturity score across 5 dimensions and your priorities.",
+    "asideTitle": "How it works",
+    "asidePoints": {
+      "a": "Free, no account needed.",
+      "b": "Your score and priorities appear right away.",
+      "c": "Leave your email for the full report: detailed recommendations, a personalized AI analysis and a PDF."
+    },
+    "progress": "Step {step} of {steps}",
+    "profileTitle": "Your organization",
+    "profileText": "Optional: this makes the analysis more relevant.",
+    "notSaid": "Not specified",
+    "required": "Choose an answer.",
+    "missing": "{count, plural, one {One question is unanswered.} other {# questions are unanswered.}}",
+    "previous": "Previous",
+    "next": "Next",
+    "submit": "See my result",
+    "honeypot": "Do not fill in this field",
+    "requiredLabel": "required",
+    "optional": "Optional",
+    "errors": {
+      "incomplete": "Some answers are missing or invalid.",
+      "rateLimited": "Too many attempts: please try again in an hour.",
+      "unavailable": "The assessment is temporarily unavailable. Please try again later.",
+      "notFound": "This assessment cannot be found.",
+      "validation": "Check the information entered."
+    },
+    "horizons": {
+      "quick_win": "Quick win",
+      "short_term": "3 to 6 months",
+      "mid_term": "6 to 12 months"
+    },
+    "horizonTitles": {
+      "quick_win": "Quick wins",
+      "short_term": "Within 3 to 6 months",
+      "mid_term": "Within 6 to 12 months"
+    },
+    "result": {
+      "metaTitle": "Your AI assessment",
+      "title": "Your AI maturity",
+      "date": "Assessment completed on {date}",
+      "level": "Level: {level}",
+      "dimensions": "Your results by dimension",
+      "score": "{score} / 100",
+      "priorities": "Your 3 priorities",
+      "service": "How we can help: {service}"
+    },
+    "unlock": {
+      "title": "Get your full report",
+      "text": "Free, no commitment.",
+      "points": {
+        "a": "All recommendations, detailed and sorted by horizon",
+        "b": "A personalized analysis written by AI from your answers",
+        "c": "The report as a PDF, to share with your teams"
+      },
+      "name": "Full name",
+      "email": "Work email address",
+      "company": "Organization",
+      "consent": "I agree that DEV4INNOVA may use this information to send me my report and contact me about it, in accordance with the privacy policy.",
+      "privacy": "Read the privacy policy",
+      "submit": "Get my report",
+      "errors": {
+        "summary": "The form contains errors.",
+        "name": "Enter your name (at least 2 characters).",
+        "email": "Enter a valid email address.",
+        "company": "The organization name is too long.",
+        "consent": "We need your agreement to send the report."
+      }
+    },
+    "report": {
+      "title": "Your full report",
+      "pdf": "Download the PDF",
+      "analysis": "Personalized analysis",
+      "ctaTitle": "Let's discuss your results",
+      "ctaText": "A DEV4INNOVA expert can help you turn these priorities into an action plan.",
+      "cta": "Get in touch"
+    },
+    "analysis": {
+      "writing": "Writing your analysis…",
+      "pending": "Your analysis is being written: reload the page in a moment.",
+      "retry": "Try again",
+      "disclaimer": "Analysis written by an AI from your answers: check important information.",
+      "errors": {
+        "failed": "The analysis could not be written.",
+        "busy": "The analysis service is very busy: please try again later. Your recommendations remain available.",
+        "conflict": "The analysis is already being written: reload the page in a moment."
+      }
     }
   }
 }
