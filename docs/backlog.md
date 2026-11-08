@@ -265,6 +265,19 @@ dans la politique de confidentialité.
 TASK-096 dashboard · TASK-097 projets · TASK-098 tâches · TASK-099 livrables ·
 TASK-100 documents · TASK-101 support · TASK-102 notifications.
 
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-096 | Tableau de bord du client (projets, étapes, livrables à valider, demandes) et vue d'ensemble de l'équipe | ✅ |
+| TASK-097 | Projets créés par l'équipe pour une organisation cliente : statut, dates, chef de projet, avancement | ✅ |
+| TASK-098 | Tâches (statuts dont « en attente de votre retour »), commentaires client / équipe | ✅ |
+| TASK-099 | Livrables : dépôt, validation ou demande de modifications (owner/admin), versions | ✅ |
+| TASK-100 | Documents partagés dans les deux sens : bucket privé, type vérifié, 25 Mo, liens signés de 5 min | ✅ |
+| TASK-101 | Support : tickets numérotés, fil de messages, statuts, priorité, attribution | ✅ |
+| TASK-102 | Notifications dans l'application (cloche, compteur, page dédiée), FR/EN | ✅ |
+
+**À prévoir** : accepter l'ADR-0015, créer le bucket privé en production, mentionner le portail
+dans la politique de confidentialité, notifications par e-mail avec un service d'envoi.
+
 ### EPIC 12 — Academy (P2)
 TASK-103 catalogue · TASK-104 modules · TASK-105 leçons · TASK-106 inscriptions ·
 TASK-107 progression · TASK-108 quiz · TASK-109 certificats.

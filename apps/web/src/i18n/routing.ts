@@ -34,6 +34,24 @@ export const routing = defineRouting({
     "/design-system": "/design-system",
     "/account": { fr: "/espace-client", en: "/account" },
     "/account/ai/[org]": { fr: "/espace-client/ia/[org]", en: "/account/ai/[org]" },
+    "/account/notifications": { fr: "/espace-client/notifications", en: "/account/notifications" },
+    "/account/portal/[org]": { fr: "/espace-client/portail/[org]", en: "/account/portal/[org]" },
+    "/account/portal/[org]/projects/[project]": {
+      fr: "/espace-client/portail/[org]/projets/[project]",
+      en: "/account/portal/[org]/projects/[project]",
+    },
+    "/account/portal/[org]/documents": {
+      fr: "/espace-client/portail/[org]/documents",
+      en: "/account/portal/[org]/documents",
+    },
+    "/account/portal/[org]/support": {
+      fr: "/espace-client/portail/[org]/support",
+      en: "/account/portal/[org]/support",
+    },
+    "/account/portal/[org]/support/[ticket]": {
+      fr: "/espace-client/portail/[org]/support/[ticket]",
+      en: "/account/portal/[org]/support/[ticket]",
+    },
     "/account/ai/[org]/[session]": {
       fr: "/espace-client/ia/[org]/[session]",
       en: "/account/ai/[org]/[session]",
@@ -43,6 +61,10 @@ export const routing = defineRouting({
     "/admin/content/[type]": "/admin/content/[type]",
     "/admin/content/[type]/new": "/admin/content/[type]/new",
     "/admin/content/[type]/[id]": "/admin/content/[type]/[id]",
+    "/admin/portal": "/admin/portal",
+    "/admin/portal/projects/[id]": "/admin/portal/projects/[id]",
+    "/admin/portal/support": "/admin/portal/support",
+    "/admin/portal/support/[id]": "/admin/portal/support/[id]",
     "/admin/crm": "/admin/crm",
     "/admin/crm/leads": "/admin/crm/leads",
     "/admin/crm/leads/[id]": "/admin/crm/leads/[id]",

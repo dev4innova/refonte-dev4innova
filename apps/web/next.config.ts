@@ -16,8 +16,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   experimental: {
     // Uploads go through Server Actions: back-office images (5 MB) and documents for the
-    // AI analyzer (10 MB), plus multipart overhead.
-    serverActions: { bodySizeLimit: "11mb" },
+    // AI analyzer (10 MB), files of the client portal (25 MB), plus multipart overhead.
+    serverActions: { bodySizeLimit: "26mb" },
   },
 };
 

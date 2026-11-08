@@ -45,13 +45,28 @@ class Permission(StrEnum):
     AI_USE = "ai:use"
     AI_USAGE_READ = "ai:usage:read"
     """Aggregated AI usage and budget of the organization (never the content)."""
+    # Client portal (EPIC 11)
+    PORTAL_USE = "portal:use"
+    """See the organization's projects, comment, share documents, open support tickets."""
+    PORTAL_REVIEW = "portal:review"
+    """Approve deliverables or request changes on behalf of the organization."""
+    PORTAL_MANAGE = "portal:manage"
+    """Staff: run projects, tasks and deliverables of every client, answer support."""
 
 
-_READ: Final = frozenset({Permission.ORGANIZATION_READ, Permission.MEMBERS_READ, Permission.AI_USE})
+_READ: Final = frozenset(
+    {
+        Permission.ORGANIZATION_READ,
+        Permission.MEMBERS_READ,
+        Permission.AI_USE,
+        Permission.PORTAL_USE,
+    }
+)
 _ORG_ALL: Final = _READ | {
     Permission.ORGANIZATION_UPDATE,
     Permission.MEMBERS_MANAGE,
     Permission.AI_USAGE_READ,
+    Permission.PORTAL_REVIEW,
 }
 _CONTENT_ALL: Final = frozenset(
     {
@@ -61,7 +76,9 @@ _CONTENT_ALL: Final = frozenset(
         Permission.MEDIA_MANAGE,
     }
 )
-_CRM_SALES: Final = frozenset({Permission.CRM_READ, Permission.CRM_WRITE, Permission.CRM_ASSIGN})
+_CRM_SALES: Final = frozenset(
+    {Permission.CRM_READ, Permission.CRM_WRITE, Permission.CRM_ASSIGN, Permission.PORTAL_MANAGE}
+)
 _ALL: Final = frozenset(Permission)
 
 ROLE_PERMISSIONS: Final[dict[Role, frozenset[Permission]]] = {

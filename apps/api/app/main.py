@@ -24,6 +24,9 @@ from app.modules.diagnostic.router import admin_router as diagnostic_admin_route
 from app.modules.diagnostic.router import public_router as diagnostic_router
 from app.modules.health.router import router as health_router
 from app.modules.identity.router import me_router, org_router
+from app.modules.portal.router import admin_router as portal_admin_router
+from app.modules.portal.router import notifications_router
+from app.modules.portal.router import router as portal_router
 
 API_V1_PREFIX = "/api/v1"
 
@@ -78,6 +81,9 @@ def create_app() -> FastAPI:
     api_v1.include_router(ai_router)
     api_v1.include_router(diagnostic_router)
     api_v1.include_router(diagnostic_admin_router)
+    api_v1.include_router(portal_router)
+    api_v1.include_router(portal_admin_router)
+    api_v1.include_router(notifications_router)
     app.include_router(api_v1)
     return app
 

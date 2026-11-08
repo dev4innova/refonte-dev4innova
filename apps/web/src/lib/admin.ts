@@ -53,6 +53,8 @@ export type StaffAccess = {
   crm: boolean;
   crmDelete: boolean;
   ai: boolean;
+  /** Client portal: projects, deliverables, support (EPIC 11). */
+  portal: boolean;
 };
 
 export function staffAccess(role: StaffRole | null): StaffAccess {
@@ -62,6 +64,7 @@ export function staffAccess(role: StaffRole | null): StaffAccess {
     crm: role === "staff_admin" || role === "staff_sales",
     crmDelete: role === "staff_admin",
     ai: role === "staff_admin",
+    portal: role === "staff_admin" || role === "staff_sales",
   };
 }
 
