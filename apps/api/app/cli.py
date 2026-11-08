@@ -1,4 +1,7 @@
-"""Operations commands. Usage: uv run python -m app.cli grant-staff EMAIL ROLE
+"""Operations commands.
+
+    uv run python -m app.cli grant-staff EMAIL ROLE
+    uv run python -m app.cli purge-ai-sessions [--days N]
 
 Staff roles are never granted through the API (TASK-043): an operator with database
 access grants the first ones here, e.g. the first back-office administrator.
@@ -40,16 +43,30 @@ async def grant_staff(email: str, role: str) -> str:
     return f"{email}: {action} {role}"
 
 
+async def purge_ai_sessions(days: int | None) -> str:
+    """Retention of AI sessions (TASK-087); run daily by the scheduler of the deployment."""
+    from app.db.session import new_session
+    from app.modules.ai_experiences.service import purge_inactive_sessions
+
+    async with new_session() as session:
+        count = await purge_inactive_sessions(session, days)
+    return f"{count} inactive AI session(s) deleted"
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="python -m app.cli")
     commands = parser.add_subparsers(dest="command", required=True)
     grant = commands.add_parser("grant-staff", help="Make a signed-in user DEV4INNOVA staff")
     grant.add_argument("email")
     grant.add_argument("role", choices=sorted(STAFF_ROLES))
+    purge = commands.add_parser("purge-ai-sessions", help="Delete inactive AI sessions")
+    purge.add_argument("--days", type=int, default=None, help="Default: AI_SESSION_RETENTION_DAYS")
     args = parser.parse_args(argv)
 
     async def run() -> str:
         try:
+            if args.command == "purge-ai-sessions":
+                return await purge_ai_sessions(args.days)
             return await grant_staff(args.email, args.role)
         finally:
             await dispose_engine()

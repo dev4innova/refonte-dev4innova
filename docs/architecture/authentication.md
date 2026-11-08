@@ -30,9 +30,9 @@ Navigateur ──(1) /fr/espace-client──▶ Next.js proxy ── pas de cook
 
 | Rôle | Organisation | Permissions |
 |---|---|---|
-| `owner` | client | tout, y compris accorder ou retirer le rôle `owner` |
-| `admin` | client | lire, renommer, gérer les membres (sauf les `owner`) |
-| `member` | client | lire l'organisation et ses membres |
+| `owner` | client | tout, y compris accorder ou retirer le rôle `owner` ; usage IA agrégé |
+| `admin` | client | lire, renommer, gérer les membres (sauf les `owner`) ; usage IA agrégé |
+| `member` | client | lire l'organisation et ses membres ; outils IA (sessions privées) |
 | `staff_admin` | interne DEV4INNOVA | tout : contenus, médias, CRM, effacement d'un prospect (RGPD), AI Gateway (registre, prompts, budgets, bac à sable) |
 | `staff_editor` | interne DEV4INNOVA | contenus et médias (CMS) : lire, écrire, publier |
 | `staff_sales` | interne DEV4INNOVA | CRM : lire, écrire, attribuer ; lecture des contenus |

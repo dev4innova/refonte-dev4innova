@@ -65,6 +65,12 @@ class Settings(BaseSettings):
     ai_default_monthly_budget_eur: Decimal = Field(default=Decimal("20"), ge=0)
     """Monthly AI budget of an organization without a specific quota."""
     ai_user_requests_per_minute: int = Field(default=20, ge=1)
+    ai_session_retention_days: int = Field(default=90, ge=1)
+    """Inactive AI sessions (EPIC 09) are purged after this many days."""
+    ai_daily_messages_per_user: int = Field(default=200, ge=1)
+    ai_document_max_bytes: int = Field(default=10 * 1024 * 1024, ge=1024)
+    ai_document_max_chars: int = Field(default=200_000, ge=1_000)
+    """Longer documents are refused, never silently truncated."""
     ai_enable_simulated_provider: bool = False
     """Offline "simulated" provider (echo) for local development and end-to-end tests."""
 

@@ -231,6 +231,18 @@ TASK-083 AI Assistant · TASK-084 Document Analyzer · TASK-085 Content Generato
 TASK-086 sessions · TASK-087 historiques · TASK-088 limitation des abus.
 Note : 086-088 sont des prérequis de 083-085 et doivent être faites en premier.
 
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-086 | Sessions privées (organisation + auteur) : création, liste, renommage, suppression unitaire ou totale | ✅ |
+| TASK-087 | Historique des messages rejoué au modèle (30 derniers) ; purge après 90 jours d'inactivité (`make purge-ai-sessions`) | ✅ |
+| TASK-088 | Plafond quotidien par utilisateur, tailles maximales, budgets et limite par minute du gateway, requêtes refusées non enregistrées | ✅ |
+| TASK-083 | Assistant IA dans l'espace client, réponses en streaming, copie, arrêt | ✅ |
+| TASK-084 | Analyse de documents PDF / Word / texte : texte extrait, fichier non conservé, refus explicite des documents trop longs | ✅ |
+| TASK-085 | Générateur de contenus (article, post LinkedIn, newsletter, fiche produit, e-mail ; ton, longueur, langue) puis ajustements | ✅ |
+
+**À prévoir** : planifier `make purge-ai-sessions` chaque jour (EPIC 13), mentionner ces
+traitements dans la politique de confidentialité, relire les trois prompts dans l'admin IA.
+
 ### EPIC 10 — AI Business Diagnostic (P1)
 TASK-089 questionnaire → TASK-090 scoring → TASK-091 recommandations → TASK-092 analyse IA
 (après EPIC 08) → TASK-093 rapports → TASK-094 export PDF · TASK-095 connexion CRM (après EPIC 07).

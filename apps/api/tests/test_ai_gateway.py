@@ -214,9 +214,15 @@ async def test_prompts_are_versioned_and_keep_variables_out_of_instructions(
     )
     assert rolled_back.json()["active_version"] == 1
     listing = (await client.get(f"{ADMIN}/prompts", headers=admin.headers)).json()
-    assert [(p["key"], p["active_version"], p["versions"]) for p in listing] == [
-        ("summary.short", 1, 3)
+    mine = [
+        (p["key"], p["active_version"], p["versions"])
+        for p in listing
+        if p["key"] == "summary.short"
     ]
+    assert mine == [("summary.short", 1, 3)]
+    # The prompts of the AI experiences are seeded by migration 0007.
+    keys = {p["key"] for p in listing}
+    assert {"assistant.default", "document.analyze", "content.generate"} <= keys
 
 
 # --- Streaming, usage and costs (TASK-079, TASK-080) ---------------------------------

@@ -41,10 +41,18 @@ class Permission(StrEnum):
     """Erase a prospect and its history (GDPR right to erasure)."""
     # AI Gateway (EPIC 08): model registry, prompts, quotas, usage and playground
     AI_MANAGE = "ai:manage"
+    # AI experiences (EPIC 09), in any organization
+    AI_USE = "ai:use"
+    AI_USAGE_READ = "ai:usage:read"
+    """Aggregated AI usage and budget of the organization (never the content)."""
 
 
-_READ: Final = frozenset({Permission.ORGANIZATION_READ, Permission.MEMBERS_READ})
-_ORG_ALL: Final = _READ | {Permission.ORGANIZATION_UPDATE, Permission.MEMBERS_MANAGE}
+_READ: Final = frozenset({Permission.ORGANIZATION_READ, Permission.MEMBERS_READ, Permission.AI_USE})
+_ORG_ALL: Final = _READ | {
+    Permission.ORGANIZATION_UPDATE,
+    Permission.MEMBERS_MANAGE,
+    Permission.AI_USAGE_READ,
+}
 _CONTENT_ALL: Final = frozenset(
     {
         Permission.CONTENT_READ,

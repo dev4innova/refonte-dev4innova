@@ -215,7 +215,8 @@
       "staff_sales": "Commercial DEV4INNOVA"
     },
     "signOut": "Se déconnecter",
-    "admin": "Administration du site"
+    "admin": "Administration du site",
+    "aiTools": "Outils IA"
   },
   "Common": {
     "learnMore": "En savoir plus",
@@ -1047,5 +1048,137 @@
       "unavailable": "Le service est momentanément indisponible. Merci de réessayer plus tard."
     },
     "cta": "Demander un devis"
+  },
+  "AI": {
+    "metaTitle": "Outils IA",
+    "title": "Outils IA",
+    "lead": "Un assistant, un analyseur de documents et un générateur de contenus, pour votre organisation. Vos conversations ne sont visibles que par vous.",
+    "back": "Retour à l'espace client",
+    "required": "obligatoire",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "kinds": {
+      "assistant": "Assistant",
+      "document": "Analyse de document",
+      "content": "Génération de contenu"
+    },
+    "assistant": {
+      "title": "Assistant IA",
+      "text": "Posez vos questions, faites-vous aider pour rédiger, analyser ou trouver des idées.",
+      "start": "Nouvelle conversation"
+    },
+    "document": {
+      "title": "Analyse de document",
+      "text": "Résumé, points clés, risques, questions : l'IA s'appuie uniquement sur votre document.",
+      "file": "Document",
+      "fileHelp": "PDF, Word (.docx) ou texte, 10 Mo maximum. Le fichier n'est pas conservé : seul son texte l'est, avec la conversation.",
+      "analyze": "Analyser",
+      "reading": "Lecture du document…"
+    },
+    "content": {
+      "title": "Générateur de contenu",
+      "text": "Article, post LinkedIn, newsletter, fiche produit ou e-mail, puis ajustements à la demande.",
+      "topic": "Sujet",
+      "format": "Format",
+      "tone": "Ton",
+      "length": "Longueur",
+      "language": "Langue",
+      "details": "Points clés, public, contexte",
+      "detailsHelp": "Facultatif. L'IA n'invente pas de chiffres : elle laisse des [à compléter].",
+      "generate": "Générer"
+    },
+    "formats": {
+      "blog_post": "Article de blog",
+      "linkedin_post": "Post LinkedIn",
+      "newsletter": "Newsletter",
+      "product_description": "Fiche produit ou service",
+      "email": "E-mail"
+    },
+    "tones": {
+      "professional": "Professionnel",
+      "friendly": "Chaleureux",
+      "inspiring": "Inspirant",
+      "didactic": "Pédagogique"
+    },
+    "lengths": {
+      "short": "Court",
+      "medium": "Moyen",
+      "long": "Long"
+    },
+    "languages": {
+      "fr": "Français",
+      "en": "Anglais"
+    },
+    "usage": {
+      "title": "Consommation IA de l'organisation",
+      "spent": "{spent} utilisés sur un budget mensuel de {budget} · {calls, plural, =0 {aucun appel} one {# appel} other {# appels}}",
+      "calls": "{count, plural, =0 {aucun appel} one {# appel} other {# appels}}",
+      "help": "Visible par les propriétaires et administrateurs. Le contenu des conversations n'est jamais affiché."
+    },
+    "history": {
+      "title": "Mes sessions",
+      "retention": "Supprimées automatiquement après 90 jours d'inactivité. Vous pouvez les supprimer à tout moment.",
+      "empty": "Aucune session pour l'instant.",
+      "untitled": "Nouvelle conversation",
+      "deleteAll": "Tout supprimer",
+      "deleteAllConfirm": "Supprimer définitivement toutes vos sessions dans cette organisation ?"
+    },
+    "session": {
+      "back": "Retour aux outils IA de {organization}",
+      "title": "Titre de la session",
+      "rename": "Renommer",
+      "delete": "Supprimer",
+      "deleteConfirm": "Supprimer définitivement cette session ?",
+      "messages": "Conversation",
+      "you": "Vous",
+      "ai": "IA",
+      "writing": "Rédaction en cours…",
+      "stop": "Arrêter",
+      "send": "Envoyer",
+      "copy": "Copier",
+      "copied": "Copié",
+      "document": "{name} · {chars} caractères"
+    },
+    "input": {
+      "assistant": "Votre message",
+      "document": "Votre question sur le document",
+      "content": "Ajustement demandé (ex. plus court, autre accroche)",
+      "help": "Entrée pour envoyer, Maj + Entrée pour aller à la ligne."
+    },
+    "empty": {
+      "assistant": "Posez votre première question.",
+      "document": "Que voulez-vous savoir sur ce document ? Par exemple : « Résume-le en 5 points ».",
+      "content": "La génération va commencer."
+    },
+    "statuses": {
+      "refused": "L'IA a refusé de répondre à cette demande.",
+      "incomplete": "Réponse interrompue ou trop longue : demandez la suite.",
+      "error": "La réponse n'a pas pu être obtenue."
+    },
+    "disclaimer": "Les réponses de l'IA peuvent contenir des erreurs : vérifiez les informations importantes.",
+    "errors": {
+      "signin": "Votre session a expiré : reconnectez-vous.",
+      "notFound": "Session ou organisation introuvable.",
+      "documentType": "Format non pris en charge : utilisez un PDF, un fichier Word (.docx) ou un fichier texte.",
+      "documentEmpty": "Aucun texte trouvé dans ce document (un PDF scanné n'est pas lisible).",
+      "documentEncrypted": "Ce PDF est protégé par un mot de passe.",
+      "documentUnreadable": "Ce document est illisible ou endommagé.",
+      "documentTooLarge": "Fichier trop volumineux (10 Mo maximum).",
+      "documentTooLong": "Document trop long pour être analysé en une fois : envoyez une partie du document.",
+      "dailyLimit": "Limite quotidienne atteinte : revenez demain.",
+      "rateLimited": "Trop de demandes : patientez une minute.",
+      "validation": "Vérifiez les informations saisies.",
+      "generic": "Une erreur est survenue. Réessayez dans un instant.",
+      "ai_quota_exceeded": "Le budget IA mensuel de votre organisation est atteint. Contactez son administrateur.",
+      "ai_daily_limit": "Limite quotidienne atteinte : revenez demain.",
+      "rate_limited": "Trop de demandes : patientez une minute.",
+      "ai_unavailable": "Le service d'IA est momentanément indisponible. Réessayez plus tard.",
+      "ai_provider_error": "Le service d'IA n'a pas pu répondre. Réessayez plus tard.",
+      "unprocessable": "Message vide ou trop long.",
+      "validation_error": "Message vide ou trop long.",
+      "not_found": "Session introuvable.",
+      "unauthorized": "Votre session a expiré : reconnectez-vous.",
+      "unavailable": "Service indisponible. Réessayez plus tard."
+    }
   }
 }
