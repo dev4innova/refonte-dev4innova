@@ -1,4 +1,4 @@
-import { Building2, LogOut, Sparkles } from "lucide-react";
+import { Bell, Building2, FolderKanban, LogOut, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
@@ -11,6 +11,8 @@ import type { Locale } from "@/i18n/routing";
 import { serverApi } from "@/lib/api";
 import { redirectToLogin } from "@/lib/auth/redirect";
 import { getSession } from "@/lib/auth/session";
+import { INTERNAL_ORGANIZATION_ID } from "@/lib/admin";
+import { unreadNotifications } from "@/lib/portal-server";
 
 type Props = { params: Promise<{ locale: Locale }> };
 
@@ -55,6 +57,8 @@ async function AccountDetails({ locale }: { locale: Locale }) {
     me = undefined;
   }
 
+  const unread = me ? await unreadNotifications(session.accessToken) : 0;
+
   if (!me) {
     return (
       <p role="alert" className="mt-6 text-destructive">
@@ -68,6 +72,18 @@ async function AccountDetails({ locale }: { locale: Locale }) {
       <div className="flex flex-col gap-1">
         <p className="text-lg font-medium">{me.display_name ?? me.email}</p>
         {me.display_name && me.email ? <p className="text-muted-foreground">{me.email}</p> : null}
+      </div>
+
+      <div>
+        <Button asChild variant="outline">
+          <Link href="/account/notifications">
+            <Bell aria-hidden="true" />
+            {t("notifications")}
+            {unread > 0 ? (
+              <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-semibold text-primary-foreground">{unread}</span>
+            ) : null}
+          </Link>
+        </Button>
       </div>
 
       <section aria-labelledby="account-organizations" className="flex flex-col gap-4">
@@ -90,7 +106,16 @@ async function AccountDetails({ locale }: { locale: Locale }) {
                       {t("role", { role: t(`roles.${membership.role}`) })}
                     </CardDescription>
                   </CardHeader>
-                  <div>
+                  <div className="flex flex-wrap gap-2">
+                    {membership.organization_id !== INTERNAL_ORGANIZATION_ID ? (
+                      <Button asChild size="sm">
+                        <Link href={{ pathname: "/account/portal/[org]", params: { org: membership.organization_id } }}>
+                          <FolderKanban aria-hidden="true" />
+                          {t("portal")}
+                          <span className="sr-only"> : {membership.organization_name}</span>
+                        </Link>
+                      </Button>
+                    ) : null}
                     <Button asChild size="sm" variant="outline">
                       <Link href={{ pathname: "/account/ai/[org]", params: { org: membership.organization_id } }}>
                         <Sparkles aria-hidden="true" />

@@ -223,7 +223,9 @@
     },
     "signOut": "Se déconnecter",
     "admin": "Administration du site",
-    "aiTools": "Outils IA"
+    "aiTools": "Outils IA",
+    "portal": "Portail client",
+    "notifications": "Notifications"
   },
   "Common": {
     "learnMore": "En savoir plus",
@@ -552,7 +554,8 @@
       "media": "Médias",
       "crm": "CRM",
       "crmBadge": "{count, plural, one {# nouveauté à traiter} other {# nouveautés à traiter}}",
-      "ai": "IA"
+      "ai": "IA",
+      "portal": "Portail client"
     },
     "types": {
       "article": "Articles",
@@ -1017,6 +1020,116 @@
         "servedModel": "Modèle ayant répondu",
         "stopReason": "Fin"
       }
+    },
+    "portal": {
+      "nav": {
+        "label": "Sections du portail client",
+        "overview": "Projets",
+        "support": "Support"
+      },
+      "overview": {
+        "title": "Portail client",
+        "lead": "Pilotez les projets de vos clients et répondez à leurs demandes de support.",
+        "counts": {
+          "activeProjects": "Projets actifs",
+          "pendingDeliverables": "Livrables en attente du client",
+          "changesRequested": "Modifications demandées",
+          "openTickets": "Demandes ouvertes",
+          "unassigned": "Demandes non attribuées",
+          "urgent": "Demandes urgentes"
+        },
+        "projects": "Projets",
+        "filters": {
+          "label": "Afficher",
+          "active": "En cours",
+          "all": "Tous"
+        },
+        "noProject": "Aucun projet dans cette liste.",
+        "tickets": "Demandes à traiter",
+        "noTicket": "Aucune demande en attente de l'équipe.",
+        "allTickets": "Toutes les demandes",
+        "client": "Client : {name}"
+      },
+      "create": {
+        "title": "Nouveau projet",
+        "organization": "Organisation cliente",
+        "choose": "Choisir une organisation",
+        "noOrganization": "Aucune organisation cliente : le client crée la sienne en se connectant à son espace.",
+        "name": "Nom du projet",
+        "description": "Description",
+        "manager": "Chef de projet",
+        "noManager": "Non attribué",
+        "status": "Statut",
+        "start": "Date de début",
+        "due": "Échéance",
+        "submit": "Créer le projet"
+      },
+      "project": {
+        "back": "Tous les projets",
+        "details": "Informations du projet",
+        "save": "Enregistrer",
+        "saved": "Projet enregistré.",
+        "delete": "Supprimer le projet",
+        "deleteConfirm": "Supprimer « {name} », ses tâches, ses livrables et ses fichiers ? Cette action est définitive.",
+        "clientView": "Le client voit ce projet dans son portail.",
+        "tasks": {
+          "title": "Tâches",
+          "add": "Ajouter une tâche",
+          "name": "Intitulé",
+          "description": "Description",
+          "status": "Statut",
+          "due": "Échéance",
+          "submit": "Ajouter",
+          "changeStatus": "Statut de « {name} »",
+          "delete": "Supprimer",
+          "deleteName": "Supprimer la tâche {name}",
+          "deleteConfirm": "Supprimer la tâche « {name} » et ses commentaires ?",
+          "empty": "Aucune tâche pour le moment.",
+          "reviewHint": "« En attente de votre retour » prévient les membres de l'organisation."
+        },
+        "deliverables": {
+          "title": "Livrables",
+          "submit": "Déposer un livrable",
+          "name": "Titre",
+          "description": "Description",
+          "file": "Fichier",
+          "send": "Déposer et demander la validation",
+          "newVersion": "Nouvelle version",
+          "newVersionOf": "Nouvelle version de « {name} »",
+          "sendVersion": "Envoyer la version",
+          "versionHelp": "Remplace le fichier actuel ; la validation du client recommence.",
+          "delete": "Supprimer",
+          "deleteName": "Supprimer le livrable {name}",
+          "deleteConfirm": "Supprimer le livrable « {name} », son fichier et ses commentaires ?",
+          "empty": "Aucun livrable déposé."
+        },
+        "documents": {
+          "title": "Documents",
+          "share": "Partager un document avec le client",
+          "submit": "Partager",
+          "empty": "Aucun document."
+        }
+      },
+      "support": {
+        "title": "Support",
+        "lead": "Toutes les demandes des clients. Une réponse de l'équipe met la demande en attente du client, sauf si vous choisissez un autre statut.",
+        "mine": "Attribuées à moi",
+        "everyone": "Toutes",
+        "empty": "Aucune demande dans cette liste.",
+        "unassigned": "Non attribuée",
+        "assignee": "Responsable : {name}",
+        "back": "Toutes les demandes",
+        "reply": "Réponse au client",
+        "statusAfter": "Statut après la réponse",
+        "send": "Répondre",
+        "settings": "Suivi de la demande",
+        "status": "Statut",
+        "priority": "Priorité",
+        "owner": "Responsable",
+        "save": "Enregistrer",
+        "saved": "Suivi enregistré.",
+        "client": "Client : {name}"
+      }
     }
   },
   "Quote": {
@@ -1305,6 +1418,212 @@
         "busy": "Le service d'analyse est très sollicité : réessayez plus tard. Vos recommandations restent disponibles.",
         "conflict": "L'analyse est déjà en cours de rédaction : rechargez la page dans un instant."
       }
+    }
+  },
+  "Portal": {
+    "metaTitle": "Portail client",
+    "back": "Retour à mon espace",
+    "required": "(obligatoire)",
+    "team": "Équipe DEV4INNOVA",
+    "deletedUser": "Utilisateur supprimé",
+    "units": {
+      "kb": "Ko",
+      "mb": "Mo"
+    },
+    "nav": {
+      "label": "Portail client",
+      "dashboard": "Tableau de bord",
+      "documents": "Documents",
+      "support": "Support",
+      "notifications": "Notifications"
+    },
+    "projectStatus": {
+      "planned": "Planifié",
+      "in_progress": "En cours",
+      "on_hold": "En pause",
+      "completed": "Terminé",
+      "cancelled": "Annulé"
+    },
+    "taskStatus": {
+      "todo": "À faire",
+      "in_progress": "En cours",
+      "client_review": "En attente de votre retour",
+      "done": "Terminée"
+    },
+    "deliverableStatus": {
+      "pending_review": "À valider",
+      "approved": "Validé",
+      "changes_requested": "Modifications demandées"
+    },
+    "ticketStatus": {
+      "open": "Ouverte",
+      "in_progress": "En cours de traitement",
+      "waiting_customer": "En attente de votre réponse",
+      "resolved": "Résolue",
+      "closed": "Clôturée"
+    },
+    "priority": {
+      "low": "Basse",
+      "normal": "Normale",
+      "high": "Haute",
+      "urgent": "Urgente"
+    },
+    "category": {
+      "question": "Question",
+      "incident": "Incident",
+      "change_request": "Demande d'évolution",
+      "billing": "Facturation",
+      "other": "Autre"
+    },
+    "dashboard": {
+      "title": "Portail client",
+      "lead": "Suivez vos projets avec DEV4INNOVA : avancement, livrables à valider, documents partagés et demandes de support.",
+      "counts": {
+        "activeProjects": "Projets en cours",
+        "tasksInReview": "Étapes à valider",
+        "pendingDeliverables": "Livrables à valider",
+        "openTickets": "Demandes ouvertes"
+      },
+      "projects": "Vos projets",
+      "noProject": "Aucun projet en cours pour le moment. Votre chef de projet DEV4INNOVA le créera au lancement.",
+      "upcoming": "Prochaines étapes",
+      "noTask": "Aucune étape ouverte.",
+      "toReview": "Livrables à valider",
+      "noDeliverable": "Aucun livrable n'attend votre validation.",
+      "tickets": "Demandes de support en cours",
+      "noTicket": "Aucune demande en cours.",
+      "newTicket": "Nouvelle demande",
+      "allTickets": "Toutes les demandes",
+      "version": "version {version}"
+    },
+    "project": {
+      "progress": "{percent} % terminé ({done} sur {total, plural, one {# tâche} other {# tâches}})",
+      "noTasks": "Pas encore de tâches",
+      "due": "Échéance : {date}",
+      "start": "Début : {date}",
+      "manager": "Chef de projet : {name}",
+      "description": "Description",
+      "tasks": "Étapes du projet",
+      "noTask": "Les étapes du projet apparaîtront ici.",
+      "deliverables": "Livrables",
+      "noDeliverable": "Aucun livrable pour le moment.",
+      "documents": "Documents du projet",
+      "noDocument": "Aucun document partagé sur ce projet.",
+      "allDocuments": "Tous les documents"
+    },
+    "deliverable": {
+      "version": "Version {version}",
+      "submitted": "Déposé le {date}",
+      "download": "Télécharger",
+      "downloadName": "Télécharger {name}",
+      "noFile": "Fichier indisponible",
+      "reviewTitle": "Votre décision",
+      "approve": "Valider le livrable",
+      "requestChanges": "Demander des modifications",
+      "comment": "Commentaire",
+      "commentHelp": "Obligatoire pour demander des modifications : précisez ce qui doit changer.",
+      "reviewed": "{decision, select, approved {Livrable validé} other {Modifications demandées}} par {name} le {date}",
+      "reviewOnlyAdmins": "Seuls les propriétaires et administrateurs de votre organisation peuvent valider les livrables."
+    },
+    "comments": {
+      "show": "{count, plural, =0 {Ajouter un commentaire} one {Voir le commentaire (#)} other {Voir les # commentaires}}",
+      "hide": "Masquer les commentaires",
+      "title": "Commentaires sur « {name} »",
+      "empty": "Aucun commentaire pour l'instant.",
+      "label": "Votre commentaire",
+      "send": "Envoyer",
+      "loading": "Chargement des commentaires…"
+    },
+    "documents": {
+      "title": "Documents partagés",
+      "lead": "Échangez des documents avec l'équipe DEV4INNOVA. Les fichiers sont stockés de façon privée et téléchargés par des liens à durée limitée.",
+      "upload": "Partager un document",
+      "file": "Fichier",
+      "fileHelp": "PDF, Word, Excel, PowerPoint, images (PNG, JPEG, WebP), ZIP ou texte ; 25 Mo maximum.",
+      "project": "Projet concerné",
+      "noProject": "Aucun projet en particulier",
+      "submit": "Envoyer le document",
+      "uploaded": "Document envoyé.",
+      "byTeam": "Partagé par DEV4INNOVA",
+      "by": "Ajouté par {name}",
+      "addedOn": "le {date}",
+      "delete": "Supprimer",
+      "deleteName": "Supprimer {name}",
+      "deleteConfirm": "Supprimer définitivement « {name} » ?",
+      "empty": "Aucun document partagé pour le moment.",
+      "size": "Taille : {size}"
+    },
+    "support": {
+      "title": "Support",
+      "lead": "Posez une question, signalez un incident ou demandez une évolution : l'équipe DEV4INNOVA vous répond ici.",
+      "filters": {
+        "label": "Afficher",
+        "open": "En cours",
+        "closed": "Terminées",
+        "all": "Toutes"
+      },
+      "empty": "Aucune demande dans cette liste.",
+      "number": "Demande n° {number}",
+      "updated": "Dernier message le {date}",
+      "messages": "{count, plural, one {# message} other {# messages}}",
+      "awaitingYou": "Réponse de l'équipe : à vous de jouer",
+      "new": {
+        "title": "Nouvelle demande",
+        "subject": "Objet",
+        "category": "Type de demande",
+        "priority": "Priorité",
+        "project": "Projet concerné",
+        "noProject": "Aucun projet en particulier",
+        "message": "Votre message",
+        "messageHelp": "Décrivez la situation : ce que vous attendiez, ce qui se passe, depuis quand. 10 caractères minimum.",
+        "submit": "Envoyer la demande"
+      }
+    },
+    "ticket": {
+      "back": "Toutes les demandes",
+      "openedBy": "Ouverte par {name} le {date}",
+      "thread": "Échanges",
+      "reply": "Votre réponse",
+      "send": "Envoyer",
+      "close": "Clôturer la demande",
+      "closeConfirm": "Clôturer cette demande ? Vous pourrez la rouvrir en écrivant un nouveau message.",
+      "closed": "Cette demande est clôturée. Écrivez un message pour la rouvrir.",
+      "project": "Projet : {name}"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "lead": "Les nouveautés de vos projets et de vos demandes de support.",
+      "empty": "Aucune notification.",
+      "markAll": "Tout marquer comme lu",
+      "markRead": "Marquer comme lue",
+      "unread": "Non lue",
+      "bell": "{count, plural, =0 {Notifications} one {Notifications (# non lue)} other {Notifications (# non lues)}}",
+      "types": {
+        "project_created": "Nouveau projet ouvert : {project}",
+        "task_client_review": "« {task} » attend votre retour ({project})",
+        "deliverable_submitted": "Livrable à valider : « {deliverable} », version {version} ({project})",
+        "document_shared": "DEV4INNOVA a partagé le document « {file} »",
+        "ticket_replied": "L'équipe a répondu à votre demande n° {number} : {subject}",
+        "ticket_status": "Demande n° {number} : {status, select, open {de nouveau ouverte} in_progress {en cours de traitement} waiting_customer {en attente de votre réponse} resolved {résolue} closed {clôturée} other {mise à jour}}",
+        "deliverable_reviewed": "{organization} : {decision, select, approved {livrable validé} other {modifications demandées}} sur « {deliverable} »",
+        "document_uploaded": "{organization} a partagé le document « {file} »",
+        "ticket_opened": "Nouvelle demande n° {number} de {organization} : {subject}",
+        "ticket_message": "{organization} a écrit sur la demande n° {number} : {subject}",
+        "comment_added": "Nouveau commentaire sur « {target} » ({project})"
+      }
+    },
+    "errors": {
+      "signin": "Votre session a expiré : reconnectez-vous.",
+      "forbidden": "Vous n'avez pas les droits pour cette action.",
+      "notFound": "Cet élément n'existe plus ou ne vous est pas accessible.",
+      "conflict": "Cette action n'est plus possible : la situation a changé. Rechargez la page.",
+      "validation": "Vérifiez les champs du formulaire.",
+      "fileType": "Ce type de fichier n'est pas accepté.",
+      "fileEmpty": "Choisissez un fichier non vide.",
+      "fileTooLarge": "Ce fichier dépasse 25 Mo.",
+      "fileUnreadable": "Ce fichier est endommagé ou illisible.",
+      "generic": "Une erreur est survenue. Réessayez dans quelques instants.",
+      "load": "Ces informations sont momentanément indisponibles."
     }
   }
 }

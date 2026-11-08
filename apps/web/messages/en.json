@@ -223,7 +223,9 @@
     },
     "signOut": "Sign out",
     "admin": "Website administration",
-    "aiTools": "AI tools"
+    "aiTools": "AI tools",
+    "portal": "Client portal",
+    "notifications": "Notifications"
   },
   "Common": {
     "learnMore": "Learn more",
@@ -552,7 +554,8 @@
       "media": "Media",
       "crm": "CRM",
       "crmBadge": "{count, plural, one {# new item to handle} other {# new items to handle}}",
-      "ai": "AI"
+      "ai": "AI",
+      "portal": "Client portal"
     },
     "types": {
       "article": "Articles",
@@ -1017,6 +1020,116 @@
         "servedModel": "Model that answered",
         "stopReason": "End"
       }
+    },
+    "portal": {
+      "nav": {
+        "label": "Client portal sections",
+        "overview": "Projects",
+        "support": "Support"
+      },
+      "overview": {
+        "title": "Client portal",
+        "lead": "Run your clients' projects and answer their support requests.",
+        "counts": {
+          "activeProjects": "Active projects",
+          "pendingDeliverables": "Deliverables waiting for the client",
+          "changesRequested": "Changes requested",
+          "openTickets": "Open requests",
+          "unassigned": "Unassigned requests",
+          "urgent": "Urgent requests"
+        },
+        "projects": "Projects",
+        "filters": {
+          "label": "Show",
+          "active": "Active",
+          "all": "All"
+        },
+        "noProject": "No project in this list.",
+        "tickets": "Requests to handle",
+        "noTicket": "No request waiting for the team.",
+        "allTickets": "All requests",
+        "client": "Client: {name}"
+      },
+      "create": {
+        "title": "New project",
+        "organization": "Client organization",
+        "choose": "Choose an organization",
+        "noOrganization": "No client organization: clients create theirs when they sign in to their account.",
+        "name": "Project name",
+        "description": "Description",
+        "manager": "Project manager",
+        "noManager": "Unassigned",
+        "status": "Status",
+        "start": "Start date",
+        "due": "Due date",
+        "submit": "Create the project"
+      },
+      "project": {
+        "back": "All projects",
+        "details": "Project details",
+        "save": "Save",
+        "saved": "Project saved.",
+        "delete": "Delete the project",
+        "deleteConfirm": "Delete “{name}”, its tasks, deliverables and files? This cannot be undone.",
+        "clientView": "The client sees this project in their portal.",
+        "tasks": {
+          "title": "Tasks",
+          "add": "Add a task",
+          "name": "Title",
+          "description": "Description",
+          "status": "Status",
+          "due": "Due date",
+          "submit": "Add",
+          "changeStatus": "Status of “{name}”",
+          "delete": "Delete",
+          "deleteName": "Delete the task {name}",
+          "deleteConfirm": "Delete the task “{name}” and its comments?",
+          "empty": "No task yet.",
+          "reviewHint": "“Waiting for your feedback” notifies the members of the organization."
+        },
+        "deliverables": {
+          "title": "Deliverables",
+          "submit": "Submit a deliverable",
+          "name": "Title",
+          "description": "Description",
+          "file": "File",
+          "send": "Submit for review",
+          "newVersion": "New version",
+          "newVersionOf": "New version of “{name}”",
+          "sendVersion": "Send the version",
+          "versionHelp": "Replaces the current file; the client's review starts again.",
+          "delete": "Delete",
+          "deleteName": "Delete the deliverable {name}",
+          "deleteConfirm": "Delete the deliverable “{name}”, its file and comments?",
+          "empty": "No deliverable submitted."
+        },
+        "documents": {
+          "title": "Documents",
+          "share": "Share a document with the client",
+          "submit": "Share",
+          "empty": "No document."
+        }
+      },
+      "support": {
+        "title": "Support",
+        "lead": "Every client request. A reply from the team waits for the client, unless you choose another status.",
+        "mine": "Assigned to me",
+        "everyone": "All",
+        "empty": "No request in this list.",
+        "unassigned": "Unassigned",
+        "assignee": "Owner: {name}",
+        "back": "All requests",
+        "reply": "Reply to the client",
+        "statusAfter": "Status after the reply",
+        "send": "Reply",
+        "settings": "Request follow-up",
+        "status": "Status",
+        "priority": "Priority",
+        "owner": "Owner",
+        "save": "Save",
+        "saved": "Follow-up saved.",
+        "client": "Client: {name}"
+      }
     }
   },
   "Quote": {
@@ -1305,6 +1418,212 @@
         "busy": "The analysis service is very busy: please try again later. Your recommendations remain available.",
         "conflict": "The analysis is already being written: reload the page in a moment."
       }
+    }
+  },
+  "Portal": {
+    "metaTitle": "Client portal",
+    "back": "Back to my account",
+    "required": "(required)",
+    "team": "DEV4INNOVA team",
+    "deletedUser": "Deleted user",
+    "units": {
+      "kb": "KB",
+      "mb": "MB"
+    },
+    "nav": {
+      "label": "Client portal",
+      "dashboard": "Dashboard",
+      "documents": "Documents",
+      "support": "Support",
+      "notifications": "Notifications"
+    },
+    "projectStatus": {
+      "planned": "Planned",
+      "in_progress": "In progress",
+      "on_hold": "On hold",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "taskStatus": {
+      "todo": "To do",
+      "in_progress": "In progress",
+      "client_review": "Waiting for your feedback",
+      "done": "Done"
+    },
+    "deliverableStatus": {
+      "pending_review": "To review",
+      "approved": "Approved",
+      "changes_requested": "Changes requested"
+    },
+    "ticketStatus": {
+      "open": "Open",
+      "in_progress": "Being handled",
+      "waiting_customer": "Waiting for your reply",
+      "resolved": "Resolved",
+      "closed": "Closed"
+    },
+    "priority": {
+      "low": "Low",
+      "normal": "Normal",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "category": {
+      "question": "Question",
+      "incident": "Incident",
+      "change_request": "Change request",
+      "billing": "Billing",
+      "other": "Other"
+    },
+    "dashboard": {
+      "title": "Client portal",
+      "lead": "Follow your projects with DEV4INNOVA: progress, deliverables to review, shared documents and support requests.",
+      "counts": {
+        "activeProjects": "Active projects",
+        "tasksInReview": "Steps to review",
+        "pendingDeliverables": "Deliverables to review",
+        "openTickets": "Open requests"
+      },
+      "projects": "Your projects",
+      "noProject": "No active project yet. Your DEV4INNOVA project manager will create it at kickoff.",
+      "upcoming": "Next steps",
+      "noTask": "No open step.",
+      "toReview": "Deliverables to review",
+      "noDeliverable": "No deliverable is waiting for your review.",
+      "tickets": "Open support requests",
+      "noTicket": "No open request.",
+      "newTicket": "New request",
+      "allTickets": "All requests",
+      "version": "version {version}"
+    },
+    "project": {
+      "progress": "{percent}% done ({done} of {total, plural, one {# task} other {# tasks}})",
+      "noTasks": "No tasks yet",
+      "due": "Due: {date}",
+      "start": "Start: {date}",
+      "manager": "Project manager: {name}",
+      "description": "Description",
+      "tasks": "Project steps",
+      "noTask": "The steps of the project will appear here.",
+      "deliverables": "Deliverables",
+      "noDeliverable": "No deliverable yet.",
+      "documents": "Project documents",
+      "noDocument": "No document shared on this project.",
+      "allDocuments": "All documents"
+    },
+    "deliverable": {
+      "version": "Version {version}",
+      "submitted": "Submitted on {date}",
+      "download": "Download",
+      "downloadName": "Download {name}",
+      "noFile": "File unavailable",
+      "reviewTitle": "Your decision",
+      "approve": "Approve the deliverable",
+      "requestChanges": "Request changes",
+      "comment": "Comment",
+      "commentHelp": "Required to request changes: say what should change.",
+      "reviewed": "{decision, select, approved {Deliverable approved} other {Changes requested}} by {name} on {date}",
+      "reviewOnlyAdmins": "Only owners and admins of your organization can review deliverables."
+    },
+    "comments": {
+      "show": "{count, plural, =0 {Add a comment} one {View the comment} other {View the # comments}}",
+      "hide": "Hide comments",
+      "title": "Comments on “{name}”",
+      "empty": "No comment yet.",
+      "label": "Your comment",
+      "send": "Send",
+      "loading": "Loading comments…"
+    },
+    "documents": {
+      "title": "Shared documents",
+      "lead": "Exchange documents with the DEV4INNOVA team. Files are stored privately and downloaded through time-limited links.",
+      "upload": "Share a document",
+      "file": "File",
+      "fileHelp": "PDF, Word, Excel, PowerPoint, images (PNG, JPEG, WebP), ZIP or text; 25 MB maximum.",
+      "project": "Related project",
+      "noProject": "No particular project",
+      "submit": "Send the document",
+      "uploaded": "Document sent.",
+      "byTeam": "Shared by DEV4INNOVA",
+      "by": "Added by {name}",
+      "addedOn": "on {date}",
+      "delete": "Delete",
+      "deleteName": "Delete {name}",
+      "deleteConfirm": "Permanently delete “{name}”?",
+      "empty": "No document shared yet.",
+      "size": "Size: {size}"
+    },
+    "support": {
+      "title": "Support",
+      "lead": "Ask a question, report an incident or request a change: the DEV4INNOVA team answers here.",
+      "filters": {
+        "label": "Show",
+        "open": "Open",
+        "closed": "Finished",
+        "all": "All"
+      },
+      "empty": "No request in this list.",
+      "number": "Request #{number}",
+      "updated": "Last message on {date}",
+      "messages": "{count, plural, one {# message} other {# messages}}",
+      "awaitingYou": "The team answered: your turn",
+      "new": {
+        "title": "New request",
+        "subject": "Subject",
+        "category": "Type of request",
+        "priority": "Priority",
+        "project": "Related project",
+        "noProject": "No particular project",
+        "message": "Your message",
+        "messageHelp": "Describe the situation: what you expected, what happens, since when. At least 10 characters.",
+        "submit": "Send the request"
+      }
+    },
+    "ticket": {
+      "back": "All requests",
+      "openedBy": "Opened by {name} on {date}",
+      "thread": "Conversation",
+      "reply": "Your reply",
+      "send": "Send",
+      "close": "Close the request",
+      "closeConfirm": "Close this request? You can reopen it by writing a new message.",
+      "closed": "This request is closed. Write a message to reopen it.",
+      "project": "Project: {name}"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "lead": "What's new in your projects and support requests.",
+      "empty": "No notification.",
+      "markAll": "Mark all as read",
+      "markRead": "Mark as read",
+      "unread": "Unread",
+      "bell": "{count, plural, =0 {Notifications} one {Notifications (# unread)} other {Notifications (# unread)}}",
+      "types": {
+        "project_created": "New project opened: {project}",
+        "task_client_review": "“{task}” is waiting for your feedback ({project})",
+        "deliverable_submitted": "Deliverable to review: “{deliverable}”, version {version} ({project})",
+        "document_shared": "DEV4INNOVA shared the document “{file}”",
+        "ticket_replied": "The team answered your request #{number}: {subject}",
+        "ticket_status": "Request #{number}: {status, select, open {opened again} in_progress {being handled} waiting_customer {waiting for your reply} resolved {marked as resolved} closed {now closed} other {status updated}}",
+        "deliverable_reviewed": "{organization}: {decision, select, approved {deliverable approved} other {changes requested}} on “{deliverable}”",
+        "document_uploaded": "{organization} shared the document “{file}”",
+        "ticket_opened": "New request #{number} from {organization}: {subject}",
+        "ticket_message": "{organization} wrote on request #{number}: {subject}",
+        "comment_added": "New comment on “{target}” ({project})"
+      }
+    },
+    "errors": {
+      "signin": "Your session has expired: please sign in again.",
+      "forbidden": "You are not allowed to do this.",
+      "notFound": "This item no longer exists or is not available to you.",
+      "conflict": "This action is no longer possible: things have changed. Reload the page.",
+      "validation": "Check the fields of the form.",
+      "fileType": "This type of file is not accepted.",
+      "fileEmpty": "Choose a non-empty file.",
+      "fileTooLarge": "This file is larger than 25 MB.",
+      "fileUnreadable": "This file is damaged or unreadable.",
+      "generic": "Something went wrong. Please try again in a moment.",
+      "load": "This information is temporarily unavailable."
     }
   }
 }
