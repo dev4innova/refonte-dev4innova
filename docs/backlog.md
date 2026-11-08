@@ -247,6 +247,20 @@ traitements dans la politique de confidentialité, relire les trois prompts dans
 TASK-089 questionnaire → TASK-090 scoring → TASK-091 recommandations → TASK-092 analyse IA
 (après EPIC 08) → TASK-093 rapports → TASK-094 export PDF · TASK-095 connexion CRM (après EPIC 07).
 
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-089 | Questionnaire public en 6 étapes (profil + 5 axes × 4 questions), FR/EN, versionné dans le code | ✅ |
+| TASK-090 | Scoring déterministe par axe et global, 4 niveaux de maturité | ✅ |
+| TASK-091 | Catalogue de recommandations par axe et niveau, horizons, services associés, 3 priorités | ✅ |
+| TASK-092 | Analyse IA personnalisée en streaming (prompt versionné, budget interne, plafond quotidien) | ✅ |
+| TASK-093 | Page de résultat (radar, barres, priorités) et rapport complet débloqué contre e-mail + consentement | ✅ |
+| TASK-094 | Export PDF généré par l'API (ReportLab), aussi depuis le CRM | ✅ |
+| TASK-095 | Prospect CRM créé au déblocage, activité dans l'historique, liste des diagnostics dans l'admin | ✅ |
+
+**À prévoir** : accepter l'ADR-0014, relire le questionnaire, les recommandations et le prompt
+`diagnostic.analysis`, planifier `make purge-diagnostics` chaque jour, mentionner le diagnostic
+dans la politique de confidentialité.
+
 ### EPIC 11 — Client Portal (P2)
 TASK-096 dashboard · TASK-097 projets · TASK-098 tâches · TASK-099 livrables ·
 TASK-100 documents · TASK-101 support · TASK-102 notifications.

@@ -21,3 +21,4 @@ Statuts : **Proposé** → **Accepté** (validé par le responsable du projet) �
 | [0011](0011-crm.md) | CRM intégré : prospects, opportunités et demandes de devis | Proposé |
 | [0012](0012-ai-gateway-implementation.md) | AI Gateway : budgets en euros, prompts versionnés, exposition interne | Proposé |
 | [0013](0013-ai-experiences.md) | Expériences IA : sessions privées, documents non conservés, limites d'usage | Proposé |
+| [0014](0014-ai-diagnostic.md) | Diagnostic IA public : rapport contre e-mail, questionnaire versionné dans le code | Proposé |
