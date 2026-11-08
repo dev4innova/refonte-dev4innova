@@ -42,6 +42,10 @@ Lues par `app/core/config.py` (pydantic-settings). Une variable obligatoire abse
 | `AI_DOCUMENT_MAX_CHARS` | non | `200000` | texte extrait maximal (au-delà, refus — jamais de troncature) |
 | `AI_ENABLE_SIMULATED_PROVIDER` | non | `false` | fournisseur « simulation » hors ligne (développement local, jamais en production) |
 | `MEDIA_MAX_BYTES` | non | `5242880` | taille maximale d'une image envoyée |
+| `PORTAL_S3_BUCKET` | non | `dev4innova-portal` | bucket **privé** des fichiers du portail client (mêmes identifiants que les médias) |
+| `PORTAL_S3_PUBLIC_ENDPOINT_URL` | non | — | point d'accès S3 vu par les navigateurs, pour signer les liens de téléchargement (si différent de `MEDIA_S3_ENDPOINT_URL`) |
+| `PORTAL_FILE_MAX_BYTES` | non | `26214400` | taille maximale d'un document ou livrable (25 Mo) |
+| `PORTAL_DOWNLOAD_TTL_SECONDS` | non | `300` | durée de validité d'un lien de téléchargement signé |
 
 Tests : `TEST_DATABASE_URL` et `TEST_REDIS_URL` remplacent les valeurs par défaut de `tests/conftest.py`
 (`.../dev4innova_test` et `redis://localhost:6379/15`).

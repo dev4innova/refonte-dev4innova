@@ -36,6 +36,9 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
   analyse antivirus si possible.
 - En-têtes HTTP : CSP stricte, HSTS, `X-Content-Type-Options`, `Referrer-Policy`,
   `frame-ancestors`. CORS limité aux origines connues.
+- Portail client (ADR-0015) : fichiers dans un bucket privé, préfixés par l'organisation, type
+  vérifié d'après le contenu, téléchargés par lien signé de courte durée obtenu après contrôle
+  d'accès, toujours en pièce jointe ; jamais d'URL publique ni de jeton dans le navigateur.
 
 ## Abus et disponibilité
 - Rate limiting (Redis, `app/core/rate_limit.py`) sur l'authentification, les formulaires

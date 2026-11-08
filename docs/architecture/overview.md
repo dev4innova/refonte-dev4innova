@@ -48,7 +48,7 @@
 | `ai_experiences` (assistant, analyse de documents, générateur de contenus, sessions privées ; ADR-0013) | 09 | 08 |
 | `diagnostic` (questionnaire versionné, scoring, recommandations, analyse IA, PDF, lien CRM ; ADR-0014) | 10 | 07, 08 |
 | `diagnostic` | 10 | 08, 07 |
-| `portal` | 11 | 04 |
+| `portal` (projets, tâches, livrables, documents privés, support, notifications ; ADR-0015) | 11 | 04 |
 | `academy` | 12 | 04 (06 pour les contenus) |
 | `billing` | 13 | 04, 07 (devis) |
 
