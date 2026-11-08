@@ -8,6 +8,16 @@ from app.modules.contact.models import ContactRequest
 from app.modules.crm.models import Activity, Lead, Opportunity, QuoteRequest
 from app.modules.diagnostic.models import Diagnostic
 from app.modules.identity.models import Membership, Organization, User
+from app.modules.portal.models import (
+    Comment,
+    Deliverable,
+    Notification,
+    Project,
+    StoredFile,
+    Task,
+    Ticket,
+    TicketMessage,
+)
 
 __all__ = [
     "AIMessage",
@@ -17,17 +27,25 @@ __all__ = [
     "AIUsage",
     "Activity",
     "Base",
+    "Comment",
     "ContactRequest",
+    "Deliverable",
     "Diagnostic",
     "Document",
     "DocumentTranslation",
     "Lead",
     "Media",
     "Membership",
+    "Notification",
     "Opportunity",
     "Organization",
+    "Project",
     "Prompt",
     "PromptVersion",
     "QuoteRequest",
+    "StoredFile",
+    "Task",
+    "Ticket",
+    "TicketMessage",
     "User",
 ]

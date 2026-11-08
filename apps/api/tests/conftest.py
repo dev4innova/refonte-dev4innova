@@ -24,7 +24,7 @@ from sqlalchemy import text
 
 from app.core.config import get_settings
 from app.core.redis import close_redis, get_redis
-from app.core.storage import ObjectStorage, get_storage
+from app.core.storage import ObjectStorage, PrivateStorage, get_private_storage, get_storage
 from app.db.session import dispose_engine, get_engine
 from app.main import create_app
 from app.modules.identity.auth import get_token_verifier
@@ -40,6 +40,7 @@ def migrated_database() -> None:
 
 
 TEST_BUCKET = "test-media"
+TEST_PORTAL_BUCKET = "test-portal"
 TEST_MEDIA_URL = "http://localhost:9000/dev4innova-media"
 
 
@@ -51,18 +52,28 @@ def storage() -> Iterator[ObjectStorage]:
 
     with mock_aws():
         client = boto3.client("s3", region_name="eu-west-1")
-        client.create_bucket(
-            Bucket=TEST_BUCKET, CreateBucketConfiguration={"LocationConstraint": "eu-west-1"}
-        )
+        for bucket in (TEST_BUCKET, TEST_PORTAL_BUCKET):
+            client.create_bucket(
+                Bucket=bucket, CreateBucketConfiguration={"LocationConstraint": "eu-west-1"}
+            )
         yield ObjectStorage(client, TEST_BUCKET, TEST_MEDIA_URL)
 
 
 @pytest.fixture
-async def client(storage: ObjectStorage) -> AsyncIterator[AsyncClient]:
+def private_storage(storage: ObjectStorage) -> PrivateStorage:
+    """The private portal bucket, in the same in-memory S3 as `storage`."""
+    return PrivateStorage(storage._client, TEST_PORTAL_BUCKET)
+
+
+@pytest.fixture
+async def client(
+    storage: ObjectStorage, private_storage: PrivateStorage
+) -> AsyncIterator[AsyncClient]:
     get_settings.cache_clear()
     app = create_app()
     app.dependency_overrides[get_token_verifier] = make_verifier
     app.dependency_overrides[get_storage] = lambda: storage
+    app.dependency_overrides[get_private_storage] = lambda: private_storage
     await get_redis().flushdb()  # test database (15): fresh rate limit counters
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         yield ac
@@ -76,6 +87,10 @@ async def client(storage: ObjectStorage) -> AsyncIterator[AsyncClient]:
             "DELETE FROM ai_quotas",
             "DELETE FROM ai_sessions",  # cascades to ai_messages
             "DELETE FROM diagnostics",
+            "DELETE FROM notifications",
+            "DELETE FROM portal_projects",  # cascades to tasks, files, deliverables, comments
+            "DELETE FROM support_tickets",  # cascades to messages
+            "DELETE FROM portal_files",
             # Keep the prompts seeded by migrations (their version 1 says so), at version 1.
             "UPDATE ai_prompts p SET active_version_id = (SELECT v.id FROM ai_prompt_versions v"
             " WHERE v.prompt_id = p.id AND v.version = 1"

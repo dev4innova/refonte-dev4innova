@@ -33,6 +33,13 @@ class Settings(BaseSettings):
     media_public_base_url: str = "http://localhost:9000/dev4innova-media"
     """Public URL prefix of stored media (CDN or public bucket), without trailing slash."""
     media_max_bytes: int = Field(default=5 * 1024 * 1024, ge=1024)
+    # Client portal files (EPIC 11): private bucket, same S3 provider and credentials.
+    portal_s3_bucket: str = "dev4innova-portal"
+    portal_s3_public_endpoint_url: str | None = None
+    """S3 endpoint as seen by browsers, used to sign download links (defaults to the
+    endpoint above): e.g. http://localhost:9000 when the API reaches MinIO as minio:9000."""
+    portal_file_max_bytes: int = Field(default=25 * 1024 * 1024, ge=1024)
+    portal_download_ttl_seconds: int = Field(default=300, ge=30, le=3600)
 
     trust_forwarded_for: bool = False
     """Use X-Forwarded-For for rate limiting. Enable only when the API is reachable
