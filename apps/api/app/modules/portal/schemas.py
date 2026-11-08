@@ -39,7 +39,7 @@ class _Stripped(BaseModel):
         return _strip(value)
 
 
-class Person(BaseModel):
+class PortalPerson(BaseModel):
     id: uuid.UUID
     display_name: str | None
     email: str | None
@@ -93,7 +93,7 @@ class ProjectSummary(BaseModel):
     status: ProjectStatus
     start_date: date | None
     due_date: date | None
-    manager: Person | None
+    manager: PortalPerson | None
     progress: Progress
     pending_deliverables: int
     updated_at: datetime
@@ -117,7 +117,7 @@ class FileOut(BaseModel):
     name: str
     content_type: str
     size_bytes: int
-    uploaded_by: Person | None
+    uploaded_by: PortalPerson | None
     uploaded_by_staff: bool
     created_at: datetime
     can_delete: bool = False
@@ -131,8 +131,8 @@ class DeliverableOut(BaseModel):
     version: int
     status: DeliverableStatus
     file: FileOut | None
-    submitted_by: Person | None
-    reviewed_by: Person | None
+    submitted_by: PortalPerson | None
+    reviewed_by: PortalPerson | None
     reviewed_at: datetime | None
     review_comment: str | None
     comments: int
@@ -192,7 +192,7 @@ class CommentCreate(_Stripped):
 
 class CommentOut(BaseModel):
     id: uuid.UUID
-    author: Person | None
+    author: PortalPerson | None
     from_staff: bool
     body: str
     created_at: datetime
@@ -203,7 +203,7 @@ class DownloadLink(BaseModel):
     expires_in: int
 
 
-# --- Dashboard (TASK-096) --------------------------------------------------------------
+# --- PortalDashboard (TASK-096) --------------------------------------------------------------
 
 
 class DashboardCounts(BaseModel):
@@ -228,7 +228,7 @@ class DashboardDeliverable(BaseModel):
     updated_at: datetime
 
 
-class Dashboard(BaseModel):
+class PortalDashboard(BaseModel):
     organization: OrganizationRef
     counts: DashboardCounts
     projects: list[ProjectSummary]
@@ -237,7 +237,7 @@ class Dashboard(BaseModel):
     recent_tickets: list["TicketSummary"]
 
 
-class AdminDashboard(BaseModel):
+class PortalAdminDashboard(BaseModel):
     active_projects: int
     pending_deliverables: int
     changes_requested: int
@@ -281,8 +281,8 @@ class TicketSummary(BaseModel):
     priority: TicketPriority
     status: TicketStatus
     project: "ProjectRef | None"
-    created_by: Person | None
-    assignee: Person | None
+    created_by: PortalPerson | None
+    assignee: PortalPerson | None
     messages: int
     last_message_at: datetime
     last_from_staff: bool
@@ -296,7 +296,7 @@ class ProjectRef(BaseModel):
 
 class TicketMessageOut(BaseModel):
     id: uuid.UUID
-    author: Person | None
+    author: PortalPerson | None
     from_staff: bool
     body: str
     created_at: datetime
@@ -339,6 +339,6 @@ class UnreadCount(BaseModel):
     unread: int
 
 
-Dashboard.model_rebuild()
-AdminDashboard.model_rebuild()
+PortalDashboard.model_rebuild()
+PortalAdminDashboard.model_rebuild()
 TicketSummary.model_rebuild()

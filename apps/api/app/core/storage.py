@@ -51,13 +51,16 @@ class PrivateStorage:
         self._signer = signer or client
         self._bucket = bucket
 
-    async def put(self, key: str, body: bytes, content_type: str) -> None:
+    async def put(self, key: str, body: bytes, content_type: str, *, filename: str) -> None:
         def _put() -> Any:
             return self._client.put_object(
                 Bucket=self._bucket,
                 Key=key,
                 Body=body,
                 ContentType=content_type,
+                # Also stored on the object: a download never renders in the browser,
+                # even with a provider that ignores the response-* parameters of the link.
+                ContentDisposition=_attachment(filename),
                 CacheControl="private, no-store",
             )
 
@@ -68,19 +71,21 @@ class PrivateStorage:
 
     def download_url(self, key: str, *, filename: str, content_type: str, ttl: int) -> str:
         """Signed GET link, valid `ttl` seconds, always downloaded as an attachment."""
-        ascii_name = filename.encode("ascii", "replace").decode().replace('"', "").replace("?", "_")
         return self._signer.generate_presigned_url(
             "get_object",
             Params={
                 "Bucket": self._bucket,
                 "Key": key,
-                "ResponseContentDisposition": (
-                    f"attachment; filename=\"{ascii_name}\"; filename*=UTF-8''{quote(filename)}"
-                ),
+                "ResponseContentDisposition": _attachment(filename),
                 "ResponseContentType": content_type,
             },
             ExpiresIn=ttl,
         )
+
+
+def _attachment(filename: str) -> str:
+    ascii_name = filename.encode("ascii", "replace").decode().replace('"', "").replace("?", "_")
+    return f"attachment; filename=\"{ascii_name}\"; filename*=UTF-8''{quote(filename)}"
 
 
 def _client(endpoint_url: str | None) -> "S3Client":

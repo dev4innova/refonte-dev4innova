@@ -18,7 +18,7 @@ from app.modules.identity.models import INTERNAL_ORGANIZATION_ID, Membership, Or
 from app.modules.identity.permissions import Permission, permissions_for
 from app.modules.identity.service import OrganizationContext
 from app.modules.portal.models import Notification, Project
-from app.modules.portal.schemas import OrganizationRef, Person
+from app.modules.portal.schemas import OrganizationRef, PortalPerson
 
 
 def now() -> datetime:
@@ -33,7 +33,9 @@ def require_manage(ctx: OrganizationContext) -> None:
     ctx.require(Permission.PORTAL_MANAGE)
 
 
-async def people(session: AsyncSession, ids: Iterable[uuid.UUID | None]) -> dict[uuid.UUID, Person]:
+async def people(
+    session: AsyncSession, ids: Iterable[uuid.UUID | None]
+) -> dict[uuid.UUID, PortalPerson]:
     """Users shown next to records, in two queries (no N+1); staff are flagged."""
     wanted = {i for i in ids if i is not None}
     if not wanted:
@@ -48,7 +50,9 @@ async def people(session: AsyncSession, ids: Iterable[uuid.UUID | None]) -> dict
         )
     )
     return {
-        u.id: Person(id=u.id, display_name=u.display_name, email=u.email, is_staff=u.id in staff)
+        u.id: PortalPerson(
+            id=u.id, display_name=u.display_name, email=u.email, is_staff=u.id in staff
+        )
         for u in users
     }
 

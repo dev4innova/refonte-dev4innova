@@ -11,18 +11,18 @@ from app.modules.identity.dependencies import CurrentUser, OrgContext, StaffCont
 from app.modules.portal import dashboard, notifications, projects, support
 from app.modules.portal.files import FileRejectedError
 from app.modules.portal.schemas import (
-    AdminDashboard,
     CommentCreate,
     CommentOut,
     CommentTarget,
-    Dashboard,
     DeliverableOut,
     DeliverableUpdate,
     DownloadLink,
     FileOut,
     NotificationPage,
     OrganizationRef,
-    Person,
+    PortalAdminDashboard,
+    PortalDashboard,
+    PortalPerson,
     ProjectCreate,
     ProjectDetail,
     ProjectPage,
@@ -82,8 +82,8 @@ def _no_content() -> Response:
 # --- Client portal ---------------------------------------------------------------------
 
 
-@router.get("/dashboard", response_model=Dashboard, summary="Portal home of the organization")
-async def client_dashboard(ctx: OrgContext, session: Session) -> Dashboard:
+@router.get("/dashboard", response_model=PortalDashboard, summary="Portal home of the organization")
+async def client_dashboard(ctx: OrgContext, session: Session) -> PortalDashboard:
     return await dashboard.client_dashboard(session, ctx)
 
 
@@ -241,9 +241,9 @@ async def close_ticket(ticket_id: uuid.UUID, ctx: OrgContext, session: Session) 
 
 
 @admin_router.get(
-    "/dashboard", response_model=AdminDashboard, summary="Delivery and support overview"
+    "/dashboard", response_model=PortalAdminDashboard, summary="Delivery and support overview"
 )
-async def admin_dashboard(ctx: StaffContext, session: Session) -> AdminDashboard:
+async def admin_dashboard(ctx: StaffContext, session: Session) -> PortalAdminDashboard:
     return await dashboard.admin_dashboard(session, ctx)
 
 
@@ -254,8 +254,8 @@ async def client_organizations(ctx: StaffContext, session: Session) -> list[Orga
     return await dashboard.client_organizations(session, ctx)
 
 
-@admin_router.get("/team", response_model=list[Person], summary="Staff who manage the portal")
-async def team(ctx: StaffContext, session: Session) -> list[Person]:
+@admin_router.get("/team", response_model=list[PortalPerson], summary="Staff who manage the portal")
+async def team(ctx: StaffContext, session: Session) -> list[PortalPerson]:
     return await dashboard.team(session, ctx)
 
 

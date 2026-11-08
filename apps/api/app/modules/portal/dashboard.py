@@ -18,13 +18,13 @@ from app.modules.portal.models import (
     Ticket,
 )
 from app.modules.portal.schemas import (
-    AdminDashboard,
-    Dashboard,
     DashboardCounts,
     DashboardDeliverable,
     DashboardTask,
     OrganizationRef,
-    Person,
+    PortalAdminDashboard,
+    PortalDashboard,
+    PortalPerson,
 )
 
 
@@ -32,7 +32,7 @@ async def _count(session: AsyncSession, model: type, *conditions: object) -> int
     return await session.scalar(select(func.count()).select_from(model).where(*conditions)) or 0  # type: ignore[arg-type]
 
 
-async def client_dashboard(session: AsyncSession, ctx: OrganizationContext) -> Dashboard:
+async def client_dashboard(session: AsyncSession, ctx: OrganizationContext) -> PortalDashboard:
     ctx.require(Permission.PORTAL_USE)
     org_id = ctx.organization_id
     active = list(
@@ -61,7 +61,7 @@ async def client_dashboard(session: AsyncSession, ctx: OrganizationContext) -> D
         )
     )
     open_tasks = Task.organization_id == org_id, Task.status.in_(OPEN_TASK_STATUSES)
-    return Dashboard(
+    return PortalDashboard(
         organization=OrganizationRef(
             id=ctx.organization.id, name=ctx.organization.name, slug=ctx.organization.slug
         ),
@@ -110,7 +110,7 @@ async def client_dashboard(session: AsyncSession, ctx: OrganizationContext) -> D
     )
 
 
-async def admin_dashboard(session: AsyncSession, ctx: OrganizationContext) -> AdminDashboard:
+async def admin_dashboard(session: AsyncSession, ctx: OrganizationContext) -> PortalAdminDashboard:
     require_manage(ctx)
     active = list(
         await session.scalars(
@@ -129,7 +129,7 @@ async def admin_dashboard(session: AsyncSession, ctx: OrganizationContext) -> Ad
             .limit(8)
         )
     )
-    return AdminDashboard(
+    return PortalAdminDashboard(
         active_projects=await _count(session, Project, Project.status.in_(ACTIVE_PROJECT_STATUSES)),
         pending_deliverables=await _count(
             session, Deliverable, Deliverable.status == "pending_review"
@@ -158,7 +158,7 @@ async def client_organizations(
     return [OrganizationRef(id=o.id, name=o.name, slug=o.slug) for o in rows]
 
 
-async def team(session: AsyncSession, ctx: OrganizationContext) -> list[Person]:
+async def team(session: AsyncSession, ctx: OrganizationContext) -> list[PortalPerson]:
     """Staff who can manage projects and answer tickets."""
     require_manage(ctx)
     ids = await access.staff_managers(session)

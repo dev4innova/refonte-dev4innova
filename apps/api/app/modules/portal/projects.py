@@ -31,7 +31,7 @@ from app.modules.portal.schemas import (
     DeliverableUpdate,
     DownloadLink,
     FileOut,
-    Person,
+    PortalPerson,
     Progress,
     ProjectCreate,
     ProjectDetail,
@@ -135,7 +135,7 @@ def _can_delete(ctx: OrganizationContext, file: StoredFile) -> bool:
 
 
 def file_out(
-    file: StoredFile, people: dict[uuid.UUID, Person], ctx: OrganizationContext | None = None
+    file: StoredFile, people: dict[uuid.UUID, PortalPerson], ctx: OrganizationContext | None = None
 ) -> FileOut:
     return FileOut(
         id=file.id,
@@ -170,7 +170,7 @@ async def _deliverables_out(
     )
     counts = await _comment_counts(session, "deliverable", [d.id for d in deliverables])
 
-    def person(user_id: uuid.UUID | None) -> Person | None:
+    def person(user_id: uuid.UUID | None) -> PortalPerson | None:
         return people.get(user_id) if user_id else None
 
     return [
@@ -442,13 +442,14 @@ async def _store(
     file_id = uuid.uuid4()
     # The organization prefixes the key: objects of two clients never share a path.
     key = f"{organization_id}/{file_id}.{file_type.extension}"
-    await storage.put(key, data, file_type.content_type)
+    name = clean_name(filename, file_type)
+    await storage.put(key, data, file_type.content_type, filename=name)
     file = StoredFile(
         id=file_id,
         organization_id=organization_id,
         project_id=project_id,
         purpose=purpose,
-        name=clean_name(filename, file_type),
+        name=name,
         storage_key=key,
         content_type=file_type.content_type,
         size_bytes=len(data),

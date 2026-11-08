@@ -587,3 +587,22 @@ async def test_notifications_belong_to_their_recipient(
     assert (await client.get("/api/v1/me/notifications", headers=member.headers)).json()[
         "total"
     ] == 0
+
+
+async def test_files_are_stored_as_private_attachments(
+    client: AsyncClient, sign_in: SignIn, private_storage: PrivateStorage
+) -> None:
+    staff = await make_staff(sign_in, "pam")
+    owner = await sign_in("olga")
+    org = await client_org(client, owner, "acme")
+    created = await project(client, staff, org)
+    item = await deliverable(client, staff, created["id"], name="Spécification <v1>.pdf")
+    (key,) = objects(private_storage)
+    stored = private_storage._client.head_object(Bucket=TEST_PORTAL_BUCKET, Key=key)
+    assert stored["ContentType"] == "application/pdf"
+    assert stored["CacheControl"] == "private, no-store"
+    assert stored["ContentDisposition"] == (
+        'attachment; filename="Sp_cification _v1_.pdf"; '
+        "filename*=UTF-8''Sp%C3%A9cification%20_v1_.pdf"
+    )
+    assert item["file"]["name"] == "Spécification _v1_.pdf"
