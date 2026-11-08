@@ -71,6 +71,8 @@ class Settings(BaseSettings):
     ai_document_max_bytes: int = Field(default=10 * 1024 * 1024, ge=1024)
     ai_document_max_chars: int = Field(default=200_000, ge=1_000)
     """Longer documents are refused, never silently truncated."""
+    ai_diagnostic_daily_analyses: int = Field(default=300, ge=1)
+    """AI analyses of public diagnostics per day, all respondents together (EPIC 10)."""
     ai_enable_simulated_provider: bool = False
     """Offline "simulated" provider (echo) for local development and end-to-end tests."""
 

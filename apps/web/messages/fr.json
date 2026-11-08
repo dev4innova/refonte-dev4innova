@@ -21,6 +21,7 @@
     "about": "À propos",
     "contact": "Contact",
     "quote": "Demander un devis",
+    "diagnostic": "Diagnostic IA",
     "cta": "Nous contacter",
     "landmark": "Navigation principale",
     "openMenu": "Ouvrir le menu",
@@ -106,6 +107,12 @@
     "finalCta": {
       "title": "Un projet d'intelligence artificielle ?",
       "text": "Parlons de vos enjeux. Nous vous aidons à identifier ce que l'IA peut réellement apporter à votre organisation."
+    },
+    "diagnostic": {
+      "eyebrow": "Diagnostic IA gratuit",
+      "title": "Évaluez votre maturité IA en 5 minutes",
+      "text": "20 questions sur 5 axes : stratégie, données, technologie, compétences et gouvernance. Score immédiat et recommandations personnalisées.",
+      "cta": "Faire le diagnostic"
     }
   },
   "NotFound": {
@@ -651,7 +658,8 @@
         "overview": "Vue d'ensemble",
         "leads": "Prospects",
         "pipeline": "Pipeline",
-        "quotes": "Demandes de devis"
+        "quotes": "Demandes de devis",
+        "diagnostics": "Diagnostics"
       },
       "statuses": {
         "new": "Nouveau",
@@ -670,7 +678,8 @@
       "sources": {
         "contact_form": "Formulaire de contact",
         "quote_request": "Demande de devis",
-        "manual": "Saisie manuelle"
+        "manual": "Saisie manuelle",
+        "diagnostic": "Diagnostic IA"
       },
       "owners": {
         "any": "Tous",
@@ -692,7 +701,8 @@
         "quote_request": "Demande de devis",
         "status_change": "Changement de statut",
         "stage_change": "Changement d'étape",
-        "assignment": "Attribution"
+        "assignment": "Attribution",
+        "diagnostic": "Diagnostic IA"
       },
       "topics": {
         "project": "Un projet IA",
@@ -785,7 +795,9 @@
         "statusChange": "Statut : {from} → {to}",
         "stageChange": "« {title} » : {from} → {to}",
         "assigned": "Attribué à {name}",
-        "unassigned": "Attribution retirée"
+        "unassigned": "Attribution retirée",
+        "diagnostic": "Diagnostic IA réalisé : {score}/100 ({level})",
+        "diagnosticReport": "Télécharger le rapport PDF"
       },
       "activity": {
         "new": "Ajouter une activité",
@@ -822,6 +834,27 @@
         "service": "Service",
         "budget": "Budget",
         "timeline": "Délai"
+      },
+      "diagnosticLevels": {
+        "discovery": "Découverte",
+        "experimentation": "Expérimentation",
+        "structuring": "Structuration",
+        "transformation": "Transformation"
+      },
+      "diagnostics": {
+        "title": "Diagnostics IA",
+        "lead": "Diagnostics réalisés sur le site. Ceux avec coordonnées sont reliés à un prospect.",
+        "filter": "Filtrer les diagnostics",
+        "withContact": "Avec coordonnées",
+        "all": "Tous (anonymes compris)",
+        "count": "{count, plural, =0 {Aucun diagnostic} one {# diagnostic} other {# diagnostics}}",
+        "empty": "Aucun diagnostic pour l'instant.",
+        "date": "Date",
+        "contact": "Prospect",
+        "score": "Score",
+        "level": "Niveau",
+        "report": "Rapport PDF",
+        "anonymous": "Anonyme"
       }
     },
     "ai": {
@@ -1179,6 +1212,99 @@
       "not_found": "Session introuvable.",
       "unauthorized": "Votre session a expiré : reconnectez-vous.",
       "unavailable": "Service indisponible. Réessayez plus tard."
+    }
+  },
+  "Diagnostic": {
+    "metaTitle": "Diagnostic de maturité IA gratuit",
+    "metaDescription": "Évaluez en 5 minutes la maturité IA de votre organisation sur 5 axes et recevez des recommandations personnalisées.",
+    "eyebrow": "Diagnostic IA",
+    "title": "Où en est votre organisation avec l'IA ?",
+    "lead": "20 questions, 5 minutes : obtenez votre score de maturité sur 5 axes et vos priorités.",
+    "asideTitle": "Comment ça marche",
+    "asidePoints": {
+      "a": "Gratuit et sans création de compte.",
+      "b": "Votre score et vos priorités s'affichent immédiatement.",
+      "c": "Laissez votre e-mail pour le rapport complet : recommandations détaillées, analyse personnalisée par IA et PDF."
+    },
+    "progress": "Étape {step} sur {steps}",
+    "profileTitle": "Votre organisation",
+    "profileText": "Facultatif : ces informations rendent l'analyse plus pertinente.",
+    "notSaid": "Non précisé",
+    "required": "Choisissez une réponse.",
+    "missing": "{count, plural, one {Une question reste sans réponse.} other {# questions restent sans réponse.}}",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "submit": "Voir mon résultat",
+    "honeypot": "Ne pas remplir ce champ",
+    "requiredLabel": "obligatoire",
+    "optional": "Facultatif",
+    "errors": {
+      "incomplete": "Certaines réponses manquent ou ne sont pas valides.",
+      "rateLimited": "Trop de tentatives : réessayez dans une heure.",
+      "unavailable": "Le diagnostic est momentanément indisponible. Réessayez plus tard.",
+      "notFound": "Ce diagnostic est introuvable.",
+      "validation": "Vérifiez les informations saisies."
+    },
+    "horizons": {
+      "quick_win": "Action rapide",
+      "short_term": "3 à 6 mois",
+      "mid_term": "6 à 12 mois"
+    },
+    "horizonTitles": {
+      "quick_win": "Actions rapides",
+      "short_term": "Dans les 3 à 6 mois",
+      "mid_term": "Dans les 6 à 12 mois"
+    },
+    "result": {
+      "metaTitle": "Votre diagnostic IA",
+      "title": "Votre maturité IA",
+      "date": "Diagnostic réalisé le {date}",
+      "level": "Niveau : {level}",
+      "dimensions": "Vos résultats par axe",
+      "score": "{score} / 100",
+      "priorities": "Vos 3 priorités",
+      "service": "Notre accompagnement : {service}"
+    },
+    "unlock": {
+      "title": "Recevez votre rapport complet",
+      "text": "Gratuit, sans engagement.",
+      "points": {
+        "a": "Toutes les recommandations, détaillées et classées par horizon",
+        "b": "Une analyse personnalisée rédigée par IA à partir de vos réponses",
+        "c": "Le rapport en PDF, à partager avec vos équipes"
+      },
+      "name": "Nom complet",
+      "email": "Adresse e-mail professionnelle",
+      "company": "Organisation",
+      "consent": "J'accepte que DEV4INNOVA utilise ces informations pour m'envoyer mon rapport et me recontacter à son sujet, conformément à la politique de confidentialité.",
+      "privacy": "Lire la politique de confidentialité",
+      "submit": "Obtenir mon rapport",
+      "errors": {
+        "summary": "Le formulaire contient des erreurs.",
+        "name": "Indiquez votre nom (2 caractères minimum).",
+        "email": "Saisissez une adresse e-mail valide.",
+        "company": "Le nom de l'organisation est trop long.",
+        "consent": "Votre accord est nécessaire pour recevoir le rapport."
+      }
+    },
+    "report": {
+      "title": "Votre rapport complet",
+      "pdf": "Télécharger le PDF",
+      "analysis": "Analyse personnalisée",
+      "ctaTitle": "Parlons de vos résultats",
+      "ctaText": "Un expert DEV4INNOVA peut vous aider à transformer ces priorités en plan d'action.",
+      "cta": "Prendre contact"
+    },
+    "analysis": {
+      "writing": "Rédaction de votre analyse en cours…",
+      "pending": "Votre analyse est en cours de rédaction : rechargez la page dans un instant.",
+      "retry": "Réessayer",
+      "disclaimer": "Analyse rédigée par une IA à partir de vos réponses : vérifiez les informations importantes.",
+      "errors": {
+        "failed": "L'analyse n'a pas pu être rédigée.",
+        "busy": "Le service d'analyse est très sollicité : réessayez plus tard. Vos recommandations restent disponibles.",
+        "conflict": "L'analyse est déjà en cours de rédaction : rechargez la page dans un instant."
+      }
     }
   }
 }

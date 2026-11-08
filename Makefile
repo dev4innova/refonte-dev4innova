@@ -3,7 +3,7 @@ COMPOSE := docker compose -f infra/docker/compose.yaml
 API := cd apps/api &&
 
 .DEFAULT_GOAL := help
-.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client grant-staff purge-ai-sessions lint typecheck test e2e check
+.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client grant-staff purge-ai-sessions purge-diagnostics lint typecheck test e2e check
 
 help: ## List commands
 	@grep -E '^[a-z0-9-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -47,6 +47,9 @@ grant-staff: ## Make a signed-in user staff: make grant-staff email=a@b.c role=s
 
 purge-ai-sessions: ## Delete AI sessions inactive for longer than AI_SESSION_RETENTION_DAYS
 	$(API) uv run python -m app.cli purge-ai-sessions
+
+purge-diagnostics: ## Delete anonymous AI diagnostics (never unlocked) older than 30 days
+	$(API) uv run python -m app.cli purge-diagnostics
 
 client: ## Regenerate packages/api-client from the API OpenAPI schema
 	pnpm --filter @dev4innova/api-client generate

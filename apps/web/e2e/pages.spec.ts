@@ -17,6 +17,7 @@ const PAGES: { fr: string; en: string }[] = [
   { fr: "/fr/insights", en: "/en/insights" },
   { fr: "/fr/contact", en: "/en/contact" },
   { fr: "/fr/devis", en: "/en/quote" },
+  { fr: "/fr/diagnostic-ia", en: "/en/ai-diagnostic" },
 ];
 
 test.beforeEach(({}, testInfo) => {

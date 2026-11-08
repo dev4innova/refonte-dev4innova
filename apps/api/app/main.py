@@ -20,6 +20,8 @@ from app.modules.cms.router import public_router as content_router
 from app.modules.contact.router import router as contact_router
 from app.modules.crm.router import admin_router as crm_admin_router
 from app.modules.crm.router import public_router as quote_router
+from app.modules.diagnostic.router import admin_router as diagnostic_admin_router
+from app.modules.diagnostic.router import public_router as diagnostic_router
 from app.modules.health.router import router as health_router
 from app.modules.identity.router import me_router, org_router
 
@@ -74,6 +76,8 @@ def create_app() -> FastAPI:
     api_v1.include_router(crm_admin_router)
     api_v1.include_router(ai_admin_router)
     api_v1.include_router(ai_router)
+    api_v1.include_router(diagnostic_router)
+    api_v1.include_router(diagnostic_admin_router)
     app.include_router(api_v1)
     return app
 

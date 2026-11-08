@@ -128,6 +128,22 @@ export default async function Home({ params }: Props) {
         </Suspense>
       </Section>
 
+      <Section aria-labelledby="home-diagnostic">
+        <div className="flex flex-col items-start gap-6 rounded-2xl border border-border bg-card p-8 shadow-card md:flex-row md:items-center md:justify-between">
+          <div className="flex max-w-2xl flex-col gap-3">
+            <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary uppercase">{t("diagnostic.eyebrow")}</p>
+            <h2 id="home-diagnostic" className="text-display-md font-semibold">{t("diagnostic.title")}</h2>
+            <p className="text-lg text-muted-foreground">{t("diagnostic.text")}</p>
+          </div>
+          <Button asChild size="lg" className="shrink-0">
+            <Link href="/diagnostic">
+              {t("diagnostic.cta")}
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          </Button>
+        </div>
+      </Section>
+
       <Section aria-labelledby="home-approach">
         <SectionIntro id="home-approach" title={t("approach.title")} lead={t("approach.lead")} />
         <Steps

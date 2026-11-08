@@ -59,6 +59,9 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
 - Expériences IA (ADR-0013) : sessions privées à leur auteur ; documents analysés non
   conservés (texte extrait seulement, transmis entre balises `<document>` comme données) ;
   plafond quotidien par utilisateur ; purge des sessions inactives après 90 jours.
+- Diagnostic public (ADR-0014) : lien secret dont seule l'empreinte est stockée, page
+  `noindex` sans referrer ; analyse IA seulement après déblocage, une fois par diagnostic,
+  sous plafond quotidien global ; réponses transmises au modèle comme données.
 - Ne pas envoyer de données personnelles ou confidentielles à un fournisseur sans base
   légale et sans que l'organisation l'ait accepté. Journaliser l'usage (tokens, coût), pas
   le contenu sensible.
@@ -69,7 +72,7 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
 - Droit d'accès / d'effacement / de portabilité réalisables techniquement. CRM : l'effacement
   d'un prospect (`DELETE /api/v1/admin/crm/leads/{id}`, `staff_admin`) supprime aussi son
   historique, ses demandes de devis et ses messages de contact bruts (ADR-0011).
-- Formulaires publics (contact, devis) : consentement horodaté, honeypot, limites de débit
+- Formulaires publics (contact, devis, déblocage du diagnostic) : consentement horodaté, honeypot, limites de débit
   Redis par visiteur et par adresse e-mail.
 - Les logs ne contiennent ni mot de passe, ni jeton, ni contenu de document, ni donnée de paiement.
 

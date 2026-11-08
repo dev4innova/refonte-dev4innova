@@ -37,6 +37,7 @@ Lues par `app/core/config.py` (pydantic-settings). Une variable obligatoire abse
 | `AI_USER_REQUESTS_PER_MINUTE` | non | `20` | appels IA par utilisateur et par minute |
 | `AI_SESSION_RETENTION_DAYS` | non | `90` | purge des sessions IA inactives (`make purge-ai-sessions`, à planifier) |
 | `AI_DAILY_MESSAGES_PER_USER` | non | `200` | messages et documents IA par utilisateur et par jour |
+| `AI_DIAGNOSTIC_DAILY_ANALYSES` | non | `300` | analyses IA du diagnostic public par jour, toutes confondues (budget interne) |
 | `AI_DOCUMENT_MAX_BYTES` | non | `10485760` | taille maximale d'un document à analyser |
 | `AI_DOCUMENT_MAX_CHARS` | non | `200000` | texte extrait maximal (au-delà, refus — jamais de troncature) |
 | `AI_ENABLE_SIMULATED_PROVIDER` | non | `false` | fournisseur « simulation » hors ligne (développement local, jamais en production) |

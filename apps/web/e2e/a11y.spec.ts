@@ -21,6 +21,7 @@ const PAGES = [
   "/fr/contact",
   "/fr/mentions-legales",
   "/fr/devis",
+  "/fr/diagnostic-ia",
 ];
 
 for (const path of PAGES) {

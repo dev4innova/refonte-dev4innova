@@ -3646,6 +3646,476 @@
           }
         }
       }
+    },
+    "/api/v1/diagnostic/questionnaire": {
+      "get": {
+        "tags": [
+          "diagnostic"
+        ],
+        "summary": "The questionnaire",
+        "operationId": "diagnostic-get_questionnaire",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionnaireOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/diagnostic": {
+      "post": {
+        "tags": [
+          "diagnostic"
+        ],
+        "summary": "Submit the answers; returns the secret token of the result",
+        "operationId": "diagnostic-create_diagnostic",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiagnosticCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiagnosticCreated"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Missing or invalid answers"
+          },
+          "429": {
+            "description": "Too many diagnostics"
+          }
+        }
+      }
+    },
+    "/api/v1/diagnostic/result": {
+      "get": {
+        "tags": [
+          "diagnostic"
+        ],
+        "summary": "Result (full once unlocked)",
+        "operationId": "diagnostic-get_result",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 20,
+              "maxLength": 100,
+              "title": "Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiagnosticResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/diagnostic/unlock": {
+      "post": {
+        "tags": [
+          "diagnostic"
+        ],
+        "summary": "Leave an email to get the full report (creates the CRM prospect)",
+        "operationId": "diagnostic-unlock",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 20,
+              "maxLength": 100,
+              "title": "Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Unlock"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiagnosticResult"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many attempts"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/diagnostic/analysis": {
+      "post": {
+        "tags": [
+          "diagnostic"
+        ],
+        "summary": "Write the personalized AI analysis (Server-Sent Events: delta, done, error)",
+        "operationId": "diagnostic-analysis",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 20,
+              "maxLength": 100,
+              "title": "Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "text/event-stream": {}
+            }
+          },
+          "403": {
+            "description": "Report not unlocked"
+          },
+          "409": {
+            "description": "Analysis already being written"
+          },
+          "429": {
+            "description": "Daily limit or budget reached"
+          },
+          "503": {
+            "description": "AI unavailable"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/diagnostic/report.pdf": {
+      "get": {
+        "tags": [
+          "diagnostic"
+        ],
+        "summary": "Full report as PDF",
+        "operationId": "diagnostic-report",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 20,
+              "maxLength": 100,
+              "title": "Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/pdf": {}
+            }
+          },
+          "403": {
+            "description": "Report not unlocked"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/crm/diagnostics": {
+      "get": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Diagnostics",
+        "operationId": "crm-admin-list_diagnostics",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "unlocked_only",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "title": "Unlocked Only"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 25,
+              "title": "Page Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiagnosticPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/crm/diagnostics/{diagnostic_id}": {
+      "get": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Full result",
+        "operationId": "crm-admin-get_diagnostic",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "diagnostic_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Diagnostic Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiagnosticResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/crm/diagnostics/{diagnostic_id}/report.pdf": {
+      "get": {
+        "tags": [
+          "crm-admin"
+        ],
+        "summary": "Full report as PDF",
+        "operationId": "crm-admin-get_report",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "diagnostic_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Diagnostic Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/pdf": {}
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "404": {
+            "description": "Not found, or the user is not DEV4INNOVA staff"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -3716,6 +4186,7 @@
               "meeting",
               "contact_message",
               "quote_request",
+              "diagnostic",
               "status_change",
               "stage_change",
               "assignment"
@@ -4084,6 +4555,358 @@
           "status"
         ],
         "title": "DependencyCheck"
+      },
+      "DiagnosticCreate": {
+        "properties": {
+          "locale": {
+            "type": "string",
+            "enum": [
+              "fr",
+              "en"
+            ],
+            "title": "Locale",
+            "default": "fr"
+          },
+          "answers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "maxProperties": 50,
+            "title": "Answers"
+          },
+          "profile": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "maxProperties": 5,
+            "title": "Profile"
+          },
+          "website": {
+            "type": "string",
+            "maxLength": 200,
+            "title": "Website",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "answers"
+        ],
+        "title": "DiagnosticCreate"
+      },
+      "DiagnosticCreated": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "DiagnosticCreated"
+      },
+      "DiagnosticPage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DiagnosticSummary"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size"
+        ],
+        "title": "DiagnosticPage"
+      },
+      "DiagnosticResult": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "fr",
+              "en"
+            ],
+            "title": "Locale"
+          },
+          "questionnaire_version": {
+            "type": "string",
+            "title": "Questionnaire Version"
+          },
+          "overall_score": {
+            "type": "integer",
+            "title": "Overall Score"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "discovery",
+              "experimentation",
+              "structuring",
+              "transformation"
+            ],
+            "title": "Level"
+          },
+          "level_label": {
+            "type": "string",
+            "title": "Level Label"
+          },
+          "level_description": {
+            "type": "string",
+            "title": "Level Description"
+          },
+          "dimensions": {
+            "items": {
+              "$ref": "#/components/schemas/DimensionScore"
+            },
+            "type": "array",
+            "title": "Dimensions"
+          },
+          "priorities": {
+            "items": {
+              "$ref": "#/components/schemas/RecommendationOut"
+            },
+            "type": "array",
+            "title": "Priorities"
+          },
+          "unlocked": {
+            "type": "boolean",
+            "title": "Unlocked"
+          },
+          "report": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Report"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "created_at",
+          "locale",
+          "questionnaire_version",
+          "overall_score",
+          "level",
+          "level_label",
+          "level_description",
+          "dimensions",
+          "priorities",
+          "unlocked",
+          "report"
+        ],
+        "title": "DiagnosticResult"
+      },
+      "DiagnosticSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "fr",
+              "en"
+            ],
+            "title": "Locale"
+          },
+          "overall_score": {
+            "type": "integer",
+            "title": "Overall Score"
+          },
+          "level": {
+            "type": "string",
+            "title": "Level"
+          },
+          "unlocked": {
+            "type": "boolean",
+            "title": "Unlocked"
+          },
+          "contact_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contact Name"
+          },
+          "contact_email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contact Email"
+          },
+          "contact_company": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contact Company"
+          },
+          "sector": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sector"
+          },
+          "size": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Size"
+          },
+          "lead_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lead Id"
+          },
+          "ai_status": {
+            "type": "string",
+            "title": "Ai Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "created_at",
+          "locale",
+          "overall_score",
+          "level",
+          "unlocked",
+          "contact_name",
+          "contact_email",
+          "contact_company",
+          "sector",
+          "size",
+          "lead_id",
+          "ai_status"
+        ],
+        "title": "DiagnosticSummary"
+      },
+      "DimensionOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/QuestionOut"
+            },
+            "type": "array",
+            "title": "Questions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "description",
+          "questions"
+        ],
+        "title": "DimensionOut"
+      },
+      "DimensionScore": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "score": {
+            "type": "integer",
+            "title": "Score"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "score"
+        ],
+        "title": "DimensionScore"
       },
       "DocumentCreate": {
         "properties": {
@@ -4526,6 +5349,7 @@
             "enum": [
               "contact_form",
               "quote_request",
+              "diagnostic",
               "manual"
             ],
             "title": "Source"
@@ -4683,6 +5507,7 @@
             "enum": [
               "contact_form",
               "quote_request",
+              "diagnostic",
               "manual"
             ],
             "title": "Source"
@@ -5741,6 +6566,24 @@
         "type": "object",
         "title": "OpportunityUpdate"
       },
+      "OptionOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "label"
+        ],
+        "title": "OptionOut"
+      },
       "OrganizationAIUsage": {
         "properties": {
           "month": {
@@ -6094,6 +6937,32 @@
           "html"
         ],
         "title": "PreviewOut"
+      },
+      "ProfileFieldOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/OptionOut"
+            },
+            "type": "array",
+            "title": "Options"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "options"
+        ],
+        "title": "ProfileFieldOut"
       },
       "PromptCreate": {
         "properties": {
@@ -6588,6 +7457,61 @@
         ],
         "title": "PublicImage"
       },
+      "QuestionOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/OptionOut"
+            },
+            "type": "array",
+            "title": "Options"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "options"
+        ],
+        "title": "QuestionOut"
+      },
+      "QuestionnaireOut": {
+        "properties": {
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "profile": {
+            "items": {
+              "$ref": "#/components/schemas/ProfileFieldOut"
+            },
+            "type": "array",
+            "title": "Profile"
+          },
+          "dimensions": {
+            "items": {
+              "$ref": "#/components/schemas/DimensionOut"
+            },
+            "type": "array",
+            "title": "Dimensions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "version",
+          "profile",
+          "dimensions"
+        ],
+        "title": "QuestionnaireOut"
+      },
       "QuotaIn": {
         "properties": {
           "monthly_budget_eur": {
@@ -6883,6 +7807,107 @@
           "checks"
         ],
         "title": "ReadinessResponse"
+      },
+      "RecommendationOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "dimension": {
+            "type": "string",
+            "title": "Dimension"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Text"
+          },
+          "horizon": {
+            "type": "string",
+            "enum": [
+              "quick_win",
+              "short_term",
+              "mid_term"
+            ],
+            "title": "Horizon"
+          },
+          "service": {
+            "type": "string",
+            "title": "Service"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "dimension",
+          "title",
+          "text",
+          "horizon",
+          "service"
+        ],
+        "title": "RecommendationOut"
+      },
+      "Report": {
+        "properties": {
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/RecommendationOut"
+            },
+            "type": "array",
+            "title": "Recommendations"
+          },
+          "ai_status": {
+            "type": "string",
+            "enum": [
+              "none",
+              "pending",
+              "done",
+              "error"
+            ],
+            "title": "Ai Status"
+          },
+          "ai_analysis": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ai Analysis"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recommendations",
+          "ai_status",
+          "ai_analysis",
+          "company"
+        ],
+        "title": "Report"
       },
       "Role": {
         "type": "string",
@@ -7199,6 +8224,51 @@
           "seo_description"
         ],
         "title": "TranslationOut"
+      },
+      "Unlock": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "company": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 160
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Company"
+          },
+          "consent": {
+            "type": "boolean",
+            "const": true,
+            "title": "Consent"
+          },
+          "website": {
+            "type": "string",
+            "maxLength": 200,
+            "title": "Website",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "consent"
+        ],
+        "title": "Unlock"
       },
       "UsageRecord": {
         "properties": {

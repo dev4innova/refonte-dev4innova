@@ -75,17 +75,15 @@ async def client(storage: ObjectStorage) -> AsyncIterator[AsyncClient]:
             "DELETE FROM ai_usage",
             "DELETE FROM ai_quotas",
             "DELETE FROM ai_sessions",  # cascades to ai_messages
-            # Keep the prompts seeded by migration 0007, at their version 1.
+            "DELETE FROM diagnostics",
+            # Keep the prompts seeded by migrations (their version 1 says so), at version 1.
             "UPDATE ai_prompts p SET active_version_id = (SELECT v.id FROM ai_prompt_versions v"
-            " WHERE v.prompt_id = p.id AND v.version = 1)"
-            " WHERE key IN ('assistant.default', 'document.analyze', 'content.generate')",
-            "UPDATE ai_prompts SET active_version_id = NULL"
-            " WHERE key NOT IN ('assistant.default', 'document.analyze', 'content.generate')",
-            "DELETE FROM ai_prompt_versions WHERE version > 1 OR prompt_id IN (SELECT id FROM"
-            " ai_prompts WHERE key NOT IN"
-            " ('assistant.default', 'document.analyze', 'content.generate'))",
-            "DELETE FROM ai_prompts"
-            " WHERE key NOT IN ('assistant.default', 'document.analyze', 'content.generate')",
+            " WHERE v.prompt_id = p.id AND v.version = 1"
+            " AND v.notes LIKE 'Initial version (migration%')",
+            "DELETE FROM ai_prompt_versions WHERE version > 1 OR prompt_id NOT IN (SELECT prompt_id"
+            " FROM ai_prompt_versions WHERE version = 1"
+            " AND notes LIKE 'Initial version (migration%')",
+            "DELETE FROM ai_prompts WHERE id NOT IN (SELECT prompt_id FROM ai_prompt_versions)",
             # Keep the seeded Claude models, as seeded.
             "DELETE FROM ai_models WHERE provider <> 'anthropic' OR model_id NOT IN"
             " ('claude-opus-5-5', 'claude-sonnet-5-5', 'claude-haiku-5-5')",

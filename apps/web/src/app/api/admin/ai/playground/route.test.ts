@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const getSession = vi.fn();
 vi.mock("server-only", () => ({}));
+vi.mock("next/headers", () => ({ headers: async () => new Headers() }));
 vi.mock("@/lib/auth/session", () => ({ getSession: () => getSession() }));
 vi.mock("@/lib/server-env", () => ({ getApiUrl: () => "http://api.test" }));
 vi.mock("@/lib/site-url", () => ({ getSiteUrl: () => "https://www.example.com" }));

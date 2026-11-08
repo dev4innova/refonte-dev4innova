@@ -44,6 +44,7 @@ from app.modules.crm.schemas import (
     Stage,
     StageTotal,
 )
+from app.modules.diagnostic.models import Diagnostic
 from app.modules.identity.models import INTERNAL_ORGANIZATION_ID, Membership, User
 from app.modules.identity.permissions import Permission, permissions_for
 from app.modules.identity.service import OrganizationContext
@@ -471,11 +472,12 @@ async def add_activity(
 
 
 async def delete_lead(session: AsyncSession, ctx: OrganizationContext, lead_id: uuid.UUID) -> None:
-    """GDPR erasure: the prospect, its history, opportunities, quote requests and the raw
-    website messages it came from."""
+    """GDPR erasure: the prospect, its history, opportunities, quote requests, AI diagnostics
+    and the raw website messages it came from."""
     ctx.require(Permission.CRM_DELETE)
     lead = await _get_lead(session, ctx, lead_id, lock=True)
     await session.execute(delete(ContactRequest).where(ContactRequest.lead_id == lead.id))
+    await session.execute(delete(Diagnostic).where(Diagnostic.lead_id == lead.id))
     await session.delete(lead)
     await session.commit()
 
