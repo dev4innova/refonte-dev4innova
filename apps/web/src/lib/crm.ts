@@ -44,5 +44,6 @@ export function statusTone(value: string): "accent" | "success" | "muted" | "neu
 export function parseAmount(value: string): string | null | undefined {
   const normalized = value.replace(/[\s\u00a0\u202f€]/g, "").replace(",", ".");
   if (!normalized) return null;
+  // eslint-disable-next-line security/detect-unsafe-regex -- bounded and unambiguous: linear time
   return /^\d{1,10}(\.\d{1,2})?$/.test(normalized) ? normalized : undefined;
 }

@@ -17,6 +17,8 @@ env:
   NODE_VERSION: "22"
   PYTHON_VERSION: "3.13"
   UV_VERSION: "0.11.32"
+  GITLEAKS_VERSION: "8.24.3"
+  GITLEAKS_SHA256: "9991e0b2903da4c8f6122b5c3186448b927a5da4deef1fe45271c3793f4ee29c"
 
 jobs:
   commits:
@@ -58,7 +60,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @dev4innova/web lint
+      - run: pnpm --filter @dev4innova/web lint --max-warnings=0
       - run: pnpm -r typecheck
       - run: pnpm --filter @dev4innova/web test
       - run: pnpm --filter @dev4innova/web build
@@ -208,6 +210,35 @@ jobs:
             exit 1
           fi
 
+  security:
+    # TASK-120: static analysis of the Python code (Bandit) and secret scanning of the whole
+    # git history (gitleaks, .gitleaks.toml). ESLint security rules run in the Web job.
+    name: Security (code and secrets)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v7
+        with:
+          version: ${{ env.UV_VERSION }}
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+      - name: Bandit
+        working-directory: apps/api
+        run: |
+          uv sync --frozen
+          uv run bandit -q -c pyproject.toml -r app
+      - name: Install gitleaks (pinned release, checksum verified)
+        run: |
+          archive="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          curl -sSfL -o "$RUNNER_TEMP/$archive" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/$archive"
+          echo "$GITLEAKS_SHA256  $RUNNER_TEMP/$archive" | sha256sum --check --strict
+          tar -xzf "$RUNNER_TEMP/$archive" -C "$RUNNER_TEMP" gitleaks
+      - name: gitleaks (full history)
+        run: "\"$RUNNER_TEMP/gitleaks\" git . --redact --no-banner --exit-code 1"
+
   docker:
     name: Docker images build
     runs-on: ubuntu-latest
@@ -218,7 +249,7 @@ jobs:
       - name: Build API image
         uses: docker/build-push-action@v7
         with:
-          context: apps/api
+          context: .
           file: infra/docker/api.Dockerfile
           push: false
           cache-from: type=gha,scope=api
@@ -231,3 +262,9 @@ jobs:
           push: false
           cache-from: type=gha,scope=web
           cache-to: type=gha,mode=max,scope=web
+      - name: Build backup image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: infra/docker/backup.Dockerfile
+          push: false

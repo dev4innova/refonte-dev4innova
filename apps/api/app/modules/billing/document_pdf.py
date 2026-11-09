@@ -4,7 +4,9 @@ late payment penalties and the fixed recovery fee for business customers."""
 
 import io
 from typing import Any
-from xml.sax.saxutils import escape
+
+# Escapes the text written into the PDF: no XML is parsed.
+from xml.sax.saxutils import escape  # nosec B406
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4

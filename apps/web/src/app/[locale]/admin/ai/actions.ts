@@ -148,6 +148,7 @@ export async function setQuota(organizationId: string, budget: string): Promise<
   const client = await api();
   if (!client) return SIGNIN;
   const normalized = budget.replace(/[\s  €]/g, "").replace(",", ".");
+  // eslint-disable-next-line security/detect-unsafe-regex -- bounded and unambiguous: linear time
   if (normalized && !/^\d{1,8}(\.\d{1,2})?$/.test(normalized)) return { ok: false, error: "validation" };
   const { response, error } = await client.PUT("/api/v1/admin/ai/quotas/{organization_id}", {
     params: { path: { organization_id: organizationId } },
