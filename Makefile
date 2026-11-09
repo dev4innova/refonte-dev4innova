@@ -3,7 +3,7 @@ COMPOSE := docker compose -f infra/docker/compose.yaml
 API := cd apps/api &&
 
 .DEFAULT_GOAL := help
-.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client grant-staff purge-ai-sessions purge-diagnostics lint typecheck test e2e check
+.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client grant-staff purge-ai-sessions purge-diagnostics daily lint typecheck test security e2e smoke check
 
 help: ## List commands
 	@grep -E '^[a-z0-9-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -51,11 +51,14 @@ purge-ai-sessions: ## Delete AI sessions inactive for longer than AI_SESSION_RET
 purge-diagnostics: ## Delete anonymous AI diagnostics (never unlocked) older than 30 days
 	$(API) uv run python -m app.cli purge-diagnostics
 
+daily: ## Daily maintenance (both purges above), run by the Railway "jobs" cron in production
+	$(API) uv run python -m app.cli daily
+
 client: ## Regenerate packages/api-client from the API OpenAPI schema
 	pnpm --filter @dev4innova/api-client generate
 
 lint: ## Lint everything
-	pnpm --filter @dev4innova/web lint
+	pnpm --filter @dev4innova/web lint --max-warnings=0
 	$(API) uv run ruff check . && uv run ruff format --check .
 
 typecheck: ## Typecheck everything
@@ -66,8 +69,15 @@ test: ## Run all tests (API tests need `make services`)
 	pnpm --filter @dev4innova/web test
 	$(API) uv run pytest
 
+security: ## Bandit on the API code, gitleaks on the git history (gitleaks must be installed)
+	$(API) uv run bandit -q -c pyproject.toml -r app
+	gitleaks git . --redact --no-banner
+
 e2e: ## Build the web app and run Playwright (responsive + accessibility)
 	pnpm --filter @dev4innova/web build
 	pnpm --filter @dev4innova/web e2e
+
+smoke: ## Smoke-test a deployment: make smoke web=https://www.example.com api=https://api.example.com
+	sh infra/scripts/smoke.sh "$(web)" "$(api)"
 
 check: lint typecheck test ## Lint + typecheck + test
