@@ -3,7 +3,7 @@ COMPOSE := docker compose -f infra/docker/compose.yaml
 API := cd apps/api &&
 
 .DEFAULT_GOAL := help
-.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client grant-staff purge-ai-sessions purge-diagnostics daily lint typecheck test security e2e smoke check
+.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client grant-staff purge-ai-sessions purge-diagnostics daily lint typecheck test security e2e smoke railway-plan railway-apply railway-secrets check
 
 help: ## List commands
 	@grep -E '^[a-z0-9-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -63,6 +63,7 @@ lint: ## Lint everything
 
 typecheck: ## Typecheck everything
 	pnpm -r typecheck
+	pnpm --filter @dev4innova/web exec tsc -p ../../.railway
 	$(API) uv run mypy
 
 test: ## Run all tests (API tests need `make services`)
@@ -79,5 +80,14 @@ e2e: ## Build the web app and run Playwright (responsive + accessibility)
 
 smoke: ## Smoke-test a deployment: make smoke web=https://www.example.com api=https://api.example.com
 	sh infra/scripts/smoke.sh "$(web)" "$(api)"
+
+railway-plan: ## Preview the Railway production changes from .railway/railway.ts (changes nothing)
+	railway config plan
+
+railway-apply: ## Apply .railway/railway.ts to Railway production (asks for confirmation)
+	railway config apply
+
+railway-secrets: ## Enter the production secrets (hidden input): make railway-secrets [service=api]
+	sh infra/railway/secrets.sh $(service)
 
 check: lint typecheck test ## Lint + typecheck + test

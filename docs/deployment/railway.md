@@ -1,96 +1,117 @@
 # Mise en production sur Railway
 
-Procédure d'exploitation de la production (ADR-0018). Les fichiers de configuration des services
-sont versionnés dans `infra/railway/` ; ce document décrit ce qui se règle dans l'interface de
-Railway, de Sentry et du stockage objet, et ce qu'il faut vérifier avant d'ouvrir le site.
+Procédure d'exploitation de la production (ADR-0018). Toute l'infrastructure Railway — services,
+bases de données, domaines, variables — est décrite dans **`.railway/railway.ts`** (« Infrastructure
+as Code » de Railway) et appliquée avec deux commandes : `railway config plan` puis
+`railway config apply`. Ce document décrit ce qui reste à faire hors de ce fichier et ce qu'il
+faut vérifier avant d'ouvrir le site.
 
 ## 1. Comptes et ressources externes
 
 | Ressource | À créer | Remarque |
 |---|---|---|
-| Projet Railway | environnement `production`, région **EU West** | intégration GitHub sur le dépôt |
+| Compte Railway | un *workspace* avec l'intégration GitHub autorisée sur le dépôt | le projet lui-même est créé par la CLI (section 2) |
 | Stockage objet S3 (Europe) | 3 buckets : `…-media` (lecture publique), `…-portal` (privé), `…-backups` (privé, versionné) | une clé d'accès pour l'API (media + portal), **une autre** pour les sauvegardes |
 | Sentry (région UE) | 2 projets : `dev4innova-api` (Python) et `dev4innova-web` (Next.js) | récupérer les DSN ; alertes « nouvelle erreur » par e-mail |
-| Zitadel | application Web de production | URL de retour `https://<domaine>/api/auth/callback` (`docs/architecture/authentication.md`) |
-| Stripe | clés live, webhook vers `https://<api>/api/v1/billing/webhooks/stripe` | événements listés dans l'ADR-0017 |
-| DNS | `www.<domaine>` → service `web`, `api.<domaine>` → service `api` | domaines personnalisés Railway (certificats automatiques) |
+| Zitadel | application Web de production | URL de retour `https://www.<domaine>/api/auth/callback` (`docs/architecture/authentication.md`) |
+| Stripe | clés live, webhook vers `https://api.<domaine>/api/v1/billing/webhooks/stripe` | événements listés dans l'ADR-0017 |
+| DNS | enregistrements demandés par Railway pour `www.<domaine>` et `api.<domaine>` | affichés après le premier `apply` (*service → Settings → Networking*) ; certificats automatiques |
 
-## 2. Services Railway
+## 2. Créer la production en quelques commandes
 
-Créer, dans le projet, deux bases depuis le catalogue (**PostgreSQL** et **Redis**), puis quatre
-services depuis le dépôt GitHub. Pour chacun : *Settings → Config-as-code → Railway config file*.
+Prérequis : Node 22, `pnpm install` à la racine (installe le SDK `railway`, version figée), et la
+CLI Railway **5.49 ou plus** :
 
-| Service | Fichier de config | Domaine | Branche |
-|---|---|---|---|
-| `web` | `/infra/railway/web.json` | public (`www.…`) | `main` |
-| `api` | `/infra/railway/api.json` | public (`api.…`), port **8000** | `main` |
-| `jobs` | `/infra/railway/jobs.json` | aucun | `main` |
-| `backup` | `/infra/railway/backup.json` | aucun | `main` |
+```bash
+npm install -g @railway/cli
+```
 
-Dans chaque service : *Settings → Source → **Wait for CI*** activé. Railway attend alors que tous
-les jobs du workflow `CI` soient verts sur le commit avant de déployer (TASK-116).
+**a. Renseigner les réglages.** Dans `.railway/railway.ts`, compléter l'objet `SETTINGS` :
+domaine, identifiants Zitadel, buckets, mentions légales du vendeur. Ce sont des valeurs non
+secrètes, versionnées. Tant qu'une valeur vaut `CHANGE_ME`, le plan s'arrête avec une erreur qui
+la nomme. Committer la modification.
 
-Les noms `web` et `api` comptent : le web joint l'API par `http://api.railway.internal:8000`.
+**b. Créer et lier le projet** (une seule fois) :
 
-## 3. Variables
+```bash
+railway login
+```
 
-Utiliser les références Railway (`${{Postgres.PGHOST}}`, `${{Redis.REDIS_URL}}`…) plutôt que de
-recopier des valeurs, et des **variables partagées** pour ce qui sert à plusieurs services. Les
-secrets (marqués 🔒) ne sont saisis que dans Railway, jamais dans le dépôt.
+```bash
+railway init --name dev4innova
+```
 
-### `api` et `jobs` (mêmes variables ; `jobs` peut se limiter aux deux premières lignes)
+`railway init` crée le projet (environnement `production`) et lie le dossier courant ; pour un
+projet existant, utiliser `railway link` à la place.
 
-| Variable | Valeur |
-|---|---|
-| `DATABASE_URL` 🔒 | `postgresql+asyncpg://${{Postgres.PGUSER}}:${{Postgres.PGPASSWORD}}@${{Postgres.PGHOST}}:${{Postgres.PGPORT}}/${{Postgres.PGDATABASE}}` |
-| `REDIS_URL` 🔒 | `${{Redis.REDIS_URL}}` |
-| `APP_ENV` | `production` |
-| `PORT` | `8000` |
-| `CORS_ALLOWED_ORIGINS` | `["https://www.<domaine>"]` |
-| `SITE_URL` | `https://www.<domaine>` |
-| `API_PUBLIC_URL` | `https://api.<domaine>` |
-| `TRUST_FORWARDED_FOR` | `true` (l'API n'est jointe que par le web et le proxy de Railway) |
-| `AUTH_ISSUER`, `AUTH_AUDIENCE` | instance et projet Zitadel de production |
-| `MEDIA_S3_ENDPOINT_URL`, `MEDIA_S3_REGION`, `MEDIA_S3_BUCKET`, `MEDIA_PUBLIC_BASE_URL`, `PORTAL_S3_BUCKET` | stockage objet |
-| `MEDIA_S3_ACCESS_KEY_ID` 🔒, `MEDIA_S3_SECRET_ACCESS_KEY` 🔒 | clé de l'API |
-| `ANTHROPIC_API_KEY` 🔒, `OPENAI_API_KEY` 🔒, `GEMINI_API_KEY` 🔒 | fournisseurs IA utilisés |
-| `STRIPE_SECRET_KEY` 🔒, `STRIPE_WEBHOOK_SECRET` 🔒 | Stripe live |
-| `BILLING_SELLER_*` | coordonnées légales du vendeur |
-| `SENTRY_DSN` 🔒 | DSN du projet Sentry `dev4innova-api` |
+**c. Prévisualiser puis appliquer** :
 
-`RAILWAY_GIT_COMMIT_SHA` est fourni par Railway : il sert de version (`release`) dans Sentry.
+```bash
+make railway-plan
+```
+
+Le plan liste, à la manière de Terraform, ce qui sera créé, modifié ou supprimé
+(`Plan: N to add, 0 to change, 0 to destroy` la première fois) ; les valeurs des variables sont
+masquées. Il ne modifie rien.
+
+```bash
+make railway-apply
+```
+
+`apply` recalcule le plan, l'affiche et demande confirmation. Il crée PostgreSQL 17 et Redis
+(région EU West), les services `web`, `api`, `jobs` et `backup` reliés au dépôt (branche `main`,
+déploiement seulement une fois la CI verte), leurs domaines et toutes leurs variables.
+
+**d. Saisir les secrets** (saisie masquée, jamais écrits dans le dépôt) :
+
+```bash
+make railway-secrets
+```
+
+Le script demande chaque secret déclaré `preserve()` dans `.railway/railway.ts` (clés S3, Stripe,
+fournisseurs IA, DSN Sentry, IBAN/BIC, clé de session — tapez `g` pour la générer). Une réponse
+vide conserve la valeur actuelle. Les services modifiés sont ensuite reconstruits. Pour un seul
+service : `make railway-secrets service=api`.
+
+**e. Domaines** : créer chez le registraire les enregistrements DNS affichés par Railway pour
+`www` et `api`, puis vérifier avec les tests de fumée (section 4).
+
+## 3. Modifier l'infrastructure
+
+Toute modification passe par `.railway/railway.ts`, dans une PR comme le reste du code :
+
+1. modifier le fichier (nouvelle variable, réplique, domaine, horaire de tâche…) ;
+2. `make railway-plan` et relire le diff (le joindre à la PR) ;
+3. après la fusion, `make railway-apply` depuis `main`.
+
+Règles :
+- **Le fichier possède toutes les variables des services** : une variable ajoutée à la main dans
+  le tableau de bord sans être déclarée dans le fichier sera **supprimée** au prochain `apply`
+  (le plan l'annonce). Une nouvelle variable de l'application doit donc être ajoutée au fichier,
+  avec sa valeur si elle n'est pas secrète, ou `preserve()` si elle l'est.
+- **Aucun secret dans le fichier** : `preserve()` garde la valeur stockée par Railway, saisie avec
+  `make railway-secrets`. Ne jamais utiliser `ctx.randomString()` pour un secret : c'est un hachage
+  prévisible d'un texte public.
+- Les changements destructeurs (suppression d'un service, d'une base, d'une variable) demandent
+  une confirmation explicite ; `--confirm-destructive` n'est à utiliser qu'après relecture du plan.
+- Le code de l'application, lui, est déployé automatiquement à chaque fusion dans `main` : `apply`
+  ne sert qu'aux changements d'infrastructure.
+
+### Variables gérées par le fichier
+
+| Service | Valeurs dans le fichier | Secrets (`preserve()`) |
+|---|---|---|
+| `api` | `APP_ENV=production`, `PORT=8000`, `DATABASE_URL` et `REDIS_URL` (références aux bases), `SITE_URL`, `API_PUBLIC_URL`, `CORS_ALLOWED_ORIGINS`, `TRUST_FORWARDED_FOR`, Zitadel, stockage S3, mentions du vendeur | clés S3, clés IA, Stripe, IBAN/BIC, `SENTRY_DSN` |
+| `web` | `PORT=3000`, `API_URL` (réseau privé), `SITE_URL`, `ALLOW_INDEXING`, Zitadel, `SENTRY_ENVIRONMENT`, `NEXT_PUBLIC_SENTRY_DSN` (copie de `SENTRY_DSN`) | `AUTH_SESSION_SECRET`, `SENTRY_DSN` |
+| `jobs` | mêmes réglages de base que l'API, `SENTRY_DSN` de l'API | — |
+| `backup` | `DATABASE_URL`, bucket et point d'accès S3, rétention 30 jours | clé S3 des sauvegardes |
+
+`DATABASE_URL` est l'URL fournie par la base Railway (`postgresql://…`) : l'API y ajoute elle-même
+le pilote asyncpg. `RAILWAY_GIT_COMMIT_SHA` est fourni par Railway et sert de version dans Sentry.
 
 L'API **refuse de démarrer** en production si l'authentification manque, si `SITE_URL` ou une
 origine CORS n'est pas en HTTPS, ou si l'IA ou le paiement simulés sont activés : le message
 « Unsafe production settings » dans les journaux du déploiement dit quoi corriger.
-
-### `web`
-
-| Variable | Valeur |
-|---|---|
-| `API_URL` | `http://api.railway.internal:8000` |
-| `SITE_URL` | `https://www.<domaine>` (aussi lue au **build**) |
-| `ALLOW_INDEXING` | `true` |
-| `AUTH_ISSUER`, `AUTH_CLIENT_ID`, `AUTH_PROJECT_ID` | Zitadel |
-| `AUTH_SESSION_SECRET` 🔒 | 32 caractères aléatoires au moins (`openssl rand -base64 48`) |
-| `SENTRY_DSN` 🔒 | DSN du projet Sentry `dev4innova-web` (erreurs du serveur) |
-| `SENTRY_ENVIRONMENT` | `production` |
-| `NEXT_PUBLIC_SENTRY_DSN` | même DSN, pour le navigateur (**lu au build**) |
-
-Railway transmet les variables du service comme arguments de build Docker : `SITE_URL` et
-`NEXT_PUBLIC_SENTRY_DSN` sont donc pris en compte au build de l'image web. Après les avoir
-changées, redéployer le service.
-
-### `backup`
-
-| Variable | Valeur |
-|---|---|
-| `DATABASE_URL` 🔒 | `postgresql://${{Postgres.PGUSER}}:${{Postgres.PGPASSWORD}}@${{Postgres.PGHOST}}:${{Postgres.PGPORT}}/${{Postgres.PGDATABASE}}` |
-| `BACKUP_S3_BUCKET` | bucket des sauvegardes |
-| `BACKUP_S3_ENDPOINT_URL` | point d'accès S3 (vide pour AWS) |
-| `BACKUP_S3_PREFIX` | défaut `backups/postgres` |
-| `BACKUP_RETENTION_DAYS` | défaut `30` |
-| `AWS_ACCESS_KEY_ID` 🔒, `AWS_SECRET_ACCESS_KEY` 🔒, `AWS_DEFAULT_REGION` | clé dédiée aux sauvegardes |
 
 ### Dépôt GitHub (*Settings → Secrets and variables → Actions → Variables*)
 
@@ -102,7 +123,8 @@ changées, redéployer le service.
 ## 4. Déployer
 
 Une fusion dans `main` suffit :
-1. la CI passe (lint, types, tests, E2E, client d'API, sécurité, images Docker) ;
+1. la CI passe (lint, types, tests, E2E, client d'API, sécurité, images Docker) ; Railway attend
+   qu'elle soit verte (`checkSuites` dans `.railway/railway.ts`) ;
 2. Railway construit les services modifiés (`watchPatterns`) ;
 3. `api` : `alembic upgrade head` en pré-déploiement ; s'il échoue, rien n'est basculé ;
 4. la nouvelle version reçoit le trafic une fois son health check vert ;
@@ -128,7 +150,7 @@ make smoke web=https://www.<domaine> api=https://api.<domaine>
 
 ## 6. Sauvegardes et restauration
 
-- Railway sauvegarde le volume PostgreSQL (*Postgres → Backups* : activer les sauvegardes
+- Railway sauvegarde le volume PostgreSQL (*Postgres → Backups*, non géré par le fichier : activer les sauvegardes
   quotidiennes et hebdomadaires).
 - Le service `backup` exporte la base chaque nuit (01:43 UTC) dans le bucket S3, en vérifiant
   l'archive, et supprime les exports de plus de `BACKUP_RETENTION_DAYS` jours. Son journal
@@ -169,7 +191,8 @@ le résultat dans le registre d'exploitation.
 - [ ] ADR-0018 accepté ; DPA Railway et Sentry signés ; politique de confidentialité à jour
       (hébergeur, sous-traitants, durées de conservation).
 - [ ] Tous les services déployés, health checks verts, domaines et certificats actifs.
-- [ ] Variables vérifiées : aucun mode simulé, `APP_ENV=production`, `ALLOW_INDEXING=true`.
+- [ ] `make railway-plan` n'annonce aucun changement (la production correspond au fichier).
+- [ ] Secrets saisis (`make railway-secrets`) ; aucun mode simulé.
 - [ ] Workflow **Smoke tests** vert sur la production.
 - [ ] Connexion Zitadel testée ; premier compte équipe promu (`python -m app.cli grant-staff` dans
       le shell du service `api`).

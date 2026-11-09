@@ -10,7 +10,7 @@ Lues par `app/core/config.py` (pydantic-settings). Une variable obligatoire abse
 
 | Variable | Obligatoire | Défaut | Description |
 |---|---|---|---|
-| `DATABASE_URL` | oui | — | DSN PostgreSQL, driver asyncpg : `postgresql+asyncpg://user:pass@host:5432/db` |
+| `DATABASE_URL` | oui | — | DSN PostgreSQL : `postgresql+asyncpg://user:pass@host:5432/db` ; une URL `postgresql://` (celle de Railway) reçoit automatiquement le pilote asyncpg |
 | `REDIS_URL` | oui | — | `redis://host:6379/0` |
 | `APP_ENV` | non | `local` | `local`, `test`, `staging`, `production` (désactive `/docs` en production) |
 | `LOG_LEVEL` | non | `INFO` | `DEBUG`, `INFO`, `WARNING`, `ERROR` |
@@ -107,4 +107,4 @@ Valeurs par défaut **locales** de `compose.yaml` ; copier en `infra/docker/.env
 | `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` / `AWS_DEFAULT_REGION` | — | clé dédiée aux sauvegardes (**secret**) |
 | `TARGET_DATABASE_URL` | — | `restore.sh` uniquement : base **neuve** où restaurer |
 
-Production : liste complète par service Railway dans [`docs/deployment/railway.md`](../deployment/railway.md).
+Production : les variables de chaque service Railway sont déclarées dans `.railway/railway.ts` (valeurs non secrètes et `preserve()` pour les secrets) ; voir [`docs/deployment/railway.md`](../deployment/railway.md).
