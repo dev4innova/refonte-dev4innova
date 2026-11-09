@@ -225,7 +225,8 @@
     "admin": "Website administration",
     "aiTools": "AI tools",
     "portal": "Client portal",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "academy": "My courses"
   },
   "Common": {
     "learnMore": "Learn more",
@@ -453,7 +454,6 @@
         "text": "Self-paced modules, coming soon."
       }
     },
-    "comingSoon": "The online course catalog is being prepared.",
     "ctaTitle": "Need training?",
     "ctaText": "We design a program tailored to your teams."
   },
@@ -555,7 +555,8 @@
       "crm": "CRM",
       "crmBadge": "{count, plural, one {# new item to handle} other {# new items to handle}}",
       "ai": "AI",
-      "portal": "Client portal"
+      "portal": "Client portal",
+      "academy": "Academy"
     },
     "types": {
       "article": "Articles",
@@ -1130,6 +1131,144 @@
         "saved": "Follow-up saved.",
         "client": "Client: {name}"
       }
+    },
+    "academy": {
+      "title": "Academy",
+      "lead": "Write courses in French and English, publish them and enroll your clients' members.",
+      "list": {
+        "empty": "No course yet.",
+        "stats": "{modules, plural, one {# module} other {# modules}} · {lessons, plural, one {# lesson} other {# lessons}} · {enrollments, plural, one {# learner} other {# learners}} · {completions, plural, one {# certificate} other {# certificates}}"
+      },
+      "status": {
+        "draft": "Draft",
+        "published": "Published"
+      },
+      "visibility": {
+        "public": "Public catalog",
+        "restricted": "Restricted (enrolled by the team)"
+      },
+      "fr": "French",
+      "en": "English",
+      "course": {
+        "new": "New course",
+        "details": "Presentation",
+        "slug": "Address (slug)",
+        "slugHelp": "Lowercase letters, digits and hyphens: /academy/{slug}",
+        "titleField": "Title",
+        "summary": "Summary",
+        "description": "Description (Markdown)",
+        "visibilityField": "Access",
+        "level": "Level",
+        "duration": "Indicative duration (minutes)",
+        "create": "Create the course",
+        "save": "Save",
+        "saved": "Saved.",
+        "back": "All courses",
+        "publish": "Publish",
+        "unpublish": "Back to draft",
+        "unpublishConfirm": "The course will disappear from the catalog and from its learners' area until it is published again. Continue?",
+        "delete": "Delete the course",
+        "deleteConfirm": "Delete “{name}” and all its content? This cannot be undone.",
+        "view": "View the public page",
+        "missingTitle": "To complete before publishing",
+        "ready": "Everything is ready to publish."
+      },
+      "missing": {
+        "course": "Course",
+        "module": "Module {ref}",
+        "lesson": "Lesson {ref}",
+        "question": "Question {ref}",
+        "fields": {
+          "title": "English title",
+          "summary": "English summary",
+          "modules": "at least one module",
+          "lessons": "at least one lesson",
+          "body_fr": "French content",
+          "body_en": "English content",
+          "text": "English question or answers",
+          "explanation": "English explanation"
+        }
+      },
+      "outline": {
+        "title": "Outline",
+        "module": "Module {number}",
+        "addModule": "Add a module",
+        "moduleTitle": "Module title",
+        "moduleSummary": "Module summary",
+        "editModule": "Edit the module",
+        "addLesson": "Add a lesson",
+        "lessonTitle": "Lesson title",
+        "edit": "Edit",
+        "editName": "Edit {name}",
+        "up": "Up",
+        "down": "Down",
+        "upName": "Move {name} up",
+        "downName": "Move {name} down",
+        "delete": "Delete",
+        "deleteName": "Delete {name}",
+        "deleteModuleConfirm": "Delete the module “{name}”, its lessons and its quiz?",
+        "deleteLessonConfirm": "Delete the lesson “{name}”?",
+        "quiz": "Quiz: {count, plural, =0 {no question} one {# question} other {# questions}}",
+        "editQuiz": "Manage the quiz",
+        "noLesson": "No lesson.",
+        "noModule": "Add a first module to structure the course."
+      },
+      "lesson": {
+        "back": "Back to the outline",
+        "title": "Lesson {ref}",
+        "body": "Content (Markdown)",
+        "video": "Video (YouTube or Vimeo link, optional)",
+        "videoHelp": "Embedded in privacy-enhanced mode (youtube-nocookie, Vimeo without tracking).",
+        "duration": "Duration (minutes)",
+        "preview": "Preview",
+        "save": "Save the lesson"
+      },
+      "quiz": {
+        "title": "Quiz of the module “{name}”",
+        "lead": "Single-choice questions, graded by the server. Pass at 70%, unlimited attempts.",
+        "question": "Question {number}",
+        "prompt": "Question",
+        "option": "Answer {letter}",
+        "correct": "Right answer",
+        "explanation": "Explanation (shown after grading)",
+        "add": "Add the question",
+        "addTitle": "New question",
+        "addOption": "Add an answer",
+        "save": "Save",
+        "deleteConfirm": "Delete this question?",
+        "empty": "No question: the module has no quiz.",
+        "back": "Back to the outline"
+      },
+      "enrollments": {
+        "title": "Learners",
+        "empty": "Nobody is taking this course yet.",
+        "enrollTitle": "Enroll members of a client",
+        "organization": "Client organization",
+        "choose": "Choose an organization",
+        "members": "Members",
+        "noMember": "This organization has no member.",
+        "alreadyEnrolled": "already enrolled",
+        "enroll": "Enroll the selected members",
+        "result": "{enrolled, plural, =0 {No new enrollment} one {# enrollment} other {# enrollments}}.",
+        "draft": "Publish the course to enroll learners.",
+        "self": "Self-enrolled",
+        "remove": "Remove",
+        "removeName": "Remove {name}",
+        "removeConfirm": "Remove {name} from the course? Their progress will be lost; an issued certificate stays valid."
+      },
+      "errors": {
+        "signin": "Your session has expired: please sign in again.",
+        "forbidden": "Your role does not allow this action.",
+        "notFound": "This item no longer exists.",
+        "slug": "Another course already uses this address.",
+        "video": "Only YouTube or Vimeo videos can be embedded.",
+        "incomplete": "The course is not complete in both languages.",
+        "enrolled": "Learners are taking this course: move it back to draft instead of deleting it.",
+        "conflict": "This action is no longer possible: reload the page.",
+        "validation": "Check the fields of the form (French is required).",
+        "generic": "Something went wrong. Please try again in a moment."
+      },
+      "required": "required"
     }
   },
   "Quote": {
@@ -1624,6 +1763,130 @@
       "fileUnreadable": "This file is damaged or unreadable.",
       "generic": "Something went wrong. Please try again in a moment.",
       "load": "This information is temporarily unavailable."
+    }
+  },
+  "Academy": {
+    "metaTitle": "My courses",
+    "units": {
+      "hour": "h",
+      "minute": "min"
+    },
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "catalog": {
+      "title": "Course catalog",
+      "lead": "Free online courses at your own pace, with a verifiable certificate at the end.",
+      "empty": "The first online courses are coming soon.",
+      "unavailable": "The catalog is temporarily unavailable.",
+      "stats": "{modules, plural, one {# module} other {# modules}} · {lessons, plural, one {# lesson} other {# lessons}}",
+      "see": "View the course",
+      "seeName": "View the course {name}"
+    },
+    "course": {
+      "eyebrow": "Online course",
+      "level": "Level: {level}",
+      "duration": "Duration: {duration}",
+      "outline": "Outline",
+      "module": "Module {number}",
+      "quiz": "Validation quiz: {count, plural, one {# question} other {# questions}}",
+      "video": "Video",
+      "enrollTitle": "Take this course",
+      "enrollText": "Free. Your progress is saved and you get a certificate once you have completed every lesson and passed the quizzes (70% right answers).",
+      "enroll": "Enroll for free",
+      "signIn": "Sign in to enroll",
+      "continue": "Continue the course",
+      "enrolled": "You are taking this course."
+    },
+    "learner": {
+      "title": "My courses",
+      "lead": "Pick up where you left off and find your certificates.",
+      "back": "Back to my account",
+      "empty": "You are not taking any course yet.",
+      "browse": "Browse the catalog",
+      "progress": "{percent}% done",
+      "progressDetail": "{lessonsDone} of {lessonsTotal} lessons · {quizzesPassed} of {quizzesTotal} quizzes passed",
+      "sponsor": "Offered by {name}",
+      "completed": "Completed on {date}",
+      "resume": "Resume",
+      "start": "Start",
+      "open": "View the outline",
+      "certificate": "My certificate",
+      "allCourses": "My courses",
+      "nextLesson": "Next lesson: {name}",
+      "lessonDone": "Lesson completed",
+      "quiz": "Module quiz",
+      "quizPassed": "Passed ({score}%)",
+      "quizBest": "Best score: {score}%",
+      "quizTodo": "To do",
+      "takeQuiz": "Take the quiz",
+      "retakeQuiz": "Take the quiz again",
+      "doneTitle": "Well done, course completed!",
+      "doneText": "Your certificate is ready. Share its verification link or download it as a PDF.",
+      "rules": "To get the certificate: complete every lesson and pass each quiz with at least {percent}% right answers."
+    },
+    "lesson": {
+      "module": "Module: {name}",
+      "duration": "{minutes} min",
+      "video": "Video: {name}",
+      "markDone": "I have completed this lesson",
+      "done": "Lesson completed",
+      "previous": "Previous lesson",
+      "next": "Next lesson",
+      "toQuiz": "Go to the module quiz",
+      "toCourse": "Back to the outline",
+      "certificate": "Course completed: see my certificate"
+    },
+    "quiz": {
+      "title": "Quiz: {name}",
+      "lead": "Choose one answer per question. You need {percent}% right answers; you can try again as many times as needed.",
+      "question": "Question {number}",
+      "submit": "Submit my answers",
+      "unanswered": "{count, plural, one {# question has no answer: it counts as wrong.} other {# questions have no answer: they count as wrong.}}",
+      "confirm": "Submit anyway",
+      "score": "Score: {score}%",
+      "passed": "Quiz passed!",
+      "failed": "Not yet: you need {percent}% to pass. Read the lessons again and retry.",
+      "correct": "Right answer",
+      "wrong": "Wrong answer",
+      "rightAnswer": "Right answer: {answer}",
+      "retry": "Try again",
+      "back": "Back to the outline",
+      "best": "Your best score: {score}%"
+    },
+    "certificate": {
+      "metaTitle": "Certificate verification",
+      "title": "DEV4INNOVA Academy certificate",
+      "valid": "Authentic certificate",
+      "revoked": "This certificate has been revoked.",
+      "learner": "Issued to",
+      "course": "Course",
+      "date": "Date",
+      "duration": "Indicative duration",
+      "code": "Verification code",
+      "download": "Download the PDF",
+      "share": "Verification link to share",
+      "notFound": "No certificate matches this code. Check how it was typed.",
+      "seeCourse": "Discover the course"
+    },
+    "sponsored": {
+      "nav": "Courses",
+      "title": "Team courses",
+      "lead": "Progress of the members DEV4INNOVA enrolled for your organization.",
+      "empty": "No member is enrolled in a course yet.",
+      "learner": "Learner",
+      "course": "Course",
+      "progress": "Progress",
+      "lastActivity": "Last activity",
+      "certificate": "Certificate",
+      "none": "—"
+    },
+    "errors": {
+      "signin": "Your session has expired: please sign in again.",
+      "notFound": "This course is not available.",
+      "generic": "Something went wrong. Please try again in a moment."
     }
   }
 }

@@ -44,7 +44,7 @@ async function PortalSupport({ params, searchParams }: Props) {
 
   return (
     <>
-      <PortalHeader org={org} organizationName={membership.organization_name} />
+      <PortalHeader org={org} organizationName={membership.organization_name} role={membership.role} />
       <div className="flex flex-col gap-2">
         <h1 className="text-display-md font-semibold">{t("support.title")}</h1>
         <p className="max-w-3xl text-muted-foreground">{t("support.lead")}</p>

@@ -8,12 +8,12 @@ export async function AdminNavLoader() {
   const session = await getSession();
   if (!session) return <AdminNav />;
   const access = staffAccess(await getStaffRole(session.accessToken));
-  if (!access.crm) return <AdminNav ai={access.ai} portal={access.portal} />;
+  if (!access.crm) return <AdminNav ai={access.ai} portal={access.portal} academy={access.academy} />;
   const inbox = await adminApi(session)
     .GET("/api/v1/admin/crm/inbox")
     .then((r) => r.data)
     .catch(() => undefined);
   return (
-    <AdminNav crm ai={access.ai} portal={access.portal} crmBadge={inbox ? inbox.new_leads + inbox.new_quote_requests : 0} />
+    <AdminNav crm ai={access.ai} portal={access.portal} academy={access.academy} crmBadge={inbox ? inbox.new_leads + inbox.new_quote_requests : 0} />
   );
 }

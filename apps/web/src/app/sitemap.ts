@@ -5,6 +5,7 @@ import { LEGAL_PAGES } from "@/components/cms/legal-page";
 import { SOLUTIONS } from "@/config/offer";
 import { getPathname } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import { getCatalog } from "@/lib/academy-server";
 import { type ContentType, getContent, getContentList } from "@/lib/cms";
 import { getSiteUrl } from "@/lib/site-url";
 
@@ -60,6 +61,10 @@ async function cmsEntries(): Promise<Entry[]> {
     if (await getContent("page", "fr", slugs.fr)) {
       entries.push({ href: () => pathname as Href, priority: 0.3 });
     }
+  }
+  // Open courses of the Academy (same address in both languages).
+  for (const course of (await getCatalog("fr")) ?? []) {
+    entries.push({ href: () => ({ pathname: "/academy/[slug]", params: { slug: course.slug } }), priority: 0.6 });
   }
   return entries;
 }

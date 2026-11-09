@@ -39,7 +39,7 @@ async function PortalTicket({ params }: Props) {
 
   return (
     <>
-      <PortalHeader org={org} organizationName={membership.organization_name} />
+      <PortalHeader org={org} organizationName={membership.organization_name} role={membership.role} />
       <Link
         href={{ pathname: "/account/portal/[org]/support", params: { org } }}
         className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline"
