@@ -29,5 +29,6 @@ def euros(cents: int) -> str:
     """1 234,56 € (French format, used in PDFs)."""
     sign = "-" if cents < 0 else ""
     whole, rest = divmod(abs(cents), 100)
-    grouped = f"{whole:,}".replace(",", " ")
+    # No-break space: the narrow one (U+202F) is missing from the standard PDF fonts.
+    grouped = f"{whole:,}".replace(",", "\u00a0")
     return f"{sign}{grouped},{rest:02d} €"

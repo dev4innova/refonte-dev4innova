@@ -106,7 +106,7 @@ def test_amounts_are_rounded_half_up_per_line() -> None:
     assert line_amounts(Decimal("3"), 3333, 2000).__dict__ == {"net_cents": 9999, "vat_cents": 2000}
     assert line_amounts(Decimal("0.5"), 101, 550).__dict__ == {"net_cents": 51, "vat_cents": 3}
     assert share(290000, 30) == 87000
-    assert euros(123456) == "1\u202f234,56 €" and euros(-500) == "-5,00 €"
+    assert euros(123456) == "1\u00a0234,56 €" and euros(-500) == "-5,00 €"
 
 
 def test_stripe_parameters_are_form_encoded() -> None:
