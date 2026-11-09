@@ -314,6 +314,24 @@ TASK-114 abonnements · TASK-115 transactions. Le choix du prestataire de paieme
 ADR facture électronique (Factur-X, plateforme agréée), politique de remboursement.
 
 ### EPIC 14 — Production & Scale
-TASK-116 CI/CD (**avancée en P0** — CI livrée : `.github/workflows/ci.yml`, Dependabot ; le déploiement continu viendra avec TASK-122) · TASK-117 monitoring · TASK-118 logs · TASK-119 sauvegardes ·
+TASK-116 CI/CD (CI avancée en P0, déploiement continu livré avec l’EPIC 14) · TASK-117 monitoring · TASK-118 logs · TASK-119 sauvegardes ·
 TASK-120 tests de sécurité · TASK-121 tests de charge (P3) · TASK-122 déploiement production ·
 TASK-123 validation de mise en production.
+
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-116 | CI (7 jobs, dont sécurité) ; déploiement continu Railway de `main` après la CI (« Wait for CI ») ; tests de fumée après chaque déploiement de production | ✅ |
+| TASK-117 | Sentry API et web (serveur et navigateur), sans donnée personnelle, release = commit | ✅ |
+| TASK-118 | Journaux JSON, identifiant de requête (`X-Request-ID`), journal d'accès ; journaux et métriques Railway | ✅ |
+| TASK-119 | Sauvegardes du volume Railway + export quotidien vérifié vers S3 (30 jours) ; restauration testée | ✅ |
+| TASK-120 | Bandit, `eslint-plugin-security`, gitleaks sur tout l'historique | ✅ |
+| TASK-121 | Tests de charge | ⏸ non retenus pour l'instant |
+| TASK-122 | Services Railway en config as code (`infra/railway`), migrations en pré-déploiement, garde-fou des réglages de production, en-têtes de sécurité | ✅ |
+| TASK-123 | Liste de contrôle d'ouverture (`docs/deployment/railway.md`), tests de fumée | ✅ (à dérouler à l'ouverture) |
+
+**À prévoir** :
+- accepter l'ADR-0018 ;
+- créer le projet Railway, les buckets S3 et les projets Sentry, puis renseigner les variables
+  (`docs/deployment/railway.md`) ;
+- tester la restauration, puis dérouler la liste de contrôle d'ouverture ;
+- plus tard : CSP avec nonces, environnement de recette, ZAP, Trivy, pip-audit, tests de charge.

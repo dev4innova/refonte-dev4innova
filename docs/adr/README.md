@@ -25,3 +25,4 @@ Statuts : **Proposé** → **Accepté** (validé par le responsable du projet) �
 | [0015](0015-client-portal.md) | Portail client : projets pilotés par l'équipe, fichiers privés, notifications dans l'application | Proposé |
 | [0016](0016-academy.md) | Academy : formations rédigées dans le back-office, quiz corrigés par le serveur, certificats vérifiables | Proposé |
 | [0017](0017-billing.md) | Commerce et facturation : Stripe Checkout, factures émises par la plateforme | Proposé |
+| [0018](0018-production-on-railway.md) | Production sur Railway : déploiement continu, Sentry, sauvegardes hors Railway | Proposé |

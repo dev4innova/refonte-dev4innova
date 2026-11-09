@@ -17,6 +17,10 @@ Lues par `app/core/config.py` (pydantic-settings). Une variable obligatoire abse
 | `CORS_ALLOWED_ORIGINS` | non | `["http://localhost:3000"]` | origines autorisées (liste JSON) |
 | `DATABASE_POOL_SIZE` | non | `5` | taille du pool SQLAlchemy |
 | `DATABASE_MAX_OVERFLOW` | non | `10` | connexions supplémentaires au-delà du pool |
+| `SENTRY_DSN` | non | — | DSN Sentry de l'API (**secret**) ; vide = pas de suivi des erreurs (ADR-0018) |
+| `SENTRY_TRACES_SAMPLE_RATE` | non | `0.1` | part des requêtes tracées dans Sentry (0 à 1) |
+| `RELEASE` | non | `RAILWAY_GIT_COMMIT_SHA` | version envoyée à Sentry ; fournie automatiquement par Railway |
+| `PORT` | non | `8000` | port d'écoute de l'image Docker (`infra/docker/api.Dockerfile`) |
 | `HEALTH_CHECK_TIMEOUT_SECONDS` | non | `2.0` | délai max par dépendance dans `/health/ready` |
 | `AUTH_ISSUER` | pour l'authentification | — | URL de l'instance Zitadel (sans `/` final) |
 | `AUTH_AUDIENCE` | pour l'authentification | — | ID du projet Zitadel (claim `aud` attendu) |
@@ -68,11 +72,16 @@ Tests : `TEST_DATABASE_URL` et `TEST_REDIS_URL` remplacent les valeurs par défa
 | `AUTH_CLIENT_ID` | serveur | Client ID de l'application Web Zitadel (PKCE) |
 | `AUTH_PROJECT_ID` | serveur | ID du projet Zitadel (audience du jeton d'accès) |
 | `AUTH_SESSION_SECRET` | serveur, **secret** | clé de chiffrement des cookies de session (≥ 32 caractères) |
+| `SENTRY_DSN` | serveur, **secret** | DSN Sentry du web : erreurs du serveur Next.js ; vide = désactivé |
+| `SENTRY_ENVIRONMENT`, `SENTRY_TRACES_SAMPLE_RATE` | serveur | environnement Sentry (défaut `NODE_ENV`) et part des requêtes tracées (défaut `0.1`) |
+| `NEXT_PUBLIC_SENTRY_DSN` | navigateur, **build** | DSN Sentry des erreurs du navigateur (argument de build de l'image) ; vide = Sentry n'est pas chargé |
+| `NEXT_PUBLIC_SENTRY_ENVIRONMENT` | navigateur, **build** | défaut `production` |
 | `ALLOW_INDEXING` | serveur | `true` uniquement en production : autorise l'indexation dans `robots.txt` (défaut `false`) |
 
 Procédure complète : [authentication.md](authentication.md).
 
-Seules les variables préfixées `NEXT_PUBLIC_` sont exposées au navigateur ; aucune n'existe pour l'instant.
+Seules les variables préfixées `NEXT_PUBLIC_` sont exposées au navigateur : uniquement le DSN
+et l'environnement Sentry, qui ne sont pas des secrets (un DSN ne permet que d'envoyer des erreurs).
 
 ## Docker Compose — `infra/docker/.env.example`
 
@@ -85,3 +94,17 @@ Valeurs par défaut **locales** de `compose.yaml` ; copier en `infra/docker/.env
 | `APP_ENV`, `LOG_LEVEL` | `local`, `INFO` | transmis à l'API |
 | `MINIO_ROOT_USER` / `MINIO_ROOT_PASSWORD` / `MINIO_PORT` | `dev4innova` / `dev4innova-secret` / `9000` | stockage objet local des médias (MinIO), bucket `dev4innova-media` créé en lecture publique par `minio-init` |
 | `SITE_URL` | `http://localhost:3000` | origine publique passée au build de l'image web |
+
+## Sauvegardes — service `backup` (`infra/backup/backup.sh`, `restore.sh`)
+
+| Variable | Défaut | Description |
+|---|---|---|
+| `DATABASE_URL` | — | base à sauvegarder (format libpq ou SQLAlchemy asyncpg) (**secret**) |
+| `BACKUP_S3_BUCKET` | — | bucket privé des sauvegardes |
+| `BACKUP_S3_ENDPOINT_URL` | — | point d'accès S3-compatible ; vide = AWS S3 |
+| `BACKUP_S3_PREFIX` | `backups/postgres` | dossier des exports dans le bucket |
+| `BACKUP_RETENTION_DAYS` | `30` | les exports plus anciens sont supprimés |
+| `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` / `AWS_DEFAULT_REGION` | — | clé dédiée aux sauvegardes (**secret**) |
+| `TARGET_DATABASE_URL` | — | `restore.sh` uniquement : base **neuve** où restaurer |
+
+Production : liste complète par service Railway dans [`docs/deployment/railway.md`](../deployment/railway.md).

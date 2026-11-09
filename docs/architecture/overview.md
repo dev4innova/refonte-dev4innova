@@ -57,7 +57,8 @@
 | Environnement | Usage | Données |
 |---|---|---|
 | `local` | Docker Compose | jeux de données factices |
-| `staging` | recette, déployé depuis `main` | anonymisées |
-| `production` | public | réelles |
+| `staging` | recette (pas encore créé ; possible dans Railway avec les mêmes fichiers) | anonymisées |
+| `production` | public, Railway (région UE), déployé automatiquement depuis `main` après la CI | réelles |
 
-Le choix de l'hébergeur (frontend, API, PostgreSQL managé) est à acter par ADR avant TASK-122.
+Hébergement, déploiement, observabilité et sauvegardes : ADR-0018 et
+[`docs/deployment/railway.md`](../deployment/railway.md).
