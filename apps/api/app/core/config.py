@@ -4,7 +4,15 @@ from decimal import Decimal
 from functools import lru_cache
 from typing import Literal
 
-from pydantic import AliasChoices, Field, PostgresDsn, RedisDsn, SecretStr, model_validator
+from pydantic import (
+    AliasChoices,
+    Field,
+    PostgresDsn,
+    RedisDsn,
+    SecretStr,
+    field_validator,
+    model_validator,
+)
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -28,6 +36,16 @@ class Settings(BaseSettings):
     database_pool_size: int = Field(default=5, ge=1)
     database_max_overflow: int = Field(default=10, ge=0)
     redis_url: RedisDsn
+
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def _asyncpg_driver(cls, value: object) -> object:
+        """Accepts the plain libpq URL that Railway's PostgreSQL provides (ADR-0018)."""
+        if isinstance(value, str):
+            for prefix in ("postgresql://", "postgres://"):
+                if value.startswith(prefix):
+                    return "postgresql+asyncpg://" + value.removeprefix(prefix)
+        return value
 
     cors_allowed_origins: list[str] = ["http://localhost:3000"]
     # Media storage (S3-compatible object storage; MinIO locally). ADR-0010.
