@@ -3,6 +3,9 @@
     uv run python -m app.cli grant-staff EMAIL ROLE
     uv run python -m app.cli purge-ai-sessions [--days N]
     uv run python -m app.cli purge-diagnostics [--days N]
+    uv run python -m app.cli daily
+
+`daily` runs every retention purge; the deployment schedules it once a day (ADR-0018).
 
 Staff roles are never granted through the API (TASK-043): an operator with database
 access grants the first ones here, e.g. the first back-office administrator.
@@ -74,6 +77,7 @@ def main(argv: list[str] | None = None) -> None:
     purge.add_argument("--days", type=int, default=None, help="Default: AI_SESSION_RETENTION_DAYS")
     diagnostics = commands.add_parser("purge-diagnostics", help="Delete old anonymous diagnostics")
     diagnostics.add_argument("--days", type=int, default=30)
+    commands.add_parser("daily", help="Run the daily retention purges")
     args = parser.parse_args(argv)
 
     async def run() -> str:
@@ -82,6 +86,8 @@ def main(argv: list[str] | None = None) -> None:
                 return await purge_ai_sessions(args.days)
             if args.command == "purge-diagnostics":
                 return await purge_diagnostics(args.days)
+            if args.command == "daily":
+                return "\n".join([await purge_ai_sessions(None), await purge_diagnostics(30)])
             return await grant_staff(args.email, args.role)
         finally:
             await dispose_engine()

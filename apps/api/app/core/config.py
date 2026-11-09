@@ -4,7 +4,7 @@ from decimal import Decimal
 from functools import lru_cache
 from typing import Literal
 
-from pydantic import Field, PostgresDsn, RedisDsn, SecretStr
+from pydantic import AliasChoices, Field, PostgresDsn, RedisDsn, SecretStr, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -15,6 +15,13 @@ class Settings(BaseSettings):
     app_name: str = "dev4innova-api"
     app_version: str = "0.1.0"
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = "INFO"
+    # Observability (EPIC 14, ADR-0018)
+    sentry_dsn: SecretStr | None = None
+    sentry_traces_sample_rate: float = Field(default=0.1, ge=0, le=1)
+    release: str | None = Field(
+        default=None, validation_alias=AliasChoices("RELEASE", "RAILWAY_GIT_COMMIT_SHA")
+    )
+    """Deployed version (the git commit on Railway): tags errors and logs."""
 
     # No default: secrets and connection strings must come from the environment.
     database_url: PostgresDsn
@@ -105,6 +112,24 @@ class Settings(BaseSettings):
     @property
     def is_production(self) -> bool:
         return self.app_env == "production"
+
+    @model_validator(mode="after")
+    def _safe_in_production(self) -> "Settings":
+        """Refuses to start production with development settings (ADR-0018)."""
+        if self.app_env != "production":
+            return self
+        problems = []
+        if not self.auth_issuer:
+            problems.append("AUTH_ISSUER is required")
+        if not self.site_url.startswith("https://"):
+            problems.append("SITE_URL must be https")
+        if any(not origin.startswith("https://") for origin in self.cors_allowed_origins):
+            problems.append("CORS_ALLOWED_ORIGINS must only list https origins")
+        if self.ai_enable_simulated_provider or self.billing_simulated_payments:
+            problems.append("simulated AI or payments are not allowed in production")
+        if problems:
+            raise ValueError("Unsafe production settings: " + "; ".join(problems))
+        return self
 
     @property
     def jwks_url(self) -> str | None:

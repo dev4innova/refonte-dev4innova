@@ -18,6 +18,9 @@ class JsonFormatter(logging.Formatter):
         request_id = getattr(record, "request_id", None)
         if request_id:
             payload["request_id"] = request_id
+        http = getattr(record, "http", None)
+        if http:
+            payload["http"] = http
         if record.exc_info:
             payload["exception"] = self.formatException(record.exc_info)
         return json.dumps(payload, ensure_ascii=False)
@@ -26,6 +29,9 @@ class JsonFormatter(logging.Formatter):
 def configure_logging(level: str) -> None:
     handler = logging.StreamHandler(sys.stdout)
     handler.setFormatter(JsonFormatter())
+    from app.core.observability import RequestIdFilter
+
+    handler.addFilter(RequestIdFilter())
     root = logging.getLogger()
     root.handlers = [handler]
     root.setLevel(level)

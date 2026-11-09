@@ -11,6 +11,7 @@ from fastapi.routing import APIRoute
 from app.core.config import get_settings
 from app.core.errors import register_exception_handlers
 from app.core.logging import configure_logging
+from app.core.observability import RequestContextMiddleware, init_sentry
 from app.core.redis import close_redis
 from app.db.session import dispose_engine
 from app.modules.academy.router import admin_router as academy_admin_router
@@ -56,6 +57,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 def create_app() -> FastAPI:
     settings = get_settings()
     configure_logging(settings.log_level)
+    init_sentry(settings)
 
     app = FastAPI(
         title="DEV4INNOVA API",
@@ -74,6 +76,7 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    app.add_middleware(RequestContextMiddleware)
     register_exception_handlers(app)
 
     api_v1 = APIRouter(prefix=API_V1_PREFIX)
