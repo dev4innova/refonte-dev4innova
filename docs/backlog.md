@@ -301,6 +301,18 @@ TASK-110 catalogue · TASK-111 devis · TASK-112 factures · TASK-113 paiements 
 TASK-114 abonnements · TASK-115 transactions. Le choix du prestataire de paiement
 (et de la facturation conforme à la réglementation française, facture électronique) fera l'objet d'un ADR.
 
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-110 | Catalogue (prestations, abonnements, formations payantes de l'Academy), FR/EN, TVA par produit | ✅ |
+| TASK-111 | Devis rédigés par l'équipe, acceptés ou refusés en ligne par le client (bon pour accord horodaté), PDF | ✅ |
+| TASK-112 | Factures et avoirs : numérotation continue, coordonnées figées, TVA par taux, mentions légales, PDF ; acompte et solde | ✅ |
+| TASK-113 | Paiement en ligne par Stripe Checkout (carte, SEPA), webhooks signés et idempotents ; virement | ✅ |
+| TASK-114 | Abonnements souscrits et résiliés depuis le portail, une facture par période payée | ✅ |
+| TASK-115 | Transactions (paiements Stripe, virements enregistrés), tableau de bord (encours, retards, revenu récurrent) | ✅ |
+
+**À prévoir** : accepter l'ADR-0017, configurer Stripe (clés, webhook) et les coordonnées du vendeur,
+ADR facture électronique (Factur-X, plateforme agréée), politique de remboursement.
+
 ### EPIC 14 — Production & Scale
 TASK-116 CI/CD (**avancée en P0** — CI livrée : `.github/workflows/ci.yml`, Dependabot ; le déploiement continu viendra avec TASK-122) · TASK-117 monitoring · TASK-118 logs · TASK-119 sauvegardes ·
 TASK-120 tests de sécurité · TASK-121 tests de charge (P3) · TASK-122 déploiement production ·

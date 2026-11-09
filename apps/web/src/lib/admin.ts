@@ -57,6 +57,8 @@ export type StaffAccess = {
   portal: boolean;
   /** Academy: courses, quizzes, enrollments (EPIC 12). */
   academy: boolean;
+  /** Billing: catalog, quotes, invoices, payments (EPIC 13). */
+  billing: boolean;
 };
 
 export function staffAccess(role: StaffRole | null): StaffAccess {
@@ -68,6 +70,7 @@ export function staffAccess(role: StaffRole | null): StaffAccess {
     ai: role === "staff_admin",
     portal: role === "staff_admin" || role === "staff_sales",
     academy: role === "staff_admin" || role === "staff_editor",
+    billing: role === "staff_admin" || role === "staff_sales",
   };
 }
 

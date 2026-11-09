@@ -556,7 +556,8 @@
       "crmBadge": "{count, plural, one {# nouveauté à traiter} other {# nouveautés à traiter}}",
       "ai": "IA",
       "portal": "Portail client",
-      "academy": "Academy"
+      "academy": "Academy",
+      "billing": "Facturation"
     },
     "types": {
       "article": "Articles",
@@ -1269,6 +1270,125 @@
         "generic": "Une erreur est survenue. Réessayez dans quelques instants."
       },
       "required": "obligatoire"
+    },
+    "billing": {
+      "nav": {
+        "label": "Sections de la facturation",
+        "overview": "Tableau de bord",
+        "quotes": "Devis",
+        "invoices": "Factures",
+        "products": "Catalogue",
+        "payments": "Transactions"
+      },
+      "overview": {
+        "title": "Facturation",
+        "lead": "Devis, factures, paiements et abonnements de vos clients.",
+        "receivable": "À encaisser",
+        "overdue": "En retard ({count})",
+        "awaiting": "Devis en attente du client",
+        "accepted": "Devis acceptés ce mois-ci",
+        "recurring": "Abonnements (mensuel TTC)",
+        "openInvoices": "Factures à encaisser",
+        "noInvoice": "Aucune facture en attente.",
+        "awaitingQuotes": "Devis envoyés",
+        "noQuote": "Aucun devis en attente."
+      },
+      "quotes": {
+        "title": "Devis",
+        "new": "Nouveau devis",
+        "empty": "Aucun devis.",
+        "organization": "Organisation cliente",
+        "choose": "Choisir une organisation",
+        "titleField": "Objet du devis",
+        "notes": "Conditions et remarques (facultatif)",
+        "validUntil": "Valable jusqu'au",
+        "deposit": "Acompte à la commande (%)",
+        "lines": "Lignes",
+        "product": "Catalogue",
+        "freeLine": "Ligne libre",
+        "description": "Désignation",
+        "quantity": "Quantité",
+        "unitPrice": "Prix unitaire HT (€)",
+        "vat": "TVA (%)",
+        "addLine": "Ajouter une ligne",
+        "removeLine": "Retirer la ligne {number}",
+        "totals": "Total : {net} HT, {vat} de TVA, {gross} TTC",
+        "create": "Créer le brouillon",
+        "save": "Enregistrer le brouillon",
+        "saved": "Brouillon enregistré.",
+        "send": "Envoyer au client",
+        "sendConfirm": "Envoyer ce devis ? Il ne pourra plus être modifié et le client sera prévenu.",
+        "cancel": "Annuler le devis",
+        "cancelConfirm": "Annuler ce devis ?",
+        "balance": "Facturer le solde",
+        "balanceConfirm": "Émettre la facture de solde de ce devis ?",
+        "remaining": "Reste à facturer : {amount}",
+        "pdf": "PDF",
+        "back": "Tous les devis",
+        "client": "Client : {name}"
+      },
+      "invoices": {
+        "title": "Factures et avoirs",
+        "openOnly": "À encaisser",
+        "all": "Toutes",
+        "empty": "Aucune facture.",
+        "back": "Toutes les factures",
+        "transferTitle": "Enregistrer un virement reçu",
+        "amount": "Montant (€)",
+        "receivedOn": "Reçu le",
+        "reference": "Référence du virement (facultatif)",
+        "record": "Enregistrer le virement",
+        "creditTitle": "Annuler par un avoir",
+        "creditHelp": "Émet un avoir du montant total et annule la facture. Le remboursement éventuel se fait hors plateforme (Stripe ou virement).",
+        "reason": "Motif",
+        "credit": "Émettre l'avoir",
+        "creditConfirm": "Émettre un avoir et annuler cette facture ? Cette action est définitive."
+      },
+      "products": {
+        "title": "Catalogue",
+        "lead": "Prestations utilisées dans les devis, abonnements souscrits en ligne et formations payantes de l'Academy. Un changement de prix ne vaut que pour les ventes futures.",
+        "new": "Nouveau produit",
+        "edit": "Modifier {name}",
+        "code": "Code",
+        "kind": "Type",
+        "kinds": {
+          "service": "Prestation",
+          "subscription": "Abonnement",
+          "course": "Formation"
+        },
+        "nameField": "Nom",
+        "description": "Description",
+        "price": "Prix HT (€)",
+        "vat": "TVA (%)",
+        "interval": "Périodicité",
+        "course": "Formation de l'Academy",
+        "chooseCourse": "Choisir une formation",
+        "active": "Disponible à la vente",
+        "inactive": "Retiré de la vente",
+        "save": "Enregistrer",
+        "saved": "Produit enregistré.",
+        "empty": "Le catalogue est vide."
+      },
+      "payments": {
+        "title": "Transactions",
+        "empty": "Aucune transaction.",
+        "date": "Date",
+        "client": "Client",
+        "invoice": "Facture",
+        "method": "Moyen",
+        "amount": "Montant",
+        "subscriptions": "Abonnements",
+        "noSubscription": "Aucun abonnement."
+      },
+      "errors": {
+        "signin": "Votre session a expiré : reconnectez-vous.",
+        "forbidden": "Votre rôle ne permet pas cette action.",
+        "notFound": "Cet élément n'existe plus.",
+        "code": "Ce code ou cette formation est déjà utilisé par un autre produit.",
+        "conflict": "Cette action n'est plus possible dans l'état actuel : rechargez la page.",
+        "validation": "Vérifiez les champs du formulaire.",
+        "generic": "Une erreur est survenue. Réessayez dans quelques instants."
+      }
     }
   },
   "Quote": {
@@ -1748,7 +1868,12 @@
         "document_uploaded": "{organization} a partagé le document « {file} »",
         "ticket_opened": "Nouvelle demande n° {number} de {organization} : {subject}",
         "ticket_message": "{organization} a écrit sur la demande n° {number} : {subject}",
-        "comment_added": "Nouveau commentaire sur « {target} » ({project})"
+        "comment_added": "Nouveau commentaire sur « {target} » ({project})",
+        "quote_sent": "Nouveau devis à valider : {number} – {title}",
+        "invoice_issued": "Nouvelle facture {number}",
+        "quote_accepted": "{organization} a accepté le devis {number} ({invoice} émise)",
+        "quote_declined": "{organization} a refusé le devis {number}",
+        "payment_received": "Paiement reçu sur la facture {number}"
       }
     },
     "errors": {
@@ -1887,6 +2012,161 @@
       "signin": "Votre session a expiré : reconnectez-vous.",
       "notFound": "Cette formation n'est pas disponible.",
       "generic": "Une erreur est survenue. Réessayez dans quelques instants."
+    }
+  },
+  "Billing": {
+    "nav": "Facturation",
+    "required": "obligatoire",
+    "quoteStatus": {
+      "draft": "Brouillon",
+      "sent": "À valider",
+      "accepted": "Accepté",
+      "declined": "Refusé",
+      "cancelled": "Annulé"
+    },
+    "invoiceStatus": {
+      "issued": "À payer",
+      "paid": "Payée",
+      "cancelled": "Annulée par avoir"
+    },
+    "creditStatus": "Avoir",
+    "purpose": {
+      "deposit": "Acompte",
+      "balance": "Solde",
+      "full": "Facture",
+      "subscription": "Abonnement",
+      "course": "Formation",
+      "credit": "Avoir"
+    },
+    "subscriptionStatus": {
+      "incomplete": "En attente",
+      "active": "Actif",
+      "past_due": "Paiement en retard",
+      "cancelled": "Résilié"
+    },
+    "interval": {
+      "month": "par mois",
+      "year": "par an"
+    },
+    "provider": {
+      "stripe": "Paiement en ligne",
+      "transfer": "Virement"
+    },
+    "expired": "Expiré",
+    "overdue": "En retard",
+    "excludingVat": "HT",
+    "includingVat": "TTC",
+    "overview": {
+      "title": "Facturation",
+      "lead": "Devis à valider, factures, paiements et abonnements de votre organisation.",
+      "due": "Reste à payer : {amount}",
+      "nothingDue": "Aucune facture en attente de paiement.",
+      "quotes": "Devis",
+      "noQuote": "Aucun devis pour le moment.",
+      "invoices": "Factures et avoirs",
+      "noInvoice": "Aucune facture pour le moment.",
+      "subscriptions": "Abonnements",
+      "noSubscription": "Aucun abonnement.",
+      "offers": "Nos offres d'abonnement",
+      "subscribe": "S'abonner",
+      "subscribeName": "S'abonner : {name}",
+      "subscribed": "Merci ! Votre abonnement est en cours d'activation ; il apparaît ici dès la confirmation du paiement.",
+      "renews": "Prochaine échéance : {date}",
+      "endsOn": "Se termine le {date}",
+      "cancel": "Résilier à la fin de la période",
+      "cancelConfirm": "Résilier cet abonnement ? Il reste actif jusqu'à la fin de la période payée.",
+      "resume": "Annuler la résiliation",
+      "onlinePaymentOff": "Le paiement en ligne n'est pas encore disponible : réglez vos factures par virement.",
+      "forbidden": "La facturation est réservée aux propriétaires et administrateurs de l'organisation."
+    },
+    "profile": {
+      "title": "Coordonnées de facturation",
+      "help": "Elles figurent sur vos factures. Les factures déjà émises conservent les coordonnées de leur date d'émission.",
+      "missing": "Renseignez vos coordonnées de facturation pour accepter un devis ou souscrire un abonnement.",
+      "legalName": "Raison sociale ou nom",
+      "address": "Adresse",
+      "postalCode": "Code postal",
+      "city": "Ville",
+      "country": "Pays (code à 2 lettres)",
+      "vatNumber": "N° de TVA intracommunautaire",
+      "siren": "SIREN ou SIRET",
+      "email": "E-mail de facturation",
+      "save": "Enregistrer",
+      "saved": "Coordonnées enregistrées.",
+      "edit": "Modifier les coordonnées"
+    },
+    "quote": {
+      "back": "Retour à la facturation",
+      "title": "Devis {number}",
+      "validUntil": "Valable jusqu'au {date}",
+      "deposit": "Acompte à la commande : {percent} %",
+      "lines": "Détail",
+      "description": "Désignation",
+      "quantity": "Qté",
+      "unitPrice": "PU HT",
+      "vat": "TVA",
+      "total": "Total HT",
+      "net": "Total HT",
+      "vatTotal": "TVA",
+      "gross": "Total TTC",
+      "pdf": "Télécharger le devis (PDF)",
+      "acceptTitle": "Accepter le devis",
+      "acceptText": "En acceptant, vous passez commande aux conditions du devis. {deposit, select, none {La facture sera émise aussitôt.} other {Une facture d'acompte de {deposit} % sera émise aussitôt.}}",
+      "name": "Nom et prénom du signataire",
+      "agree": "Bon pour accord : j'accepte ce devis au nom de l'organisation",
+      "accept": "Accepter le devis",
+      "declineTitle": "Refuser le devis",
+      "reason": "Motif (facultatif)",
+      "decline": "Refuser le devis",
+      "declineConfirm": "Refuser ce devis ?",
+      "accepted": "Accepté par {name} le {date}.",
+      "declined": "Refusé le {date}.",
+      "expired": "Ce devis a expiré : demandez-en une nouvelle version à votre contact DEV4INNOVA.",
+      "invoices": "Factures liées"
+    },
+    "invoice": {
+      "back": "Retour à la facturation",
+      "title": "Facture {number}",
+      "issued": "Émise le {date}",
+      "due": "Échéance : {date}",
+      "paidBanner": "Merci ! Votre paiement est en cours de confirmation ; la facture sera marquée payée dans quelques instants.",
+      "pdf": "Télécharger (PDF)",
+      "pay": "Payer {amount} en ligne",
+      "payHelp": "Carte bancaire ou prélèvement SEPA, sur la page sécurisée de notre prestataire de paiement (Stripe).",
+      "transfer": "Ou par virement : IBAN {iban}, référence {reference}.",
+      "transferNoIban": "Ou par virement, avec la référence {reference}.",
+      "payments": "Paiements reçus",
+      "noPayment": "Aucun paiement pour le moment.",
+      "paid": "Déjà payé",
+      "remaining": "Reste à payer",
+      "quote": "Devis : {number}",
+      "credited": "Avoir sur la facture {number}",
+      "creditNote": "Annulée par l'avoir {number}",
+      "seller": "Émetteur",
+      "customer": "Client",
+      "creditTitle": "Avoir {number}"
+    },
+    "course": {
+      "price": "{amount} TTC",
+      "priceHelp": "Formation payante : accès complet après paiement, facture disponible dans votre espace.",
+      "buyAs": "Facturer à",
+      "personal": "À titre personnel",
+      "buy": "Acheter la formation",
+      "pending": "Paiement reçu : votre accès est en cours d'activation. Rechargez la page dans quelques instants.",
+      "reload": "Recharger"
+    },
+    "errors": {
+      "signin": "Votre session a expiré : reconnectez-vous.",
+      "forbidden": "Vous n'avez pas les droits pour cette action.",
+      "notFound": "Cet élément n'existe plus ou ne vous est pas accessible.",
+      "profile": "Renseignez d'abord les coordonnées de facturation de l'organisation.",
+      "expired": "Ce devis a expiré.",
+      "conflict": "Cette action n'est plus possible : rechargez la page.",
+      "payment": "Le paiement en ligne est momentanément indisponible. Réessayez plus tard ou réglez par virement.",
+      "validation": "Vérifiez les champs du formulaire.",
+      "generic": "Une erreur est survenue. Réessayez dans quelques instants.",
+      "load": "Ces informations sont momentanément indisponibles.",
+      "code": "Ce code ou cette formation est déjà utilisé par un autre produit."
     }
   }
 }

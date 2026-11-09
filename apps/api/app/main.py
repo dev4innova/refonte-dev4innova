@@ -19,6 +19,10 @@ from app.modules.academy.router import org_router as academy_org_router
 from app.modules.academy.router import public_router as academy_router
 from app.modules.ai_experiences.router import router as ai_router
 from app.modules.ai_gateway.router import router as ai_admin_router
+from app.modules.billing.router import admin_router as billing_admin_router
+from app.modules.billing.router import learner_router as billing_learner_router
+from app.modules.billing.router import public_router as billing_router
+from app.modules.billing.router import router as billing_org_router
 from app.modules.cms.router import admin_router as cms_admin_router
 from app.modules.cms.router import public_router as content_router
 from app.modules.contact.router import router as contact_router
@@ -92,6 +96,10 @@ def create_app() -> FastAPI:
     api_v1.include_router(academy_learner_router)
     api_v1.include_router(academy_org_router)
     api_v1.include_router(academy_admin_router)
+    api_v1.include_router(billing_router)
+    api_v1.include_router(billing_learner_router)
+    api_v1.include_router(billing_org_router)
+    api_v1.include_router(billing_admin_router)
     app.include_router(api_v1)
     return app
 

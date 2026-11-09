@@ -9,7 +9,11 @@ import { PortalNav } from "./portal-nav";
 
 /** Top of every page of an organization's portal: way back, organization, bell, sections. */
 export async function PortalHeader({ org, organizationName, role }: { org: string; organizationName: string; role: string }) {
-  const [t, tAcademy] = await Promise.all([getTranslations("Portal"), getTranslations("Academy.sponsored")]);
+  const [t, tAcademy, tBilling] = await Promise.all([
+    getTranslations("Portal"),
+    getTranslations("Academy.sponsored"),
+    getTranslations("Billing"),
+  ]);
   const academyLabel = tAcademy("nav");
   return (
     <div className="flex flex-col gap-6">
@@ -25,7 +29,7 @@ export async function PortalHeader({ org, organizationName, role }: { org: strin
           <NotificationBell />
         </Suspense>
       </div>
-      <PortalNav org={org} academy={role === "owner" || role === "admin"} academyLabel={academyLabel} />
+      <PortalNav org={org} academy={role === "owner" || role === "admin"} academyLabel={academyLabel} billingLabel={tBilling("nav")} />
     </div>
   );
 }

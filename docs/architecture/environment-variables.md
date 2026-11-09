@@ -46,7 +46,14 @@ Lues par `app/core/config.py` (pydantic-settings). Une variable obligatoire abse
 | `PORTAL_S3_PUBLIC_ENDPOINT_URL` | non | — | point d'accès S3 vu par les navigateurs, pour signer les liens de téléchargement (si différent de `MEDIA_S3_ENDPOINT_URL`) |
 | `PORTAL_FILE_MAX_BYTES` | non | `26214400` | taille maximale d'un document ou livrable (25 Mo) |
 | `PORTAL_DOWNLOAD_TTL_SECONDS` | non | `300` | durée de validité d'un lien de téléchargement signé |
-| `SITE_URL` (API) | non | `http://localhost:3000` | adresse publique du site, imprimée sur les certificats de l'Academy (lien de vérification) |
+| `SITE_URL` (API) | non | `http://localhost:3000` | adresse publique du site : certificats de l'Academy, retours de paiement Stripe |
+| `STRIPE_SECRET_KEY` | pour le paiement | — | clé secrète Stripe (**secret**, API uniquement) ; sans elle et sans simulation, le paiement en ligne est indisponible (503) |
+| `STRIPE_WEBHOOK_SECRET` | pour le paiement | — | secret de signature des webhooks Stripe (**secret**) |
+| `STRIPE_API_BASE` | non | `https://api.stripe.com` | uniquement pour viser un faux Stripe ou un proxy |
+| `BILLING_SIMULATED_PAYMENTS` | non | `false` | pages de paiement simulées servies par l'API (local, E2E ; ignoré en production) |
+| `API_PUBLIC_URL` | non | `http://localhost:8000` | adresse de l'API vue par les navigateurs (pages de paiement simulées) |
+| `BILLING_SELLER_NAME`, `_LEGAL_FORM`, `_ADDRESS`, `_SIREN`, `_VAT_NUMBER`, `_IBAN`, `_BIC`, `_EMAIL` | pour facturer | `DEV4INNOVA` / vides | coordonnées du vendeur copiées sur chaque facture (mentions obligatoires) |
+| `BILLING_PAYMENT_TERMS_DAYS` | non | `30` | délai de paiement des factures (acomptes et paiements en ligne : à réception) |
 
 Tests : `TEST_DATABASE_URL` et `TEST_REDIS_URL` remplacent les valeurs par défaut de `tests/conftest.py`
 (`.../dev4innova_test` et `redis://localhost:6379/15`).

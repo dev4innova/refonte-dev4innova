@@ -47,6 +47,18 @@ export const routing = defineRouting({
       fr: "/espace-client/formations/[course]/quiz/[module]",
       en: "/account/academy/[course]/quiz/[module]",
     },
+    "/account/portal/[org]/billing": {
+      fr: "/espace-client/portail/[org]/facturation",
+      en: "/account/portal/[org]/billing",
+    },
+    "/account/portal/[org]/billing/quotes/[quote]": {
+      fr: "/espace-client/portail/[org]/facturation/devis/[quote]",
+      en: "/account/portal/[org]/billing/quotes/[quote]",
+    },
+    "/account/portal/[org]/billing/invoices/[invoice]": {
+      fr: "/espace-client/portail/[org]/facturation/factures/[invoice]",
+      en: "/account/portal/[org]/billing/invoices/[invoice]",
+    },
     "/account/portal/[org]/academy": {
       fr: "/espace-client/portail/[org]/formations",
       en: "/account/portal/[org]/academy",
@@ -77,6 +89,14 @@ export const routing = defineRouting({
     "/admin/content/[type]": "/admin/content/[type]",
     "/admin/content/[type]/new": "/admin/content/[type]/new",
     "/admin/content/[type]/[id]": "/admin/content/[type]/[id]",
+    "/admin/billing": "/admin/billing",
+    "/admin/billing/quotes": "/admin/billing/quotes",
+    "/admin/billing/quotes/new": "/admin/billing/quotes/new",
+    "/admin/billing/quotes/[id]": "/admin/billing/quotes/[id]",
+    "/admin/billing/invoices": "/admin/billing/invoices",
+    "/admin/billing/invoices/[id]": "/admin/billing/invoices/[id]",
+    "/admin/billing/products": "/admin/billing/products",
+    "/admin/billing/payments": "/admin/billing/payments",
     "/admin/academy": "/admin/academy",
     "/admin/academy/[id]": "/admin/academy/[id]",
     "/admin/academy/[id]/lessons/[lesson]": "/admin/academy/[id]/lessons/[lesson]",

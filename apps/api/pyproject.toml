@@ -59,6 +59,10 @@ known-third-party = ["alembic"]
 "app/modules/diagnostic/questionnaire.py" = ["E501"]
 "app/modules/diagnostic/scoring.py" = ["E501"]
 "app/modules/diagnostic/report_pdf.py" = ["E501"]  # report layout, one element per line
+# French invoice texts (en dash, narrow no-break space) and document layout.
+"app/modules/billing/*.py" = ["RUF001"]
+"app/modules/billing/document_pdf.py" = ["RUF001", "E501"]
+"app/modules/billing/router.py" = ["RUF001", "E501"]
 
 [tool.mypy]
 python_version = "3.12"

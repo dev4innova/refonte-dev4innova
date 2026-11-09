@@ -47,12 +47,17 @@ NOTIFICATION_TYPES = (
     "document_shared",
     "ticket_replied",
     "ticket_status",
+    "quote_sent",
+    "invoice_issued",
     # To the staff
     "deliverable_reviewed",
     "document_uploaded",
     "ticket_opened",
     "ticket_message",
     "comment_added",
+    "quote_accepted",
+    "quote_declined",
+    "payment_received",
 )
 
 

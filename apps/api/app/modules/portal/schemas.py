@@ -25,6 +25,11 @@ NotificationType = Literal[
     "ticket_opened",
     "ticket_message",
     "comment_added",
+    "quote_sent",
+    "invoice_issued",
+    "quote_accepted",
+    "quote_declined",
+    "payment_received",
 ]
 
 

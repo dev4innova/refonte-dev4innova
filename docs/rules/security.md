@@ -85,6 +85,10 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
 ## Paiements
 - Aucune donnée de carte ne transite par nos serveurs : paiement via le formulaire hébergé
   du prestataire (PCI DSS SAQ A). Webhooks vérifiés par signature et traités de façon idempotente.
+- Stripe (ADR-0017) : seules les pages Checkout hébergées ; un paiement n'est cru qu'au webhook
+  signé (HMAC, 5 minutes), chaque événement traité une fois ; le web ne redirige que vers une
+  page de paiement (URL vérifiée). Factures figées à l'émission, corrigées par avoir, jamais
+  supprimées ; facturation réservée aux `owner`/`admin` côté client et à `billing:admin` côté équipe.
 
 ## Dépendances et CI
 - Dépendances épinglées (lockfiles versionnés). Analyse automatique des vulnérabilités
