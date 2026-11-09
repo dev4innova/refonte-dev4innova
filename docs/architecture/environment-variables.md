@@ -46,6 +46,7 @@ Lues par `app/core/config.py` (pydantic-settings). Une variable obligatoire abse
 | `PORTAL_S3_PUBLIC_ENDPOINT_URL` | non | — | point d'accès S3 vu par les navigateurs, pour signer les liens de téléchargement (si différent de `MEDIA_S3_ENDPOINT_URL`) |
 | `PORTAL_FILE_MAX_BYTES` | non | `26214400` | taille maximale d'un document ou livrable (25 Mo) |
 | `PORTAL_DOWNLOAD_TTL_SECONDS` | non | `300` | durée de validité d'un lien de téléchargement signé |
+| `SITE_URL` (API) | non | `http://localhost:3000` | adresse publique du site, imprimée sur les certificats de l'Academy (lien de vérification) |
 
 Tests : `TEST_DATABASE_URL` et `TEST_REDIS_URL` remplacent les valeurs par défaut de `tests/conftest.py`
 (`.../dev4innova_test` et `redis://localhost:6379/15`).
