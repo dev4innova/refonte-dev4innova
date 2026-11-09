@@ -20,7 +20,7 @@ export default async function PortalLayout({ children, params }: Props) {
   setRequestLocale(locale as Locale);
   const messages = await getMessages();
   return (
-    <NextIntlClientProvider messages={{ Portal: messages.Portal }}>
+    <NextIntlClientProvider messages={{ Portal: messages.Portal, Billing: messages.Billing }}>
       <Container className="flex flex-col gap-8 py-10">{children}</Container>
     </NextIntlClientProvider>
   );

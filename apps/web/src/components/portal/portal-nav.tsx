@@ -6,7 +6,18 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 /** Sections of an organization's portal; the current one is marked with aria-current. */
-export function PortalNav({ org, academy = false, academyLabel = "" }: { org: string; academy?: boolean; academyLabel?: string }) {
+export function PortalNav({
+  org,
+  academy = false,
+  academyLabel = "",
+  billingLabel = "",
+}: {
+  org: string;
+  /** Owners and admins: the Academy follow-up and billing tabs. */
+  academy?: boolean;
+  academyLabel?: string;
+  billingLabel?: string;
+}) {
   const t = useTranslations("Portal.nav");
   // next-intl gives the internal pathname: the template ("[org]") or the value, depending on the route.
   const pathname = usePathname().replace(org, "[org]");
@@ -16,7 +27,10 @@ export function PortalNav({ org, academy = false, academyLabel = "" }: { org: st
     { key: "documents", href: { pathname: "/account/portal/[org]/documents" as const, params: { org } }, active: pathname.startsWith(`${base}/documents`) },
     { key: "support", href: { pathname: "/account/portal/[org]/support" as const, params: { org } }, active: pathname.startsWith(`${base}/support`) },
     ...(academy
-      ? [{ key: "academy", href: { pathname: "/account/portal/[org]/academy" as const, params: { org } }, active: pathname.startsWith(`${base}/academy`) }]
+      ? [
+          { key: "academy", href: { pathname: "/account/portal/[org]/academy" as const, params: { org } }, active: pathname.startsWith(`${base}/academy`) },
+          { key: "billing", href: { pathname: "/account/portal/[org]/billing" as const, params: { org } }, active: pathname.startsWith(`${base}/billing`) },
+        ]
       : []),
   ];
   return (
@@ -34,7 +48,7 @@ export function PortalNav({ org, academy = false, academyLabel = "" }: { org: st
                 "aria-[current=page]:border-primary aria-[current=page]:text-foreground",
               )}
             >
-              {item.key === "academy" ? academyLabel : t(item.key as "dashboard" | "documents" | "support")}
+              {item.key === "academy" ? academyLabel : item.key === "billing" ? billingLabel : t(item.key as "dashboard" | "documents" | "support")}
             </Link>
           </li>
         ))}

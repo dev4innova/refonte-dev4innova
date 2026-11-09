@@ -10,23 +10,35 @@ import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { learnerApi } from "@/lib/academy-learner";
 
-type Props = { params: Promise<{ locale: Locale; course: string }> };
+type Props = { params: Promise<{ locale: Locale; course: string }>; searchParams: Promise<{ paid?: string }> };
 
 /** A course followed by the learner: outline, progress, quizzes, certificate (TASK-107). */
-export default function LearnerCoursePage({ params }: Props) {
+export default function LearnerCoursePage(props: Props) {
   return (
     <Suspense fallback={<div aria-hidden="true" className="h-96 animate-pulse rounded-xl bg-muted" />}>
-      <LearnerCourse params={params} />
+      <LearnerCourse {...props} />
     </Suspense>
   );
 }
 
-async function LearnerCourse({ params }: Props) {
-  const { locale, course: slug } = await params;
+async function LearnerCourse({ params, searchParams }: Props) {
+  const [{ locale, course: slug }, query] = await Promise.all([params, searchParams]);
   const api = await learnerApi(locale, { pathname: "/account/academy/[course]", params: { course: slug } });
   const { data: course, response } = await api
     .GET("/api/v1/me/academy/courses/{slug}", { params: { path: { slug }, query: { locale } } })
     .catch(() => ({ data: undefined, response: undefined }));
+  if ((response?.status === 404 || response?.status === 422) && query.paid) {
+    // Bought a moment ago: the payment is confirmed by Stripe's webhook, which may lag.
+    const tBilling = await getTranslations({ locale, namespace: "Billing.course" });
+    return (
+      <div className="flex max-w-2xl flex-col items-start gap-4">
+        <p role="status" className="rounded-xl border border-primary/30 bg-accent/40 p-4">{tBilling("pending")}</p>
+        <Button asChild variant="secondary">
+          <Link href={{ pathname: "/account/academy/[course]", params: { course: slug }, query: { paid: "1" } }}>{tBilling("reload")}</Link>
+        </Button>
+      </div>
+    );
+  }
   if (response?.status === 404 || response?.status === 422) notFound();
   const t = await getTranslations({ locale, namespace: "Academy" });
   if (!course) return <p role="alert" className="text-destructive">{t("errors.generic")}</p>;

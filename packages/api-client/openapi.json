@@ -9050,6 +9050,2475 @@
           }
         }
       }
+    },
+    "/api/v1/billing/courses/{slug}/offer": {
+      "get": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Price of a paid course",
+        "operationId": "billing-course_offer",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseOffer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Free course"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/billing/courses/{slug}/offer": {
+      "get": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Price of a paid course, and where I can buy it",
+        "operationId": "billing-my_course_offer",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseOffer"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/billing/courses/{slug}/checkout": {
+      "post": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Buy a course (Stripe Checkout)",
+        "operationId": "billing-buy_course",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CourseCheckoutIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing": {
+      "get": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Billing of the organization",
+        "operationId": "billing-client_billing",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientBilling"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing/profile": {
+      "put": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Billing details",
+        "operationId": "billing-save_profile",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing/quotes": {
+      "get": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Quotes",
+        "operationId": "billing-client_quotes",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuotePage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing/quotes/{quote_id}": {
+      "get": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "A quote",
+        "operationId": "billing-client_quote",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          },
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing/quotes/{quote_id}/pdf": {
+      "get": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Quote PDF",
+        "operationId": "billing-client_quote_pdf",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          },
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/pdf": {}
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing/quotes/{quote_id}/accept": {
+      "post": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Accept a quote (issues the first invoice)",
+        "operationId": "billing-accept_quote",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          },
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Acceptance"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing/quotes/{quote_id}/decline": {
+      "post": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Decline a quote",
+        "operationId": "billing-decline_quote",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          },
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Decline"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing/invoices": {
+      "get": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Invoices and credit notes",
+        "operationId": "billing-client_invoices",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoicePage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing/invoices/{invoice_id}": {
+      "get": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "An invoice",
+        "operationId": "billing-client_invoice",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "invoice_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Invoice Id"
+            }
+          },
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing/invoices/{invoice_id}/pdf": {
+      "get": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Invoice PDF",
+        "operationId": "billing-client_invoice_pdf",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "invoice_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Invoice Id"
+            }
+          },
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/pdf": {}
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing/invoices/{invoice_id}/checkout": {
+      "post": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Pay online (Stripe Checkout)",
+        "operationId": "billing-pay_invoice",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "invoice_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Invoice Id"
+            }
+          },
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing/payments": {
+      "get": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Payments received",
+        "operationId": "billing-client_payments",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PaymentOut"
+                  },
+                  "title": "Response Billing-Client Payments"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing/subscriptions": {
+      "post": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Subscribe (Stripe Checkout)",
+        "operationId": "billing-subscribe",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscribeIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/billing/subscriptions/{subscription_id}/cancel": {
+      "post": {
+        "tags": [
+          "billing"
+        ],
+        "summary": "Cancel at period end, or resume",
+        "operationId": "billing-cancel_subscription",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "subscription_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Subscription Id"
+            }
+          },
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/dashboard": {
+      "get": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Receivables, quotes awaiting, recurring revenue",
+        "operationId": "billing-admin-admin_dashboard",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminBilling"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/billing/organizations": {
+      "get": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Client organizations",
+        "operationId": "billing-admin-admin_organizations",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BillingOrganization"
+                  },
+                  "type": "array",
+                  "title": "Response Billing-Admin-Admin Organizations"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/billing/products": {
+      "get": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Catalog",
+        "operationId": "billing-admin-admin_products",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ProductOut"
+                  },
+                  "type": "array",
+                  "title": "Response Billing-Admin-Admin Products"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Add to the catalog",
+        "operationId": "billing-admin-create_product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/billing/products/{product_id}": {
+      "put": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Update a product (future sales only)",
+        "operationId": "billing-admin-update_product",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Product Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/quotes": {
+      "get": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Quotes of every client",
+        "operationId": "billing-admin-admin_quotes",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuotePage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Create a quote (draft)",
+        "operationId": "billing-admin-create_quote",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuoteCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/quotes/{quote_id}": {
+      "get": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "A quote",
+        "operationId": "billing-admin-admin_quote",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Update a draft quote",
+        "operationId": "billing-admin-update_quote",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuoteIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/quotes/{quote_id}/send": {
+      "post": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Send to the client",
+        "operationId": "billing-admin-send_quote",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/quotes/{quote_id}/cancel": {
+      "post": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Cancel a quote",
+        "operationId": "billing-admin-cancel_quote",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/quotes/{quote_id}/balance": {
+      "post": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Invoice the balance of an accepted quote",
+        "operationId": "billing-admin-invoice_balance",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/quotes/{quote_id}/pdf": {
+      "get": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Quote PDF",
+        "operationId": "billing-admin-admin_quote_pdf",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/pdf": {}
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/invoices": {
+      "get": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Invoices of every client",
+        "operationId": "billing-admin-admin_invoices",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Organization Id"
+            }
+          },
+          {
+            "name": "open_only",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Open Only"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoicePage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/invoices/{invoice_id}": {
+      "get": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "An invoice",
+        "operationId": "billing-admin-admin_invoice",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "invoice_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Invoice Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/invoices/{invoice_id}/pdf": {
+      "get": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Invoice PDF",
+        "operationId": "billing-admin-admin_invoice_pdf",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "invoice_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Invoice Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/pdf": {}
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/invoices/{invoice_id}/credit-note": {
+      "post": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Cancel an invoice with a credit note",
+        "operationId": "billing-admin-credit_note",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "invoice_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Invoice Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditNoteIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/invoices/{invoice_id}/transfers": {
+      "post": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Record a bank transfer",
+        "operationId": "billing-admin-record_transfer",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "invoice_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Invoice Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/payments": {
+      "get": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Transactions",
+        "operationId": "billing-admin-admin_payments",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PaymentOut"
+                  },
+                  "title": "Response Billing-Admin-Admin Payments"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/subscriptions": {
+      "get": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Subscriptions",
+        "operationId": "billing-admin-admin_subscriptions",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SubscriptionOut"
+                  },
+                  "title": "Response Billing-Admin-Admin Subscriptions"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/billing/subscriptions/{subscription_id}/cancel": {
+      "post": {
+        "tags": [
+          "billing-admin"
+        ],
+        "summary": "Cancel at period end, or resume",
+        "operationId": "billing-admin-admin_cancel_subscription",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "subscription_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Subscription Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "403": {
+            "description": "Owners and admins only (or the staff role does not allow it)"
+          },
+          "404": {
+            "description": "Not found, or not a member of the organization"
+          },
+          "409": {
+            "description": "Not possible in the current state (details.reason)"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -9189,6 +11658,27 @@
         "title": "AcademyTitle",
         "description": "A text in each language; French is the reference, English is needed to publish."
       },
+      "Acceptance": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 2,
+            "title": "Name"
+          },
+          "agree": {
+            "type": "boolean",
+            "const": true,
+            "title": "Agree"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "agree"
+        ],
+        "title": "Acceptance"
+      },
       "ActivityCreate": {
         "properties": {
           "type": {
@@ -9310,6 +11800,60 @@
           "opportunity_id"
         ],
         "title": "ActivityOut"
+      },
+      "AdminBilling": {
+        "properties": {
+          "receivable_cents": {
+            "type": "integer",
+            "title": "Receivable Cents"
+          },
+          "overdue_cents": {
+            "type": "integer",
+            "title": "Overdue Cents"
+          },
+          "overdue_invoices": {
+            "type": "integer",
+            "title": "Overdue Invoices"
+          },
+          "quotes_awaiting": {
+            "type": "integer",
+            "title": "Quotes Awaiting"
+          },
+          "accepted_this_month_cents": {
+            "type": "integer",
+            "title": "Accepted This Month Cents"
+          },
+          "monthly_recurring_cents": {
+            "type": "integer",
+            "title": "Monthly Recurring Cents"
+          },
+          "invoices": {
+            "items": {
+              "$ref": "#/components/schemas/InvoiceSummary"
+            },
+            "type": "array",
+            "title": "Invoices"
+          },
+          "quotes": {
+            "items": {
+              "$ref": "#/components/schemas/QuoteSummary"
+            },
+            "type": "array",
+            "title": "Quotes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "receivable_cents",
+          "overdue_cents",
+          "overdue_invoices",
+          "quotes_awaiting",
+          "accepted_this_month_cents",
+          "monthly_recurring_cents",
+          "invoices",
+          "quotes"
+        ],
+        "title": "AdminBilling"
       },
       "AdminCourse": {
         "properties": {
@@ -9775,6 +12319,48 @@
         "type": "object",
         "title": "AssistantSessionCreate"
       },
+      "BillingOrganization": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug"
+        ],
+        "title": "BillingOrganization"
+      },
+      "BillingTexts": {
+        "properties": {
+          "fr": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Fr",
+            "default": ""
+          },
+          "en": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "En",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "BillingTexts"
+      },
       "Body_ai-upload_document": {
         "properties": {
           "file": {
@@ -9896,6 +12482,17 @@
         ],
         "title": "Body_portal-upload_document"
       },
+      "CancelIn": {
+        "properties": {
+          "cancel": {
+            "type": "boolean",
+            "title": "Cancel",
+            "default": true
+          }
+        },
+        "type": "object",
+        "title": "CancelIn"
+      },
       "CertificateOut": {
         "properties": {
           "code": {
@@ -9946,6 +12543,80 @@
           "valid"
         ],
         "title": "CertificateOut"
+      },
+      "CheckoutOut": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "CheckoutOut"
+      },
+      "ClientBilling": {
+        "properties": {
+          "profile": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProfileOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "quotes": {
+            "items": {
+              "$ref": "#/components/schemas/QuoteSummary"
+            },
+            "type": "array",
+            "title": "Quotes"
+          },
+          "invoices": {
+            "items": {
+              "$ref": "#/components/schemas/InvoiceSummary"
+            },
+            "type": "array",
+            "title": "Invoices"
+          },
+          "subscriptions": {
+            "items": {
+              "$ref": "#/components/schemas/SubscriptionOut"
+            },
+            "type": "array",
+            "title": "Subscriptions"
+          },
+          "offers": {
+            "items": {
+              "$ref": "#/components/schemas/Offer"
+            },
+            "type": "array",
+            "title": "Offers"
+          },
+          "due_cents": {
+            "type": "integer",
+            "title": "Due Cents"
+          },
+          "online_payment": {
+            "type": "boolean",
+            "title": "Online Payment"
+          }
+        },
+        "type": "object",
+        "required": [
+          "profile",
+          "quotes",
+          "invoices",
+          "subscriptions",
+          "offers",
+          "due_cents",
+          "online_payment"
+        ],
+        "title": "ClientBilling"
       },
       "CommentCreate": {
         "properties": {
@@ -10218,6 +12889,33 @@
         ],
         "title": "CourseCard"
       },
+      "CourseCheckoutIn": {
+        "properties": {
+          "organization_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Organization Id"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "fr",
+              "en"
+            ],
+            "title": "Locale",
+            "default": "fr"
+          }
+        },
+        "type": "object",
+        "title": "CourseCheckoutIn"
+      },
       "CourseIn": {
         "properties": {
           "slug": {
@@ -10269,6 +12967,84 @@
           "title"
         ],
         "title": "CourseIn"
+      },
+      "CourseOffer": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "service",
+              "subscription",
+              "course"
+            ],
+            "title": "Kind"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "unit_price_cents": {
+            "type": "integer",
+            "title": "Unit Price Cents"
+          },
+          "vat_rate_bp": {
+            "type": "integer",
+            "title": "Vat Rate Bp"
+          },
+          "gross_cents": {
+            "type": "integer",
+            "title": "Gross Cents"
+          },
+          "interval": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "month",
+                  "year"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Interval"
+          },
+          "course_slug": {
+            "type": "string",
+            "title": "Course Slug"
+          },
+          "billing_organizations": {
+            "items": {
+              "$ref": "#/components/schemas/BillingOrganization"
+            },
+            "type": "array",
+            "title": "Billing Organizations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "name",
+          "description",
+          "unit_price_cents",
+          "vat_rate_bp",
+          "gross_cents",
+          "interval",
+          "course_slug",
+          "billing_organizations"
+        ],
+        "title": "CourseOffer"
       },
       "CourseOutline": {
         "properties": {
@@ -10383,6 +13159,21 @@
           "percent"
         ],
         "title": "CourseProgress"
+      },
+      "CreditNoteIn": {
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "reason"
+        ],
+        "title": "CreditNoteIn"
       },
       "Dashboard": {
         "properties": {
@@ -10616,6 +13407,24 @@
           "project_name"
         ],
         "title": "DashboardTask"
+      },
+      "Decline": {
+        "properties": {
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "title": "Decline"
       },
       "DeliverableOut": {
         "properties": {
@@ -11634,6 +14443,306 @@
         "title": "Inbox",
         "description": "What needs attention, for the back-office navigation badge."
       },
+      "InvoiceOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "invoice",
+              "credit_note"
+            ],
+            "title": "Kind"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "issued",
+              "paid",
+              "cancelled"
+            ],
+            "title": "Status"
+          },
+          "purpose": {
+            "type": "string",
+            "enum": [
+              "deposit",
+              "balance",
+              "full",
+              "subscription",
+              "course",
+              "credit"
+            ],
+            "title": "Purpose"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/BillingOrganization"
+          },
+          "issue_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Issue Date"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Due Date"
+          },
+          "gross_cents": {
+            "type": "integer",
+            "title": "Gross Cents"
+          },
+          "paid_cents": {
+            "type": "integer",
+            "title": "Paid Cents"
+          },
+          "due_cents": {
+            "type": "integer",
+            "title": "Due Cents"
+          },
+          "overdue": {
+            "type": "boolean",
+            "title": "Overdue"
+          },
+          "net_cents": {
+            "type": "integer",
+            "title": "Net Cents"
+          },
+          "vat_cents": {
+            "type": "integer",
+            "title": "Vat Cents"
+          },
+          "vat_breakdown": {
+            "items": {
+              "additionalProperties": {
+                "type": "integer"
+              },
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Vat Breakdown"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/LineOut"
+            },
+            "type": "array",
+            "title": "Lines"
+          },
+          "seller": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Seller"
+          },
+          "customer": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Customer"
+          },
+          "payments": {
+            "items": {
+              "$ref": "#/components/schemas/PaymentOut"
+            },
+            "type": "array",
+            "title": "Payments"
+          },
+          "quote_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quote Number"
+          },
+          "credited_invoice_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Credited Invoice Number"
+          },
+          "credit_note_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Credit Note Number"
+          },
+          "payment_reference": {
+            "type": "string",
+            "title": "Payment Reference"
+          },
+          "can_pay_online": {
+            "type": "boolean",
+            "title": "Can Pay Online"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "kind",
+          "status",
+          "purpose",
+          "title",
+          "organization",
+          "issue_date",
+          "due_date",
+          "gross_cents",
+          "paid_cents",
+          "due_cents",
+          "overdue",
+          "net_cents",
+          "vat_cents",
+          "vat_breakdown",
+          "lines",
+          "seller",
+          "customer",
+          "payments",
+          "quote_number",
+          "credited_invoice_number",
+          "credit_note_number",
+          "payment_reference",
+          "can_pay_online"
+        ],
+        "title": "InvoiceOut"
+      },
+      "InvoicePage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/InvoiceSummary"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "InvoicePage"
+      },
+      "InvoiceSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "invoice",
+              "credit_note"
+            ],
+            "title": "Kind"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "issued",
+              "paid",
+              "cancelled"
+            ],
+            "title": "Status"
+          },
+          "purpose": {
+            "type": "string",
+            "enum": [
+              "deposit",
+              "balance",
+              "full",
+              "subscription",
+              "course",
+              "credit"
+            ],
+            "title": "Purpose"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/BillingOrganization"
+          },
+          "issue_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Issue Date"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Due Date"
+          },
+          "gross_cents": {
+            "type": "integer",
+            "title": "Gross Cents"
+          },
+          "paid_cents": {
+            "type": "integer",
+            "title": "Paid Cents"
+          },
+          "due_cents": {
+            "type": "integer",
+            "title": "Due Cents"
+          },
+          "overdue": {
+            "type": "boolean",
+            "title": "Overdue"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "kind",
+          "status",
+          "purpose",
+          "title",
+          "organization",
+          "issue_date",
+          "due_date",
+          "gross_cents",
+          "paid_cents",
+          "due_cents",
+          "overdue"
+        ],
+        "title": "InvoiceSummary"
+      },
       "LeadCreate": {
         "properties": {
           "email": {
@@ -12376,6 +15485,111 @@
           "module_has_quiz"
         ],
         "title": "LessonView"
+      },
+      "LineIn": {
+        "properties": {
+          "product_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Product Id"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 2,
+            "title": "Description"
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100000.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Quantity"
+          },
+          "unit_price_cents": {
+            "type": "integer",
+            "maximum": 100000000.0,
+            "minimum": 0.0,
+            "title": "Unit Price Cents"
+          },
+          "vat_rate_bp": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 0.0,
+            "title": "Vat Rate Bp",
+            "default": 2000
+          }
+        },
+        "type": "object",
+        "required": [
+          "description",
+          "quantity",
+          "unit_price_cents"
+        ],
+        "title": "LineIn"
+      },
+      "LineOut": {
+        "properties": {
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "quantity": {
+            "type": "string",
+            "title": "Quantity"
+          },
+          "unit_price_cents": {
+            "type": "integer",
+            "title": "Unit Price Cents"
+          },
+          "vat_rate_bp": {
+            "type": "integer",
+            "title": "Vat Rate Bp"
+          },
+          "net_cents": {
+            "type": "integer",
+            "title": "Net Cents"
+          },
+          "vat_cents": {
+            "type": "integer",
+            "title": "Vat Cents"
+          },
+          "product_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Product Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "description",
+          "quantity",
+          "unit_price_cents",
+          "vat_rate_bp",
+          "net_cents",
+          "vat_cents"
+        ],
+        "title": "LineOut"
       },
       "LivenessResponse": {
         "properties": {
@@ -13257,7 +16471,12 @@
               "document_uploaded",
               "ticket_opened",
               "ticket_message",
-              "comment_added"
+              "comment_added",
+              "quote_sent",
+              "invoice_issued",
+              "quote_accepted",
+              "quote_declined",
+              "payment_received"
             ],
             "title": "Type"
           },
@@ -13330,6 +16549,72 @@
           "page_size"
         ],
         "title": "NotificationPage"
+      },
+      "Offer": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "service",
+              "subscription",
+              "course"
+            ],
+            "title": "Kind"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "unit_price_cents": {
+            "type": "integer",
+            "title": "Unit Price Cents"
+          },
+          "vat_rate_bp": {
+            "type": "integer",
+            "title": "Vat Rate Bp"
+          },
+          "gross_cents": {
+            "type": "integer",
+            "title": "Gross Cents"
+          },
+          "interval": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "month",
+                  "year"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Interval"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "name",
+          "description",
+          "unit_price_cents",
+          "vat_rate_bp",
+          "gross_cents",
+          "interval"
+        ],
+        "title": "Offer",
+        "description": "A product as a client sees it, in their language."
       },
       "OpportunityCreate": {
         "properties": {
@@ -13854,6 +17139,67 @@
         ],
         "title": "OwnerUpdate"
       },
+      "PaymentOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "invoice_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Invoice Id"
+          },
+          "invoice_number": {
+            "type": "string",
+            "title": "Invoice Number"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/BillingOrganization"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "stripe",
+              "transfer"
+            ],
+            "title": "Provider"
+          },
+          "provider_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider Ref"
+          },
+          "amount_cents": {
+            "type": "integer",
+            "title": "Amount Cents"
+          },
+          "received_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Received At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "invoice_id",
+          "invoice_number",
+          "organization",
+          "provider",
+          "provider_ref",
+          "amount_cents",
+          "received_at"
+        ],
+        "title": "PaymentOut"
+      },
       "Permission": {
         "type": "string",
         "enum": [
@@ -13876,7 +17222,9 @@
           "portal:review",
           "portal:manage",
           "academy:manage",
-          "academy:report"
+          "academy:report",
+          "billing:manage",
+          "billing:admin"
         ],
         "title": "Permission"
       },
@@ -14173,6 +17521,189 @@
         ],
         "title": "PreviewOut"
       },
+      "ProductIn": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{1,59}$",
+            "title": "Code"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "service",
+              "subscription",
+              "course"
+            ],
+            "title": "Kind"
+          },
+          "name": {
+            "$ref": "#/components/schemas/BillingTexts"
+          },
+          "description": {
+            "$ref": "#/components/schemas/BillingTexts"
+          },
+          "unit_price_cents": {
+            "type": "integer",
+            "maximum": 100000000.0,
+            "minimum": 0.0,
+            "title": "Unit Price Cents"
+          },
+          "vat_rate_bp": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 0.0,
+            "title": "Vat Rate Bp",
+            "default": 2000
+          },
+          "interval": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "month",
+                  "year"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Interval"
+          },
+          "course_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Course Id"
+          },
+          "active": {
+            "type": "boolean",
+            "title": "Active",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "kind",
+          "name",
+          "unit_price_cents"
+        ],
+        "title": "ProductIn"
+      },
+      "ProductOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "service",
+              "subscription",
+              "course"
+            ],
+            "title": "Kind"
+          },
+          "name": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Name"
+          },
+          "description": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Description"
+          },
+          "unit_price_cents": {
+            "type": "integer",
+            "title": "Unit Price Cents"
+          },
+          "vat_rate_bp": {
+            "type": "integer",
+            "title": "Vat Rate Bp"
+          },
+          "gross_cents": {
+            "type": "integer",
+            "title": "Gross Cents"
+          },
+          "interval": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "month",
+                  "year"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Interval"
+          },
+          "course_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Course Id"
+          },
+          "course_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Course Slug"
+          },
+          "active": {
+            "type": "boolean",
+            "title": "Active"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "code",
+          "kind",
+          "name",
+          "description",
+          "unit_price_cents",
+          "vat_rate_bp",
+          "gross_cents",
+          "interval",
+          "course_id",
+          "course_slug",
+          "active"
+        ],
+        "title": "ProductOut"
+      },
       "ProfileFieldOut": {
         "properties": {
           "id": {
@@ -14198,6 +17729,158 @@
           "options"
         ],
         "title": "ProfileFieldOut"
+      },
+      "ProfileIn": {
+        "properties": {
+          "legal_name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 2,
+            "title": "Legal Name"
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 3,
+            "title": "Address"
+          },
+          "postal_code": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 2,
+            "title": "Postal Code"
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "City"
+          },
+          "country": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$",
+            "title": "Country",
+            "default": "FR"
+          },
+          "vat_number": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z0-9]{4,30}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vat Number"
+          },
+          "siren": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\d{9}(\\d{5})?$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Siren"
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 320,
+            "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "legal_name",
+          "address",
+          "postal_code",
+          "city",
+          "email"
+        ],
+        "title": "ProfileIn"
+      },
+      "ProfileOut": {
+        "properties": {
+          "legal_name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 2,
+            "title": "Legal Name"
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 3,
+            "title": "Address"
+          },
+          "postal_code": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 2,
+            "title": "Postal Code"
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "City"
+          },
+          "country": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$",
+            "title": "Country",
+            "default": "FR"
+          },
+          "vat_number": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z0-9]{4,30}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vat Number"
+          },
+          "siren": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\d{9}(\\d{5})?$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Siren"
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 320,
+            "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+            "title": "Email"
+          },
+          "organization_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Organization Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "legal_name",
+          "address",
+          "postal_code",
+          "city",
+          "email",
+          "organization_id"
+        ],
+        "title": "ProfileOut"
       },
       "Progress": {
         "properties": {
@@ -15439,6 +19122,318 @@
         ],
         "title": "QuotaIn"
       },
+      "QuoteCreate": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 2,
+            "title": "Title"
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 5000,
+            "title": "Notes",
+            "default": ""
+          },
+          "valid_until": {
+            "type": "string",
+            "format": "date",
+            "title": "Valid Until"
+          },
+          "deposit_percent": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Deposit Percent",
+            "default": 0
+          },
+          "opportunity_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opportunity Id"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/LineIn"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Lines"
+          },
+          "organization_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Organization Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "valid_until",
+          "lines",
+          "organization_id"
+        ],
+        "title": "QuoteCreate"
+      },
+      "QuoteIn": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 2,
+            "title": "Title"
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 5000,
+            "title": "Notes",
+            "default": ""
+          },
+          "valid_until": {
+            "type": "string",
+            "format": "date",
+            "title": "Valid Until"
+          },
+          "deposit_percent": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Deposit Percent",
+            "default": 0
+          },
+          "opportunity_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opportunity Id"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/LineIn"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Lines"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "valid_until",
+          "lines"
+        ],
+        "title": "QuoteIn"
+      },
+      "QuoteOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "sent",
+              "accepted",
+              "declined",
+              "cancelled"
+            ],
+            "title": "Status"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/BillingOrganization"
+          },
+          "valid_until": {
+            "type": "string",
+            "format": "date",
+            "title": "Valid Until"
+          },
+          "expired": {
+            "type": "boolean",
+            "title": "Expired"
+          },
+          "gross_cents": {
+            "type": "integer",
+            "title": "Gross Cents"
+          },
+          "sent_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sent At"
+          },
+          "accepted_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accepted At"
+          },
+          "notes": {
+            "type": "string",
+            "title": "Notes"
+          },
+          "deposit_percent": {
+            "type": "integer",
+            "title": "Deposit Percent"
+          },
+          "net_cents": {
+            "type": "integer",
+            "title": "Net Cents"
+          },
+          "vat_cents": {
+            "type": "integer",
+            "title": "Vat Cents"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/LineOut"
+            },
+            "type": "array",
+            "title": "Lines"
+          },
+          "acceptance_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Acceptance Name"
+          },
+          "declined_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Declined At"
+          },
+          "decline_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decline Reason"
+          },
+          "invoices": {
+            "items": {
+              "$ref": "#/components/schemas/InvoiceSummary"
+            },
+            "type": "array",
+            "title": "Invoices"
+          },
+          "remaining_to_invoice_cents": {
+            "type": "integer",
+            "title": "Remaining To Invoice Cents"
+          },
+          "opportunity_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opportunity Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "status",
+          "title",
+          "organization",
+          "valid_until",
+          "expired",
+          "gross_cents",
+          "sent_at",
+          "accepted_at",
+          "notes",
+          "deposit_percent",
+          "net_cents",
+          "vat_cents",
+          "lines",
+          "acceptance_name",
+          "declined_at",
+          "decline_reason",
+          "invoices",
+          "remaining_to_invoice_cents",
+          "opportunity_id"
+        ],
+        "title": "QuoteOut"
+      },
+      "QuotePage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/QuoteSummary"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "QuotePage"
+      },
       "QuoteRequestAccepted": {
         "properties": {
           "id": {
@@ -15684,6 +19679,88 @@
           "status"
         ],
         "title": "QuoteRequestUpdate"
+      },
+      "QuoteSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "number": {
+            "type": "string",
+            "title": "Number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "sent",
+              "accepted",
+              "declined",
+              "cancelled"
+            ],
+            "title": "Status"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/BillingOrganization"
+          },
+          "valid_until": {
+            "type": "string",
+            "format": "date",
+            "title": "Valid Until"
+          },
+          "expired": {
+            "type": "boolean",
+            "title": "Expired"
+          },
+          "gross_cents": {
+            "type": "integer",
+            "title": "Gross Cents"
+          },
+          "sent_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sent At"
+          },
+          "accepted_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accepted At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "status",
+          "title",
+          "organization",
+          "valid_until",
+          "expired",
+          "gross_cents",
+          "sent_at",
+          "accepted_at"
+        ],
+        "title": "QuoteSummary"
       },
       "ReadinessResponse": {
         "properties": {
@@ -16124,6 +20201,86 @@
           "amount"
         ],
         "title": "StageTotal"
+      },
+      "SubscribeIn": {
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Product Id"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "fr",
+              "en"
+            ],
+            "title": "Locale",
+            "default": "fr"
+          }
+        },
+        "type": "object",
+        "required": [
+          "product_id"
+        ],
+        "title": "SubscribeIn"
+      },
+      "SubscriptionOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/BillingOrganization"
+          },
+          "offer": {
+            "$ref": "#/components/schemas/Offer"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "incomplete",
+              "active",
+              "past_due",
+              "cancelled"
+            ],
+            "title": "Status"
+          },
+          "current_period_end": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Period End"
+          },
+          "cancel_at_period_end": {
+            "type": "boolean",
+            "title": "Cancel At Period End"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "organization",
+          "offer",
+          "status",
+          "current_period_end",
+          "cancel_at_period_end",
+          "created_at"
+        ],
+        "title": "SubscriptionOut"
       },
       "TaskCreate": {
         "properties": {
@@ -16788,6 +20945,39 @@
         },
         "type": "object",
         "title": "TicketUpdate"
+      },
+      "TransferIn": {
+        "properties": {
+          "amount_cents": {
+            "type": "integer",
+            "maximum": 1000000000.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Amount Cents"
+          },
+          "received_on": {
+            "type": "string",
+            "format": "date",
+            "title": "Received On"
+          },
+          "reference": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 120
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference"
+          }
+        },
+        "type": "object",
+        "required": [
+          "amount_cents",
+          "received_on"
+        ],
+        "title": "TransferIn"
       },
       "TranslationIn": {
         "properties": {

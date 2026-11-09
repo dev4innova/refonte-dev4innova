@@ -7,6 +7,7 @@ import { getMessages, getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
 import { EnrollButton } from "@/components/academy/enroll-button";
+import { BuyCourse } from "@/components/billing/buy-course";
 import { Prose } from "@/components/cms/prose";
 import { Section } from "@/components/layout/section";
 import { Breadcrumb } from "@/components/marketing/breadcrumb";
@@ -16,6 +17,7 @@ import { pageMetadata } from "@/i18n/metadata";
 import { getPathname, Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { duration } from "@/lib/academy";
+import { money } from "@/lib/billing";
 import { getCourse } from "@/lib/academy-server";
 import { serverApi } from "@/lib/api";
 import { getSession } from "@/lib/auth/session";
@@ -117,7 +119,7 @@ async function Course({ params }: Props) {
           <aside aria-labelledby="course-enroll" className="flex flex-col gap-4 self-start rounded-xl border border-border bg-card p-6 shadow-card lg:sticky lg:top-24">
             <h2 id="course-enroll" className="text-heading-sm font-semibold">{t("course.enrollTitle")}</h2>
             <p className="text-sm text-muted-foreground">{t("course.enrollText")}</p>
-            <NextIntlClientProvider messages={{ Academy: messages.Academy }}>
+            <NextIntlClientProvider messages={{ Academy: messages.Academy, Billing: messages.Billing }}>
               <Suspense fallback={<div aria-hidden="true" className="h-13 animate-pulse rounded-lg bg-muted" />}>
                 <EnrollBox locale={locale} slug={course.slug} />
               </Suspense>
@@ -129,19 +131,35 @@ async function Course({ params }: Props) {
   );
 }
 
-/** Enrollment state of the visitor: sign in, enroll, or continue (request-time data). */
+/** Enrollment state of the visitor: sign in, enroll or buy, or continue (request-time data). */
 async function EnrollBox({ locale, slug }: { locale: Locale; slug: string }) {
-  const t = await getTranslations({ locale, namespace: "Academy" });
+  const [t, tBilling] = await Promise.all([
+    getTranslations({ locale, namespace: "Academy" }),
+    getTranslations({ locale, namespace: "Billing" }),
+  ]);
   const session = await getSession();
+  const api = serverApi(session?.accessToken);
+  const offer = session
+    ? await api.GET("/api/v1/me/billing/courses/{slug}/offer", { params: { path: { slug }, query: { locale } } }).then((r) => r.data).catch(() => undefined)
+    : await api.GET("/api/v1/billing/courses/{slug}/offer", { params: { path: { slug }, query: { locale } } }).then((r) => r.data).catch(() => undefined);
+  const price = offer ? (
+    <div className="flex flex-col gap-1">
+      <p className="text-heading-lg font-semibold">{tBilling("course.price", { amount: money(offer.gross_cents, locale) })}</p>
+      <p className="text-xs text-muted-foreground">{tBilling("course.priceHelp")}</p>
+    </div>
+  ) : null;
   if (!session) {
     const returnTo = getPathname({ locale, href: { pathname: "/academy/[slug]", params: { slug } } });
     return (
-      <Button asChild size="lg" variant="secondary">
-        <a href={`/api/auth/login?returnTo=${encodeURIComponent(returnTo)}`}>{t("course.signIn")}</a>
-      </Button>
+      <div className="flex flex-col gap-3">
+        {price}
+        <Button asChild size="lg" variant="secondary">
+          <a href={`/api/auth/login?returnTo=${encodeURIComponent(returnTo)}`}>{t("course.signIn")}</a>
+        </Button>
+      </div>
     );
   }
-  const { response } = await serverApi(session.accessToken)
+  const { response } = await api
     .GET("/api/v1/me/academy/courses/{slug}", { params: { path: { slug }, query: { locale } } })
     .catch(() => ({ response: undefined }));
   if (response?.ok) {
@@ -151,6 +169,14 @@ async function EnrollBox({ locale, slug }: { locale: Locale; slug: string }) {
         <Button asChild size="lg">
           <Link href={{ pathname: "/account/academy/[course]", params: { course: slug } }}>{t("course.continue")}</Link>
         </Button>
+      </div>
+    );
+  }
+  if (offer) {
+    return (
+      <div className="flex flex-col gap-3">
+        {price}
+        <BuyCourse slug={slug} locale={locale} organizations={offer.billing_organizations} />
       </div>
     );
   }

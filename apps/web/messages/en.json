@@ -556,7 +556,8 @@
       "crmBadge": "{count, plural, one {# new item to handle} other {# new items to handle}}",
       "ai": "AI",
       "portal": "Client portal",
-      "academy": "Academy"
+      "academy": "Academy",
+      "billing": "Billing"
     },
     "types": {
       "article": "Articles",
@@ -1269,6 +1270,125 @@
         "generic": "Something went wrong. Please try again in a moment."
       },
       "required": "required"
+    },
+    "billing": {
+      "nav": {
+        "label": "Billing sections",
+        "overview": "Dashboard",
+        "quotes": "Quotes",
+        "invoices": "Invoices",
+        "products": "Catalog",
+        "payments": "Transactions"
+      },
+      "overview": {
+        "title": "Billing",
+        "lead": "Quotes, invoices, payments and subscriptions of your clients.",
+        "receivable": "Receivable",
+        "overdue": "Overdue ({count})",
+        "awaiting": "Quotes awaiting the client",
+        "accepted": "Quotes accepted this month",
+        "recurring": "Subscriptions (monthly incl. VAT)",
+        "openInvoices": "Invoices to collect",
+        "noInvoice": "No invoice to collect.",
+        "awaitingQuotes": "Quotes sent",
+        "noQuote": "No quote awaiting."
+      },
+      "quotes": {
+        "title": "Quotes",
+        "new": "New quote",
+        "empty": "No quote.",
+        "organization": "Client organization",
+        "choose": "Choose an organization",
+        "titleField": "Subject of the quote",
+        "notes": "Terms and remarks (optional)",
+        "validUntil": "Valid until",
+        "deposit": "Deposit on order (%)",
+        "lines": "Lines",
+        "product": "Catalog",
+        "freeLine": "Free line",
+        "description": "Description",
+        "quantity": "Quantity",
+        "unitPrice": "Unit price excl. VAT (€)",
+        "vat": "VAT (%)",
+        "addLine": "Add a line",
+        "removeLine": "Remove line {number}",
+        "totals": "Total: {net} excl. VAT, {vat} VAT, {gross} incl. VAT",
+        "create": "Create the draft",
+        "save": "Save the draft",
+        "saved": "Draft saved.",
+        "send": "Send to the client",
+        "sendConfirm": "Send this quote? It can no longer be changed and the client is notified.",
+        "cancel": "Cancel the quote",
+        "cancelConfirm": "Cancel this quote?",
+        "balance": "Invoice the balance",
+        "balanceConfirm": "Issue the balance invoice of this quote?",
+        "remaining": "Left to invoice: {amount}",
+        "pdf": "PDF",
+        "back": "All quotes",
+        "client": "Client: {name}"
+      },
+      "invoices": {
+        "title": "Invoices and credit notes",
+        "openOnly": "To collect",
+        "all": "All",
+        "empty": "No invoice.",
+        "back": "All invoices",
+        "transferTitle": "Record a bank transfer",
+        "amount": "Amount (€)",
+        "receivedOn": "Received on",
+        "reference": "Transfer reference (optional)",
+        "record": "Record the transfer",
+        "creditTitle": "Cancel with a credit note",
+        "creditHelp": "Issues a credit note for the full amount and cancels the invoice. Any refund happens outside the platform (Stripe or bank transfer).",
+        "reason": "Reason",
+        "credit": "Issue the credit note",
+        "creditConfirm": "Issue a credit note and cancel this invoice? This cannot be undone."
+      },
+      "products": {
+        "title": "Catalog",
+        "lead": "Services used in quotes, subscriptions sold online and paid Academy courses. A price change only applies to future sales.",
+        "new": "New product",
+        "edit": "Edit {name}",
+        "code": "Code",
+        "kind": "Kind",
+        "kinds": {
+          "service": "Service",
+          "subscription": "Subscription",
+          "course": "Course"
+        },
+        "nameField": "Name",
+        "description": "Description",
+        "price": "Price excl. VAT (€)",
+        "vat": "VAT (%)",
+        "interval": "Billing period",
+        "course": "Academy course",
+        "chooseCourse": "Choose a course",
+        "active": "On sale",
+        "inactive": "Withdrawn from sale",
+        "save": "Save",
+        "saved": "Product saved.",
+        "empty": "The catalog is empty."
+      },
+      "payments": {
+        "title": "Transactions",
+        "empty": "No transaction.",
+        "date": "Date",
+        "client": "Client",
+        "invoice": "Invoice",
+        "method": "Method",
+        "amount": "Amount",
+        "subscriptions": "Subscriptions",
+        "noSubscription": "No subscription."
+      },
+      "errors": {
+        "signin": "Your session has expired: please sign in again.",
+        "forbidden": "Your role does not allow this action.",
+        "notFound": "This item no longer exists.",
+        "code": "Another product already uses this code or this course.",
+        "conflict": "This action is no longer possible in the current state: reload the page.",
+        "validation": "Check the fields of the form.",
+        "generic": "Something went wrong. Please try again in a moment."
+      }
     }
   },
   "Quote": {
@@ -1748,7 +1868,12 @@
         "document_uploaded": "{organization} shared the document “{file}”",
         "ticket_opened": "New request #{number} from {organization}: {subject}",
         "ticket_message": "{organization} wrote on request #{number}: {subject}",
-        "comment_added": "New comment on “{target}” ({project})"
+        "comment_added": "New comment on “{target}” ({project})",
+        "quote_sent": "New quote to review: {number} – {title}",
+        "invoice_issued": "New invoice {number}",
+        "quote_accepted": "{organization} accepted quote {number} ({invoice} issued)",
+        "quote_declined": "{organization} declined quote {number}",
+        "payment_received": "Payment received on invoice {number}"
       }
     },
     "errors": {
@@ -1887,6 +2012,161 @@
       "signin": "Your session has expired: please sign in again.",
       "notFound": "This course is not available.",
       "generic": "Something went wrong. Please try again in a moment."
+    }
+  },
+  "Billing": {
+    "nav": "Billing",
+    "required": "required",
+    "quoteStatus": {
+      "draft": "Draft",
+      "sent": "To review",
+      "accepted": "Accepted",
+      "declined": "Declined",
+      "cancelled": "Cancelled"
+    },
+    "invoiceStatus": {
+      "issued": "To pay",
+      "paid": "Paid",
+      "cancelled": "Cancelled by credit note"
+    },
+    "creditStatus": "Credit note",
+    "purpose": {
+      "deposit": "Deposit",
+      "balance": "Balance",
+      "full": "Invoice",
+      "subscription": "Subscription",
+      "course": "Course",
+      "credit": "Credit note"
+    },
+    "subscriptionStatus": {
+      "incomplete": "Pending",
+      "active": "Active",
+      "past_due": "Payment overdue",
+      "cancelled": "Cancelled"
+    },
+    "interval": {
+      "month": "per month",
+      "year": "per year"
+    },
+    "provider": {
+      "stripe": "Online payment",
+      "transfer": "Bank transfer"
+    },
+    "expired": "Expired",
+    "overdue": "Overdue",
+    "excludingVat": "excl. VAT",
+    "includingVat": "incl. VAT",
+    "overview": {
+      "title": "Billing",
+      "lead": "Quotes to review, invoices, payments and subscriptions of your organization.",
+      "due": "Amount due: {amount}",
+      "nothingDue": "No invoice is waiting for payment.",
+      "quotes": "Quotes",
+      "noQuote": "No quote yet.",
+      "invoices": "Invoices and credit notes",
+      "noInvoice": "No invoice yet.",
+      "subscriptions": "Subscriptions",
+      "noSubscription": "No subscription.",
+      "offers": "Our subscription plans",
+      "subscribe": "Subscribe",
+      "subscribeName": "Subscribe: {name}",
+      "subscribed": "Thank you! Your subscription is being activated; it shows up here once the payment is confirmed.",
+      "renews": "Next renewal: {date}",
+      "endsOn": "Ends on {date}",
+      "cancel": "Cancel at the end of the period",
+      "cancelConfirm": "Cancel this subscription? It stays active until the end of the paid period.",
+      "resume": "Keep the subscription",
+      "onlinePaymentOff": "Online payment is not available yet: pay your invoices by bank transfer.",
+      "forbidden": "Billing is reserved to the owners and admins of the organization."
+    },
+    "profile": {
+      "title": "Billing details",
+      "help": "They appear on your invoices. Invoices already issued keep the details of their issue date.",
+      "missing": "Fill in your billing details to accept a quote or subscribe.",
+      "legalName": "Company or full name",
+      "address": "Address",
+      "postalCode": "Postal code",
+      "city": "City",
+      "country": "Country (2-letter code)",
+      "vatNumber": "EU VAT number",
+      "siren": "SIREN or SIRET",
+      "email": "Billing email",
+      "save": "Save",
+      "saved": "Billing details saved.",
+      "edit": "Edit the billing details"
+    },
+    "quote": {
+      "back": "Back to billing",
+      "title": "Quote {number}",
+      "validUntil": "Valid until {date}",
+      "deposit": "Deposit on order: {percent}%",
+      "lines": "Details",
+      "description": "Description",
+      "quantity": "Qty",
+      "unitPrice": "Unit price",
+      "vat": "VAT",
+      "total": "Total excl. VAT",
+      "net": "Total excl. VAT",
+      "vatTotal": "VAT",
+      "gross": "Total incl. VAT",
+      "pdf": "Download the quote (PDF)",
+      "acceptTitle": "Accept the quote",
+      "acceptText": "By accepting, you place an order on the terms of the quote. {deposit, select, none {The invoice is issued right away.} other {A {deposit}% deposit invoice is issued right away.}}",
+      "name": "Full name of the signatory",
+      "agree": "Approved: I accept this quote on behalf of the organization",
+      "accept": "Accept the quote",
+      "declineTitle": "Decline the quote",
+      "reason": "Reason (optional)",
+      "decline": "Decline the quote",
+      "declineConfirm": "Decline this quote?",
+      "accepted": "Accepted by {name} on {date}.",
+      "declined": "Declined on {date}.",
+      "expired": "This quote has expired: ask your DEV4INNOVA contact for a new version.",
+      "invoices": "Related invoices"
+    },
+    "invoice": {
+      "back": "Back to billing",
+      "title": "Invoice {number}",
+      "issued": "Issued on {date}",
+      "due": "Due on {date}",
+      "paidBanner": "Thank you! Your payment is being confirmed; the invoice will show as paid in a moment.",
+      "pdf": "Download (PDF)",
+      "pay": "Pay {amount} online",
+      "payHelp": "Card or SEPA direct debit, on the secure page of our payment provider (Stripe).",
+      "transfer": "Or by bank transfer: IBAN {iban}, reference {reference}.",
+      "transferNoIban": "Or by bank transfer, with the reference {reference}.",
+      "payments": "Payments received",
+      "noPayment": "No payment yet.",
+      "paid": "Already paid",
+      "remaining": "Amount due",
+      "quote": "Quote: {number}",
+      "credited": "Credit note on invoice {number}",
+      "creditNote": "Cancelled by credit note {number}",
+      "seller": "Issued by",
+      "customer": "Customer",
+      "creditTitle": "Credit note {number}"
+    },
+    "course": {
+      "price": "{amount} incl. VAT",
+      "priceHelp": "Paid course: full access after payment, invoice available in your account.",
+      "buyAs": "Bill to",
+      "personal": "As an individual",
+      "buy": "Buy the course",
+      "pending": "Payment received: your access is being activated. Reload the page in a moment.",
+      "reload": "Reload"
+    },
+    "errors": {
+      "signin": "Your session has expired: please sign in again.",
+      "forbidden": "You are not allowed to do this.",
+      "notFound": "This item no longer exists or is not available to you.",
+      "profile": "Fill in the billing details of the organization first.",
+      "expired": "This quote has expired.",
+      "conflict": "This action is no longer possible: reload the page.",
+      "payment": "Online payment is temporarily unavailable. Try again later or pay by bank transfer.",
+      "validation": "Check the fields of the form.",
+      "generic": "Something went wrong. Please try again in a moment.",
+      "load": "This information is temporarily unavailable.",
+      "code": "Another product already uses this code or this course."
     }
   }
 }
