@@ -41,6 +41,23 @@ class Settings(BaseSettings):
     portal_file_max_bytes: int = Field(default=25 * 1024 * 1024, ge=1024)
     portal_download_ttl_seconds: int = Field(default=300, ge=30, le=3600)
     site_url: str = "http://localhost:3000"
+    # Commerce and billing (EPIC 13, ADR-0017)
+    stripe_secret_key: SecretStr | None = None
+    stripe_webhook_secret: SecretStr | None = None
+    stripe_api_base: str = "https://api.stripe.com"
+    billing_simulated_payments: bool = False
+    """Offline payment pages served by the API (local development, end-to-end tests)."""
+    api_public_url: str = "http://localhost:8000"
+    """Address of the API seen by browsers (simulated payment pages only)."""
+    billing_seller_name: str = "DEV4INNOVA"
+    billing_seller_legal_form: str = ""
+    billing_seller_address: str = ""
+    billing_seller_siren: str = ""
+    billing_seller_vat_number: str = ""
+    billing_seller_iban: str = ""
+    billing_seller_bic: str = ""
+    billing_seller_email: str = ""
+    billing_payment_terms_days: int = Field(default=30, ge=0, le=60)
     """Public address of the website, printed on certificates for their verification."""
 
     trust_forwarded_for: bool = False

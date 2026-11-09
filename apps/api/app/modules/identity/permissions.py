@@ -57,6 +57,11 @@ class Permission(StrEnum):
     """Staff: write courses, publish them, enroll the members of client organizations."""
     ACADEMY_REPORT = "academy:report"
     """Follow the progress of the members the team enrolled for the organization."""
+    # Commerce and billing (EPIC 13)
+    BILLING_MANAGE = "billing:manage"
+    """See the organization's quotes and invoices, accept quotes, pay, subscribe."""
+    BILLING_ADMIN = "billing:admin"
+    """Staff: catalog, quotes, invoices, credit notes, payments of every client."""
 
 
 _READ: Final = frozenset(
@@ -73,6 +78,7 @@ _ORG_ALL: Final = _READ | {
     Permission.AI_USAGE_READ,
     Permission.PORTAL_REVIEW,
     Permission.ACADEMY_REPORT,
+    Permission.BILLING_MANAGE,
 }
 _CONTENT_ALL: Final = frozenset(
     {
@@ -83,7 +89,13 @@ _CONTENT_ALL: Final = frozenset(
     }
 )
 _CRM_SALES: Final = frozenset(
-    {Permission.CRM_READ, Permission.CRM_WRITE, Permission.CRM_ASSIGN, Permission.PORTAL_MANAGE}
+    {
+        Permission.CRM_READ,
+        Permission.CRM_WRITE,
+        Permission.CRM_ASSIGN,
+        Permission.PORTAL_MANAGE,
+        Permission.BILLING_ADMIN,
+    }
 )
 _ALL: Final = frozenset(Permission)
 

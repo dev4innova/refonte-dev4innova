@@ -24,6 +24,11 @@ x-api-env: &api-env
   PORTAL_S3_PUBLIC_ENDPOINT_URL: http://localhost:${MINIO_PORT:-9000}
   # Website address printed on Academy certificates (verification link).
   SITE_URL: http://localhost:${WEB_PORT:-3000}
+  # Billing: Stripe keys from infra/docker/.env (never committed); simulated payments otherwise.
+  STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+  STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+  BILLING_SIMULATED_PAYMENTS: ${BILLING_SIMULATED_PAYMENTS:-true}
+  API_PUBLIC_URL: http://localhost:${API_PORT:-8000}
   # AI Gateway: provider keys from infra/docker/.env (never committed).
   ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
   OPENAI_API_KEY: ${OPENAI_API_KEY:-}

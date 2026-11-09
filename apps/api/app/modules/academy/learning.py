@@ -11,7 +11,7 @@ from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.errors import NotFoundError
+from app.core.errors import AppError, NotFoundError
 from app.modules.academy import common
 from app.modules.academy.common import now, text
 from app.modules.academy.content import enrollment_rows
@@ -45,9 +45,16 @@ from app.modules.academy.schemas import (
     QuizView,
     SponsoredEnrollment,
 )
+from app.modules.billing.catalog import course_product
 from app.modules.identity.models import Organization, User
 from app.modules.identity.permissions import Permission
 from app.modules.identity.service import OrganizationContext
+
+
+class PaymentRequiredError(AppError):
+    status_code = 402
+    code = "payment_required"
+
 
 _ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ"  # no 0/O, 1/I: easy to read and type
 
@@ -157,6 +164,10 @@ async def enroll(session: AsyncSession, user: User, slug: str) -> Enrollment:
     )
     if course is None:
         raise NotFoundError("Course not found")
+    if await course_product(session, course.id):
+        raise PaymentRequiredError(
+            "This course is paid: buy it to enroll", {"reason": "payment_required"}
+        )
     enrollment = await session.scalar(
         select(Enrollment).where(Enrollment.course_id == course.id, Enrollment.user_id == user.id)
     )

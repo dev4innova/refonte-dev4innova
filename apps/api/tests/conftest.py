@@ -27,6 +27,7 @@ from app.core.redis import close_redis, get_redis
 from app.core.storage import ObjectStorage, PrivateStorage, get_private_storage, get_storage
 from app.db.session import dispose_engine, get_engine
 from app.main import create_app
+from app.modules.billing.stripe import SimulatedStripeGateway, get_stripe
 from app.modules.identity.auth import get_token_verifier
 from tests.auth_helpers import bearer, make_token, make_verifier
 
@@ -66,14 +67,21 @@ def private_storage(storage: ObjectStorage) -> PrivateStorage:
 
 
 @pytest.fixture
+def stripe() -> SimulatedStripeGateway:
+    """Stand-in for Stripe: records Checkout sessions, never calls the network."""
+    return SimulatedStripeGateway("http://test")
+
+
+@pytest.fixture
 async def client(
-    storage: ObjectStorage, private_storage: PrivateStorage
+    storage: ObjectStorage, private_storage: PrivateStorage, stripe: SimulatedStripeGateway
 ) -> AsyncIterator[AsyncClient]:
     get_settings.cache_clear()
     app = create_app()
     app.dependency_overrides[get_token_verifier] = make_verifier
     app.dependency_overrides[get_storage] = lambda: storage
     app.dependency_overrides[get_private_storage] = lambda: private_storage
+    app.dependency_overrides[get_stripe] = lambda: stripe
     await get_redis().flushdb()  # test database (15): fresh rate limit counters
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
         yield ac
@@ -87,6 +95,16 @@ async def client(
             "DELETE FROM ai_quotas",
             "DELETE FROM ai_sessions",  # cascades to ai_messages
             "DELETE FROM diagnostics",
+            # Invoices are kept by law (organizations RESTRICT): tests remove them first.
+            "DELETE FROM billing_payments",
+            "DELETE FROM billing_checkouts",
+            "DELETE FROM billing_invoices WHERE credited_invoice_id IS NOT NULL",
+            "DELETE FROM billing_invoices",
+            "DELETE FROM billing_quotes",
+            "DELETE FROM billing_subscriptions",
+            "DELETE FROM billing_products",
+            "DELETE FROM billing_counters",
+            "DELETE FROM billing_stripe_events",
             "DELETE FROM academy_certificates",
             "DELETE FROM academy_courses",  # cascades to modules, lessons, enrollments...
             "DELETE FROM notifications",
