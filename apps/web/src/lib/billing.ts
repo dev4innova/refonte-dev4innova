@@ -31,6 +31,7 @@ export function money(cents: number, locale: string): string {
 export function parseEuros(value: string): number | null | undefined {
   const normalized = value.replace(/[\s  €]/g, "").replace(",", ".");
   if (!normalized) return null;
+  // eslint-disable-next-line security/detect-unsafe-regex -- bounded and unambiguous: linear time
   if (!/^-?\d{1,9}(\.\d{1,2})?$/.test(normalized)) return undefined;
   return Math.round(Number(normalized) * 100);
 }
@@ -44,6 +45,7 @@ export function centsToInput(cents: number, locale: string): string {
 /** VAT rate in basis points from a percentage typed by a person ("5,5" → 550). */
 export function parseRate(value: string): number | undefined {
   const normalized = value.replace(/[\s%]/g, "").replace(",", ".");
+  // eslint-disable-next-line security/detect-unsafe-regex -- bounded and unambiguous: linear time
   if (!/^\d{1,3}(\.\d{1,2})?$/.test(normalized)) return undefined;
   const bp = Math.round(Number(normalized) * 100);
   return bp <= 10_000 ? bp : undefined;

@@ -91,5 +91,20 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
   supprimées ; facturation réservée aux `owner`/`admin` côté client et à `billing:admin` côté équipe.
 
 ## Dépendances et CI
-- Dépendances épinglées (lockfiles versionnés). Analyse automatique des vulnérabilités
-  (Dependabot / `pnpm audit` / `pip-audit`) et des secrets dans la CI (TASK-116, TASK-120).
+- Dépendances épinglées (lockfiles versionnés), mises à jour proposées par Dependabot.
+- Job CI « Security (code and secrets) » (TASK-120, ADR-0018) : Bandit sur `apps/api/app` et
+  gitleaks sur tout l'historique git. Le lint du web inclut `eslint-plugin-security`, sans
+  avertissement toléré. `make security` lance les mêmes contrôles en local.
+- Une exception (`# nosec`, `eslint-disable`, entrée de `.gitleaks.toml`) cible **une ligne ou une
+  valeur précise**, porte la règle concernée et une justification. Jamais un fichier entier.
+  Une vraie clé détectée n'est pas ignorée : elle est **révoquée**, puis retirée.
+
+## Production
+- L'API refuse de démarrer en production avec des réglages de développement (authentification
+  absente, `SITE_URL` ou CORS non HTTPS, IA ou paiements simulés).
+- En-têtes de sécurité du web : HSTS, `nosniff`, `Referrer-Policy`, `Permissions-Policy`,
+  interdiction d'être affiché dans un cadre. Une CSP complète (nonces) reste à faire.
+- Sentry ne reçoit aucune donnée personnelle : ni corps de requête, ni cookie, ni en-tête, ni
+  utilisateur, ni chaîne de requête ; les jetons des liens de résultat sont masqués.
+- Les journaux ne contiennent ni secret, ni jeton, ni corps de requête : méthode, chemin,
+  statut, durée et identifiant de requête.

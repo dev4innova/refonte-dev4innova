@@ -107,8 +107,8 @@ services:
   # One-shot: applies Alembic migrations before the API starts.
   migrate:
     build:
-      context: ../../apps/api
-      dockerfile: ../../infra/docker/api.Dockerfile
+      context: ../..
+      dockerfile: infra/docker/api.Dockerfile
     image: dev4innova/api:local
     command: ["alembic", "upgrade", "head"]
     environment: *api-env

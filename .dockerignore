@@ -10,3 +10,5 @@
 !**/.env.example
 .git
 docs
+# API tests are not shipped in images.
+apps/api/tests

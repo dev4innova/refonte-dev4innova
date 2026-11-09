@@ -67,9 +67,15 @@ Tout passe par le `Makefile` racine (`make help`) :
 | `make grant-staff email=... role=staff_editor` | donner l'accès au back-office (`/admin`) à un compte déjà connecté une fois |
 | `make purge-ai-sessions` | supprimer les sessions IA inactives (à planifier chaque jour en production) |
 | `make purge-diagnostics` | supprimer les diagnostics jamais débloqués après 30 jours (à planifier chaque jour) |
+| `make daily` | les deux purges ci-dessus (tâche planifiée `jobs` de Railway en production) |
+| `make security` | Bandit + gitleaks (gitleaks installé localement) |
+| `make smoke web=... api=...` | tests de fumée d'un environnement déployé (`infra/scripts/smoke.sh`) |
 | `make client` | régénérer `packages/api-client` après un changement d'API |
 | `make check` | lint + typecheck + tests (à lancer avant de pousser ; nécessite `make services`) |
 | `make e2e` | build du web + Playwright (responsive 375/768/1280 px, accessibilité, FR/EN) |
+
+Production : Railway, déploiement automatique de `main` après la CI (ADR-0018,
+`docs/deployment/railway.md`).
 
 Health checks : `GET /api/v1/health/live`, `GET /api/v1/health/ready` (API) et `GET /api/health` (web).
 

@@ -1,0 +1,19 @@
+# Secret scanning (TASK-120): gitleaks default rules, plus the known development
+# placeholders below. Each entry matches one exact value, never a whole file:
+# a real key added to an .env.example file is still reported.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Development and test placeholders (not secrets)"
+regexTarget = "match"
+regexes = [
+  # Local MinIO credentials of the Docker Compose stack (infra/docker, apps/api/.env.example).
+  '''=dev4innova-secret''',
+  # Session sealing key used only by the unit tests.
+  '''"a-test-secret-that-is-long-enough-123456"''',
+  # Fake diagnostic token of the web route tests.
+  '''"abcdefghijklmnopqrstuvwxyz_-0123"''',
+  # Empty GEMINI_API_KEY= followed by the next variable on the following line.
+  '''GEMINI_API_KEY=\s+AI_EUR_PER_USD=''',
+]

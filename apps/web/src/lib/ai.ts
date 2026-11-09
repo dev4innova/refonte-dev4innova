@@ -11,6 +11,7 @@ export type UsageReport = components["schemas"]["UsageReport"];
 export const PROVIDERS = ["anthropic", "openai", "gemini", "simulated"] as const;
 export type Provider = (typeof PROVIDERS)[number];
 
+// eslint-disable-next-line security/detect-unsafe-regex -- bounded and unambiguous: linear time
 export const PROMPT_KEY_PATTERN = /^[a-z0-9]+(?:[._-][a-z0-9]+)*$/;
 
 /** {{variables}} of a prompt template, in order of first appearance. */

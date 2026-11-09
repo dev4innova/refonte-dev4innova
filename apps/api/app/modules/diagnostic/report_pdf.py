@@ -7,7 +7,9 @@ character set they support. Every text is escaped: answers and the AI analysis a
 import io
 import math
 from typing import Literal
-from xml.sax.saxutils import escape
+
+# Escapes the text written into the PDF: no XML is parsed.
+from xml.sax.saxutils import escape  # nosec B406
 
 from reportlab.graphics.shapes import Drawing, Line, Polygon, PolyLine, String
 from reportlab.lib import colors

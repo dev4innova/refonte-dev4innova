@@ -29,6 +29,10 @@ Toute table métier contient :
 - Une migration = un changement cohérent, avec `upgrade()` **et** `downgrade()` fonctionnels.
 - Migrations non destructives en production : ajout de colonne nullable → backfill → contrainte.
   Pas de renommage/suppression de colonne dans le même déploiement que le code qui l'utilise.
+- **Compatibles avec la version précédente** : en production, les migrations s'appliquent avant
+  le déploiement et l'ancienne version de l'API tourne encore environ 30 s (ADR-0018). Une
+  colonne ou une table se supprime ou se renomme donc en deux déploiements : le code cesse
+  d'abord de l'utiliser, puis une migration suivante la supprime.
 - Ne jamais modifier une migration déjà fusionnée sur `main` : en créer une nouvelle.
 - Les données de référence (rôles, permissions) sont semées par migration ou script idempotent.
 

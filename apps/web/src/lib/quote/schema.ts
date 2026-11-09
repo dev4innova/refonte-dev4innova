@@ -12,6 +12,7 @@ export type QuoteTimeline = (typeof QUOTE_TIMELINES)[number];
 export const QUOTE_FIELDS = ["name", "email", "company", "phone", "need", "consent"] as const;
 export type QuoteField = (typeof QUOTE_FIELDS)[number];
 
+// eslint-disable-next-line security/detect-unsafe-regex -- bounded and unambiguous: linear time
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const schema = z.object({

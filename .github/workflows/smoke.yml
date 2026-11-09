@@ -1,0 +1,49 @@
+# Post-deployment smoke tests (TASK-116, TASK-123). Railway's GitHub integration reports
+# each deployment to GitHub; once a production deployment succeeds, the deployed site and
+# API are checked (infra/scripts/smoke.sh). Can also be run by hand from the Actions tab.
+# URLs come from the repository variables SMOKE_WEB_URL and SMOKE_API_URL.
+name: Smoke tests
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      web_url:
+        description: "Web URL (default: SMOKE_WEB_URL variable)"
+        required: false
+      api_url:
+        description: "API URL (default: SMOKE_API_URL variable)"
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  # One deployment of several services gives several events: the latest run checks them all.
+  group: smoke-${{ github.event.deployment.environment || 'manual' }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: Smoke tests (production)
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       contains(github.event.deployment.environment, 'production'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: infra/scripts
+      - name: Run smoke tests
+        env:
+          WEB_URL: ${{ inputs.web_url || vars.SMOKE_WEB_URL }}
+          API_URL: ${{ inputs.api_url || vars.SMOKE_API_URL }}
+        run: |
+          if [ -z "$WEB_URL" ]; then
+            echo "::error::Set the SMOKE_WEB_URL repository variable (Settings > Variables)."
+            exit 1
+          fi
+          # Give the new deployment a moment to take the traffic from the previous one.
+          sleep 20
+          sh infra/scripts/smoke.sh "$WEB_URL" "$API_URL"
