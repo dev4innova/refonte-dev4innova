@@ -326,12 +326,13 @@ TASK-123 validation de mise en production.
 | TASK-119 | Sauvegardes du volume Railway + export quotidien vérifié vers S3 (30 jours) ; restauration testée | ✅ |
 | TASK-120 | Bandit, `eslint-plugin-security`, gitleaks sur tout l'historique | ✅ |
 | TASK-121 | Tests de charge | ⏸ non retenus pour l'instant |
-| TASK-122 | Services Railway en config as code (`infra/railway`), migrations en pré-déploiement, garde-fou des réglages de production, en-têtes de sécurité | ✅ |
+| TASK-122 | Infrastructure Railway as code (`.railway/railway.ts`, `railway config plan` / `apply`, saisie des secrets), migrations en pré-déploiement, garde-fou des réglages de production, en-têtes de sécurité | ✅ |
 | TASK-123 | Liste de contrôle d'ouverture (`docs/deployment/railway.md`), tests de fumée | ✅ (à dérouler à l'ouverture) |
 
 **À prévoir** :
 - accepter l'ADR-0018 ;
-- créer le projet Railway, les buckets S3 et les projets Sentry, puis renseigner les variables
+- créer les buckets S3 et les projets Sentry, compléter `SETTINGS` dans `.railway/railway.ts`,
+  puis `railway init`, `make railway-plan`, `make railway-apply`, `make railway-secrets`
   (`docs/deployment/railway.md`) ;
 - tester la restauration, puis dérouler la liste de contrôle d'ouverture ;
 - plus tard : CSP avec nonces, environnement de recette, ZAP, Trivy, pip-audit, tests de charge.

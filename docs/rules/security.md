@@ -6,6 +6,8 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
 - Aucun secret dans le dépôt, les images Docker, les logs ou le bundle frontend.
   `.env` est ignoré par git ; seul `.env.example` (valeurs factices) est versionné.
 - Secrets de production dans le gestionnaire de secrets de l'hébergeur / CI, jamais en clair.
+  Sur Railway : déclarés `preserve()` dans `.railway/railway.ts` et saisis avec
+  `make railway-secrets` ; jamais de valeur littérale ni de `ctx.randomString()` (prévisible).
 - Une fuite suspectée = rotation immédiate de la clé, même si le commit est supprimé.
 
 ## Authentification et autorisation

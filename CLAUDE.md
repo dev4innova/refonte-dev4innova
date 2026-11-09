@@ -70,12 +70,15 @@ Tout passe par le `Makefile` racine (`make help`) :
 | `make daily` | les deux purges ci-dessus (tâche planifiée `jobs` de Railway en production) |
 | `make security` | Bandit + gitleaks (gitleaks installé localement) |
 | `make smoke web=... api=...` | tests de fumée d'un environnement déployé (`infra/scripts/smoke.sh`) |
+| `make railway-plan` / `make railway-apply` | prévisualiser / appliquer l'infrastructure Railway décrite dans `.railway/railway.ts` |
+| `make railway-secrets` | saisir les secrets de production (saisie masquée, jamais dans le dépôt) |
 | `make client` | régénérer `packages/api-client` après un changement d'API |
 | `make check` | lint + typecheck + tests (à lancer avant de pousser ; nécessite `make services`) |
 | `make e2e` | build du web + Playwright (responsive 375/768/1280 px, accessibilité, FR/EN) |
 
-Production : Railway, déploiement automatique de `main` après la CI (ADR-0018,
-`docs/deployment/railway.md`).
+Production : Railway, déploiement automatique de `main` après la CI. L'infrastructure est décrite
+dans `.railway/railway.ts` (toute nouvelle variable de l'application doit y être déclarée,
+`preserve()` pour un secret) : ADR-0018, `docs/deployment/railway.md`.
 
 Health checks : `GET /api/v1/health/live`, `GET /api/v1/health/ready` (API) et `GET /api/health` (web).
 

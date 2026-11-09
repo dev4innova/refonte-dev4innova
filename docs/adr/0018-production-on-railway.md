@@ -23,17 +23,32 @@ Décisions du responsable du projet :
 ## Décision
 
 ### Hébergement : un projet Railway, région européenne
-Un projet Railway, avec l'environnement `production`, dans la région **EU West (Amsterdam)**.
-Chaque service décrit sa configuration dans un fichier versionné (« config as code ») :
+Un projet Railway, avec l'environnement `production`, dans la région **EU West (Amsterdam,
+`europe-west4`)**.
 
-| Service Railway | Image | Fichier | Rôle |
-|---|---|---|---|
-| `web` | `infra/docker/web.Dockerfile` | `infra/railway/web.json` | site public, portail, back-office (domaine public) |
-| `api` | `infra/docker/api.Dockerfile` | `infra/railway/api.json` | API (domaine public, pour les webhooks Stripe) ; migrations en pré-déploiement |
-| `jobs` | image de l'API | `infra/railway/jobs.json` | tâche planifiée quotidienne `python -m app.cli daily` (purges) |
-| `backup` | `infra/docker/backup.Dockerfile` | `infra/railway/backup.json` | tâche planifiée quotidienne `pg_dump` vers S3 |
-| `postgres` | PostgreSQL Railway | — | source de vérité, volume sauvegardé |
-| `redis` | Redis Railway | — | cache, limites de débit |
+Tout le projet est décrit dans un seul fichier versionné, **`.railway/railway.ts`**
+(« Infrastructure as Code » de Railway, SDK `railway`, version figée) :
+- `railway config plan` affiche le diff avec la production, à la manière de Terraform ;
+- `railway config apply` l'applique après confirmation.
+
+Le fichier possède les services, les bases, les domaines et **toutes les variables**. Les
+secrets y sont déclarés `preserve()` : Railway garde leur valeur, saisie avec `make railway-secrets`.
+
+| Ressource | Image | Rôle |
+|---|---|---|
+| `web` | `infra/docker/web.Dockerfile` | site public, portail, back-office (domaine public `www`) |
+| `api` | `infra/docker/api.Dockerfile` | API (domaine public `api`, pour les webhooks Stripe) ; migrations en pré-déploiement |
+| `jobs` | image de l'API | tâche planifiée quotidienne `python -m app.cli daily` (purges) |
+| `backup` | `infra/docker/backup.Dockerfile` | tâche planifiée quotidienne `pg_dump` vers S3 |
+| `postgres` | PostgreSQL 17 (Railway) | source de vérité, volume sauvegardé |
+| `redis` | Redis (Railway) | cache, limites de débit |
+
+PostgreSQL est fixé en version 17, comme la CI, Docker Compose et l'image de sauvegarde
+(`pg_dump` doit être au moins de la version du serveur). Une montée de version majeure se fera
+par une décision explicite, en mettant ces quatre endroits à jour ensemble.
+
+Les anciens fichiers « Config as Code » (`railway.json`) ne sont pas utilisés : Railway cesse de
+les lire le 2026-12-01 et un service ne peut pas être géré par les deux mécanismes.
 
 Le web parle à l'API par le **réseau privé** Railway (`http://api.railway.internal:8000`).
 L'API écoute en IPv6 (`--host ::`), car le réseau privé Railway est en IPv6.
@@ -44,8 +59,11 @@ fournit pas de stockage objet avec liens signés et accès public par bucket, et
 doivent survivre à une perte du projet Railway.
 
 ### Déploiement continu (TASK-116, TASK-122)
-- L'intégration GitHub de Railway déploie `main` à chaque fusion, avec l'option **« Wait for CI »** :
-  rien ne part en production tant que les jobs de la CI ne sont pas verts.
+- L'intégration GitHub de Railway déploie `main` à chaque fusion, en attendant la CI
+  (`checkSuites`, l'option « Wait for CI ») : rien ne part en production tant que les jobs de la
+  CI ne sont pas verts.
+- Les changements d'infrastructure, eux, passent par une PR qui modifie `.railway/railway.ts`
+  (plan joint à la PR), puis par `railway config apply` après la fusion.
 - Les `watchPatterns` ne reconstruisent que les services dont le code a changé.
 - `preDeployCommand: alembic upgrade head` applique les migrations avant le basculement. Si une
   migration échoue, le déploiement s'arrête et l'ancienne version continue de servir.
@@ -135,10 +153,16 @@ Objectifs : perte de données maximale 24 h (RPO), remise en service en moins de
 ## Conséquences
 - Plus simple :
   - un `git merge` met en production ;
+  - l'infrastructure se recrée en quatre commandes (`railway init`, `plan`, `apply`, secrets) et
+    toute modification est relue sous forme de diff ;
   - les retours arrière se font en un clic ;
   - la configuration des services est versionnée.
 - À surveiller :
   - **Migrations rétrocompatibles** : obligatoires, à cause du chevauchement de 30 s.
+  - **Variables gérées par le fichier** : une variable ajoutée à la main dans Railway sans être
+    déclarée dans `.railway/railway.ts` est supprimée au prochain `apply` (le plan l'annonce).
+  - **SDK en bêta** : l'API du SDK `railway` peut changer ; il est figé dans `package.json` et
+    sa montée de version se vérifie par un `plan` sans changement.
   - **Coût Railway** : facturé à l'usage (CPU, mémoire, volume). À suivre chaque mois.
   - **Rétention des journaux Railway** : limitée selon l'offre. Les erreurs restent dans Sentry.
   - **Localisation des données** : Railway est une société américaine, même si l'hébergement
