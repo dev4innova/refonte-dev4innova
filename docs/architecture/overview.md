@@ -50,7 +50,7 @@
 | `diagnostic` | 10 | 08, 07 |
 | `portal` (projets, tâches, livrables, documents privés, support, notifications ; ADR-0015) | 11 | 04 |
 | `academy` (formations, modules, leçons, quiz, inscriptions, progression, certificats ; ADR-0016) | 12 | 04, 06 |
-| `billing` | 13 | 04, 07 (devis) |
+| `billing` (catalogue, devis, factures et avoirs, paiements Stripe, abonnements, transactions ; ADR-0017) | 13 | 04, 07, 12 |
 
 ## Environnements
 
