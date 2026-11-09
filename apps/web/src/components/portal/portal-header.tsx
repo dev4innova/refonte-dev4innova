@@ -8,8 +8,9 @@ import { NotificationBell } from "./notification-bell";
 import { PortalNav } from "./portal-nav";
 
 /** Top of every page of an organization's portal: way back, organization, bell, sections. */
-export async function PortalHeader({ org, organizationName }: { org: string; organizationName: string }) {
-  const t = await getTranslations("Portal");
+export async function PortalHeader({ org, organizationName, role }: { org: string; organizationName: string; role: string }) {
+  const [t, tAcademy] = await Promise.all([getTranslations("Portal"), getTranslations("Academy.sponsored")]);
+  const academyLabel = tAcademy("nav");
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -24,7 +25,7 @@ export async function PortalHeader({ org, organizationName }: { org: string; org
           <NotificationBell />
         </Suspense>
       </div>
-      <PortalNav org={org} />
+      <PortalNav org={org} academy={role === "owner" || role === "admin"} academyLabel={academyLabel} />
     </div>
   );
 }

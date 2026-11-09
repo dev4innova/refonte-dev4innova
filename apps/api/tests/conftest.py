@@ -87,6 +87,8 @@ async def client(
             "DELETE FROM ai_quotas",
             "DELETE FROM ai_sessions",  # cascades to ai_messages
             "DELETE FROM diagnostics",
+            "DELETE FROM academy_certificates",
+            "DELETE FROM academy_courses",  # cascades to modules, lessons, enrollments...
             "DELETE FROM notifications",
             "DELETE FROM portal_projects",  # cascades to tasks, files, deliverables, comments
             "DELETE FROM support_tickets",  # cascades to messages

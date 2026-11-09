@@ -1,4 +1,4 @@
-import { Bell, Building2, FolderKanban, LogOut, Sparkles } from "lucide-react";
+import { Bell, Building2, FolderKanban, GraduationCap, LogOut, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
@@ -74,7 +74,13 @@ async function AccountDetails({ locale }: { locale: Locale }) {
         {me.display_name && me.email ? <p className="text-muted-foreground">{me.email}</p> : null}
       </div>
 
-      <div>
+      <div className="flex flex-wrap gap-3">
+        <Button asChild variant="outline">
+          <Link href="/account/academy">
+            <GraduationCap aria-hidden="true" />
+            {t("academy")}
+          </Link>
+        </Button>
         <Button asChild variant="outline">
           <Link href="/account/notifications">
             <Bell aria-hidden="true" />

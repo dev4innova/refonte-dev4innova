@@ -1,6 +1,16 @@
 """Import every module's models here so Alembic autogenerate sees them."""
 
 from app.db.base import Base
+from app.modules.academy.models import (
+    Certificate,
+    Course,
+    Enrollment,
+    Lesson,
+    LessonProgress,
+    Module,
+    Question,
+    QuizAttempt,
+)
 from app.modules.ai_experiences.models import AIMessage, AISession
 from app.modules.ai_gateway.models import AIModel, AIQuota, AIUsage, Prompt, PromptVersion
 from app.modules.cms.models import Document, DocumentTranslation, Media
@@ -27,21 +37,29 @@ __all__ = [
     "AIUsage",
     "Activity",
     "Base",
+    "Certificate",
     "Comment",
     "ContactRequest",
+    "Course",
     "Deliverable",
     "Diagnostic",
     "Document",
     "DocumentTranslation",
+    "Enrollment",
     "Lead",
+    "Lesson",
+    "LessonProgress",
     "Media",
     "Membership",
+    "Module",
     "Notification",
     "Opportunity",
     "Organization",
     "Project",
     "Prompt",
     "PromptVersion",
+    "Question",
+    "QuizAttempt",
     "QuoteRequest",
     "StoredFile",
     "Task",

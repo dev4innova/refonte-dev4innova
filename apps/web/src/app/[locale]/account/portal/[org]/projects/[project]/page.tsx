@@ -45,7 +45,7 @@ async function PortalProject({ params }: Props) {
 
   return (
     <>
-      <PortalHeader org={org} organizationName={membership.organization_name} />
+      <PortalHeader org={org} organizationName={membership.organization_name} role={membership.role} />
       {!project ? (
         <p role="alert" className="text-destructive">{t("errors.load")}</p>
       ) : (

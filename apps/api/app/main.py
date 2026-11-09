@@ -13,6 +13,10 @@ from app.core.errors import register_exception_handlers
 from app.core.logging import configure_logging
 from app.core.redis import close_redis
 from app.db.session import dispose_engine
+from app.modules.academy.router import admin_router as academy_admin_router
+from app.modules.academy.router import learner_router as academy_learner_router
+from app.modules.academy.router import org_router as academy_org_router
+from app.modules.academy.router import public_router as academy_router
 from app.modules.ai_experiences.router import router as ai_router
 from app.modules.ai_gateway.router import router as ai_admin_router
 from app.modules.cms.router import admin_router as cms_admin_router
@@ -84,6 +88,10 @@ def create_app() -> FastAPI:
     api_v1.include_router(portal_router)
     api_v1.include_router(portal_admin_router)
     api_v1.include_router(notifications_router)
+    api_v1.include_router(academy_router)
+    api_v1.include_router(academy_learner_router)
+    api_v1.include_router(academy_org_router)
+    api_v1.include_router(academy_admin_router)
     app.include_router(api_v1)
     return app
 

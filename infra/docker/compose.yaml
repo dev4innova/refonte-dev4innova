@@ -22,6 +22,8 @@ x-api-env: &api-env
   # Client portal files: private bucket; download links are signed for this endpoint.
   PORTAL_S3_BUCKET: dev4innova-portal
   PORTAL_S3_PUBLIC_ENDPOINT_URL: http://localhost:${MINIO_PORT:-9000}
+  # Website address printed on Academy certificates (verification link).
+  SITE_URL: http://localhost:${WEB_PORT:-3000}
   # AI Gateway: provider keys from infra/docker/.env (never committed).
   ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
   OPENAI_API_KEY: ${OPENAI_API_KEY:-}

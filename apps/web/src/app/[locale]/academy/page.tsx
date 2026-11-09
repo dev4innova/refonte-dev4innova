@@ -1,6 +1,8 @@
-import { Info } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Suspense } from "react";
+
+import { CourseCatalog } from "@/components/academy/course-catalog";
 
 import { Section } from "@/components/layout/section";
 import { CtaBand } from "@/components/marketing/cta-band";
@@ -25,13 +27,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-/** Academy presentation page (TASK-053). The course catalog itself is EPIC 12. */
+/** Academy page (TASK-053) and its catalog of online courses (TASK-103). */
 export default async function AcademyPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [t, tCommon] = await Promise.all([
+  const [t, tCommon, tAcademy] = await Promise.all([
     getTranslations("AcademyPage"),
     getTranslations("Common"),
+    getTranslations("Academy"),
   ]);
 
   return (
@@ -68,10 +71,18 @@ export default async function AcademyPage({ params }: Props) {
             </li>
           ))}
         </ul>
-        <p className="mt-10 flex items-center gap-2 text-muted-foreground">
-          <Info aria-hidden="true" className="size-5 text-primary" />
-          {t("comingSoon")}
-        </p>
+      </Section>
+
+      <Section variant="card" aria-labelledby="academy-catalog">
+        <div className="mb-10 flex max-w-3xl flex-col gap-3">
+          <h2 id="academy-catalog" className="text-display-md font-semibold">
+            {tAcademy("catalog.title")}
+          </h2>
+          <p className="text-muted-foreground">{tAcademy("catalog.lead")}</p>
+        </div>
+        <Suspense fallback={<div aria-hidden="true" className="h-64 animate-pulse rounded-xl bg-muted" />}>
+          <CourseCatalog locale={locale} />
+        </Suspense>
       </Section>
 
       <CtaBand title={t("ctaTitle")} text={t("ctaText")} actionLabel={tCommon("contactUs")} />

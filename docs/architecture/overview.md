@@ -49,7 +49,7 @@
 | `diagnostic` (questionnaire versionné, scoring, recommandations, analyse IA, PDF, lien CRM ; ADR-0014) | 10 | 07, 08 |
 | `diagnostic` | 10 | 08, 07 |
 | `portal` (projets, tâches, livrables, documents privés, support, notifications ; ADR-0015) | 11 | 04 |
-| `academy` | 12 | 04 (06 pour les contenus) |
+| `academy` (formations, modules, leçons, quiz, inscriptions, progression, certificats ; ADR-0016) | 12 | 04, 06 |
 | `billing` | 13 | 04, 07 (devis) |
 
 ## Environnements

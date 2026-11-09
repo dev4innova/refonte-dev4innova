@@ -6821,10 +6821,2374 @@
           }
         ]
       }
+    },
+    "/api/v1/academy/courses": {
+      "get": {
+        "tags": [
+          "academy"
+        ],
+        "summary": "Catalog of open courses",
+        "operationId": "academy-catalog",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CourseCard"
+                  },
+                  "title": "Response Academy-Catalog"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academy/courses/{slug}": {
+      "get": {
+        "tags": [
+          "academy"
+        ],
+        "summary": "A course and its outline",
+        "operationId": "academy-course",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CourseOutline"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academy/certificates/{code}": {
+      "get": {
+        "tags": [
+          "academy"
+        ],
+        "summary": "Verify a certificate",
+        "operationId": "academy-verify_certificate",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Code"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CertificateOut"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academy/certificates/{code}/pdf": {
+      "get": {
+        "tags": [
+          "academy"
+        ],
+        "summary": "PDF of a certificate",
+        "operationId": "academy-certificate_pdf_download",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Code"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/pdf": {}
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/academy/courses/{slug}/enroll": {
+      "post": {
+        "tags": [
+          "academy"
+        ],
+        "summary": "Enroll in an open course (signed in)",
+        "operationId": "academy-enroll",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyCourse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/academy/courses": {
+      "get": {
+        "tags": [
+          "academy"
+        ],
+        "summary": "My courses and my progress",
+        "operationId": "academy-my_courses",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MyCourse"
+                  },
+                  "title": "Response Academy-My Courses"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/academy/courses/{slug}": {
+      "get": {
+        "tags": [
+          "academy"
+        ],
+        "summary": "A course I follow",
+        "operationId": "academy-my_course",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LearnerCourse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/academy/lessons/{lesson_id}": {
+      "get": {
+        "tags": [
+          "academy"
+        ],
+        "summary": "A lesson",
+        "operationId": "academy-lesson",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lesson_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Lesson Id"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LessonView"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/academy/lessons/{lesson_id}/complete": {
+      "post": {
+        "tags": [
+          "academy"
+        ],
+        "summary": "Mark a lesson as done",
+        "operationId": "academy-complete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lesson_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Lesson Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LessonDone"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me/academy/quizzes/{module_id}": {
+      "get": {
+        "tags": [
+          "academy"
+        ],
+        "summary": "Quiz of a module (no answers)",
+        "operationId": "academy-quiz",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "module_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Module Id"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuizView"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "academy"
+        ],
+        "summary": "Answer a quiz (graded)",
+        "operationId": "academy-answer_quiz",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "module_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Module Id"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuizSubmission"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuizResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{organization_id}/academy/enrollments": {
+      "get": {
+        "tags": [
+          "academy"
+        ],
+        "summary": "Progress of the members enrolled by the team",
+        "operationId": "academy-sponsored",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fr",
+                "en"
+              ],
+              "type": "string",
+              "default": "fr",
+              "title": "Locale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SponsoredEnrollment"
+                  },
+                  "title": "Response Academy-Sponsored"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "Owners and admins only"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/courses": {
+      "get": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "All courses",
+        "operationId": "academy-admin-admin_courses",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AdminCourseSummary"
+                  },
+                  "type": "array",
+                  "title": "Response Academy-Admin-Admin Courses"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Create a course (draft)",
+        "operationId": "academy-admin-create_course",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CourseIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCourse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "409": {
+            "description": "Address already used"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/academy/courses/{course_id}": {
+      "get": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "A course and its outline",
+        "operationId": "academy-admin-admin_course",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Course Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCourse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Update a course",
+        "operationId": "academy-admin-update_course",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Course Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CourseIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCourse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Delete a course nobody is enrolled in",
+        "operationId": "academy-admin-delete_course",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Course Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "409": {
+            "description": "Learners are enrolled"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/courses/{course_id}/publish": {
+      "post": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Publish (needs every text in both languages)",
+        "operationId": "academy-admin-publish",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Course Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCourse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "409": {
+            "description": "Something is missing: details.missing"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/courses/{course_id}/unpublish": {
+      "post": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Back to draft",
+        "operationId": "academy-admin-unpublish",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Course Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCourse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/courses/{course_id}/modules": {
+      "post": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Add a module",
+        "operationId": "academy-admin-create_module",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Course Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModuleIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCourse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/modules/{module_id}": {
+      "put": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Update a module",
+        "operationId": "academy-admin-update_module",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "module_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Module Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModuleIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCourse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/modules/{module_id}/lessons": {
+      "post": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Add a lesson",
+        "operationId": "academy-admin-create_lesson",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "module_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Module Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LessonIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminLesson"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Invalid video link (YouTube or Vimeo only)"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/lessons/{lesson_id}": {
+      "get": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "A lesson",
+        "operationId": "academy-admin-admin_lesson",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lesson_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Lesson Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminLesson"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Update a lesson",
+        "operationId": "academy-admin-update_lesson",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lesson_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Lesson Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LessonIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminLesson"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Invalid video link (YouTube or Vimeo only)"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/modules/{module_id}/questions": {
+      "post": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Add a quiz question",
+        "operationId": "academy-admin-create_question",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "module_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Module Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestionIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminQuestion"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/questions/{question_id}": {
+      "put": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Update a question",
+        "operationId": "academy-admin-update_question",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "question_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Question Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestionIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminQuestion"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/modules/{item_id}": {
+      "delete": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Delete a module",
+        "operationId": "academy-admin-delete_module",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Item Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/modules/{item_id}/move": {
+      "post": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Move a module up or down",
+        "operationId": "academy-admin-move_module",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Item Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Move"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCourse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/lessons/{item_id}": {
+      "delete": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Delete a lesson",
+        "operationId": "academy-admin-delete_lesson",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Item Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/lessons/{item_id}/move": {
+      "post": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Move a lesson up or down",
+        "operationId": "academy-admin-move_lesson",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Item Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Move"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCourse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/questions/{item_id}": {
+      "delete": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Delete a question",
+        "operationId": "academy-admin-delete_question",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Item Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/questions/{item_id}/move": {
+      "post": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Move a question up or down",
+        "operationId": "academy-admin-move_question",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Item Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Move"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCourse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/organizations": {
+      "get": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Client organizations",
+        "operationId": "academy-admin-organizations",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AcademyOrganization"
+                  },
+                  "type": "array",
+                  "title": "Response Academy-Admin-Organizations"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/academy/courses/{course_id}/organizations/{organization_id}/members": {
+      "get": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Members of a client organization, and whether they follow the course",
+        "operationId": "academy-admin-members",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Course Id"
+            }
+          },
+          {
+            "name": "organization_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Organization Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrganizationMember"
+                  },
+                  "title": "Response Academy-Admin-Members"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/courses/{course_id}/enrollments": {
+      "get": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Learners",
+        "operationId": "academy-admin-enrollments",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Course Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdminEnrollment"
+                  },
+                  "title": "Response Academy-Admin-Enrollments"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Enroll members of a client organization",
+        "operationId": "academy-admin-enroll_members",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Course Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnrollIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnrollResult"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "409": {
+            "description": "The course is not published"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/academy/enrollments/{enrollment_id}": {
+      "delete": {
+        "tags": [
+          "academy-admin"
+        ],
+        "summary": "Remove a learner from a course",
+        "operationId": "academy-admin-delete_enrollment",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "enrollment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Enrollment Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Missing or invalid access token"
+          },
+          "404": {
+            "description": "Not found, or not enrolled"
+          },
+          "403": {
+            "description": "The staff role does not allow this action"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AcademyBody": {
+        "properties": {
+          "fr": {
+            "type": "string",
+            "maxLength": 50000,
+            "title": "Fr",
+            "default": ""
+          },
+          "en": {
+            "type": "string",
+            "maxLength": 50000,
+            "title": "En",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "AcademyBody"
+      },
+      "AcademyOption": {
+        "properties": {
+          "fr": {
+            "type": "string",
+            "maxLength": 300,
+            "title": "Fr",
+            "default": ""
+          },
+          "en": {
+            "type": "string",
+            "maxLength": 300,
+            "title": "En",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "AcademyOption"
+      },
+      "AcademyOrganization": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug"
+        ],
+        "title": "AcademyOrganization"
+      },
+      "AcademyPerson": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "display_name",
+          "email"
+        ],
+        "title": "AcademyPerson"
+      },
+      "AcademySummary": {
+        "properties": {
+          "fr": {
+            "type": "string",
+            "maxLength": 600,
+            "title": "Fr",
+            "default": ""
+          },
+          "en": {
+            "type": "string",
+            "maxLength": 600,
+            "title": "En",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "AcademySummary"
+      },
+      "AcademyTitle": {
+        "properties": {
+          "fr": {
+            "type": "string",
+            "maxLength": 200,
+            "title": "Fr",
+            "default": ""
+          },
+          "en": {
+            "type": "string",
+            "maxLength": 200,
+            "title": "En",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "AcademyTitle",
+        "description": "A text in each language; French is the reference, English is needed to publish."
+      },
       "ActivityCreate": {
         "properties": {
           "type": {
@@ -6946,6 +9310,458 @@
           "opportunity_id"
         ],
         "title": "ActivityOut"
+      },
+      "AdminCourse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published"
+            ],
+            "title": "Status"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "public",
+              "restricted"
+            ],
+            "title": "Visibility"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "beginner",
+              "intermediate",
+              "advanced"
+            ],
+            "title": "Level"
+          },
+          "title": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Title"
+          },
+          "modules": {
+            "type": "integer",
+            "title": "Modules"
+          },
+          "lessons": {
+            "type": "integer",
+            "title": "Lessons"
+          },
+          "enrollments": {
+            "type": "integer",
+            "title": "Enrollments"
+          },
+          "completions": {
+            "type": "integer",
+            "title": "Completions"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "title": "Duration Minutes"
+          },
+          "summary": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Summary"
+          },
+          "description_md": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Description Md"
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          },
+          "outline": {
+            "items": {
+              "$ref": "#/components/schemas/AdminModule"
+            },
+            "type": "array",
+            "title": "Outline"
+          },
+          "missing": {
+            "items": {
+              "$ref": "#/components/schemas/MissingItem"
+            },
+            "type": "array",
+            "title": "Missing"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "slug",
+          "status",
+          "visibility",
+          "level",
+          "title",
+          "modules",
+          "lessons",
+          "enrollments",
+          "completions",
+          "updated_at",
+          "duration_minutes",
+          "summary",
+          "description_md",
+          "published_at",
+          "outline",
+          "missing"
+        ],
+        "title": "AdminCourse"
+      },
+      "AdminCourseSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published"
+            ],
+            "title": "Status"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "public",
+              "restricted"
+            ],
+            "title": "Visibility"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "beginner",
+              "intermediate",
+              "advanced"
+            ],
+            "title": "Level"
+          },
+          "title": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Title"
+          },
+          "modules": {
+            "type": "integer",
+            "title": "Modules"
+          },
+          "lessons": {
+            "type": "integer",
+            "title": "Lessons"
+          },
+          "enrollments": {
+            "type": "integer",
+            "title": "Enrollments"
+          },
+          "completions": {
+            "type": "integer",
+            "title": "Completions"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "slug",
+          "status",
+          "visibility",
+          "level",
+          "title",
+          "modules",
+          "lessons",
+          "enrollments",
+          "completions",
+          "updated_at"
+        ],
+        "title": "AdminCourseSummary"
+      },
+      "AdminEnrollment": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "learner": {
+            "$ref": "#/components/schemas/AcademyPerson"
+          },
+          "course": {
+            "$ref": "#/components/schemas/CourseCard"
+          },
+          "progress": {
+            "$ref": "#/components/schemas/CourseProgress"
+          },
+          "enrolled_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Enrolled At"
+          },
+          "last_activity_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Activity At"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "certificate_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Certificate Code"
+          },
+          "sponsor": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AcademyOrganization"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "learner",
+          "course",
+          "progress",
+          "enrolled_at",
+          "last_activity_at",
+          "completed_at",
+          "certificate_code",
+          "sponsor"
+        ],
+        "title": "AdminEnrollment"
+      },
+      "AdminLesson": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "module_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Module Id"
+          },
+          "position": {
+            "type": "integer",
+            "title": "Position"
+          },
+          "title": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Title"
+          },
+          "body_md": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Body Md"
+          },
+          "video_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Video Url"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "title": "Duration Minutes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "module_id",
+          "position",
+          "title",
+          "body_md",
+          "video_url",
+          "duration_minutes"
+        ],
+        "title": "AdminLesson"
+      },
+      "AdminModule": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "position": {
+            "type": "integer",
+            "title": "Position"
+          },
+          "title": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Title"
+          },
+          "summary": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Summary"
+          },
+          "lessons": {
+            "items": {
+              "$ref": "#/components/schemas/AdminLesson"
+            },
+            "type": "array",
+            "title": "Lessons"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/AdminQuestion"
+            },
+            "type": "array",
+            "title": "Questions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "position",
+          "title",
+          "summary",
+          "lessons",
+          "questions"
+        ],
+        "title": "AdminModule"
+      },
+      "AdminQuestion": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "module_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Module Id"
+          },
+          "position": {
+            "type": "integer",
+            "title": "Position"
+          },
+          "prompt": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Prompt"
+          },
+          "options": {
+            "items": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Options"
+          },
+          "correct_option": {
+            "type": "integer",
+            "title": "Correct Option"
+          },
+          "explanation": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Explanation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "module_id",
+          "position",
+          "prompt",
+          "options",
+          "correct_option",
+          "explanation"
+        ],
+        "title": "AdminQuestion"
       },
       "AssistantSessionCreate": {
         "properties": {
@@ -7079,6 +9895,57 @@
           "file"
         ],
         "title": "Body_portal-upload_document"
+      },
+      "CertificateOut": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "learner_name": {
+            "type": "string",
+            "title": "Learner Name"
+          },
+          "course_title": {
+            "type": "string",
+            "title": "Course Title"
+          },
+          "course_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Course Slug"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "title": "Duration Minutes"
+          },
+          "issued_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Issued At"
+          },
+          "valid": {
+            "type": "boolean",
+            "title": "Valid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "learner_name",
+          "course_title",
+          "course_slug",
+          "duration_minutes",
+          "issued_at",
+          "valid"
+        ],
+        "title": "CertificateOut"
       },
       "CommentCreate": {
         "properties": {
@@ -7291,6 +10158,231 @@
           "topic"
         ],
         "title": "ContentSessionCreate"
+      },
+      "CourseCard": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "beginner",
+              "intermediate",
+              "advanced"
+            ],
+            "title": "Level"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "title": "Duration Minutes"
+          },
+          "modules": {
+            "type": "integer",
+            "title": "Modules"
+          },
+          "lessons": {
+            "type": "integer",
+            "title": "Lessons"
+          },
+          "quizzes": {
+            "type": "integer",
+            "title": "Quizzes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "slug",
+          "title",
+          "summary",
+          "level",
+          "duration_minutes",
+          "modules",
+          "lessons",
+          "quizzes"
+        ],
+        "title": "CourseCard"
+      },
+      "CourseIn": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "title": "Slug"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "public",
+              "restricted"
+            ],
+            "title": "Visibility",
+            "default": "public"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "beginner",
+              "intermediate",
+              "advanced"
+            ],
+            "title": "Level",
+            "default": "beginner"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "maximum": 100000.0,
+            "minimum": 0.0,
+            "title": "Duration Minutes",
+            "default": 0
+          },
+          "title": {
+            "$ref": "#/components/schemas/AcademyTitle"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/AcademySummary"
+          },
+          "description_md": {
+            "$ref": "#/components/schemas/AcademyBody"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "title"
+        ],
+        "title": "CourseIn"
+      },
+      "CourseOutline": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "beginner",
+              "intermediate",
+              "advanced"
+            ],
+            "title": "Level"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "title": "Duration Minutes"
+          },
+          "modules": {
+            "type": "integer",
+            "title": "Modules"
+          },
+          "lessons": {
+            "type": "integer",
+            "title": "Lessons"
+          },
+          "quizzes": {
+            "type": "integer",
+            "title": "Quizzes"
+          },
+          "description_html": {
+            "type": "string",
+            "title": "Description Html"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "public",
+              "restricted"
+            ],
+            "title": "Visibility"
+          },
+          "outline": {
+            "items": {
+              "$ref": "#/components/schemas/ModuleOutline"
+            },
+            "type": "array",
+            "title": "Outline"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "slug",
+          "title",
+          "summary",
+          "level",
+          "duration_minutes",
+          "modules",
+          "lessons",
+          "quizzes",
+          "description_html",
+          "visibility",
+          "outline"
+        ],
+        "title": "CourseOutline"
+      },
+      "CourseProgress": {
+        "properties": {
+          "lessons_done": {
+            "type": "integer",
+            "title": "Lessons Done"
+          },
+          "lessons_total": {
+            "type": "integer",
+            "title": "Lessons Total"
+          },
+          "quizzes_passed": {
+            "type": "integer",
+            "title": "Quizzes Passed"
+          },
+          "quizzes_total": {
+            "type": "integer",
+            "title": "Quizzes Total"
+          },
+          "percent": {
+            "type": "integer",
+            "title": "Percent"
+          }
+        },
+        "type": "object",
+        "required": [
+          "lessons_done",
+          "lessons_total",
+          "quizzes_passed",
+          "quizzes_total",
+          "percent"
+        ],
+        "title": "CourseProgress"
       },
       "Dashboard": {
         "properties": {
@@ -8375,6 +11467,49 @@
         ],
         "title": "DownloadLink"
       },
+      "EnrollIn": {
+        "properties": {
+          "organization_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Organization Id"
+          },
+          "user_ids": {
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "type": "array",
+            "maxItems": 500,
+            "minItems": 1,
+            "title": "User Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "organization_id",
+          "user_ids"
+        ],
+        "title": "EnrollIn"
+      },
+      "EnrollResult": {
+        "properties": {
+          "enrolled": {
+            "type": "integer",
+            "title": "Enrolled"
+          },
+          "already": {
+            "type": "integer",
+            "title": "Already"
+          }
+        },
+        "type": "object",
+        "required": [
+          "enrolled",
+          "already"
+        ],
+        "title": "EnrollResult"
+      },
       "FeatureUsage": {
         "properties": {
           "feature": {
@@ -8869,6 +12004,379 @@
         "type": "object",
         "title": "LeadUpdate"
       },
+      "LearnerCourse": {
+        "properties": {
+          "course": {
+            "$ref": "#/components/schemas/CourseCard"
+          },
+          "progress": {
+            "$ref": "#/components/schemas/CourseProgress"
+          },
+          "sponsor": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AcademyOrganization"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "enrolled_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Enrolled At"
+          },
+          "last_activity_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Activity At"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "certificate_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Certificate Code"
+          },
+          "description_html": {
+            "type": "string",
+            "title": "Description Html"
+          },
+          "outline": {
+            "items": {
+              "$ref": "#/components/schemas/LearnerModule"
+            },
+            "type": "array",
+            "title": "Outline"
+          },
+          "pass_percent": {
+            "type": "integer",
+            "title": "Pass Percent"
+          },
+          "next_lesson_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Lesson Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "course",
+          "progress",
+          "sponsor",
+          "enrolled_at",
+          "last_activity_at",
+          "completed_at",
+          "certificate_code",
+          "description_html",
+          "outline",
+          "pass_percent",
+          "next_lesson_id"
+        ],
+        "title": "LearnerCourse"
+      },
+      "LearnerLesson": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "title": "Duration Minutes"
+          },
+          "has_video": {
+            "type": "boolean",
+            "title": "Has Video"
+          },
+          "done": {
+            "type": "boolean",
+            "title": "Done"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "duration_minutes",
+          "has_video",
+          "done"
+        ],
+        "title": "LearnerLesson"
+      },
+      "LearnerModule": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          },
+          "lessons": {
+            "items": {
+              "$ref": "#/components/schemas/LearnerLesson"
+            },
+            "type": "array",
+            "title": "Lessons"
+          },
+          "questions": {
+            "type": "integer",
+            "title": "Questions"
+          },
+          "best_score": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Best Score"
+          },
+          "quiz_passed": {
+            "type": "boolean",
+            "title": "Quiz Passed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "summary",
+          "lessons",
+          "questions",
+          "best_score",
+          "quiz_passed"
+        ],
+        "title": "LearnerModule"
+      },
+      "LessonDone": {
+        "properties": {
+          "progress": {
+            "$ref": "#/components/schemas/CourseProgress"
+          },
+          "course_completed": {
+            "type": "boolean",
+            "title": "Course Completed"
+          },
+          "certificate_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Certificate Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "progress",
+          "course_completed",
+          "certificate_code"
+        ],
+        "title": "LessonDone"
+      },
+      "LessonIn": {
+        "properties": {
+          "title": {
+            "$ref": "#/components/schemas/AcademyTitle"
+          },
+          "body_md": {
+            "$ref": "#/components/schemas/AcademyBody"
+          },
+          "video_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Video Url"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "maximum": 600.0,
+            "minimum": 1.0,
+            "title": "Duration Minutes",
+            "default": 5
+          }
+        },
+        "type": "object",
+        "required": [
+          "title"
+        ],
+        "title": "LessonIn"
+      },
+      "LessonOutline": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "title": "Duration Minutes"
+          },
+          "has_video": {
+            "type": "boolean",
+            "title": "Has Video"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "duration_minutes",
+          "has_video"
+        ],
+        "title": "LessonOutline"
+      },
+      "LessonView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "course_slug": {
+            "type": "string",
+            "title": "Course Slug"
+          },
+          "course_title": {
+            "type": "string",
+            "title": "Course Title"
+          },
+          "module_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Module Id"
+          },
+          "module_title": {
+            "type": "string",
+            "title": "Module Title"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "body_html": {
+            "type": "string",
+            "title": "Body Html"
+          },
+          "video_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Video Url"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "title": "Duration Minutes"
+          },
+          "done": {
+            "type": "boolean",
+            "title": "Done"
+          },
+          "previous_lesson_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previous Lesson Id"
+          },
+          "next_lesson_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Lesson Id"
+          },
+          "module_has_quiz": {
+            "type": "boolean",
+            "title": "Module Has Quiz"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "course_slug",
+          "course_title",
+          "module_id",
+          "module_title",
+          "title",
+          "body_html",
+          "video_url",
+          "duration_minutes",
+          "done",
+          "previous_lesson_id",
+          "next_lesson_id",
+          "module_has_quiz"
+        ],
+        "title": "LessonView"
+      },
       "LivenessResponse": {
         "properties": {
           "status": {
@@ -9241,6 +12749,43 @@
         ],
         "title": "MessageOut"
       },
+      "MissingItem": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "course",
+              "module",
+              "lesson",
+              "question"
+            ],
+            "title": "Kind"
+          },
+          "ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ref"
+          },
+          "field": {
+            "type": "string",
+            "title": "Field"
+          }
+        },
+        "type": "object",
+        "required": [
+          "kind",
+          "ref",
+          "field"
+        ],
+        "title": "MissingItem",
+        "description": "Something to write before publishing: `ref` is \"2\" (module 2) or \"2.1\" (its first lesson\nor question); `field` names the text (English unless body_fr) or an empty part."
+      },
       "ModelIn": {
         "properties": {
           "provider": {
@@ -9558,6 +13103,139 @@
           "cost_eur"
         ],
         "title": "ModelUsage"
+      },
+      "ModuleIn": {
+        "properties": {
+          "title": {
+            "$ref": "#/components/schemas/AcademyTitle"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/AcademySummary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title"
+        ],
+        "title": "ModuleIn"
+      },
+      "ModuleOutline": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          },
+          "lessons": {
+            "items": {
+              "$ref": "#/components/schemas/LessonOutline"
+            },
+            "type": "array",
+            "title": "Lessons"
+          },
+          "questions": {
+            "type": "integer",
+            "title": "Questions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "summary",
+          "lessons",
+          "questions"
+        ],
+        "title": "ModuleOutline"
+      },
+      "Move": {
+        "properties": {
+          "direction": {
+            "type": "string",
+            "enum": [
+              "up",
+              "down"
+            ],
+            "title": "Direction"
+          }
+        },
+        "type": "object",
+        "required": [
+          "direction"
+        ],
+        "title": "Move"
+      },
+      "MyCourse": {
+        "properties": {
+          "course": {
+            "$ref": "#/components/schemas/CourseCard"
+          },
+          "progress": {
+            "$ref": "#/components/schemas/CourseProgress"
+          },
+          "sponsor": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AcademyOrganization"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "enrolled_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Enrolled At"
+          },
+          "last_activity_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Activity At"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "certificate_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Certificate Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "course",
+          "progress",
+          "sponsor",
+          "enrolled_at",
+          "last_activity_at",
+          "completed_at",
+          "certificate_code"
+        ],
+        "title": "MyCourse"
       },
       "NotificationOut": {
         "properties": {
@@ -9983,6 +13661,49 @@
         ],
         "title": "OrganizationCreate"
       },
+      "OrganizationMember": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "enrolled": {
+            "type": "boolean",
+            "title": "Enrolled"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "display_name",
+          "email",
+          "enrolled"
+        ],
+        "title": "OrganizationMember"
+      },
       "OrganizationRef": {
         "properties": {
           "id": {
@@ -10153,7 +13874,9 @@
           "ai:usage:read",
           "portal:use",
           "portal:review",
-          "portal:manage"
+          "portal:manage",
+          "academy:manage",
+          "academy:report"
         ],
         "title": "Permission"
       },
@@ -11410,6 +15133,37 @@
         ],
         "title": "PublicImage"
       },
+      "QuestionIn": {
+        "properties": {
+          "prompt": {
+            "$ref": "#/components/schemas/AcademySummary"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/AcademyOption"
+            },
+            "type": "array",
+            "maxItems": 6,
+            "minItems": 2,
+            "title": "Options"
+          },
+          "correct_option": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Correct Option"
+          },
+          "explanation": {
+            "$ref": "#/components/schemas/AcademySummary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prompt",
+          "options",
+          "correct_option"
+        ],
+        "title": "QuestionIn"
+      },
       "QuestionOut": {
         "properties": {
           "id": {
@@ -11435,6 +15189,47 @@
           "options"
         ],
         "title": "QuestionOut"
+      },
+      "QuestionResult": {
+        "properties": {
+          "question_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Question Id"
+          },
+          "chosen": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chosen"
+          },
+          "correct_option": {
+            "type": "integer",
+            "title": "Correct Option"
+          },
+          "correct": {
+            "type": "boolean",
+            "title": "Correct"
+          },
+          "explanation": {
+            "type": "string",
+            "title": "Explanation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "question_id",
+          "chosen",
+          "correct_option",
+          "correct",
+          "explanation"
+        ],
+        "title": "QuestionResult"
       },
       "QuestionnaireOut": {
         "properties": {
@@ -11464,6 +15259,160 @@
           "dimensions"
         ],
         "title": "QuestionnaireOut"
+      },
+      "QuizQuestion": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "prompt": {
+            "type": "string",
+            "title": "Prompt"
+          },
+          "options": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Options"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "prompt",
+          "options"
+        ],
+        "title": "QuizQuestion"
+      },
+      "QuizResult": {
+        "properties": {
+          "score": {
+            "type": "integer",
+            "title": "Score"
+          },
+          "passed": {
+            "type": "boolean",
+            "title": "Passed"
+          },
+          "pass_percent": {
+            "type": "integer",
+            "title": "Pass Percent"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/QuestionResult"
+            },
+            "type": "array",
+            "title": "Results"
+          },
+          "course_completed": {
+            "type": "boolean",
+            "title": "Course Completed"
+          },
+          "certificate_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Certificate Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "score",
+          "passed",
+          "pass_percent",
+          "results",
+          "course_completed",
+          "certificate_code"
+        ],
+        "title": "QuizResult"
+      },
+      "QuizSubmission": {
+        "properties": {
+          "answers": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "propertyNames": {
+              "format": "uuid"
+            },
+            "type": "object",
+            "maxProperties": 200,
+            "title": "Answers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "answers"
+        ],
+        "title": "QuizSubmission"
+      },
+      "QuizView": {
+        "properties": {
+          "module_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Module Id"
+          },
+          "course_slug": {
+            "type": "string",
+            "title": "Course Slug"
+          },
+          "course_title": {
+            "type": "string",
+            "title": "Course Title"
+          },
+          "module_title": {
+            "type": "string",
+            "title": "Module Title"
+          },
+          "questions": {
+            "items": {
+              "$ref": "#/components/schemas/QuizQuestion"
+            },
+            "type": "array",
+            "title": "Questions"
+          },
+          "pass_percent": {
+            "type": "integer",
+            "title": "Pass Percent"
+          },
+          "best_score": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Best Score"
+          },
+          "passed": {
+            "type": "boolean",
+            "title": "Passed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "module_id",
+          "course_slug",
+          "course_title",
+          "module_title",
+          "questions",
+          "pass_percent",
+          "best_score",
+          "passed"
+        ],
+        "title": "QuizView"
       },
       "QuotaIn": {
         "properties": {
@@ -12082,6 +16031,69 @@
           "created_at"
         ],
         "title": "SessionSummary"
+      },
+      "SponsoredEnrollment": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "learner": {
+            "$ref": "#/components/schemas/AcademyPerson"
+          },
+          "course": {
+            "$ref": "#/components/schemas/CourseCard"
+          },
+          "progress": {
+            "$ref": "#/components/schemas/CourseProgress"
+          },
+          "enrolled_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Enrolled At"
+          },
+          "last_activity_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Activity At"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          },
+          "certificate_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Certificate Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "learner",
+          "course",
+          "progress",
+          "enrolled_at",
+          "last_activity_at",
+          "completed_at",
+          "certificate_code"
+        ],
+        "title": "SponsoredEnrollment"
       },
       "StageTotal": {
         "properties": {

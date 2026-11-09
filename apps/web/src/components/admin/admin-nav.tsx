@@ -16,6 +16,8 @@ export type AdminNavProps = {
   ai?: boolean;
   /** Show the client portal tab (staff admins and sales). */
   portal?: boolean;
+  /** Show the Academy tab (staff admins and editors). */
+  academy?: boolean;
 };
 
 /** Back-office tabs; the current section is marked with aria-current. */
@@ -30,6 +32,7 @@ export function AdminNavView({
   crmBadge = 0,
   ai = false,
   portal = false,
+  academy = false,
 }: AdminNavProps & { pathname: string | null }) {
   const t = useTranslations("Admin");
   const pathname = currentPathname ?? "";
@@ -44,6 +47,9 @@ export function AdminNavView({
     { key: "media", label: t("nav.media"), href: "/admin/media" as const, active: pathname === "/admin/media" },
     ...(crm
       ? [{ key: "crm", label: t("nav.crm"), href: "/admin/crm" as const, active: pathname.startsWith("/admin/crm") }]
+      : []),
+    ...(academy
+      ? [{ key: "academy", label: t("nav.academy"), href: "/admin/academy" as const, active: pathname.startsWith("/admin/academy") }]
       : []),
     ...(portal
       ? [{ key: "portal", label: t("nav.portal"), href: "/admin/portal" as const, active: pathname.startsWith("/admin/portal") }]

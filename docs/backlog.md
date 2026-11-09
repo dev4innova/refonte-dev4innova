@@ -282,6 +282,20 @@ dans la politique de confidentialité, notifications par e-mail avec un service 
 TASK-103 catalogue · TASK-104 modules · TASK-105 leçons · TASK-106 inscriptions ·
 TASK-107 progression · TASK-108 quiz · TASK-109 certificats.
 
+| Tâche | Livrable | État |
+|---|---|---|
+| TASK-103 | Catalogue public (page Academy, pages de formation, sitemap) ; formations publiques ou réservées, publiées seulement si complètes en FR et EN | ✅ |
+| TASK-104 | Modules ordonnés, rédigés dans `/admin/academy` | ✅ |
+| TASK-105 | Leçons en Markdown FR/EN (aperçu), vidéo YouTube/Vimeo en mode respectueux de la vie privée | ✅ |
+| TASK-106 | Inscription libre aux formations publiques ; inscription par l'équipe des membres d'un client, suivie par ses owners/admins | ✅ |
+| TASK-107 | Progression par leçon et par quiz, reprise là où on s'était arrêté | ✅ |
+| TASK-108 | Quiz à choix unique par module, corrigés par le serveur, 70 %, essais illimités, explications | ✅ |
+| TASK-109 | Certificat automatique, code vérifiable publiquement, PDF | ✅ |
+
+**À prévoir** : accepter l'ADR-0016, renseigner `SITE_URL` côté API, rédiger les premières
+formations, mentionner l'Academy dans la politique de confidentialité, formations payantes avec
+l'EPIC 13.
+
 ### EPIC 13 — Commerce & Billing (P2)
 TASK-110 catalogue · TASK-111 devis · TASK-112 factures · TASK-113 paiements ·
 TASK-114 abonnements · TASK-115 transactions. Le choix du prestataire de paiement

@@ -225,7 +225,8 @@
     "admin": "Administration du site",
     "aiTools": "Outils IA",
     "portal": "Portail client",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "academy": "Mes formations"
   },
   "Common": {
     "learnMore": "En savoir plus",
@@ -453,7 +454,6 @@
         "text": "Des modules à suivre à votre rythme, bientôt disponibles."
       }
     },
-    "comingSoon": "Le catalogue de formations en ligne est en préparation.",
     "ctaTitle": "Un besoin de formation ?",
     "ctaText": "Nous construisons un programme adapté à vos équipes."
   },
@@ -555,7 +555,8 @@
       "crm": "CRM",
       "crmBadge": "{count, plural, one {# nouveauté à traiter} other {# nouveautés à traiter}}",
       "ai": "IA",
-      "portal": "Portail client"
+      "portal": "Portail client",
+      "academy": "Academy"
     },
     "types": {
       "article": "Articles",
@@ -1130,6 +1131,144 @@
         "saved": "Suivi enregistré.",
         "client": "Client : {name}"
       }
+    },
+    "academy": {
+      "title": "Academy",
+      "lead": "Rédigez les formations en français et en anglais, publiez-les et inscrivez les membres de vos clients.",
+      "list": {
+        "empty": "Aucune formation pour le moment.",
+        "stats": "{modules, plural, one {# module} other {# modules}} · {lessons, plural, one {# leçon} other {# leçons}} · {enrollments, plural, one {# inscrit} other {# inscrits}} · {completions, plural, one {# certificat} other {# certificats}}"
+      },
+      "status": {
+        "draft": "Brouillon",
+        "published": "Publiée"
+      },
+      "visibility": {
+        "public": "Catalogue public",
+        "restricted": "Réservée (inscription par l'équipe)"
+      },
+      "fr": "Français",
+      "en": "Anglais",
+      "course": {
+        "new": "Nouvelle formation",
+        "details": "Présentation",
+        "slug": "Adresse (slug)",
+        "slugHelp": "Minuscules, chiffres et tirets : /academy/{slug}",
+        "titleField": "Titre",
+        "summary": "Résumé",
+        "description": "Description (Markdown)",
+        "visibilityField": "Accès",
+        "level": "Niveau",
+        "duration": "Durée indicative (minutes)",
+        "create": "Créer la formation",
+        "save": "Enregistrer",
+        "saved": "Enregistré.",
+        "back": "Toutes les formations",
+        "publish": "Publier",
+        "unpublish": "Repasser en brouillon",
+        "unpublishConfirm": "La formation disparaîtra du catalogue et de l'espace de ses apprenants jusqu'à sa republication. Continuer ?",
+        "delete": "Supprimer la formation",
+        "deleteConfirm": "Supprimer « {name} » et tout son contenu ? Cette action est définitive.",
+        "view": "Voir la page publique",
+        "missingTitle": "À compléter avant publication",
+        "ready": "Tout est prêt pour la publication."
+      },
+      "missing": {
+        "course": "Formation",
+        "module": "Module {ref}",
+        "lesson": "Leçon {ref}",
+        "question": "Question {ref}",
+        "fields": {
+          "title": "titre en anglais",
+          "summary": "résumé en anglais",
+          "modules": "au moins un module",
+          "lessons": "au moins une leçon",
+          "body_fr": "contenu en français",
+          "body_en": "contenu en anglais",
+          "text": "question ou réponses en anglais",
+          "explanation": "explication en anglais"
+        }
+      },
+      "outline": {
+        "title": "Programme",
+        "module": "Module {number}",
+        "addModule": "Ajouter un module",
+        "moduleTitle": "Titre du module",
+        "moduleSummary": "Résumé du module",
+        "editModule": "Modifier le module",
+        "addLesson": "Ajouter une leçon",
+        "lessonTitle": "Titre de la leçon",
+        "edit": "Modifier",
+        "editName": "Modifier {name}",
+        "up": "Monter",
+        "down": "Descendre",
+        "upName": "Monter {name}",
+        "downName": "Descendre {name}",
+        "delete": "Supprimer",
+        "deleteName": "Supprimer {name}",
+        "deleteModuleConfirm": "Supprimer le module « {name} », ses leçons et son quiz ?",
+        "deleteLessonConfirm": "Supprimer la leçon « {name} » ?",
+        "quiz": "Quiz : {count, plural, =0 {aucune question} one {# question} other {# questions}}",
+        "editQuiz": "Gérer le quiz",
+        "noLesson": "Aucune leçon.",
+        "noModule": "Ajoutez un premier module pour structurer la formation."
+      },
+      "lesson": {
+        "back": "Retour au programme",
+        "title": "Leçon {ref}",
+        "body": "Contenu (Markdown)",
+        "video": "Vidéo (lien YouTube ou Vimeo, facultatif)",
+        "videoHelp": "Intégrée en mode respectueux de la vie privée (youtube-nocookie, Vimeo sans suivi).",
+        "duration": "Durée (minutes)",
+        "preview": "Aperçu",
+        "save": "Enregistrer la leçon"
+      },
+      "quiz": {
+        "title": "Quiz du module « {name} »",
+        "lead": "Questions à choix unique, corrigées par le serveur. Réussite à 70 %, essais illimités.",
+        "question": "Question {number}",
+        "prompt": "Question",
+        "option": "Réponse {letter}",
+        "correct": "Bonne réponse",
+        "explanation": "Explication (affichée après correction)",
+        "add": "Ajouter la question",
+        "addTitle": "Nouvelle question",
+        "addOption": "Ajouter une réponse",
+        "save": "Enregistrer",
+        "deleteConfirm": "Supprimer cette question ?",
+        "empty": "Aucune question : le module n'a pas de quiz.",
+        "back": "Retour au programme"
+      },
+      "enrollments": {
+        "title": "Apprenants",
+        "empty": "Personne ne suit cette formation pour le moment.",
+        "enrollTitle": "Inscrire des membres d'un client",
+        "organization": "Organisation cliente",
+        "choose": "Choisir une organisation",
+        "members": "Membres",
+        "noMember": "Cette organisation n'a pas de membre.",
+        "alreadyEnrolled": "déjà inscrit",
+        "enroll": "Inscrire les membres cochés",
+        "result": "{enrolled, plural, =0 {Aucune nouvelle inscription} one {# inscription} other {# inscriptions}}.",
+        "draft": "Publiez la formation pour y inscrire des apprenants.",
+        "self": "Inscription libre",
+        "remove": "Retirer",
+        "removeName": "Retirer {name}",
+        "removeConfirm": "Retirer {name} de la formation ? Sa progression sera perdue ; un certificat déjà délivré reste valable."
+      },
+      "errors": {
+        "signin": "Votre session a expiré : reconnectez-vous.",
+        "forbidden": "Votre rôle ne permet pas cette action.",
+        "notFound": "Cet élément n'existe plus.",
+        "slug": "Cette adresse est déjà utilisée par une autre formation.",
+        "video": "Seules les vidéos YouTube ou Vimeo peuvent être intégrées.",
+        "incomplete": "La formation n'est pas complète dans les deux langues.",
+        "enrolled": "Des apprenants suivent cette formation : repassez-la en brouillon plutôt que de la supprimer.",
+        "conflict": "Cette action n'est plus possible : rechargez la page.",
+        "validation": "Vérifiez les champs du formulaire (le français est obligatoire).",
+        "generic": "Une erreur est survenue. Réessayez dans quelques instants."
+      },
+      "required": "obligatoire"
     }
   },
   "Quote": {
@@ -1624,6 +1763,130 @@
       "fileUnreadable": "Ce fichier est endommagé ou illisible.",
       "generic": "Une erreur est survenue. Réessayez dans quelques instants.",
       "load": "Ces informations sont momentanément indisponibles."
+    }
+  },
+  "Academy": {
+    "metaTitle": "Mes formations",
+    "units": {
+      "hour": "h",
+      "minute": "min"
+    },
+    "levels": {
+      "beginner": "Débutant",
+      "intermediate": "Intermédiaire",
+      "advanced": "Avancé"
+    },
+    "catalog": {
+      "title": "Catalogue des formations",
+      "lead": "Des formations en ligne gratuites, à suivre à votre rythme, avec un certificat vérifiable à la clé.",
+      "empty": "Les premières formations en ligne arrivent bientôt.",
+      "unavailable": "Le catalogue est momentanément indisponible.",
+      "stats": "{modules, plural, one {# module} other {# modules}} · {lessons, plural, one {# leçon} other {# leçons}}",
+      "see": "Voir la formation",
+      "seeName": "Voir la formation {name}"
+    },
+    "course": {
+      "eyebrow": "Formation en ligne",
+      "level": "Niveau : {level}",
+      "duration": "Durée : {duration}",
+      "outline": "Programme",
+      "module": "Module {number}",
+      "quiz": "Quiz de validation : {count, plural, one {# question} other {# questions}}",
+      "video": "Vidéo",
+      "enrollTitle": "Suivre cette formation",
+      "enrollText": "Gratuit. Votre progression est enregistrée et un certificat vous est délivré quand vous avez terminé toutes les leçons et réussi les quiz (70 % de bonnes réponses).",
+      "enroll": "M'inscrire gratuitement",
+      "signIn": "Se connecter pour s'inscrire",
+      "continue": "Continuer la formation",
+      "enrolled": "Vous suivez cette formation."
+    },
+    "learner": {
+      "title": "Mes formations",
+      "lead": "Reprenez là où vous en étiez et retrouvez vos certificats.",
+      "back": "Retour à mon espace",
+      "empty": "Vous ne suivez aucune formation pour le moment.",
+      "browse": "Parcourir le catalogue",
+      "progress": "{percent} % terminé",
+      "progressDetail": "{lessonsDone} sur {lessonsTotal} leçons · {quizzesPassed} sur {quizzesTotal} quiz réussis",
+      "sponsor": "Proposée par {name}",
+      "completed": "Terminée le {date}",
+      "resume": "Reprendre",
+      "start": "Commencer",
+      "open": "Voir le programme",
+      "certificate": "Mon certificat",
+      "allCourses": "Mes formations",
+      "nextLesson": "Leçon suivante : {name}",
+      "lessonDone": "Leçon terminée",
+      "quiz": "Quiz du module",
+      "quizPassed": "Réussi ({score} %)",
+      "quizBest": "Meilleur score : {score} %",
+      "quizTodo": "À faire",
+      "takeQuiz": "Passer le quiz",
+      "retakeQuiz": "Repasser le quiz",
+      "doneTitle": "Bravo, formation terminée !",
+      "doneText": "Votre certificat est disponible. Partagez son lien de vérification ou téléchargez-le en PDF.",
+      "rules": "Pour obtenir le certificat : terminez toutes les leçons et réussissez chaque quiz avec au moins {percent} % de bonnes réponses."
+    },
+    "lesson": {
+      "module": "Module : {name}",
+      "duration": "{minutes} min",
+      "video": "Vidéo : {name}",
+      "markDone": "J'ai terminé cette leçon",
+      "done": "Leçon terminée",
+      "previous": "Leçon précédente",
+      "next": "Leçon suivante",
+      "toQuiz": "Passer au quiz du module",
+      "toCourse": "Retour au programme",
+      "certificate": "Formation terminée : voir mon certificat"
+    },
+    "quiz": {
+      "title": "Quiz : {name}",
+      "lead": "Choisissez une réponse par question. Il faut {percent} % de bonnes réponses ; vous pouvez recommencer autant de fois que nécessaire.",
+      "question": "Question {number}",
+      "submit": "Valider mes réponses",
+      "unanswered": "{count, plural, one {# question est restée sans réponse : elle compte comme fausse.} other {# questions sont restées sans réponse : elles comptent comme fausses.}}",
+      "confirm": "Valider quand même",
+      "score": "Score : {score} %",
+      "passed": "Quiz réussi !",
+      "failed": "Pas encore : il faut {percent} % pour réussir. Relisez les leçons puis réessayez.",
+      "correct": "Bonne réponse",
+      "wrong": "Réponse incorrecte",
+      "rightAnswer": "Bonne réponse : {answer}",
+      "retry": "Recommencer",
+      "back": "Retour au programme",
+      "best": "Votre meilleur score : {score} %"
+    },
+    "certificate": {
+      "metaTitle": "Vérification d'un certificat",
+      "title": "Certificat DEV4INNOVA Academy",
+      "valid": "Certificat authentique",
+      "revoked": "Ce certificat a été révoqué.",
+      "learner": "Délivré à",
+      "course": "Formation",
+      "date": "Date",
+      "duration": "Durée indicative",
+      "code": "Code de vérification",
+      "download": "Télécharger le PDF",
+      "share": "Lien de vérification à partager",
+      "notFound": "Aucun certificat ne correspond à ce code. Vérifiez sa saisie.",
+      "seeCourse": "Découvrir la formation"
+    },
+    "sponsored": {
+      "nav": "Formations",
+      "title": "Formations de l'équipe",
+      "lead": "Progression des membres que DEV4INNOVA a inscrits pour votre organisation.",
+      "empty": "Aucun membre n'est inscrit à une formation pour le moment.",
+      "learner": "Apprenant",
+      "course": "Formation",
+      "progress": "Progression",
+      "lastActivity": "Dernière activité",
+      "certificate": "Certificat",
+      "none": "—"
+    },
+    "errors": {
+      "signin": "Votre session a expiré : reconnectez-vous.",
+      "notFound": "Cette formation n'est pas disponible.",
+      "generic": "Une erreur est survenue. Réessayez dans quelques instants."
     }
   }
 }

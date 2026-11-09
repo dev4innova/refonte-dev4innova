@@ -62,6 +62,9 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
 - Expériences IA (ADR-0013) : sessions privées à leur auteur ; documents analysés non
   conservés (texte extrait seulement, transmis entre balises `<document>` comme données) ;
   plafond quotidien par utilisateur ; purge des sessions inactives après 90 jours.
+- Academy (ADR-0016) : les bonnes réponses des quiz ne quittent jamais l'API avant correction ;
+  vidéos limitées à YouTube/Vimeo en mode respectueux de la vie privée, iframe en `sandbox` ;
+  codes de certificat aléatoires (environ 60 bits), page de vérification non indexée.
 - Diagnostic public (ADR-0014) : lien secret dont seule l'empreinte est stockée, page
   `noindex` sans referrer ; analyse IA seulement après déblocage, une fois par diagnostic,
   sous plafond quotidien global ; réponses transmises au modèle comme données.
