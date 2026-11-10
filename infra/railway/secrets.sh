@@ -24,13 +24,10 @@ LIST="$(node --experimental-strip-types --no-warnings infra/railway/secrets.mts)
 
 hint() {
   case "$1" in
-    AUTH_SESSION_SECRET) echo "clé des cookies de session ; tapez g pour en générer une" ;;
-    SENTRY_DSN) echo "DSN du projet Sentry de ce service" ;;
-    MEDIA_S3_ACCESS_KEY_ID | MEDIA_S3_SECRET_ACCESS_KEY) echo "clé S3 de l'API (buckets médias et portail)" ;;
-    AWS_ACCESS_KEY_ID | AWS_SECRET_ACCESS_KEY) echo "clé S3 dédiée aux sauvegardes" ;;
+    MEDIA_S3_*) echo "onglet Credentials du bucket media" ;;
+    PORTAL_S3_*) echo "onglet Credentials du bucket portal" ;;
+    BACKUP_S3_* | AWS_*) echo "onglet Credentials du bucket backups" ;;
     ANTHROPIC_API_KEY | OPENAI_API_KEY | GEMINI_API_KEY) echo "fournisseur IA ; vide si non utilisé" ;;
-    STRIPE_SECRET_KEY) echo "clé secrète Stripe live (sk_live_…)" ;;
-    STRIPE_WEBHOOK_SECRET) echo "secret du webhook Stripe (whsec_…)" ;;
     BILLING_SELLER_IBAN | BILLING_SELLER_BIC) echo "coordonnées bancaires imprimées sur les factures" ;;
     *) echo "secret" ;;
   esac
@@ -55,9 +52,6 @@ for line in $LIST; do
   stty echo </dev/tty
   printf '\n' >/dev/tty
 
-  if [ "$key" = "AUTH_SESSION_SECRET" ] && [ "$value" = "g" ]; then
-    value="$(openssl rand -base64 48 | tr -d '\n')"
-  fi
   if [ -z "$value" ]; then
     echo "  inchangé"
     continue
@@ -69,7 +63,7 @@ for line in $LIST; do
 done
 IFS="$old_ifs"
 
-# One rebuild per changed service (the web app reads NEXT_PUBLIC_SENTRY_DSN at build time).
+# One redeployment per changed service.
 for svc in $touched; do
   echo "Redéploiement de $svc…"
   railway redeploy --service "$svc" --from-source --yes >/dev/null

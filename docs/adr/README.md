@@ -16,7 +16,7 @@ Statuts : **Proposé** → **Accepté** (validé par le responsable du projet) �
 | [0006](0006-multi-tenancy.md) | Multi-tenancy par organisation | Proposé |
 | [0007](0007-ai-gateway.md) | AI Gateway multi-fournisseurs | Proposé |
 | [0008](0008-internationalization.md) | Internationalisation FR/EN | Proposé |
-| [0009](0009-identity-provider.md) | Fournisseur d'identité : Zitadel Cloud | Accepté |
+| [0009](0009-identity-provider.md) | Fournisseur d'identité : Zitadel Cloud | Remplacé par ADR-0019 |
 | [0010](0010-cms-and-media-storage.md) | CMS intégré, Markdown et stockage objet des médias | Proposé |
 | [0011](0011-crm.md) | CRM intégré : prospects, opportunités et demandes de devis | Proposé |
 | [0012](0012-ai-gateway-implementation.md) | AI Gateway : budgets en euros, prompts versionnés, exposition interne | Proposé |
@@ -26,3 +26,4 @@ Statuts : **Proposé** → **Accepté** (validé par le responsable du projet) �
 | [0016](0016-academy.md) | Academy : formations rédigées dans le back-office, quiz corrigés par le serveur, certificats vérifiables | Proposé |
 | [0017](0017-billing.md) | Commerce et facturation : Stripe Checkout, factures émises par la plateforme | Proposé |
 | [0018](0018-production-on-railway.md) | Production sur Railway : déploiement continu, Sentry, sauvegardes hors Railway | Proposé |
+| [0019](0019-self-reliant-platform.md) | Plateforme autonome : comptes intégrés, Railway Buckets, sans Sentry ni paiement en ligne | Proposé |

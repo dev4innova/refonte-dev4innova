@@ -1,6 +1,7 @@
 # ADR-0018 — Production sur Railway : déploiement continu, observabilité, sauvegardes
 
-- **Statut** : Proposé
+- **Statut** : Proposé — **amendé par l'ADR-0019** : Sentry retiré (journaux Railway seuls),
+  stockage sur Railway Buckets au lieu d'un S3 externe, plus de fournisseur d'identité.
 - **Date** : 2026-11-09
 - **Tâches liées** : TASK-116, TASK-117, TASK-118, TASK-119, TASK-120, TASK-122, TASK-123
 

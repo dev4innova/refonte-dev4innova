@@ -131,8 +131,8 @@ TASK-044 routes privées → TASK-045 tests d'isolation.
 
 | Tâche | Livrable | État |
 |---|---|---|
-| TASK-038 | Zitadel Cloud (ADR-0009 accepté), procédure `docs/architecture/authentication.md` | ✅ |
-| TASK-039 | Web : OIDC + PKCE, session chiffrée `HttpOnly` ; API : vérification JWT (JWKS, `iss`, `aud`, `exp`) | ✅ |
+| TASK-038 | Comptes intégrés (ADR-0019, remplace Zitadel), procédure `docs/architecture/authentication.md` | ✅ |
+| TASK-039 | Connexion, inscription, sessions (Argon2id, jetons hachés, cookie `HttpOnly`), mot de passe temporaire par l'équipe | ✅ |
 | TASK-040 | `users`, création à la première connexion, `GET`/`PATCH /api/v1/me` | ✅ |
 | TASK-041 | `organizations`, création (créateur `owner`), lecture, renommage | ✅ |
 | TASK-042 | `memberships` : ajout par e-mail, changement de rôle, retrait, départ | ✅ |
@@ -321,7 +321,7 @@ TASK-123 validation de mise en production.
 | Tâche | Livrable | État |
 |---|---|---|
 | TASK-116 | CI (7 jobs, dont sécurité) ; déploiement continu Railway de `main` après la CI (« Wait for CI ») ; tests de fumée après chaque déploiement de production | ✅ |
-| TASK-117 | Sentry API et web (serveur et navigateur), sans donnée personnelle, release = commit | ✅ |
+| TASK-117 | Journaux JSON de Railway et identifiant de requête (Sentry retiré, ADR-0019) | ✅ |
 | TASK-118 | Journaux JSON, identifiant de requête (`X-Request-ID`), journal d'accès ; journaux et métriques Railway | ✅ |
 | TASK-119 | Sauvegardes du volume Railway + export quotidien vérifié vers S3 (30 jours) ; restauration testée | ✅ |
 | TASK-120 | Bandit, `eslint-plugin-security`, gitleaks sur tout l'historique | ✅ |
@@ -330,9 +330,22 @@ TASK-123 validation de mise en production.
 | TASK-123 | Liste de contrôle d'ouverture (`docs/deployment/railway.md`), tests de fumée | ✅ (à dérouler à l'ouverture) |
 
 **À prévoir** :
-- accepter l'ADR-0018 ;
-- créer les buckets S3 et les projets Sentry, compléter `SETTINGS` dans `.railway/railway.ts`,
-  puis `railway init`, `make railway-plan`, `make railway-apply`, `make railway-secrets`
-  (`docs/deployment/railway.md`) ;
+- accepter l'ADR-0018 et l'ADR-0019 ;
+- déployer sur Railway en suivant `docs/deployment/railway.md` (tableau de bord, ou
+  `railway config plan` / `apply`) ;
 - tester la restauration, puis dérouler la liste de contrôle d'ouverture ;
 - plus tard : CSP avec nonces, environnement de recette, ZAP, Trivy, pip-audit, tests de charge.
+
+### Autonomie de la plateforme (ADR-0019)
+
+Décision du responsable du projet : ne dépendre d'aucun service externe pour déployer.
+
+| Changement | État |
+|---|---|
+| Comptes intégrés (e-mail et mot de passe) à la place de Zitadel ; pages connexion, inscription, sécurité ; *Admin → Comptes* | ✅ |
+| Fichiers sur Railway Buckets (privés) ; médias du site servis par l'API | ✅ |
+| Sentry retiré (journaux Railway) | ✅ |
+| Paiement en ligne désactivé tant qu'aucun prestataire n'est choisi ; factures et virements conservés | ✅ |
+
+**À prévoir** : envoi d'e-mails (vérification, mot de passe oublié en libre-service,
+invitations), double authentification pour l'équipe, choix du prestataire de paiement (ADR).
