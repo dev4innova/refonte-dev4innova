@@ -52,7 +52,9 @@ Les anciens fichiers « Config as Code » (`railway.json`) ne sont pas utilisés
 les lire le 2026-12-01 et un service ne peut pas être géré par les deux mécanismes.
 
 Le web parle à l'API par le **réseau privé** Railway (`http://api.railway.internal:8000`).
-L'API écoute en IPv6 (`--host ::`), car le réseau privé Railway est en IPv6.
+L'API écoute à la fois en IPv4 (health check et proxy public de Railway) et en IPv6 (réseau
+privé, utilisé par le web) : `uvicorn --host ''`. Avec `--host ::`, asyncio n'ouvre qu'un
+socket IPv6 (`IPV6_V6ONLY`) et le health check est refusé.
 
 Le **stockage objet** (médias publics du CMS, fichiers privés du portail, sauvegardes) reste un
 service S3 externe en Europe (Scaleway Object Storage `fr-par`, ou équivalent). Railway ne

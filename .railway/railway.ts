@@ -178,7 +178,7 @@ export default defineRailway(() => {
     domains: [{ domain: `www.${domain}`, port: 3000 }],
     env: {
       PORT: "3000",
-      // Private network (IPv6): the API listens on "::".
+      // Private network (IPv6): the API listens on IPv4 and IPv6 (uvicorn --host "").
       API_URL: "http://${{api.RAILWAY_PRIVATE_DOMAIN}}:8000",
       // Also a Docker build argument: Railway passes service variables to the build.
       SITE_URL: siteUrl,

@@ -27,6 +27,8 @@ EXPOSE 8000
 HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=5 \
     CMD ["sh", "-c", "python -c \"import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:${PORT:-8000}/api/v1/health/live', timeout=2).status == 200 else 1)\""]
 
-# PORT is set by the platform (Railway); "::" also listens on IPv4 and on the IPv6-only
-# private network. Access logs come from the app (JSON, with the request id).
-CMD ["sh", "-c", "exec uvicorn app.main:app --host :: --port ${PORT:-8000} --no-access-log"]
+# PORT is set by the platform (Railway). An empty host makes asyncio open one socket per
+# address family: IPv4 (Railway's health check and public proxy) and IPv6 (Railway's private
+# network, used by the web app). "--host ::" would listen on IPv6 only: asyncio sets
+# IPV6_V6ONLY, and the health check is then refused. Access logs come from the app (JSON).
+CMD ["sh", "-c", "exec uvicorn app.main:app --host '' --port ${PORT:-8000} --no-access-log"]
