@@ -90,6 +90,11 @@ export default defineRailway(() => {
     region,
   });
   const cache = redis("redis", { region });
+  // Private network only: the services reach both databases on *.railway.internal. Railway
+  // opens a public TCP proxy when it creates PostgreSQL; a null entry removes it (on the
+  // next apply after a creation) and is a no-op when no proxy exists.
+  postgres.networking = { tcpProxies: { "5432": null } };
+  cache.networking = { tcpProxies: { "6379": null } };
 
   /** Settings read by the API and by the scheduled jobs (same image, same guard). */
   const apiSettings = {
