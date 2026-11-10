@@ -602,6 +602,8 @@ async def test_paid_courses_are_bought_before_enrolling(
     )
     offer = (await client.get("/api/v1/billing/courses/ia-generative/offer")).json()
     assert (offer["gross_cents"], offer["billing_organizations"]) == (18000, [])
+    # No payment provider configured in tests: sold on request until one is (ADR-0019).
+    assert offer["online_payment"] is False
     learner = await sign_in("lea")
     refused = await client.post(
         "/api/v1/academy/courses/ia-generative/enroll", headers=learner.headers

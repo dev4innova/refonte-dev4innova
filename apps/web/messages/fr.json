@@ -226,7 +226,8 @@
     "aiTools": "Outils IA",
     "portal": "Portail client",
     "notifications": "Notifications",
-    "academy": "Mes formations"
+    "academy": "Mes formations",
+    "security": "Mot de passe"
   },
   "Common": {
     "learnMore": "En savoir plus",
@@ -557,7 +558,8 @@
       "ai": "IA",
       "portal": "Portail client",
       "academy": "Academy",
-      "billing": "Facturation"
+      "billing": "Facturation",
+      "accounts": "Comptes"
     },
     "types": {
       "article": "Articles",
@@ -2153,7 +2155,9 @@
       "personal": "À titre personnel",
       "buy": "Acheter la formation",
       "pending": "Paiement reçu : votre accès est en cours d'activation. Rechargez la page dans quelques instants.",
-      "reload": "Recharger"
+      "reload": "Recharger",
+      "onRequest": "Cette formation est proposée sur demande : contactez-nous, nous vous envoyons une facture et vous inscrivons dès réception du virement.",
+      "contact": "Nous contacter"
     },
     "errors": {
       "signin": "Votre session a expiré : reconnectez-vous.",
@@ -2167,6 +2171,75 @@
       "generic": "Une erreur est survenue. Réessayez dans quelques instants.",
       "load": "Ces informations sont momentanément indisponibles.",
       "code": "Ce code ou cette formation est déjà utilisé par un autre produit."
+    }
+  },
+  "Auth": {
+    "signIn": {
+      "metaTitle": "Connexion",
+      "title": "Connexion",
+      "intro": "Accédez à votre espace client, à vos formations et à vos outils IA.",
+      "submit": "Se connecter",
+      "sending": "Connexion…",
+      "noAccount": "Pas encore de compte ?",
+      "signUpLink": "Créer un compte",
+      "forgot": "Mot de passe oublié ? Contactez l'équipe DEV4INNOVA : elle vous donnera un mot de passe temporaire."
+    },
+    "signUp": {
+      "metaTitle": "Créer un compte",
+      "title": "Créer un compte",
+      "intro": "Un compte suffit pour suivre une formation, utiliser les outils IA et retrouver vos projets.",
+      "submit": "Créer mon compte",
+      "sending": "Création…",
+      "hasAccount": "Déjà un compte ?",
+      "signInLink": "Se connecter",
+      "privacy": "Vos données servent uniquement à gérer votre compte. Voir notre politique de confidentialité."
+    },
+    "security": {
+      "metaTitle": "Sécurité du compte",
+      "title": "Changer mon mot de passe",
+      "intro": "Vos autres appareils seront déconnectés.",
+      "submit": "Changer le mot de passe",
+      "sending": "Enregistrement…",
+      "successTitle": "Mot de passe changé",
+      "successText": "Vos autres sessions ont été fermées.",
+      "back": "Retour à mon espace"
+    },
+    "reset": {
+      "title": "Mot de passe oublié",
+      "intro": "Générez un mot de passe temporaire pour une personne qui a oublié le sien. Toutes ses sessions sont fermées. Transmettez-le par un canal sûr et demandez-lui de le changer dès sa connexion.",
+      "submit": "Générer un mot de passe temporaire",
+      "sending": "Génération…",
+      "resultTitle": "Mot de passe temporaire",
+      "resultText": "Il ne sera plus affiché : copiez-le maintenant."
+    },
+    "fields": {
+      "name": "Nom complet",
+      "email": "Adresse e-mail",
+      "current": "Mot de passe actuel",
+      "password": "Mot de passe",
+      "newPassword": "Nouveau mot de passe",
+      "confirm": "Confirmez le mot de passe",
+      "passwordHelp": "Au moins 12 caractères. Une phrase de plusieurs mots est facile à retenir et sûre.",
+      "accountEmail": "Adresse e-mail du compte"
+    },
+    "required": "obligatoire",
+    "summary": "Corrigez les champs signalés.",
+    "fieldErrors": {
+      "required": "Ce champ est obligatoire.",
+      "invalidEmail": "Saisissez une adresse e-mail valide.",
+      "tooShort": "Au moins 12 caractères.",
+      "tooLong": "128 caractères au maximum.",
+      "mismatch": "Les deux mots de passe ne correspondent pas.",
+      "sameAsEmail": "Le mot de passe doit être différent de l'adresse e-mail.",
+      "taken": "Un compte existe déjà avec cette adresse. Connectez-vous.",
+      "wrong": "Mot de passe incorrect.",
+      "unknownAccount": "Aucun compte n'utilise cette adresse."
+    },
+    "formErrors": {
+      "invalidCredentials": "Adresse e-mail ou mot de passe incorrect.",
+      "rateLimited": "Trop de tentatives. Réessayez dans quelques minutes.",
+      "unavailable": "Service momentanément indisponible. Réessayez dans quelques instants.",
+      "forbidden": "Votre session a expiré ou vous n'avez pas accès à cette action. Reconnectez-vous."
     }
   }
 }

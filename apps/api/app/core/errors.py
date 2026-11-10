@@ -37,6 +37,13 @@ class ConflictError(AppError):
     code = "conflict"
 
 
+class ValidationError(AppError):
+    """A request that is well-formed but breaks a business rule (422)."""
+
+    status_code = status.HTTP_422_UNPROCESSABLE_CONTENT
+    code = "unprocessable"
+
+
 class ServiceUnavailableError(AppError):
     status_code = status.HTTP_503_SERVICE_UNAVAILABLE
     code = "service_unavailable"

@@ -3,7 +3,7 @@ COMPOSE := docker compose -f infra/docker/compose.yaml
 API := cd apps/api &&
 
 .DEFAULT_GOAL := help
-.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client grant-staff purge-ai-sessions purge-diagnostics daily lint typecheck test security e2e smoke railway-plan railway-report railway-apply railway-secrets check
+.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client grant-staff reset-password purge-ai-sessions purge-diagnostics daily lint typecheck test security e2e smoke railway-plan railway-report railway-apply railway-secrets check
 
 help: ## List commands
 	@grep -E '^[a-z0-9-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -42,8 +42,11 @@ migrate: ## Apply database migrations
 migration: ## Create a migration: make migration name="add users table"
 	$(API) uv run alembic revision --autogenerate -m "$(name)"
 
-grant-staff: ## Make a signed-in user staff: make grant-staff email=a@b.c role=staff_admin
+grant-staff: ## Make an existing account staff: make grant-staff email=a@b.c role=staff_admin
 	$(API) uv run python -m app.cli grant-staff "$(email)" "$(or $(role),staff_editor)"
+
+reset-password: ## Print a temporary password for an account: make reset-password email=a@b.c
+	$(API) uv run python -m app.cli reset-password "$(email)"
 
 purge-ai-sessions: ## Delete AI sessions inactive for longer than AI_SESSION_RETENTION_DAYS
 	$(API) uv run python -m app.cli purge-ai-sessions

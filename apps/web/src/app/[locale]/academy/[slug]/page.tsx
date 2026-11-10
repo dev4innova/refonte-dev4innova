@@ -148,6 +148,15 @@ async function EnrollBox({ locale, slug }: { locale: Locale; slug: string }) {
       <p className="text-xs text-muted-foreground">{tBilling("course.priceHelp")}</p>
     </div>
   ) : null;
+  if (offer && !offer.online_payment) {
+    // No payment provider yet (ADR-0019): sold on request, paid by bank transfer.
+    return (
+      <div className="flex flex-col gap-3">
+        {price}
+        <OnRequest label={tBilling("course.onRequest")} contact={tBilling("course.contact")} />
+      </div>
+    );
+  }
   if (!session) {
     const returnTo = getPathname({ locale, href: { pathname: "/academy/[slug]", params: { slug } } });
     return (
@@ -176,9 +185,24 @@ async function EnrollBox({ locale, slug }: { locale: Locale; slug: string }) {
     return (
       <div className="flex flex-col gap-3">
         {price}
-        <BuyCourse slug={slug} locale={locale} organizations={offer.billing_organizations} />
+        {offer.online_payment ? (
+          <BuyCourse slug={slug} locale={locale} organizations={offer.billing_organizations} />
+        ) : (
+          <OnRequest label={tBilling("course.onRequest")} contact={tBilling("course.contact")} />
+        )}
       </div>
     );
   }
   return <EnrollButton slug={slug} locale={locale} />;
+}
+
+function OnRequest({ label, contact }: { label: string; contact: string }) {
+  return (
+    <div className="flex flex-col gap-3">
+      <p className="text-sm text-muted-foreground">{label}</p>
+      <Button asChild size="lg">
+        <Link href="/contact">{contact}</Link>
+      </Button>
+    </div>
+  );
 }

@@ -1,30 +1,47 @@
 # Authentification et autorisation
 
-Décision : ADR-0009 (Zitadel Cloud). Isolation des organisations : ADR-0006.
+Décision : ADR-0019 (comptes intégrés, remplace l'ADR-0009 Zitadel). Isolation des
+organisations : ADR-0006.
 
 ## Vue d'ensemble
 
 ```
-Navigateur ──(1) /fr/espace-client──▶ Next.js proxy ── pas de cookie ──▶ /api/auth/login
-     │                                                                       │ PKCE + state + nonce
-     │◀──────────────────────────(2) redirection vers Zitadel ◀──────────────┘
-     │── connexion sur Zitadel (mot de passe, MFA, Google…) ──▶ Zitadel
-     │◀──(3) /api/auth/callback?code=… ── échange du code ──▶ jeton d'accès (JWT)
-     │       cookie d4i_session (chiffré, HttpOnly)
-     │──(4) /fr/espace-client ──▶ Next.js ──Bearer JWT──▶ FastAPI ── vérifie le JWT (JWKS)
-                                                              └─ users / memberships (PostgreSQL)
+Navigateur ──/fr/espace-client──▶ Next.js proxy ── pas de cookie ──▶ /api/auth/login
+     │                                                                  │ (redirection)
+     │◀───────────────────────── /fr/connexion?returnTo=… ◀─────────────┘
+     │── formulaire (Server Action) ──▶ Next.js ── POST /api/v1/auth/sign-in ──▶ FastAPI
+     │                                              ◀── jeton de session (une seule fois)
+     │◀── cookie d4i_session (HttpOnly, SameSite=Lax, Secure) + redirection vers returnTo
+     │── /fr/espace-client ──▶ Next.js ── Bearer <jeton> ──▶ FastAPI ── SHA-256(jeton)
+                                                             └─ auth_sessions, users (PostgreSQL)
 ```
+
+- **Inscription** : `POST /api/v1/auth/sign-up`, qui connecte aussitôt.
+- **Déconnexion** : `POST /api/v1/auth/sign-out`, qui révoque la session.
+- **Changement de mot de passe** : `POST /api/v1/me/password`, qui ferme les autres sessions.
+- **Mot de passe oublié** : l'équipe génère un mot de passe temporaire.
+  - Back-office : *Admin → Comptes* (`staff_admin`), qui appelle
+    `POST /api/v1/admin/accounts/password-reset`.
+  - Ou par la CLI : `python -m app.cli reset-password EMAIL`.
 
 | Élément | Fichier |
 |---|---|
-| Démarrage de la connexion | `apps/web/src/app/api/auth/login/route.ts` |
-| Retour de Zitadel | `apps/web/src/app/api/auth/callback/route.ts` |
-| Déconnexion (POST) | `apps/web/src/app/api/auth/logout/route.ts` |
-| Session (cookie chiffré) | `apps/web/src/lib/auth/session.ts`, `seal.ts` |
-| Pages protégées | `apps/web/src/lib/auth/protected-paths.ts` + `src/proxy.ts` |
-| Vérification du jeton | `apps/api/app/modules/identity/auth.py` |
+| Hachage (Argon2id), jetons | `apps/api/app/modules/identity/auth.py` |
+| Comptes, sessions, mots de passe | `apps/api/app/modules/identity/service.py` |
+| Routes `/auth`, `/me/password`, `/admin/accounts` | `apps/api/app/modules/identity/router.py` |
 | Utilisateur courant, contexte d'organisation | `apps/api/app/modules/identity/dependencies.py` |
 | Rôles et permissions | `apps/api/app/modules/identity/permissions.py` |
+| Pages connexion, inscription, sécurité | `apps/web/src/app/[locale]/{sign-in,sign-up,account/security}` |
+| Server Actions et validation | `apps/web/src/lib/auth/actions.ts`, `forms.ts` |
+| Cookie de session | `apps/web/src/lib/auth/session.ts` |
+| Redirection `/api/auth/login`, déconnexion | `apps/web/src/app/api/auth/{login,logout}/route.ts` |
+| Pages protégées | `apps/web/src/lib/auth/protected-paths.ts` + `src/proxy.ts` |
+
+**Sécurité** :
+- mots de passe de 12 à 128 caractères, hachés en Argon2id ;
+- seule l'empreinte du jeton est stockée, et la session expire après 30 jours ;
+- tentatives limitées par client et par adresse (`AUTH_ATTEMPTS_*`) ;
+- réponse identique pour une adresse inconnue ou un mauvais mot de passe.
 
 ## Rôles
 
@@ -38,6 +55,7 @@ Navigateur ──(1) /fr/espace-client──▶ Next.js proxy ── pas de cook
 | `staff_sales` | interne DEV4INNOVA | CRM : lire, écrire, attribuer ; lecture des contenus |
 
 Les rôles `staff_*` sont attribués hors API (`make grant-staff email=... role=...`).
+`staff_admin` peut aussi générer un mot de passe temporaire (`accounts:manage`).
 
 Règles garanties par les tests :
 - une organisation garde toujours au moins un `owner` ;
@@ -56,27 +74,9 @@ async def list_projects(ctx: OrgContext, session: Session) -> list[ProjectOut]:
 `OrgContext` ne se résout que pour un membre de l'organisation de l'URL (sinon 404).
 Ajouter le test d'isolation correspondant dans `tests/test_isolation.py`.
 
-## Configurer Zitadel Cloud
+## Premier administrateur
 
-1. Créer une instance sur zitadel.com en **région UE**. Son URL est l'*issuer*, par exemple
-   `https://dev4innova-xxxx.zitadel.cloud`.
-2. Créer un **projet** « DEV4INNOVA » et noter son **ID**, qui sert d'audience de l'API.
-3. Dans ce projet, créer une **application Web** :
-   - méthode d'authentification **PKCE** (aucun secret client) ;
-   - *Redirect URI* : `https://<site>/api/auth/callback` (et `http://localhost:3000/api/auth/callback`
-     en mode développement) ;
-   - *Post logout URI* : `https://<site>` ;
-   - **Auth Token Type : JWT** (indispensable : l'API vérifie des JWT).
-4. Renseigner les variables, puis redémarrer :
-
-| Variable | Où | Valeur |
-|---|---|---|
-| `AUTH_ISSUER` | API et web | URL de l'instance |
-| `AUTH_AUDIENCE` | API | ID du projet |
-| `AUTH_PROJECT_ID` | web | ID du projet (le même) |
-| `AUTH_CLIENT_ID` | web | Client ID de l'application |
-| `AUTH_SESSION_SECRET` | web | secret aléatoire ≥ 32 caractères (`openssl rand -base64 32`) |
-| `SITE_URL` | web | origine publique (`https://www.dev4innova.com`) |
-
-Sans ces variables, la connexion répond 503 et l'API renvoie 503 sur les endpoints
-authentifiés : le reste du site fonctionne normalement.
+1. Créer son compte sur le site (*Créer un compte*).
+2. Lui donner le rôle depuis le shell du service `api` (Railway) ou en local :
+   `python -m app.cli grant-staff <email> staff_admin` (`make grant-staff …` en local).
+3. Mot de passe oublié par le seul administrateur : `python -m app.cli reset-password <email>`.

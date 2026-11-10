@@ -59,6 +59,8 @@ export type StaffAccess = {
   academy: boolean;
   /** Billing: catalog, quotes, invoices, payments (EPIC 13). */
   billing: boolean;
+  /** Accounts: temporary passwords (ADR-0019). */
+  accounts: boolean;
 };
 
 export function staffAccess(role: StaffRole | null): StaffAccess {
@@ -71,6 +73,7 @@ export function staffAccess(role: StaffRole | null): StaffAccess {
     portal: role === "staff_admin" || role === "staff_sales",
     academy: role === "staff_admin" || role === "staff_editor",
     billing: role === "staff_admin" || role === "staff_sales",
+    accounts: role === "staff_admin",
   };
 }
 

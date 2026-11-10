@@ -1,8 +1,8 @@
-"""Observability (TASK-117, TASK-118, ADR-0018): request ids, access logs, Sentry.
+"""Observability (TASK-117, TASK-118, ADR-0018, ADR-0019): request ids and access logs.
 
 Every request gets an id (taken from a valid X-Request-ID header, else generated), echoed in
-the response, attached to every log line and to Sentry events. Sentry receives errors and a
-sample of traces, never personal data: no cookies, headers, bodies or user details.
+the response and attached to every log line. Errors are read in the platform's logs (JSON,
+filterable by level and request id): no external error tracker.
 """
 
 import logging
@@ -10,11 +10,8 @@ import re
 import time
 import uuid
 from contextvars import ContextVar
-from typing import Any
 
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
-
-from app.core.config import Settings
 
 REQUEST_ID: ContextVar[str | None] = ContextVar("request_id", default=None)
 _VALID_ID = re.compile(r"^[A-Za-z0-9._-]{8,64}$")
@@ -79,36 +76,3 @@ class RequestContextMiddleware:
                     },
                 )
             REQUEST_ID.reset(token)
-
-
-def _scrub(event: Any, _hint: Any) -> Any:
-    """No personal data leaves for Sentry: request details are reduced to method and path."""
-    request = event.get("request")
-    if isinstance(request, dict):
-        event["request"] = {key: request[key] for key in ("method", "url") if key in request}
-        if "url" in event["request"]:
-            event["request"]["url"] = str(event["request"]["url"]).split("?", 1)[0]
-    event.pop("user", None)
-    request_id = REQUEST_ID.get()
-    if request_id:
-        event.setdefault("tags", {})["request_id"] = request_id
-    return event
-
-
-def init_sentry(settings: Settings) -> bool:
-    """Starts Sentry when SENTRY_DSN is set; returns whether it did."""
-    if settings.sentry_dsn is None:
-        return False
-    import sentry_sdk
-
-    sentry_sdk.init(
-        dsn=settings.sentry_dsn.get_secret_value(),
-        environment=settings.app_env,
-        release=settings.release,
-        traces_sample_rate=settings.sentry_traces_sample_rate,
-        send_default_pii=False,
-        max_request_body_size="never",
-        before_send=_scrub,
-        before_send_transaction=_scrub,
-    )
-    return True

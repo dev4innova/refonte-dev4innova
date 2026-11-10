@@ -28,8 +28,12 @@ from app.core.storage import ObjectStorage, PrivateStorage, get_private_storage,
 from app.db.session import dispose_engine, get_engine
 from app.main import create_app
 from app.modules.billing.stripe import SimulatedStripeGateway, get_stripe
-from app.modules.identity.auth import get_token_verifier
-from tests.auth_helpers import bearer, make_token, make_verifier
+from app.modules.identity import auth
+from tests.auth_helpers import PASSWORD, bearer, fast_hasher
+
+# Argon2 with production parameters costs ~100 ms per hash: fast parameters keep the suite
+# quick. Production parameters are tested in test_auth.py.
+auth._hasher = fast_hasher()
 
 API_ROOT = Path(__file__).resolve().parents[1]
 
@@ -42,7 +46,7 @@ def migrated_database() -> None:
 
 TEST_BUCKET = "test-media"
 TEST_PORTAL_BUCKET = "test-portal"
-TEST_MEDIA_URL = "http://localhost:9000/dev4innova-media"
+TEST_MEDIA_URL = "http://localhost:8000/api/v1/media"
 
 
 @pytest.fixture
@@ -78,7 +82,6 @@ async def client(
 ) -> AsyncIterator[AsyncClient]:
     get_settings.cache_clear()
     app = create_app()
-    app.dependency_overrides[get_token_verifier] = make_verifier
     app.dependency_overrides[get_storage] = lambda: storage
     app.dependency_overrides[get_private_storage] = lambda: private_storage
     app.dependency_overrides[get_stripe] = lambda: stripe
@@ -136,25 +139,28 @@ async def client(
 
 @dataclass
 class Actor:
-    """A signed-in user: `headers` carry a valid access token."""
+    """A signed-in user: `headers` carry a valid session token."""
 
-    subject: str
     email: str
     headers: dict[str, str]
     id: str = ""
+    token: str = ""
 
 
 @pytest.fixture
 def sign_in(client: AsyncClient) -> Callable[[str], Awaitable[Actor]]:
-    """Creates a user through the real flow: a token, then GET /me (JIT provisioning)."""
+    """Creates an account through the real flow (POST /auth/sign-up), already signed in."""
 
     async def _sign_in(name: str) -> Actor:
         email = f"{name}@example.com"
-        token = make_token(f"sub-{name}", email=email, name=name.capitalize())
-        actor = Actor(subject=f"sub-{name}", email=email, headers=bearer(token))
-        response = await client.get("/api/v1/me", headers=actor.headers)
-        assert response.status_code == 200, response.text
-        actor.id = response.json()["id"]
-        return actor
+        response = await client.post(
+            "/api/v1/auth/sign-up",
+            json={"email": email, "password": PASSWORD, "display_name": name.capitalize()},
+        )
+        assert response.status_code == 201, response.text
+        body = response.json()
+        return Actor(
+            email=email, headers=bearer(body["token"]), id=body["user"]["id"], token=body["token"]
+        )
 
     return _sign_in

@@ -14,13 +14,8 @@ COPY packages ./packages
 COPY apps/web ./apps/web
 # Public origin, baked into statically prerendered metadata (canonical, hreflang, Open Graph).
 ARG SITE_URL=http://localhost:3000
-# Browser error tracking (optional): inlined in the client bundle at build time.
-ARG NEXT_PUBLIC_SENTRY_DSN=
-ARG NEXT_PUBLIC_SENTRY_ENVIRONMENT=production
 ENV NEXT_TELEMETRY_DISABLED=1 \
-    SITE_URL=${SITE_URL} \
-    NEXT_PUBLIC_SENTRY_DSN=${NEXT_PUBLIC_SENTRY_DSN} \
-    NEXT_PUBLIC_SENTRY_ENVIRONMENT=${NEXT_PUBLIC_SENTRY_ENVIRONMENT}
+    SITE_URL=${SITE_URL}
 RUN pnpm --filter @dev4innova/web build
 
 FROM node:22-alpine AS runtime

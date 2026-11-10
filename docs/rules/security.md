@@ -11,12 +11,19 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
 - Une fuite suspectée = rotation immédiate de la clé, même si le commit est supprimé.
 
 ## Authentification et autorisation
-- L'authentification est déléguée à **Zitadel** (ADR-0009, `docs/architecture/authentication.md`).
-  Aucun mot de passe n'est stocké chez nous.
-- Les jetons ne sont jamais exposés au JavaScript du navigateur : ils restent dans le cookie
-  de session chiffré, côté serveur Next.js. Toute redirection après connexion passe par
-  `sanitizeReturnTo` (pas de redirection ouverte).
-- Le backend vérifie **à chaque requête** la validité du jeton (signature, `exp`, `aud`, `iss`).
+- Comptes intégrés (ADR-0019, `docs/architecture/authentication.md`) :
+  - mots de passe hachés en **Argon2id**, jamais stockés ni journalisés en clair, de 12 à 128
+    caractères ;
+  - jetons de session aléatoires, dont seule l'empreinte SHA-256 est en base ;
+  - tentatives limitées par client et par adresse ;
+  - même réponse pour une adresse inconnue et pour un mauvais mot de passe.
+- Ne jamais utiliser un hachage rapide (SHA, MD5) pour un mot de passe ; ne jamais renvoyer le
+  hachage dans une réponse d'API.
+- Les jetons ne sont jamais exposés au JavaScript du navigateur : ils restent dans un cookie
+  `HttpOnly`, `SameSite=Lax` (`Secure` en HTTPS), posé par une Server Action. Toute
+  redirection après connexion passe par `sanitizeReturnTo` (pas de redirection ouverte).
+- Le backend vérifie **à chaque requête** la session (existence, expiration). Un changement
+  de mot de passe ou une réinitialisation ferme les autres sessions.
 - Autorisation côté serveur uniquement : RBAC par organisation (`owner`, `admin`, `member`,
   rôles `staff_*`), via `OrgContext` et `ctx.require(Permission…)`. Le masquage d'un bouton
   dans l'UI n'est pas une protection.
@@ -106,7 +113,5 @@ Référence : OWASP ASVS niveau 2, OWASP Top 10, OWASP Top 10 for LLM Applicatio
   absente, `SITE_URL` ou CORS non HTTPS, IA ou paiements simulés).
 - En-têtes de sécurité du web : HSTS, `nosniff`, `Referrer-Policy`, `Permissions-Policy`,
   interdiction d'être affiché dans un cadre. Une CSP complète (nonces) reste à faire.
-- Sentry ne reçoit aucune donnée personnelle : ni corps de requête, ni cookie, ni en-tête, ni
-  utilisateur, ni chaîne de requête ; les jetons des liens de résultat sont masqués.
 - Les journaux ne contiennent ni secret, ni jeton, ni corps de requête : méthode, chemin,
   statut, durée et identifiant de requête.

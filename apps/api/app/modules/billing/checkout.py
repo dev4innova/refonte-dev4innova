@@ -283,6 +283,7 @@ async def course_offer(
     return CourseOffer(
         **common.offer(product, locale).model_dump(),
         course_slug=course.slug,
+        online_payment=get_settings().online_payments,
         billing_organizations=[
             BillingOrganization(id=o.id, name=o.name, slug=o.slug) for o in orgs
         ],

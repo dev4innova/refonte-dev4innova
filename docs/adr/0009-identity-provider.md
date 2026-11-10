@@ -1,6 +1,6 @@
 # ADR-0009 — Fournisseur d'identité
 
-- **Statut** : Accepté — **Zitadel Cloud** (décision du responsable du projet, 2026-11-06)
+- **Statut** : Remplacé par ADR-0019 (comptes intégrés, 2026-11-10) — était : Accepté, Zitadel Cloud
 - **Date** : 2026-11-06
 - **Tâches liées** : TASK-038, TASK-039, TASK-044
 

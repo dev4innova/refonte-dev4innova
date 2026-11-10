@@ -23,20 +23,37 @@ def _in(values: tuple[str, ...]) -> str:
 
 
 class User(UUIDPrimaryKeyMixin, TimestampMixin, Base):
-    """A person, authenticated by the identity provider. No password is stored here."""
+    """A person with a built-in account: email and password (ADR-0019)."""
 
     __tablename__ = "users"
     __table_args__ = (CheckConstraint(f"locale IN ({_in(LOCALES)})", name="locale"),)
 
-    external_subject: Mapped[str] = mapped_column(String(255), unique=True)
-    """`sub` claim of the identity provider."""
-    email: Mapped[str | None] = mapped_column(String(320), index=True)
-    """Stored lower-cased (see service.provision_user)."""
+    email: Mapped[str] = mapped_column(String(320), unique=True)
+    """Stored lower-cased; the sign-in identifier."""
+    password_hash: Mapped[str | None] = mapped_column(String(255))
+    """Argon2id hash (never the password). None: the account cannot sign in."""
+    password_changed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     display_name: Mapped[str | None] = mapped_column(String(200))
     locale: Mapped[str] = mapped_column(String(2), default="fr", server_default="fr")
     last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
     memberships: Mapped[list["Membership"]] = relationship(back_populates="user")
+
+
+class AuthSession(UUIDPrimaryKeyMixin, TimestampMixin, Base):
+    """A signed-in browser. Only the SHA-256 of the session token is stored: a database
+    leak gives no usable token. Revoked by sign-out, password change or expiry."""
+
+    __tablename__ = "auth_sessions"
+
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), index=True
+    )
+    token_hash: Mapped[str] = mapped_column(String(64), unique=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    last_used_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+    user: Mapped[User] = relationship()
 
 
 class Organization(UUIDPrimaryKeyMixin, TimestampMixin, Base):

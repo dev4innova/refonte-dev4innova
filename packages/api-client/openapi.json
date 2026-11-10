@@ -59,13 +59,128 @@
         }
       }
     },
+    "/api/v1/auth/sign-up": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Create an account and sign in",
+        "operationId": "auth-sign_up",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUp"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSessionOut"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "An account already uses this email"
+          },
+          "429": {
+            "description": "Too many accounts created from this client"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/sign-in": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Sign in with email and password",
+        "operationId": "auth-sign_in",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSessionOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid email or password (never says which)"
+          },
+          "429": {
+            "description": "Too many attempts for this client or this email"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/sign-out": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Sign out (revokes the session token)",
+        "operationId": "auth-sign_out",
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Missing, invalid or expired session token"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
     "/api/v1/me": {
       "get": {
         "tags": [
           "me"
         ],
         "summary": "Current user and memberships",
-        "description": "Signs the user up on first call (just-in-time provisioning from the token claims).",
         "operationId": "me-get_me",
         "responses": {
           "200": {
@@ -79,7 +194,7 @@
             }
           },
           "401": {
-            "description": "Missing or invalid access token"
+            "description": "Missing, invalid or expired session token"
           }
         },
         "security": [
@@ -116,7 +231,97 @@
             }
           },
           "401": {
-            "description": "Missing or invalid access token"
+            "description": "Missing, invalid or expired session token"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/me/password": {
+      "post": {
+        "tags": [
+          "me"
+        ],
+        "summary": "Change my password (signs out my other sessions)",
+        "operationId": "me-change_password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordChange"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Missing, invalid or expired session token"
+          },
+          "422": {
+            "description": "The new password is not allowed"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/accounts/password-reset": {
+      "post": {
+        "tags": [
+          "accounts-admin"
+        ],
+        "summary": "Give a temporary password to someone who forgot theirs (staff)",
+        "operationId": "accounts-admin-reset_password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordReset"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordResetOut"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing, invalid or expired session token"
+          },
+          "403": {
+            "description": "The member's role does not allow this action"
+          },
+          "404": {
+            "description": "Organization not found, or the user is not a member"
           },
           "422": {
             "description": "Validation Error",
@@ -159,7 +364,7 @@
             }
           },
           "401": {
-            "description": "Missing or invalid access token"
+            "description": "Missing, invalid or expired session token"
           },
           "403": {
             "description": "The member's role does not allow this action"
@@ -202,7 +407,7 @@
             }
           },
           "401": {
-            "description": "Missing or invalid access token"
+            "description": "Missing, invalid or expired session token"
           },
           "403": {
             "description": "The member's role does not allow this action"
@@ -267,7 +472,7 @@
             }
           },
           "401": {
-            "description": "Missing or invalid access token"
+            "description": "Missing, invalid or expired session token"
           },
           "403": {
             "description": "The member's role does not allow this action"
@@ -332,7 +537,7 @@
             }
           },
           "401": {
-            "description": "Missing or invalid access token"
+            "description": "Missing, invalid or expired session token"
           },
           "403": {
             "description": "The member's role does not allow this action"
@@ -393,7 +598,7 @@
             }
           },
           "401": {
-            "description": "Missing or invalid access token"
+            "description": "Missing, invalid or expired session token"
           },
           "403": {
             "description": "The member's role does not allow this action"
@@ -417,7 +622,7 @@
         "tags": [
           "organizations"
         ],
-        "summary": "Add a user (who has already signed in) to the organization",
+        "summary": "Add a user (who already has an account) to the organization",
         "operationId": "organizations-add_member",
         "security": [
           {
@@ -458,7 +663,7 @@
             }
           },
           "401": {
-            "description": "Missing or invalid access token"
+            "description": "Missing, invalid or expired session token"
           },
           "403": {
             "description": "The member's role does not allow this action"
@@ -538,7 +743,7 @@
             }
           },
           "401": {
-            "description": "Missing or invalid access token"
+            "description": "Missing, invalid or expired session token"
           },
           "403": {
             "description": "The member's role does not allow this action"
@@ -599,7 +804,7 @@
             "description": "Successful Response"
           },
           "401": {
-            "description": "Missing or invalid access token"
+            "description": "Missing, invalid or expired session token"
           },
           "403": {
             "description": "The member's role does not allow this action"
@@ -793,6 +998,48 @@
           },
           "404": {
             "description": "No published content with this slug"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/media/{key}": {
+      "get": {
+        "tags": [
+          "content"
+        ],
+        "summary": "A media file of the website (public)",
+        "description": "Media live in a private bucket (Railway Buckets have no public access): only files\nof the CMS media library are served, nothing else stored in the bucket.",
+        "operationId": "content-get_media",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The image",
+            "content": {
+              "image/*": {}
+            }
+          },
+          "404": {
+            "description": "No media with this key"
           },
           "422": {
             "description": "Validation Error",
@@ -12319,6 +12566,29 @@
         "type": "object",
         "title": "AssistantSessionCreate"
       },
+      "AuthSessionOut": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "user": {
+            "$ref": "#/components/schemas/MeOut"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token",
+          "expires_at",
+          "user"
+        ],
+        "title": "AuthSessionOut"
+      },
       "BillingOrganization": {
         "properties": {
           "id": {
@@ -13029,6 +13299,10 @@
             },
             "type": "array",
             "title": "Billing Organizations"
+          },
+          "online_payment": {
+            "type": "boolean",
+            "title": "Online Payment"
           }
         },
         "type": "object",
@@ -13042,7 +13316,8 @@
           "gross_cents",
           "interval",
           "course_slug",
-          "billing_organizations"
+          "billing_organizations",
+          "online_payment"
         ],
         "title": "CourseOffer"
       },
@@ -17139,6 +17414,55 @@
         ],
         "title": "OwnerUpdate"
       },
+      "PasswordChange": {
+        "properties": {
+          "current_password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Current Password"
+          },
+          "new_password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 12,
+            "title": "New Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "current_password",
+          "new_password"
+        ],
+        "title": "PasswordChange"
+      },
+      "PasswordReset": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "title": "PasswordReset"
+      },
+      "PasswordResetOut": {
+        "properties": {
+          "temporary_password": {
+            "type": "string",
+            "title": "Temporary Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "temporary_password"
+        ],
+        "title": "PasswordResetOut"
+      },
       "PaymentOut": {
         "properties": {
           "id": {
@@ -17224,7 +17548,8 @@
           "academy:manage",
           "academy:report",
           "billing:manage",
-          "billing:admin"
+          "billing:admin",
+          "accounts:manage"
         ],
         "title": "Permission"
       },
@@ -20109,6 +20434,64 @@
         ],
         "title": "SessionSummary"
       },
+      "SignIn": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "SignIn"
+      },
+      "SignUp": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 12,
+            "title": "Password"
+          },
+          "display_name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Display Name"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "fr",
+              "en"
+            ],
+            "title": "Locale",
+            "default": "fr"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password",
+          "display_name"
+        ],
+        "title": "SignUp"
+      },
       "SponsoredEnrollment": {
         "properties": {
           "id": {
@@ -21329,7 +21712,7 @@
     "securitySchemes": {
       "HTTPBearer": {
         "type": "http",
-        "description": "Zitadel access token (JWT)",
+        "description": "Session token returned by POST /auth/sign-in",
         "scheme": "bearer"
       }
     }

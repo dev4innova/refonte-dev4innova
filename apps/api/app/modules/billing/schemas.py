@@ -276,6 +276,9 @@ class CourseOffer(Offer):
     course_slug: str
     billing_organizations: list[BillingOrganization]
     """Where the signed-in user may buy (owner or admin); empty when anonymous."""
+    online_payment: bool
+    """False while no payment provider is configured: the course is sold on request
+    (invoice paid by bank transfer, then enrollment by the team)."""
 
 
 # --- Subscriptions (TASK-114) ------------------------------------------------------------

@@ -14,7 +14,11 @@ Backlog et priorités : `docs/backlog.md`. Architecture : `docs/architecture/ove
 
 - **Frontend** `apps/web` : Next.js (App Router) + TypeScript strict, Tailwind CSS, shadcn/ui, next-intl.
 - **Backend** `apps/api` : FastAPI, Pydantic v2, SQLAlchemy 2 (async), Alembic. Python géré avec `uv`.
-- **Données** : PostgreSQL (source de vérité), Redis (cache, rate limiting, files).
+- **Données** : PostgreSQL (source de vérité), Redis (cache, rate limiting, files), stockage
+  S3-compatible (Railway Buckets en production, MinIO en local).
+- **Aucun service tiers requis** (ADR-0019) : comptes intégrés (Argon2id), pas de Sentry ni de
+  paiement en ligne tant qu'aucun prestataire n'est choisi. Seuls les fournisseurs d'IA sont
+  externes.
 - **Monorepo** : pnpm workspaces pour le JS ; `apps/api` est un projet Python autonome.
 - **Local** : Docker Compose (`infra/docker`).
 
@@ -64,10 +68,11 @@ Tout passe par le `Makefile` racine (`make help`) :
 | `make services` | PostgreSQL, Redis et MinIO seuls, pour développer en local avec rechargement |
 | `make api-dev` / `make web-dev` | API (uvicorn --reload) / web (next dev) |
 | `make migration name="..."` / `make migrate` | créer / appliquer une migration Alembic |
-| `make grant-staff email=... role=staff_editor` | donner l'accès au back-office (`/admin`) à un compte déjà connecté une fois |
+| `make grant-staff email=... role=staff_editor` | donner l'accès au back-office (`/admin`) à un compte existant |
+| `make reset-password email=...` | mot de passe temporaire pour un compte (comptes intégrés, ADR-0019) |
 | `make purge-ai-sessions` | supprimer les sessions IA inactives (à planifier chaque jour en production) |
 | `make purge-diagnostics` | supprimer les diagnostics jamais débloqués après 30 jours (à planifier chaque jour) |
-| `make daily` | les deux purges ci-dessus (tâche planifiée `jobs` de Railway en production) |
+| `make daily` | les purges ci-dessus et les sessions expirées (tâche planifiée `jobs` de Railway) |
 | `make security` | Bandit + gitleaks (gitleaks installé localement) |
 | `make smoke web=... api=...` | tests de fumée d'un environnement déployé (`infra/scripts/smoke.sh`) |
 | `make railway-plan` / `make railway-apply` | prévisualiser / appliquer l'infrastructure Railway décrite dans `.railway/railway.ts` |

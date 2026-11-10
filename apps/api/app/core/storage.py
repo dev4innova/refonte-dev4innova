@@ -1,7 +1,9 @@
-"""S3-compatible object storage (ADR-0010). MinIO locally, any S3 provider in EU.
+"""S3-compatible object storage (ADR-0010, ADR-0019): Railway Buckets in production,
+MinIO locally.
 
-Two buckets: public media of the website, and private files of the client portal
-(ADR-0015), only reachable through short-lived signed links issued after an access check.
+Two private buckets: media of the website, served by the API (GET /api/v1/media/{key}),
+and files of the client portal (ADR-0015), only reachable through short-lived signed links
+issued after an access check.
 """
 
 from functools import lru_cache
@@ -10,7 +12,9 @@ from urllib.parse import quote
 
 import boto3
 from botocore.config import Config
+from botocore.exceptions import ClientError
 from fastapi.concurrency import run_in_threadpool
+from pydantic import SecretStr
 
 from app.core.config import get_settings
 
@@ -41,6 +45,20 @@ class ObjectStorage:
 
     async def delete(self, key: str) -> None:
         await run_in_threadpool(lambda: self._client.delete_object(Bucket=self._bucket, Key=key))
+
+    async def get(self, key: str) -> bytes | None:
+        """The object's content, or None when it does not exist."""
+
+        def _get() -> bytes | None:
+            try:
+                response = self._client.get_object(Bucket=self._bucket, Key=key)
+            except ClientError as error:
+                if error.response.get("Error", {}).get("Code") in ("NoSuchKey", "404"):
+                    return None
+                raise
+            return response["Body"].read()
+
+        return await run_in_threadpool(_get)
 
 
 class PrivateStorage:
@@ -88,14 +106,20 @@ def _attachment(filename: str) -> str:
     return f"attachment; filename=\"{ascii_name}\"; filename*=UTF-8''{quote(filename)}"
 
 
-def _client(endpoint_url: str | None) -> "S3Client":
+def _client(
+    endpoint_url: str | None,
+    *,
+    region: str | None = None,
+    access_key_id: str | None = None,
+    secret_access_key: SecretStr | None = None,
+) -> "S3Client":
     settings = get_settings()
-    secret = settings.media_s3_secret_access_key
+    secret = secret_access_key or settings.media_s3_secret_access_key
     return boto3.client(
         "s3",
         endpoint_url=endpoint_url,
-        region_name=settings.media_s3_region,
-        aws_access_key_id=settings.media_s3_access_key_id,
+        region_name=region or settings.media_s3_region,
+        aws_access_key_id=access_key_id or settings.media_s3_access_key_id,
         aws_secret_access_key=secret.get_secret_value() if secret else None,
         config=Config(signature_version="s3v4", s3={"addressing_style": "path"}),
     )
@@ -116,7 +140,17 @@ def get_storage() -> ObjectStorage:
 def get_private_storage() -> PrivateStorage:
     """FastAPI dependency; tests override it (moto)."""
     settings = get_settings()
-    client = _client(settings.media_s3_endpoint_url)
+    endpoint = settings.portal_s3_endpoint_url or settings.media_s3_endpoint_url
+
+    def portal_client(endpoint_url: str | None) -> "S3Client":
+        return _client(
+            endpoint_url,
+            region=settings.portal_s3_region,
+            access_key_id=settings.portal_s3_access_key_id,
+            secret_access_key=settings.portal_s3_secret_access_key,
+        )
+
+    client = portal_client(endpoint)
     public = settings.portal_s3_public_endpoint_url
-    signer = _client(public) if public and public != settings.media_s3_endpoint_url else None
+    signer = portal_client(public) if public and public != endpoint else None
     return PrivateStorage(client, settings.portal_s3_bucket, signer)

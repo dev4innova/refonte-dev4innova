@@ -1,17 +1,40 @@
 """Data access for identity. Tenant-scoped queries always take an organization_id."""
 
 import uuid
+from datetime import datetime
 
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
-from app.modules.identity.models import Membership, Organization, User
+from app.modules.identity.models import AuthSession, Membership, Organization, User
 from app.modules.identity.permissions import Role
 
 
-async def get_user_by_subject(session: AsyncSession, subject: str) -> User | None:
-    return await session.scalar(select(User).where(User.external_subject == subject))
+async def get_active_session(session: AsyncSession, token_hash: str) -> AuthSession | None:
+    return await session.scalar(
+        select(AuthSession)
+        .options(joinedload(AuthSession.user))
+        .where(AuthSession.token_hash == token_hash, AuthSession.expires_at > func.now())
+    )
+
+
+async def delete_session(session: AsyncSession, token_hash: str) -> None:
+    await session.execute(delete(AuthSession).where(AuthSession.token_hash == token_hash))
+
+
+async def delete_sessions_of(
+    session: AsyncSession, user_id: uuid.UUID, *, keep_token_hash: str | None = None
+) -> None:
+    statement = delete(AuthSession).where(AuthSession.user_id == user_id)
+    if keep_token_hash is not None:
+        statement = statement.where(AuthSession.token_hash != keep_token_hash)
+    await session.execute(statement)
+
+
+async def delete_expired_sessions(session: AsyncSession, now: datetime) -> int:
+    result = await session.execute(delete(AuthSession).where(AuthSession.expires_at <= now))
+    return int(getattr(result, "rowcount", 0) or 0)
 
 
 async def get_user_by_email(session: AsyncSession, email: str) -> User | None:

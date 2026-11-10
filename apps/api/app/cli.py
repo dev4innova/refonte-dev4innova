@@ -1,11 +1,14 @@
 """Operations commands.
 
     uv run python -m app.cli grant-staff EMAIL ROLE
+    uv run python -m app.cli reset-password EMAIL
     uv run python -m app.cli purge-ai-sessions [--days N]
     uv run python -m app.cli purge-diagnostics [--days N]
     uv run python -m app.cli daily
 
-`daily` runs every retention purge; the deployment schedules it once a day (ADR-0018).
+`daily` runs every retention purge (expired sign-in sessions included); the deployment
+schedules it once a day (ADR-0018). `reset-password` prints a temporary password for an
+account (ADR-0019), e.g. when the only administrator forgot theirs.
 
 Staff roles are never granted through the API (TASK-043): an operator with database
 access grants the first ones here, e.g. the first back-office administrator.
@@ -28,7 +31,7 @@ async def grant_staff(email: str, role: str) -> str:
     async with AsyncSession(get_engine(), expire_on_commit=False) as session:
         user = await session.scalar(select(User).where(User.email == email.lower()))
         if user is None:
-            raise SystemExit(f"No user with email {email}: they must sign in once first.")
+            raise SystemExit(f"No account with email {email}: create it on the website first.")
         membership = await session.scalar(
             select(Membership).where(
                 Membership.organization_id == INTERNAL_ORGANIZATION_ID,
@@ -67,16 +70,40 @@ async def purge_diagnostics(days: int) -> str:
     return f"{count} anonymous diagnostic(s) deleted"
 
 
+async def reset_password(email: str) -> str:
+    from app.core.errors import NotFoundError
+    from app.db.session import new_session
+    from app.modules.identity.service import reset_password as reset
+
+    async with new_session() as session:
+        try:
+            password = await reset(session, email=email)
+        except NotFoundError as exc:
+            raise SystemExit(f"No account with email {email}.") from exc
+    return f"{email}: temporary password {password} (every session signed out)"
+
+
+async def purge_auth_sessions() -> str:
+    from app.db.session import new_session
+    from app.modules.identity.service import purge_expired_sessions
+
+    async with new_session() as session:
+        count = await purge_expired_sessions(session)
+    return f"{count} expired sign-in session(s) deleted"
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="python -m app.cli")
     commands = parser.add_subparsers(dest="command", required=True)
-    grant = commands.add_parser("grant-staff", help="Make a signed-in user DEV4INNOVA staff")
+    grant = commands.add_parser("grant-staff", help="Make an existing account DEV4INNOVA staff")
     grant.add_argument("email")
     grant.add_argument("role", choices=sorted(STAFF_ROLES))
     purge = commands.add_parser("purge-ai-sessions", help="Delete inactive AI sessions")
     purge.add_argument("--days", type=int, default=None, help="Default: AI_SESSION_RETENTION_DAYS")
     diagnostics = commands.add_parser("purge-diagnostics", help="Delete old anonymous diagnostics")
     diagnostics.add_argument("--days", type=int, default=30)
+    reset = commands.add_parser("reset-password", help="Print a temporary password")
+    reset.add_argument("email")
     commands.add_parser("daily", help="Run the daily retention purges")
     args = parser.parse_args(argv)
 
@@ -86,8 +113,16 @@ def main(argv: list[str] | None = None) -> None:
                 return await purge_ai_sessions(args.days)
             if args.command == "purge-diagnostics":
                 return await purge_diagnostics(args.days)
+            if args.command == "reset-password":
+                return await reset_password(args.email)
             if args.command == "daily":
-                return "\n".join([await purge_ai_sessions(None), await purge_diagnostics(30)])
+                return "\n".join(
+                    [
+                        await purge_ai_sessions(None),
+                        await purge_diagnostics(30),
+                        await purge_auth_sessions(),
+                    ]
+                )
             return await grant_staff(args.email, args.role)
         finally:
             await dispose_engine()
