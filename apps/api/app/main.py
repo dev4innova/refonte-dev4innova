@@ -11,7 +11,7 @@ from fastapi.routing import APIRoute
 from app.core.config import get_settings
 from app.core.errors import register_exception_handlers
 from app.core.logging import configure_logging
-from app.core.observability import RequestContextMiddleware, init_sentry
+from app.core.observability import RequestContextMiddleware
 from app.core.redis import close_redis
 from app.db.session import dispose_engine
 from app.modules.academy.router import admin_router as academy_admin_router
@@ -25,6 +25,7 @@ from app.modules.billing.router import learner_router as billing_learner_router
 from app.modules.billing.router import public_router as billing_router
 from app.modules.billing.router import router as billing_org_router
 from app.modules.cms.router import admin_router as cms_admin_router
+from app.modules.cms.router import media_router
 from app.modules.cms.router import public_router as content_router
 from app.modules.contact.router import router as contact_router
 from app.modules.crm.router import admin_router as crm_admin_router
@@ -32,7 +33,12 @@ from app.modules.crm.router import public_router as quote_router
 from app.modules.diagnostic.router import admin_router as diagnostic_admin_router
 from app.modules.diagnostic.router import public_router as diagnostic_router
 from app.modules.health.router import router as health_router
-from app.modules.identity.router import me_router, org_router
+from app.modules.identity.router import (
+    accounts_admin_router,
+    auth_router,
+    me_router,
+    org_router,
+)
 from app.modules.portal.router import admin_router as portal_admin_router
 from app.modules.portal.router import notifications_router
 from app.modules.portal.router import router as portal_router
@@ -48,7 +54,10 @@ def _operation_id(route: APIRoute) -> str:
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
-    logging.getLogger(__name__).info("Starting %s", get_settings().app_name)
+    settings = get_settings()
+    logging.getLogger(__name__).info(
+        "Starting %s (release %s)", settings.app_name, settings.release or "unknown"
+    )
     yield
     await dispose_engine()
     await close_redis()
@@ -57,7 +66,6 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 def create_app() -> FastAPI:
     settings = get_settings()
     configure_logging(settings.log_level)
-    init_sentry(settings)
 
     app = FastAPI(
         title="DEV4INNOVA API",
@@ -81,10 +89,13 @@ def create_app() -> FastAPI:
 
     api_v1 = APIRouter(prefix=API_V1_PREFIX)
     api_v1.include_router(health_router)
+    api_v1.include_router(auth_router)
     api_v1.include_router(me_router)
+    api_v1.include_router(accounts_admin_router)
     api_v1.include_router(org_router)
     api_v1.include_router(contact_router)
     api_v1.include_router(content_router)
+    api_v1.include_router(media_router)
     api_v1.include_router(cms_admin_router)
     api_v1.include_router(quote_router)
     api_v1.include_router(crm_admin_router)

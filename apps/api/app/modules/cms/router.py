@@ -2,13 +2,16 @@ import uuid
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, File, Query, Response, UploadFile, status
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import get_settings
+from app.core.errors import NotFoundError
 from app.core.storage import ObjectStorage, get_storage
 from app.db.session import get_session
 from app.modules.cms import service
 from app.modules.cms.markdown import render_markdown
+from app.modules.cms.models import Media
 from app.modules.cms.schemas import (
     DocumentCreate,
     DocumentListItem,
@@ -38,6 +41,32 @@ STAFF_ERRORS: dict[int | str, dict[str, str]] = {
 
 admin_router = APIRouter(prefix="/admin/cms", tags=["cms-admin"], responses=STAFF_ERRORS)
 public_router = APIRouter(prefix="/content", tags=["content"])
+media_router = APIRouter(prefix="/media", tags=["content"])
+
+MEDIA_HEADERS = {
+    # Keys are never reused (one per upload): the file can be cached for good.
+    "Cache-Control": "public, max-age=31536000, immutable",
+    "Content-Security-Policy": "default-src 'none'; sandbox",
+}
+
+
+@media_router.get(
+    "/{key:path}",
+    response_class=Response,
+    summary="A media file of the website (public)",
+    responses={
+        200: {"content": {"image/*": {}}, "description": "The image"},
+        404: {"description": "No media with this key"},
+    },
+)
+async def get_media(key: str, session: Session, storage: Storage) -> Response:
+    """Media live in a private bucket (Railway Buckets have no public access): only files
+    of the CMS media library are served, nothing else stored in the bucket."""
+    media = await session.scalar(select(Media).where(Media.storage_key == key))
+    body = await storage.get(key) if media else None
+    if media is None or body is None:
+        raise NotFoundError("Media not found")
+    return Response(content=body, media_type=media.content_type, headers=MEDIA_HEADERS)
 
 
 # --- Back office: documents (TASK-060 to TASK-064, TASK-066) --------------------------

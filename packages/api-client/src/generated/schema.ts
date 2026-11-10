@@ -44,6 +44,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/auth/sign-up": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create an account and sign in */
+        post: operations["auth-sign_up"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/sign-in": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Sign in with email and password */
+        post: operations["auth-sign_in"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/sign-out": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Sign out (revokes the session token) */
+        post: operations["auth-sign_out"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/me": {
         parameters: {
             query?: never;
@@ -51,10 +102,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * Current user and memberships
-         * @description Signs the user up on first call (just-in-time provisioning from the token claims).
-         */
+        /** Current user and memberships */
         get: operations["me-get_me"];
         put?: never;
         post?: never;
@@ -63,6 +111,40 @@ export interface paths {
         head?: never;
         /** Update the current user's profile */
         patch: operations["me-update_me"];
+        trace?: never;
+    };
+    "/api/v1/me/password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Change my password (signs out my other sessions) */
+        post: operations["me-change_password"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/accounts/password-reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Give a temporary password to someone who forgot theirs (staff) */
+        post: operations["accounts-admin-reset_password"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/api/v1/organizations": {
@@ -111,7 +193,7 @@ export interface paths {
         /** Organization members */
         get: operations["organizations-list_members"];
         put?: never;
-        /** Add a user (who has already signed in) to the organization */
+        /** Add a user (who already has an account) to the organization */
         post: operations["organizations-add_member"];
         delete?: never;
         options?: never;
@@ -180,6 +262,27 @@ export interface paths {
         };
         /** A published content (public) */
         get: operations["content-get_public"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/media/{key}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * A media file of the website (public)
+         * @description Media live in a private bucket (Railway Buckets have no public access): only files
+         *     of the CMS media library are served, nothing else stored in the bucket.
+         */
+        get: operations["content-get_media"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3001,6 +3104,17 @@ export interface components {
              */
             title: string;
         };
+        /** AuthSessionOut */
+        AuthSessionOut: {
+            /** Token */
+            token: string;
+            /**
+             * Expires At
+             * Format: date-time
+             */
+            expires_at: string;
+            user: components["schemas"]["MeOut"];
+        };
         /** BillingOrganization */
         BillingOrganization: {
             /**
@@ -3304,6 +3418,8 @@ export interface components {
             course_slug: string;
             /** Billing Organizations */
             billing_organizations: components["schemas"]["BillingOrganization"][];
+            /** Online Payment */
+            online_payment: boolean;
         };
         /** CourseOutline */
         CourseOutline: {
@@ -4864,6 +4980,26 @@ export interface components {
             /** Owner Id */
             owner_id: string | null;
         };
+        /** PasswordChange */
+        PasswordChange: {
+            /** Current Password */
+            current_password: string;
+            /** New Password */
+            new_password: string;
+        };
+        /** PasswordReset */
+        PasswordReset: {
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+        };
+        /** PasswordResetOut */
+        PasswordResetOut: {
+            /** Temporary Password */
+            temporary_password: string;
+        };
         /** PaymentOut */
         PaymentOut: {
             /**
@@ -4898,7 +5034,7 @@ export interface components {
          * Permission
          * @enum {string}
          */
-        Permission: "organization:read" | "organization:update" | "members:read" | "members:manage" | "content:read" | "content:write" | "content:publish" | "media:manage" | "crm:read" | "crm:write" | "crm:assign" | "crm:delete" | "ai:manage" | "ai:use" | "ai:usage:read" | "portal:use" | "portal:review" | "portal:manage" | "academy:manage" | "academy:report" | "billing:manage" | "billing:admin";
+        Permission: "organization:read" | "organization:update" | "members:read" | "members:manage" | "content:read" | "content:write" | "content:publish" | "media:manage" | "crm:read" | "crm:write" | "crm:assign" | "crm:delete" | "ai:manage" | "ai:use" | "ai:usage:read" | "portal:use" | "portal:review" | "portal:manage" | "academy:manage" | "academy:report" | "billing:manage" | "billing:admin" | "accounts:manage";
         /**
          * Person
          * @description A staff member, as shown next to the records they own or wrote.
@@ -5934,6 +6070,34 @@ export interface components {
              */
             created_at: string;
         };
+        /** SignIn */
+        SignIn: {
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /** Password */
+            password: string;
+        };
+        /** SignUp */
+        SignUp: {
+            /**
+             * Email
+             * Format: email
+             */
+            email: string;
+            /** Password */
+            password: string;
+            /** Display Name */
+            display_name: string;
+            /**
+             * Locale
+             * @default fr
+             * @enum {string}
+             */
+            locale: "fr" | "en";
+        };
         /** SponsoredEnrollment */
         SponsoredEnrollment: {
             /**
@@ -6451,6 +6615,125 @@ export interface operations {
             };
         };
     };
+    "auth-sign_up": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SignUp"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthSessionOut"];
+                };
+            };
+            /** @description An account already uses this email */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+            /** @description Too many accounts created from this client */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "auth-sign_in": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SignIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthSessionOut"];
+                };
+            };
+            /** @description Invalid email or password (never says which) */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+            /** @description Too many attempts for this client or this email */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "auth-sign_out": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing, invalid or expired session token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     "me-get_me": {
         parameters: {
             query?: never;
@@ -6469,7 +6752,7 @@ export interface operations {
                     "application/json": components["schemas"]["MeOut"];
                 };
             };
-            /** @description Missing or invalid access token */
+            /** @description Missing, invalid or expired session token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6500,8 +6783,98 @@ export interface operations {
                     "application/json": components["schemas"]["MeOut"];
                 };
             };
-            /** @description Missing or invalid access token */
+            /** @description Missing, invalid or expired session token */
             401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "me-change_password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordChange"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing, invalid or expired session token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The new password is not allowed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "accounts-admin-reset_password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordReset"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PasswordResetOut"];
+                };
+            };
+            /** @description Missing, invalid or expired session token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description The member's role does not allow this action */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Organization not found, or the user is not a member */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -6536,7 +6909,7 @@ export interface operations {
                     "application/json": components["schemas"]["OrganizationWithRole"][];
                 };
             };
-            /** @description Missing or invalid access token */
+            /** @description Missing, invalid or expired session token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6581,7 +6954,7 @@ export interface operations {
                     "application/json": components["schemas"]["OrganizationWithRole"];
                 };
             };
-            /** @description Missing or invalid access token */
+            /** @description Missing, invalid or expired session token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6640,7 +7013,7 @@ export interface operations {
                     "application/json": components["schemas"]["OrganizationWithRole"];
                 };
             };
-            /** @description Missing or invalid access token */
+            /** @description Missing, invalid or expired session token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6696,7 +7069,7 @@ export interface operations {
                     "application/json": components["schemas"]["OrganizationWithRole"];
                 };
             };
-            /** @description Missing or invalid access token */
+            /** @description Missing, invalid or expired session token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6748,7 +7121,7 @@ export interface operations {
                     "application/json": components["schemas"]["MemberOut"][];
                 };
             };
-            /** @description Missing or invalid access token */
+            /** @description Missing, invalid or expired session token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6804,7 +7177,7 @@ export interface operations {
                     "application/json": components["schemas"]["MemberOut"];
                 };
             };
-            /** @description Missing or invalid access token */
+            /** @description Missing, invalid or expired session token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6862,7 +7235,7 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Missing or invalid access token */
+            /** @description Missing, invalid or expired session token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -6926,7 +7299,7 @@ export interface operations {
                     "application/json": components["schemas"]["MemberOut"];
                 };
             };
-            /** @description Missing or invalid access token */
+            /** @description Missing, invalid or expired session token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -7062,6 +7435,44 @@ export interface operations {
                 };
             };
             /** @description No published content with this slug */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    "content-get_media": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The image */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "image/*": unknown;
+                };
+            };
+            /** @description No media with this key */
             404: {
                 headers: {
                     [name: string]: unknown;

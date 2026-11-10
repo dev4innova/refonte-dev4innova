@@ -24,8 +24,6 @@ class Settings(BaseSettings):
     app_version: str = "0.1.0"
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = "INFO"
     # Observability (EPIC 14, ADR-0018)
-    sentry_dsn: SecretStr | None = None
-    sentry_traces_sample_rate: float = Field(default=0.1, ge=0, le=1)
     release: str | None = Field(
         default=None, validation_alias=AliasChoices("RELEASE", "RAILWAY_GIT_COMMIT_SHA")
     )
@@ -48,18 +46,25 @@ class Settings(BaseSettings):
         return value
 
     cors_allowed_origins: list[str] = ["http://localhost:3000"]
-    # Media storage (S3-compatible object storage; MinIO locally). ADR-0010.
+    # Media storage: S3-compatible bucket (Railway Buckets in production, MinIO locally).
+    # ADR-0010, ADR-0019.
     media_s3_bucket: str = "dev4innova-media"
     media_s3_region: str = "fr-par"
     media_s3_endpoint_url: str | None = None
     """Set for MinIO / non-AWS providers, e.g. http://localhost:9000."""
     media_s3_access_key_id: str | None = None
     media_s3_secret_access_key: SecretStr | None = None
-    media_public_base_url: str = "http://localhost:9000/dev4innova-media"
-    """Public URL prefix of stored media (CDN or public bucket), without trailing slash."""
+    media_public_base_url: str = "http://localhost:8000/api/v1/media"
+    """Public URL prefix of the media, without trailing slash: the API's media endpoint
+    (the bucket itself stays private), e.g. https://api.dev4innova.com/api/v1/media."""
     media_max_bytes: int = Field(default=5 * 1024 * 1024, ge=1024)
-    # Client portal files (EPIC 11): private bucket, same S3 provider and credentials.
+    # Client portal files (EPIC 11): private bucket. Endpoint, region and credentials
+    # default to the media ones (one provider locally; one key per bucket on Railway).
     portal_s3_bucket: str = "dev4innova-portal"
+    portal_s3_endpoint_url: str | None = None
+    portal_s3_region: str | None = None
+    portal_s3_access_key_id: str | None = None
+    portal_s3_secret_access_key: SecretStr | None = None
     portal_s3_public_endpoint_url: str | None = None
     """S3 endpoint as seen by browsers, used to sign download links (defaults to the
     endpoint above): e.g. http://localhost:9000 when the API reaches MinIO as minio:9000."""
@@ -89,16 +94,10 @@ class Settings(BaseSettings):
     """Use X-Forwarded-For for rate limiting. Enable only when the API is reachable
     exclusively through the web app or a trusted reverse proxy."""
 
-    # Identity provider (Zitadel, OIDC). Access tokens must be JWTs (ADR-0009).
-    auth_issuer: str | None = None
-    """Issuer URL, e.g. https://dev4innova-xxxx.zitadel.cloud (no trailing slash)."""
-    auth_audience: str | None = None
-    """Expected `aud` claim: the Zitadel project ID."""
-    auth_jwks_url: str | None = None
-    """Defaults to {auth_issuer}/oauth/v2/keys."""
-    auth_userinfo_url: str | None = None
-    """Defaults to {auth_issuer}/oidc/v1/userinfo (Zitadel)."""
-    auth_leeway_seconds: int = Field(default=30, ge=0, le=300)
+    # Built-in accounts (ADR-0019): sign-in attempts allowed per client and per email.
+    auth_attempts_per_client: int = Field(default=20, ge=1)
+    auth_attempts_per_email: int = Field(default=10, ge=1)
+    auth_attempts_window_seconds: int = Field(default=900, ge=60)
     health_check_timeout_seconds: float = Field(default=2.0, gt=0)
 
     # AI Gateway (ADR-0007, ADR-0012). Provider keys stay in the backend; a provider
@@ -131,14 +130,20 @@ class Settings(BaseSettings):
     def is_production(self) -> bool:
         return self.app_env == "production"
 
+    @property
+    def online_payments(self) -> bool:
+        """Online payment (checkout, subscriptions, paid courses) needs a configured payment
+        provider; without one, invoices are paid by bank transfer (ADR-0019)."""
+        return self.stripe_secret_key is not None or (
+            self.billing_simulated_payments and not self.is_production
+        )
+
     @model_validator(mode="after")
     def _safe_in_production(self) -> "Settings":
         """Refuses to start production with development settings (ADR-0018)."""
         if self.app_env != "production":
             return self
         problems = []
-        if not self.auth_issuer:
-            problems.append("AUTH_ISSUER is required")
         if not self.site_url.startswith("https://"):
             problems.append("SITE_URL must be https")
         if any(not origin.startswith("https://") for origin in self.cors_allowed_origins):
@@ -148,18 +153,6 @@ class Settings(BaseSettings):
         if problems:
             raise ValueError("Unsafe production settings: " + "; ".join(problems))
         return self
-
-    @property
-    def jwks_url(self) -> str | None:
-        if self.auth_jwks_url:
-            return self.auth_jwks_url
-        return f"{self.auth_issuer.rstrip('/')}/oauth/v2/keys" if self.auth_issuer else None
-
-    @property
-    def userinfo_url(self) -> str | None:
-        if self.auth_userinfo_url:
-            return self.auth_userinfo_url
-        return f"{self.auth_issuer.rstrip('/')}/oidc/v1/userinfo" if self.auth_issuer else None
 
 
 @lru_cache

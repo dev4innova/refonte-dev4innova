@@ -2,29 +2,41 @@ import "server-only";
 
 import { cookies } from "next/headers";
 
-import { getAuthConfig, SESSION_COOKIE } from "./config";
-import { unseal } from "./seal";
+import { getSiteUrl } from "@/lib/site-url";
+
+import { SESSION_COOKIE } from "./cookie-names";
+
+export { SESSION_COOKIE };
 
 export type Session = {
-  sub: string;
+  /** Opaque session token issued by the API (ADR-0019), sent as a Bearer token. */
   accessToken: string;
-  /** Unix time (seconds) when the access token expires. */
-  expiresAt: number;
 };
 
 /**
- * Reads the encrypted session cookie. Returns null when signed out, when the cookie was
- * tampered with or when the access token has expired (the user signs in again; Zitadel's
- * own session usually makes that instant).
+ * Reads the session cookie. The API checks the token on every call: an expired or
+ * revoked session answers 401 and the page sends the user to sign-in.
  */
 export async function getSession(): Promise<Session | null> {
-  // Read the cookies FIRST, even when auth is not configured: it marks the caller as
-  // request-time. Otherwise Next prerenders it at build time (Cache Components), and a
-  // "signed out" result would be frozen into the static page for every visitor.
-  const cookie = (await cookies()).get(SESSION_COOKIE)?.value;
-  const config = getAuthConfig();
-  if (!config) return null;
-  const session = await unseal<Session>(cookie, config.sessionSecret);
-  if (!session || session.expiresAt <= Date.now() / 1000 + 10) return null;
-  return session;
+  // Reading cookies marks the caller as request-time: never prerendered (Cache Components).
+  const token = (await cookies()).get(SESSION_COOKIE)?.value;
+  return token ? { accessToken: token } : null;
+}
+
+/**
+ * Stores the token in an httpOnly cookie: unreadable by scripts, sent to this site only
+ * (SameSite=Lax), over HTTPS in production. Server Actions and Route Handlers only.
+ */
+export async function setSessionCookie(token: string, expiresAt: string): Promise<void> {
+  (await cookies()).set(SESSION_COOKIE, token, {
+    httpOnly: true,
+    secure: getSiteUrl().startsWith("https://"),
+    sameSite: "lax",
+    path: "/",
+    expires: new Date(expiresAt),
+  });
+}
+
+export async function clearSessionCookie(): Promise<void> {
+  (await cookies()).delete({ name: SESSION_COOKIE, path: "/" });
 }

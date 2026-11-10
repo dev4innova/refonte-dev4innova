@@ -62,6 +62,9 @@ class Permission(StrEnum):
     """See the organization's quotes and invoices, accept quotes, pay, subscribe."""
     BILLING_ADMIN = "billing:admin"
     """Staff: catalog, quotes, invoices, credit notes, payments of every client."""
+    # Built-in accounts (ADR-0019)
+    ACCOUNTS_MANAGE = "accounts:manage"
+    """Staff: give a temporary password to someone who forgot theirs."""
 
 
 _READ: Final = frozenset(

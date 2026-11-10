@@ -79,8 +79,7 @@ async def client_billing(
         subscriptions=await checkout.subscriptions_out(session, subscription_rows, locale),
         offers=await catalog.subscription_offers(session, locale),
         due_cents=sum(i.due_cents for i in invoice_list),
-        online_payment=settings.stripe_secret_key is not None
-        or settings.billing_simulated_payments,
+        online_payment=settings.online_payments,
     )
 
 

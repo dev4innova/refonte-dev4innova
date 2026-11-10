@@ -1,4 +1,4 @@
-"""Production readiness (EPIC 14): request ids, access logs, Sentry scrubbing, safe settings."""
+"""Production readiness (EPIC 14): request ids, access logs, safe settings."""
 
 import json
 import logging
@@ -9,7 +9,7 @@ from pydantic import ValidationError
 
 from app.core.config import Settings
 from app.core.logging import JsonFormatter
-from app.core.observability import REQUEST_ID, RequestIdFilter, _scrub, init_sentry
+from app.core.observability import RequestIdFilter
 
 BASE = {
     "database_url": "postgresql+asyncpg://u:p@localhost/db",
@@ -41,33 +41,6 @@ async def test_every_response_carries_a_request_id(
     assert payload["http"]["method"] == "GET" and payload["http"]["duration_ms"] >= 0
 
 
-def test_sentry_events_carry_no_personal_data() -> None:
-    token = REQUEST_ID.set("req-12345678")
-    try:
-        event = _scrub(
-            {
-                "request": {
-                    "method": "POST",
-                    "url": "https://api.example.com/api/v1/diagnostic/unlock?token=secret",
-                    "headers": {"Authorization": "Bearer x", "Cookie": "s=1"},
-                    "data": {"email": "a@b.c"},
-                },
-                "user": {"email": "a@b.c", "ip_address": "1.2.3.4"},
-            },
-            None,
-        )
-    finally:
-        REQUEST_ID.reset(token)
-    assert event == {
-        "request": {"method": "POST", "url": "https://api.example.com/api/v1/diagnostic/unlock"},
-        "tags": {"request_id": "req-12345678"},
-    }
-
-
-def test_sentry_only_starts_with_a_dsn() -> None:
-    assert init_sentry(Settings(**BASE)) is False
-
-
 def test_production_refuses_development_settings() -> None:
     with pytest.raises(ValidationError) as error:
         Settings(
@@ -77,12 +50,11 @@ def test_production_refuses_development_settings() -> None:
             billing_simulated_payments=True,
         )
     message = str(error.value)
-    assert "AUTH_ISSUER is required" in message and "SITE_URL must be https" in message
+    assert "SITE_URL must be https" in message
     assert "simulated AI or payments" in message and "CORS_ALLOWED_ORIGINS" in message
     safe = Settings(
         **BASE,
         app_env="production",
-        auth_issuer="https://auth.example.com",
         site_url="https://www.dev4innova.fr",
         cors_allowed_origins=["https://www.dev4innova.fr"],
     )
@@ -103,3 +75,11 @@ def test_the_railway_database_url_gets_the_asyncpg_driver(scheme: str) -> None:
         str(settings.database_url)
         == "postgresql+asyncpg://u:p@postgres.railway.internal:5432/railway"
     )
+
+
+def test_online_payments_need_a_payment_provider() -> None:
+    from pydantic import SecretStr
+
+    assert Settings(**BASE).online_payments is False
+    assert Settings(**BASE, billing_simulated_payments=True).online_payments is True
+    assert Settings(**BASE, stripe_secret_key=SecretStr("sk_test_x")).online_payments is True

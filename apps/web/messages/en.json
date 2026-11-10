@@ -226,7 +226,8 @@
     "aiTools": "AI tools",
     "portal": "Client portal",
     "notifications": "Notifications",
-    "academy": "My courses"
+    "academy": "My courses",
+    "security": "Password"
   },
   "Common": {
     "learnMore": "Learn more",
@@ -557,7 +558,8 @@
       "ai": "AI",
       "portal": "Client portal",
       "academy": "Academy",
-      "billing": "Billing"
+      "billing": "Billing",
+      "accounts": "Accounts"
     },
     "types": {
       "article": "Articles",
@@ -2153,7 +2155,9 @@
       "personal": "As an individual",
       "buy": "Buy the course",
       "pending": "Payment received: your access is being activated. Reload the page in a moment.",
-      "reload": "Reload"
+      "reload": "Reload",
+      "onRequest": "This course is available on request: contact us, we send you an invoice and enroll you as soon as the bank transfer is received.",
+      "contact": "Contact us"
     },
     "errors": {
       "signin": "Your session has expired: please sign in again.",
@@ -2167,6 +2171,75 @@
       "generic": "Something went wrong. Please try again in a moment.",
       "load": "This information is temporarily unavailable.",
       "code": "Another product already uses this code or this course."
+    }
+  },
+  "Auth": {
+    "signIn": {
+      "metaTitle": "Sign in",
+      "title": "Sign in",
+      "intro": "Access your client area, your courses and your AI tools.",
+      "submit": "Sign in",
+      "sending": "Signing in…",
+      "noAccount": "No account yet?",
+      "signUpLink": "Create an account",
+      "forgot": "Forgot your password? Contact the DEV4INNOVA team: they will give you a temporary one."
+    },
+    "signUp": {
+      "metaTitle": "Create an account",
+      "title": "Create an account",
+      "intro": "One account to take a course, use the AI tools and follow your projects.",
+      "submit": "Create my account",
+      "sending": "Creating…",
+      "hasAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "privacy": "Your data is only used to manage your account. See our privacy policy."
+    },
+    "security": {
+      "metaTitle": "Account security",
+      "title": "Change my password",
+      "intro": "Your other devices will be signed out.",
+      "submit": "Change password",
+      "sending": "Saving…",
+      "successTitle": "Password changed",
+      "successText": "Your other sessions have been closed.",
+      "back": "Back to my account"
+    },
+    "reset": {
+      "title": "Forgotten password",
+      "intro": "Generate a temporary password for someone who forgot theirs. All their sessions are closed. Send it through a trusted channel and ask them to change it once signed in.",
+      "submit": "Generate a temporary password",
+      "sending": "Generating…",
+      "resultTitle": "Temporary password",
+      "resultText": "It will not be shown again: copy it now."
+    },
+    "fields": {
+      "name": "Full name",
+      "email": "Email address",
+      "current": "Current password",
+      "password": "Password",
+      "newPassword": "New password",
+      "confirm": "Confirm the password",
+      "passwordHelp": "At least 12 characters. A phrase of several words is easy to remember and safe.",
+      "accountEmail": "Email address of the account"
+    },
+    "required": "required",
+    "summary": "Please fix the highlighted fields.",
+    "fieldErrors": {
+      "required": "This field is required.",
+      "invalidEmail": "Enter a valid email address.",
+      "tooShort": "At least 12 characters.",
+      "tooLong": "128 characters at most.",
+      "mismatch": "The two passwords do not match.",
+      "sameAsEmail": "The password must differ from the email address.",
+      "taken": "An account already uses this address. Sign in instead.",
+      "wrong": "Incorrect password.",
+      "unknownAccount": "No account uses this address."
+    },
+    "formErrors": {
+      "invalidCredentials": "Incorrect email address or password.",
+      "rateLimited": "Too many attempts. Try again in a few minutes.",
+      "unavailable": "Service temporarily unavailable. Try again in a moment.",
+      "forbidden": "Your session has expired or you cannot do this. Please sign in again."
     }
   }
 }

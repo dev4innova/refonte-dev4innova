@@ -20,6 +20,8 @@ export type AdminNavProps = {
   academy?: boolean;
   /** Show the billing tab (staff admins and sales). */
   billing?: boolean;
+  /** Show the accounts tab (staff admins): temporary passwords. */
+  accounts?: boolean;
 };
 
 /** Back-office tabs; the current section is marked with aria-current. */
@@ -36,6 +38,7 @@ export function AdminNavView({
   portal = false,
   academy = false,
   billing = false,
+  accounts = false,
 }: AdminNavProps & { pathname: string | null }) {
   const t = useTranslations("Admin");
   const pathname = currentPathname ?? "";
@@ -62,6 +65,9 @@ export function AdminNavView({
       : []),
     ...(ai
       ? [{ key: "ai", label: t("nav.ai"), href: "/admin/ai" as const, active: pathname.startsWith("/admin/ai") }]
+      : []),
+    ...(accounts
+      ? [{ key: "accounts", label: t("nav.accounts"), href: "/admin/accounts" as const, active: pathname.startsWith("/admin/accounts") }]
       : []),
   ];
 

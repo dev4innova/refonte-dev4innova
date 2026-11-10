@@ -1,4 +1,4 @@
-import { Bell, Building2, FolderKanban, GraduationCap, LogOut, Sparkles } from "lucide-react";
+import { Bell, Building2, FolderKanban, GraduationCap, KeyRound, LogOut, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
@@ -79,6 +79,12 @@ async function AccountDetails({ locale }: { locale: Locale }) {
           <Link href="/account/academy">
             <GraduationCap aria-hidden="true" />
             {t("academy")}
+          </Link>
+        </Button>
+        <Button asChild variant="outline">
+          <Link href="/account/security">
+            <KeyRound aria-hidden="true" />
+            {t("security")}
           </Link>
         </Button>
         <Button asChild variant="outline">

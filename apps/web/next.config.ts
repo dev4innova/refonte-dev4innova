@@ -7,7 +7,7 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 /*
  * Baseline security headers on every response (TASK-123). No full Content-Security-Policy yet:
- * Next inline scripts, video embeds and Sentry would need nonces; frame-ancestors still
+ * Next inline scripts and video embeds would need nonces; frame-ancestors still
  * forbids framing the site (clickjacking). HSTS is ignored by browsers over plain HTTP.
  */
 const SECURITY_HEADERS = [

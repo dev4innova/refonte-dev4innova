@@ -1,13 +1,26 @@
+import hashlib
 import uuid
-from typing import cast
+from typing import Annotated, cast
 
-from fastapi import APIRouter, Response, status
+from fastapi import APIRouter, Depends, Request, Response, status
+from redis.asyncio import Redis
 
+from app.core import rate_limit
+from app.core.config import get_settings
+from app.core.redis import get_redis
+from app.modules.contact.router import client_key
 from app.modules.identity import repository, service
-from app.modules.identity.dependencies import CurrentUser, OrgContext, Session
-from app.modules.identity.models import Membership
+from app.modules.identity.dependencies import (
+    AccessToken,
+    CurrentUser,
+    OrgContext,
+    Session,
+    StaffContext,
+)
+from app.modules.identity.models import Membership, User
 from app.modules.identity.permissions import Permission, Role
 from app.modules.identity.schemas import (
+    AuthSessionOut,
     Locale,
     MemberAdd,
     MemberOut,
@@ -19,10 +32,15 @@ from app.modules.identity.schemas import (
     OrganizationOut,
     OrganizationUpdate,
     OrganizationWithRole,
+    PasswordChange,
+    PasswordReset,
+    PasswordResetOut,
+    SignIn,
+    SignUp,
 )
 
 AUTH_ERRORS: dict[int | str, dict[str, str]] = {
-    401: {"description": "Missing or invalid access token"},
+    401: {"description": "Missing, invalid or expired session token"},
 }
 ORG_ERRORS: dict[int | str, dict[str, str]] = {
     **AUTH_ERRORS,
@@ -31,10 +49,18 @@ ORG_ERRORS: dict[int | str, dict[str, str]] = {
 }
 
 me_router = APIRouter(prefix="/me", tags=["me"], responses=AUTH_ERRORS)
+auth_router = APIRouter(prefix="/auth", tags=["auth"])
+accounts_admin_router = APIRouter(
+    prefix="/admin/accounts", tags=["accounts-admin"], responses=ORG_ERRORS
+)
+
+SIGN_UPS_PER_CLIENT = 10
+"""Account creations per client address and hour."""
+Redis_ = Annotated[Redis, Depends(get_redis)]
 org_router = APIRouter(prefix="/organizations", tags=["organizations"], responses=ORG_ERRORS)
 
 
-async def _me(session: Session, user: CurrentUser) -> MeOut:
+async def _me(session: Session, user: User) -> MeOut:
     memberships = await repository.list_user_memberships(session, user.id)
     return MeOut(
         id=user.id,
@@ -53,10 +79,130 @@ async def _me(session: Session, user: CurrentUser) -> MeOut:
     )
 
 
+# --- Accounts and sessions (ADR-0019) ---------------------------------------------
+
+
+def _email_key(email: str) -> str:
+    return hashlib.sha256(email.strip().lower().encode()).hexdigest()[:32]
+
+
+@auth_router.post(
+    "/sign-up",
+    response_model=AuthSessionOut,
+    status_code=status.HTTP_201_CREATED,
+    summary="Create an account and sign in",
+    responses={
+        409: {"description": "An account already uses this email"},
+        429: {"description": "Too many accounts created from this client"},
+    },
+)
+async def sign_up(
+    data: SignUp, request: Request, session: Session, redis: Redis_
+) -> AuthSessionOut:
+    await rate_limit.hit(
+        redis,
+        scope="auth:sign-up",
+        key=client_key(request),
+        limit=SIGN_UPS_PER_CLIENT,
+        window_seconds=3600,
+    )
+    await service.register(
+        session,
+        email=data.email,
+        password=data.password,
+        display_name=data.display_name,
+        locale=data.locale,
+    )
+    signed_in = await service.sign_in(session, email=data.email, password=data.password)
+    return await _session_out(session, signed_in)
+
+
+@auth_router.post(
+    "/sign-in",
+    response_model=AuthSessionOut,
+    summary="Sign in with email and password",
+    responses={
+        401: {"description": "Invalid email or password (never says which)"},
+        429: {"description": "Too many attempts for this client or this email"},
+    },
+)
+async def sign_in(
+    data: SignIn, request: Request, session: Session, redis: Redis_
+) -> AuthSessionOut:
+    settings = get_settings()
+    window = settings.auth_attempts_window_seconds
+    await rate_limit.hit(
+        redis,
+        scope="auth:sign-in:client",
+        key=client_key(request),
+        limit=settings.auth_attempts_per_client,
+        window_seconds=window,
+    )
+    await rate_limit.hit(
+        redis,
+        scope="auth:sign-in:email",
+        key=_email_key(data.email),
+        limit=settings.auth_attempts_per_email,
+        window_seconds=window,
+    )
+    signed_in = await service.sign_in(session, email=data.email, password=data.password)
+    return await _session_out(session, signed_in)
+
+
+async def _session_out(session: Session, signed_in: service.SignedIn) -> AuthSessionOut:
+    return AuthSessionOut(
+        token=signed_in.token,
+        expires_at=signed_in.expires_at,
+        user=await _me(session, signed_in.user),
+    )
+
+
+@auth_router.post(
+    "/sign-out",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Sign out (revokes the session token)",
+    responses=AUTH_ERRORS,
+)
+async def sign_out(token: AccessToken, session: Session) -> Response:
+    await service.sign_out(session, token)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
 @me_router.get("", response_model=MeOut, summary="Current user and memberships")
 async def get_me(session: Session, user: CurrentUser) -> MeOut:
-    """Signs the user up on first call (just-in-time provisioning from the token claims)."""
     return await _me(session, user)
+
+
+@me_router.post(
+    "/password",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Change my password (signs out my other sessions)",
+    responses={422: {"description": "The new password is not allowed"}},
+)
+async def change_password(
+    data: PasswordChange, user: CurrentUser, token: AccessToken, session: Session
+) -> Response:
+    await service.change_password(
+        session,
+        user,
+        current_password=data.current_password,
+        new_password=data.new_password,
+        token=token,
+    )
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@accounts_admin_router.post(
+    "/password-reset",
+    response_model=PasswordResetOut,
+    summary="Give a temporary password to someone who forgot theirs (staff)",
+)
+async def reset_password(
+    data: PasswordReset, ctx: StaffContext, session: Session
+) -> PasswordResetOut:
+    ctx.require(Permission.ACCOUNTS_MANAGE)
+    password = await service.reset_password(session, email=data.email)
+    return PasswordResetOut(temporary_password=password)
 
 
 @me_router.patch("", response_model=MeOut, summary="Update the current user's profile")
@@ -130,7 +276,7 @@ async def list_members(ctx: OrgContext, session: Session) -> list[MemberOut]:
     "/{organization_id}/members",
     response_model=MemberOut,
     status_code=status.HTTP_201_CREATED,
-    summary="Add a user (who has already signed in) to the organization",
+    summary="Add a user (who already has an account) to the organization",
     responses={409: {"description": "Already a member"}},
 )
 async def add_member(data: MemberAdd, ctx: OrgContext, session: Session) -> MemberOut:

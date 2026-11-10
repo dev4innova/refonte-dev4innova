@@ -1,16 +1,21 @@
-"""Identity business rules: provisioning, profiles, organizations, memberships."""
+"""Identity business rules: accounts and sessions, profiles, organizations, memberships."""
 
 import uuid
-from collections.abc import Awaitable, Callable
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.errors import ConflictError, NotFoundError, PermissionDeniedError
-from app.modules.identity import repository
-from app.modules.identity.auth import TokenClaims
-from app.modules.identity.models import Membership, Organization, User
+from app.core.errors import (
+    ConflictError,
+    NotFoundError,
+    PermissionDeniedError,
+    UnauthorizedError,
+    ValidationError,
+)
+from app.modules.identity import auth, repository
+from app.modules.identity.models import AuthSession, Membership, Organization, User
 from app.modules.identity.permissions import Permission, Role, can_assign, permissions_for
 from app.modules.identity.schemas import MeUpdate
 
@@ -39,65 +44,132 @@ class OrganizationContext:
             raise PermissionDeniedError("You do not have permission to perform this action")
 
 
-# --- Users (TASK-040) -------------------------------------------------------------
+# --- Accounts and sessions (ADR-0019) ---------------------------------------------
 
 
+SESSION_LIFETIME = timedelta(days=30)
 LAST_SEEN_RESOLUTION = timedelta(minutes=15)
-
-UserInfoFetcher = Callable[[str], Awaitable[dict[str, object]]]
-"""Calls the identity provider's userinfo endpoint with an access token."""
 
 
 def _locale(value: str | None) -> str:
     return value[:2] if value and value[:2] in ("fr", "en") else "fr"
 
 
-async def provision_user(
-    session: AsyncSession,
-    claims: TokenClaims,
-    *,
-    access_token: str = "",
-    fetch_userinfo: UserInfoFetcher | None = None,
+def _check_password(password: str, email: str) -> None:
+    if len(password) < auth.PASSWORD_MIN_LENGTH or len(password) > auth.PASSWORD_MAX_LENGTH:
+        raise ValidationError("Password length is not allowed", {"field": "password"})
+    if password.strip().lower() == email.lower():
+        raise ValidationError("The password must differ from the email", {"field": "password"})
+
+
+async def register(
+    session: AsyncSession, *, email: str, password: str, display_name: str, locale: str
 ) -> User:
-    """Creates the user on first login (just-in-time) and keeps identity claims fresh.
-
-    Zitadel access tokens do not carry the email by default: it is read once from the
-    userinfo endpoint. Writes happen only when something changed, or every 15 minutes
-    for `last_login_at`, so authenticated requests do not all write to the database.
-    """
-    user = await repository.get_user_by_subject(session, claims.subject)
-
-    if fetch_userinfo and not claims.email and (user is None or user.email is None):
-        info = await fetch_userinfo(access_token)
-        claims = replace(
-            claims,
-            email=claims.email or _str(info.get("email")),
-            name=claims.name or _str(info.get("name")),
-            locale=claims.locale or _str(info.get("locale")),
-        )
-
-    now = datetime.now(UTC)
-    changed = user is None
-    if user is None:
-        user = User(external_subject=claims.subject, locale=_locale(claims.locale))
-        session.add(user)
-    if claims.email and user.email != claims.email.lower():
-        user.email = claims.email.lower()
-        changed = True
-    if claims.name and not user.display_name:
-        user.display_name = claims.name
-        changed = True
-    if user.last_login_at is None or now - user.last_login_at > LAST_SEEN_RESOLUTION:
-        user.last_login_at = now
-        changed = True
-
-    if changed:
+    email = email.strip().lower()
+    _check_password(password, email)
+    if await repository.get_user_by_email(session, email) is not None:
+        raise ConflictError("An account already uses this email", {"field": "email"})
+    user = User(
+        email=email,
+        password_hash=auth.hash_password(password),
+        password_changed_at=datetime.now(UTC),
+        display_name=display_name.strip(),
+        locale=_locale(locale),
+    )
+    session.add(user)
+    try:
         await session.commit()
+    except IntegrityError as exc:  # two sign-ups with the same email at once
+        await session.rollback()
+        raise ConflictError("An account already uses this email", {"field": "email"}) from exc
     return user
 
 
-def _str(value: object) -> str | None:
-    return value if isinstance(value, str) and value else None
+@dataclass(frozen=True)
+class SignedIn:
+    user: User
+    token: str
+    """Returned once; only its hash is stored."""
+    expires_at: datetime
+
+
+async def _open_session(session: AsyncSession, user: User) -> SignedIn:
+    now = datetime.now(UTC)
+    token = auth.new_session_token()
+    expires_at = now + SESSION_LIFETIME
+    session.add(
+        AuthSession(
+            user_id=user.id,
+            token_hash=auth.token_hash(token),
+            expires_at=expires_at,
+            last_used_at=now,
+        )
+    )
+    user.last_login_at = now
+    await session.commit()
+    return SignedIn(user=user, token=token, expires_at=expires_at)
+
+
+async def sign_in(session: AsyncSession, *, email: str, password: str) -> SignedIn:
+    """The same error, after the same work, for an unknown email or a wrong password."""
+    user = await repository.get_user_by_email(session, email.strip().lower())
+    if not auth.verify_password(user.password_hash if user else None, password) or user is None:
+        raise UnauthorizedError("Invalid email or password")
+    assert user.password_hash is not None
+    if auth.needs_rehash(user.password_hash):
+        user.password_hash = auth.hash_password(password)
+    return await _open_session(session, user)
+
+
+async def authenticate(session: AsyncSession, token: str) -> User:
+    """The user behind a session token; refreshes `last_used_at` at most every 15 min."""
+    found = await repository.get_active_session(session, auth.token_hash(token))
+    if found is None:
+        raise UnauthorizedError("Invalid or expired session")
+    now = datetime.now(UTC)
+    if now - found.last_used_at > LAST_SEEN_RESOLUTION:
+        found.last_used_at = now
+        await session.commit()
+    return found.user
+
+
+async def sign_out(session: AsyncSession, token: str) -> None:
+    await repository.delete_session(session, auth.token_hash(token))
+    await session.commit()
+
+
+async def change_password(
+    session: AsyncSession, user: User, *, current_password: str, new_password: str, token: str
+) -> None:
+    """Every other session is signed out; the current one stays."""
+    if not auth.verify_password(user.password_hash, current_password):
+        # 422, not 401: the session is valid, only this field is wrong.
+        raise ValidationError("The current password is wrong", {"field": "current_password"})
+    _check_password(new_password, user.email)
+    user.password_hash = auth.hash_password(new_password)
+    user.password_changed_at = datetime.now(UTC)
+    await repository.delete_sessions_of(session, user.id, keep_token_hash=auth.token_hash(token))
+    await session.commit()
+
+
+async def reset_password(session: AsyncSession, *, email: str) -> str:
+    """Staff action for a forgotten password: a temporary password, shown once, and every
+    session of the account is signed out."""
+    user = await repository.get_user_by_email(session, email.strip().lower())
+    if user is None:
+        raise NotFoundError("No account with this email", {"field": "email"})
+    password = auth.temporary_password()
+    user.password_hash = auth.hash_password(password)
+    user.password_changed_at = datetime.now(UTC)
+    await repository.delete_sessions_of(session, user.id)
+    await session.commit()
+    return password
+
+
+async def purge_expired_sessions(session: AsyncSession) -> int:
+    deleted = await repository.delete_expired_sessions(session, datetime.now(UTC))
+    await session.commit()
+    return deleted
 
 
 async def update_profile(session: AsyncSession, user: User, data: MeUpdate) -> User:
@@ -155,8 +227,7 @@ async def add_member(
 
     user = await repository.get_user_by_email(session, email)
     if user is None:
-        # Invitations of people who never signed in arrive with transactional emails.
-        raise NotFoundError("No user with this email has signed in yet", {"field": "email"})
+        raise NotFoundError("No account with this email yet", {"field": "email"})
     existing = await repository.get_membership(
         session, organization_id=ctx.organization_id, user_id=user.id
     )

@@ -109,7 +109,7 @@ async def test_sales_staff_can_read_but_not_write(client: AsyncClient, sign_in: 
 
 
 async def test_grant_staff_requires_a_signed_in_user() -> None:
-    with pytest.raises(SystemExit, match="must sign in once"):
+    with pytest.raises(SystemExit, match="create it on the website first"):
         await grant_staff("nobody@example.com", "staff_admin")
 
 
@@ -290,6 +290,22 @@ async def test_uploads_an_image_without_its_metadata(
     key = media["url"].removeprefix(f"{TEST_MEDIA_URL}/")
     stored = storage._client.get_object(Bucket=TEST_BUCKET, Key=key)["Body"].read()
     assert b"secret description" not in stored  # re-encoded: EXIF removed
+
+    # The bucket is private: the API serves the media library publicly (ADR-0019).
+    served = await client.get(f"/api/v1/media/{key}")
+    assert served.status_code == 200
+    assert served.content == stored
+    assert served.headers["content-type"] == "image/png"
+    assert "immutable" in served.headers["cache-control"]
+    assert served.headers["x-content-type-options"] == "nosniff"
+
+
+async def test_only_media_of_the_library_are_served(
+    client: AsyncClient, storage: ObjectStorage
+) -> None:
+    await storage.put("other/secret.txt", b"not a media", "text/plain")
+    assert (await client.get("/api/v1/media/other/secret.txt")).status_code == 404
+    assert (await client.get("/api/v1/media/media/missing.png")).status_code == 404
 
 
 @pytest.mark.parametrize(
