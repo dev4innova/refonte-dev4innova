@@ -4,6 +4,9 @@
  *   railway config plan --json | node --experimental-strip-types infra/railway/plan-report.mts
  *   (pnpm railway:report, make railway-report)
  *
+ * Also reads the output of `railway config apply --json`: it then adds the server's apply
+ * status and diagnostics, which the CLI does not print when an apply fails.
+ *
  * Reads the plan JSON on stdin and prints what matters before an apply: region, image and
  * volumes of every database (now and as declared), the destructive changes, the custom
  * domains, the canvas groups and the variable names of every service. It never prints a
@@ -116,11 +119,31 @@ for (const resource of desired.filter((r) => r.type === "service")) {
   const existing = Object.keys(before?.variables ?? {});
   line(`${resource.address}`);
   line(`  exists on Railway: ${before ? "yes" : "no (will be created)"}`);
+  // The plan hides a single-region, single-replica placement (it counts as the default),
+  // so the region of a service is read here from the current graph.
+  line(`  region: ${before ? regions(before) : "-"}  →  ${regions(resource)}`);
   line(`  group: ${before?.groupId ?? "(none)"}  →  ${resource.groupId ?? "(none)"}`);
   line(`  custom domains on Railway: ${domains.join(", ") || "none"} | declared: ${wanted.join(", ") || "none"}`);
   line(`  variables declared (${variables.length}): ${variables.join(", ")}`);
   const removed = existing.filter((key) => !variables.includes(key));
   if (removed.length) line(`  variables on Railway NOT declared (would be deleted): ${removed.join(", ")}`);
+}
+
+const applied: Json | undefined = plan.applyResult;
+if (applied) {
+  line("\n== Apply result (from Railway) ==");
+  line(`status: ${applied.status ?? "(none)"}`);
+  for (const change of applied.changes ?? []) {
+    line(`- ${change.status ?? "?"}: ${change.summary ?? change.path ?? change.kind}`);
+  }
+  const serverDiagnostics = Array.isArray(applied.diagnostics) ? applied.diagnostics : [];
+  for (const diagnostic of serverDiagnostics) {
+    line(
+      typeof diagnostic === "string"
+        ? `- ${diagnostic}`
+        : `- ${diagnostic.severity ?? "error"} ${diagnostic.path ?? ""}: ${diagnostic.message ?? JSON.stringify(diagnostic)}`,
+    );
+  }
 }
 
 line("\n== Diagnostics ==");

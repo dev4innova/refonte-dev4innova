@@ -23,8 +23,8 @@ Décisions du responsable du projet :
 ## Décision
 
 ### Hébergement : un projet Railway, région européenne
-Un projet Railway, avec l'environnement `production`, dans la région **EU West (Amsterdam,
-`europe-west4`)**.
+Un projet Railway, avec l'environnement `production`, dans la région **EU West (Amsterdam),
+identifiant de déploiement `europe-west4-drams3a`**.
 
 Tout le projet est décrit dans un seul fichier versionné, **`.railway/railway.ts`**
 (« Infrastructure as Code » de Railway, SDK `railway`, version figée) :

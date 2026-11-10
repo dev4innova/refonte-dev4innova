@@ -59,7 +59,7 @@ make railway-apply
 ```
 
 `apply` recalcule le plan, l'affiche et demande confirmation. Il crée PostgreSQL 17 et Redis
-(région EU West, `europe-west4`), les services `web`, `api`, `jobs` et `backup` reliés au dépôt (branche `main`,
+(région EU West, identifiant `europe-west4-drams3a`), les services `web`, `api`, `jobs` et `backup` reliés au dépôt (branche `main`,
 déploiement seulement une fois la CI verte) et toutes leurs variables.
 
 **Domaines personnalisés** : la CLI ne sait pas les créer. Un domaine déclaré dans `domains` mais
@@ -125,12 +125,12 @@ supprimerait.
 ### Recréer PostgreSQL et Redis (avant l'ouverture uniquement)
 
 À faire seulement tant que les bases ne contiennent aucune donnée utile, par exemple si elles ont
-été créées hors de `europe-west4` ou dans une autre version de PostgreSQL. Déplacer une base vers
+été créées hors de la région EU West ou dans une autre version de PostgreSQL. Déplacer une base vers
 une autre région est une opération destructive pour Railway (« Move database … ») ; la recréer
 est plus propre et garantit la bonne région, la bonne version et un mot de passe neuf.
 
 1. **Constat** : `make railway-report`. Attendu : seuls changements destructifs, « Move database
-   postgres to europe-west4 » et « Move database redis to europe-west4 ». **S'il y en a d'autres**
+   postgres to europe-west4-drams3a » et « Move database redis to europe-west4-drams3a ». **S'il y en a d'autres**
    (suppression de service, de variable), s'arrêter et les analyser.
 2. **Vérifier que les bases sont vides** (tableau de bord → `postgres` → *Data* : au plus les
    tables créées par les migrations ; `redis` : cache uniquement).
@@ -141,7 +141,7 @@ est plus propre et garantit la bonne région, la bonne version et un mot de pass
    Entre cette étape et l'étape 5, `api`, `jobs` et `backup` n'ont plus de base : un déploiement
    lancé à ce moment échouerait (sans effet, rien n'est ouvert). Enchaîner sans attendre.
 4. **Nouveau constat** : `make railway-report`. Attendu : les deux bases « will be created » en
-   `europe-west4` avec l'image `postgres-ssl:17` et `railwayapp/redis:8.2`, **aucun changement
+   `europe-west4-drams3a` avec l'image `postgres-ssl:17` et `railwayapp/redis:8.2`, **aucun changement
    destructif**, les domaines `www` et `api` présents et déclarés.
 5. **Appliquer** : `make railway-apply` (pas de `--confirm-destructive` : rien n'est destructif).
 6. **Fermer le proxy public** : Railway ouvre un proxy TCP public à la création de PostgreSQL.
@@ -150,8 +150,28 @@ est plus propre et garantit la bonne région, la bonne version et un mot de pass
 7. **Vérifier** dans le tableau de bord : région *EU West* pour `postgres`, `redis` et le volume de
    `postgres` ; la variable `REDIS_URL` existe sur `redis` et `DATABASE_URL` sur `postgres` ;
    `api` redéployé et `/api/v1/health/ready` répond 200 (`make smoke web=... api=...`).
-   Si une base apparaît encore hors `europe-west4`, ou si `REDIS_URL` manque, s'arrêter : ne pas
+   Si une base apparaît encore hors EU West, ou si `REDIS_URL` manque, s'arrêter : ne pas
    recommencer la suppression.
+
+### Région et échec d'un apply
+
+- **Identifiant de région** : le placement attend l'identifiant de déploiement Railway,
+  `europe-west4-drams3a` pour EU West (Amsterdam), et non `europe-west4`, qui n'est que le nom
+  de la région du fournisseur.
+- **Le plan n'affiche pas la région des services** : une seule région avec une seule réplique
+  est traitée comme la valeur par défaut et sort du diff. `make railway-report` lit la région
+  réelle de chaque service et de chaque base.
+- **« Apply finished with status failed »** sans autre détail : le serveur a rejeté l'ensemble
+  des changements, et la CLI n'affiche pas ses messages. Relancer d'abord `make railway-report` :
+  si le plan est identique, rien n'a été appliqué. Pour lire le message du serveur, et
+  seulement juste après avoir relu ce plan, car `--json` applique **sans confirmation** :
+
+  ```bash
+  railway config apply --json | node --experimental-strip-types --no-warnings infra/railway/plan-report.mts
+  ```
+
+  La section « Apply result » affiche le statut et les diagnostics de Railway. Un changement
+  destructif reste bloqué sans `--confirm-destructive`.
 
 ### Variables gérées par le fichier
 
@@ -248,7 +268,7 @@ le résultat dans le registre d'exploitation.
       (hébergeur, sous-traitants, durées de conservation).
 - [ ] Tous les services déployés, health checks verts, domaines et certificats actifs.
 - [ ] `make railway-plan` n'annonce aucun changement (la production correspond au fichier).
-- [ ] `make railway-report` : bases et volumes en `europe-west4`, PostgreSQL 17, aucun proxy TCP
+- [ ] `make railway-report` : bases, volumes et services en `europe-west4-drams3a`, PostgreSQL 17, aucun proxy TCP
       public, chaque service dans son groupe, domaines `www` et `api` présents.
 - [ ] Domaines : port cible `3000` pour `www` et `8000` pour `api` (*service → Settings →
       Networking*) ; la configuration ne gère pas le port d'un domaine déjà créé.

@@ -28,8 +28,12 @@ const CHANGE_ME = "CHANGE_ME";
 const SETTINGS = {
   repository: "dev4innova/refonte-dev4innova",
   branch: "main",
-  /** Railway region: EU West (Amsterdam). */
-  region: "europe-west4",
+  /**
+   * Railway region EU West (Amsterdam, NL). Placement (multiRegionConfig) takes the
+   * deployment region ID, "europe-west4-drams3a"; "europe-west4" is only its provider-region
+   * label (see `railway scale`).
+   */
+  region: "europe-west4-drams3a",
   /** Public site https://www.<domain> and API https://api.<domain>. */
   domain: "dev4innova.com",
   /** Zitadel production instance (docs/architecture/authentication.md). */
