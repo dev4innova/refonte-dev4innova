@@ -3,7 +3,7 @@ COMPOSE := docker compose -f infra/docker/compose.yaml
 API := cd apps/api &&
 
 .DEFAULT_GOAL := help
-.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client grant-staff purge-ai-sessions purge-diagnostics daily lint typecheck test security e2e smoke railway-plan railway-apply railway-secrets check
+.PHONY: help setup up down logs ps services api-dev web-dev migrate migration client grant-staff purge-ai-sessions purge-diagnostics daily lint typecheck test security e2e smoke railway-plan railway-report railway-apply railway-secrets check
 
 help: ## List commands
 	@grep -E '^[a-z0-9-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-12s %s\n", $$1, $$2}'
@@ -83,6 +83,9 @@ smoke: ## Smoke-test a deployment: make smoke web=https://www.example.com api=ht
 
 railway-plan: ## Preview the Railway production changes from .railway/railway.ts (changes nothing)
 	railway config plan
+
+railway-report: ## Read-only report of the plan: regions, images, volumes, destructive changes, domains
+	railway config plan --json | node --experimental-strip-types --no-warnings infra/railway/plan-report.mts
 
 railway-apply: ## Apply .railway/railway.ts to Railway production (asks for confirmation)
 	railway config apply

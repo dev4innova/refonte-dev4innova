@@ -161,6 +161,10 @@ Objectifs : perte de données maximale 24 h (RPO), remise en service en moins de
   - **Migrations rétrocompatibles** : obligatoires, à cause du chevauchement de 30 s.
   - **Variables gérées par le fichier** : une variable ajoutée à la main dans Railway sans être
     déclarée dans `.railway/railway.ts` est supprimée au prochain `apply` (le plan l'annonce).
+  - **Limites de la CLI** : elle ne crée pas les domaines personnalisés (ajoutés dans le
+    tableau de bord, puis jamais modifiés par `apply`) ; elle ouvre un proxy TCP public à la
+    création de PostgreSQL, fermé par le fichier au `apply` suivant ; elle classe « sûr » un
+    changement d'image de base de données, à vérifier avec `make railway-report`.
   - **SDK en bêta** : l'API du SDK `railway` peut changer ; il est figé dans `package.json` et
     sa montée de version se vérifie par un `plan` sans changement.
   - **Coût Railway** : facturé à l'usage (CPU, mémoire, volume). À suivre chaque mois.

@@ -6,7 +6,11 @@
     "node": ">=22"
   },
   "scripts": {
-    "commitlint": "commitlint --edit"
+    "commitlint": "commitlint --edit",
+    "railway:plan": "railway config plan",
+    "railway:report": "railway config plan --json | node --experimental-strip-types --no-warnings infra/railway/plan-report.mts",
+    "railway:apply": "railway config apply",
+    "railway:secrets": "sh infra/railway/secrets.sh"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
