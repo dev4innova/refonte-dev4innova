@@ -2393,6 +2393,15 @@
       "rateLimited": "Too many attempts. Try again in a few minutes.",
       "unavailable": "Service temporarily unavailable. Try again in a moment.",
       "forbidden": "Your session has expired or you cannot do this. Please sign in again."
+    },
+    "panel": {
+      "eyebrow": "DEV4INNOVA space",
+      "title": "Your projects, your courses and your AI tools, in one place.",
+      "points": {
+        "projects": "Track your projects and approve deliverables",
+        "academy": "Follow your courses and earn your certificates",
+        "ai": "Use your organization's AI tools"
+      }
     }
   },
   "Illustrations": {
@@ -2444,6 +2453,12 @@
       "quizMark": "Q",
       "certificate": "CERTIFICATE",
       "verifiable": "Verifiable online"
+    },
+    "account": {
+      "hub": "YOUR SPACE",
+      "projects": "PROJECTS",
+      "academy": "COURSES",
+      "ai": "AI TOOLS"
     }
   }
 }

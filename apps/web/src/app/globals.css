@@ -227,12 +227,78 @@ body:has([data-contact-panel]) [data-slot="footer-routes"] {
   }
 }
 
+/* Looping illustrations (hero, sign-in and sign-up): a signal travels along the circuit,
+ * nodes blink in turn, modules breathe, continuously (product decision of 11/11/2026, no pause
+ * control). Still under reduced motion (operating system setting). */
+.illu-pulse {
+  stroke-dasharray: 0.08 0.92;
+  stroke-dashoffset: 1;
+  animation: illu-travel 3.6s linear 1.4s infinite;
+}
+
+.illu-blink {
+  animation: illu-blink 3.6s ease-in-out 1.4s infinite;
+}
+
+.illu-breathe {
+  animation: illu-breathe 4.8s ease-in-out 1.6s infinite;
+}
+
+.illu-flow {
+  animation: illu-flow 1.6s linear infinite;
+}
+
+@keyframes illu-travel {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes illu-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes illu-breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes illu-flow {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .illu-draw,
   .illu-fade-late {
     animation: none;
     stroke-dashoffset: 0;
     opacity: 1;
+  }
+
+  .illu-pulse {
+    display: none;
+  }
+
+  .illu-blink,
+  .illu-breathe,
+  .illu-flow {
+    animation: none;
   }
 }
 

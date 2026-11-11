@@ -55,8 +55,9 @@ export function NavLinksList({
                 "aria-[current=page]:text-foreground",
                 orientation === "horizontal"
                   ? [
-                      "h-10 px-3 text-sm",
-                      "after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0",
+                      // Tighter between 1024 and 1279 px: the full navigation fits next to the actions.
+                      "h-10 px-2 text-sm xl:px-3",
+                      "after:absolute after:inset-x-2 xl:after:inset-x-3 after:bottom-1 after:h-0.5 after:origin-left after:scale-x-0",
                       "after:bg-primary after:transition-transform after:duration-base after:ease-out-soft",
                       "hover:after:scale-x-100 aria-[current=page]:after:scale-x-100",
                     ]

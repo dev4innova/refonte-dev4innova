@@ -1,5 +1,6 @@
 import type { getTranslations } from "next-intl/server";
 
+import type { AccountHubLabels } from "./account-hub";
 import type { SignalToSystemLabels } from "./signal-to-system";
 import type { SolutionIllustrationLabels } from "./solutions";
 import type { AcademyPathLabels, LabBoardLabels } from "./worlds";
@@ -11,6 +12,7 @@ export type IllustrationLabels = {
   solutions: SolutionIllustrationLabels;
   lab: LabBoardLabels;
   academy: AcademyPathLabels;
+  account: AccountHubLabels;
 };
 
 /** Translated labels of every illustration (namespace `Illustrations`, FR/EN). */
@@ -56,6 +58,12 @@ export function illustrationLabels(t: IllustrationsTranslator): IllustrationLabe
       quizMark: t("academy.quizMark"),
       certificate: t("academy.certificate"),
       verifiable: t("academy.verifiable"),
+    },
+    account: {
+      hub: t("account.hub"),
+      projects: t("account.projects"),
+      academy: t("account.academy"),
+      ai: t("account.ai"),
     },
   };
 }

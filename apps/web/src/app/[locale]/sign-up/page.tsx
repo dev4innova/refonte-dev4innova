@@ -3,8 +3,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
 import { AuthForm } from "@/components/auth/auth-form";
+import { AuthLayout } from "@/components/auth/auth-layout";
 import { authForm } from "@/components/auth/labels";
-import { Section } from "@/components/layout/section";
+import { illustrationLabels } from "@/components/illustrations/labels";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { signUp } from "@/lib/auth/actions";
@@ -21,24 +22,34 @@ export async function generateMetadata({ params }: Pick<Props, "params">): Promi
 export default async function SignUpPage({ params, searchParams }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("Auth");
+  const [t, tIllu] = await Promise.all([getTranslations("Auth"), getTranslations("Illustrations")]);
+  const illu = illustrationLabels(tIllu);
   return (
-    <Section>
-      <div className="mx-auto flex w-full max-w-md flex-col gap-6">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-display-md font-semibold">{t("signUp.title")}</h1>
-          <p className="text-muted-foreground">{t("signUp.intro")}</p>
-        </div>
-        <Suspense fallback={<div aria-hidden="true" className="h-96 animate-pulse rounded-xl bg-muted" />}>
-          <SignUpForm locale={locale} searchParams={searchParams} />
-        </Suspense>
-        <p className="text-sm text-muted-foreground">
-          <Link href="/privacy" className="underline-offset-4 hover:underline">
-            {t("signUp.privacy")}
-          </Link>
-        </p>
+    <AuthLayout
+      panel={{
+        eyebrow: t("panel.eyebrow"),
+        title: t("panel.title"),
+        points: {
+          projects: t("panel.points.projects"),
+          academy: t("panel.points.academy"),
+          ai: t("panel.points.ai"),
+        },
+      }}
+      illustration={illu.account}
+    >
+      <div className="flex flex-col gap-2">
+        <h1 className="text-display-md font-semibold sm:text-display-lg">{t("signUp.title")}</h1>
+        <p className="text-muted-foreground">{t("signUp.intro")}</p>
       </div>
-    </Section>
+      <Suspense fallback={<div aria-hidden="true" className="h-96 animate-pulse rounded-xl bg-muted" />}>
+        <SignUpForm locale={locale} searchParams={searchParams} />
+      </Suspense>
+      <p className="text-sm text-muted-foreground">
+        <Link href="/privacy" className="underline-offset-4 hover:underline">
+          {t("signUp.privacy")}
+        </Link>
+      </p>
+    </AuthLayout>
   );
 }
 

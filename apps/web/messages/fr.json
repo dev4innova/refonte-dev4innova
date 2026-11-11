@@ -2393,6 +2393,15 @@
       "rateLimited": "Trop de tentatives. Réessayez dans quelques minutes.",
       "unavailable": "Service momentanément indisponible. Réessayez dans quelques instants.",
       "forbidden": "Votre session a expiré ou vous n'avez pas accès à cette action. Reconnectez-vous."
+    },
+    "panel": {
+      "eyebrow": "Espace DEV4INNOVA",
+      "title": "Vos projets, vos formations et vos outils IA, au même endroit.",
+      "points": {
+        "projects": "Suivez vos projets et validez les livrables",
+        "academy": "Suivez vos formations et obtenez vos certificats",
+        "ai": "Utilisez les outils IA de votre organisation"
+      }
     }
   },
   "Illustrations": {
@@ -2444,6 +2453,12 @@
       "quizMark": "Q",
       "certificate": "CERTIFICAT",
       "verifiable": "Vérifiable en ligne"
+    },
+    "account": {
+      "hub": "VOTRE ESPACE",
+      "projects": "PROJETS",
+      "academy": "FORMATIONS",
+      "ai": "OUTILS IA"
     }
   }
 }
