@@ -19,6 +19,14 @@ export function localeAlternates(locale: Locale, href: Href): Metadata["alternat
   };
 }
 
+/**
+ * The generated Open Graph image of the locale (src/app/[locale]/opengraph-image.tsx).
+ * Declared explicitly: a page that sets its own `openGraph` would otherwise lose it.
+ */
+export function defaultOgImage(locale: Locale) {
+  return { url: `/${locale}/opengraph-image`, width: 1200, height: 630, alt: "DEV4INNOVA" };
+}
+
 /** Title, description, canonical, hreflang and Open Graph of a public page (TASK-056). */
 export function pageMetadata({
   locale,
@@ -40,6 +48,7 @@ export function pageMetadata({
       url: getPathname({ locale, href }),
       description,
       ...(title ? { title } : {}),
+      images: [defaultOgImage(locale)],
     },
   };
 }
