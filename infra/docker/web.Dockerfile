@@ -14,8 +14,12 @@ COPY packages ./packages
 COPY apps/web ./apps/web
 # Public origin, baked into statically prerendered metadata (canonical, hreflang, Open Graph).
 ARG SITE_URL=http://localhost:3000
+# robots.txt is prerendered too: without this build argument it would forbid indexing even
+# in production (Railway passes service variables only to the declared build arguments).
+ARG ALLOW_INDEXING=false
 ENV NEXT_TELEMETRY_DISABLED=1 \
-    SITE_URL=${SITE_URL}
+    SITE_URL=${SITE_URL} \
+    ALLOW_INDEXING=${ALLOW_INDEXING}
 RUN pnpm --filter @dev4innova/web build
 
 FROM node:22-alpine AS runtime
