@@ -23,6 +23,13 @@ export const buttonVariants = cva(
         ghost: "bg-transparent text-foreground hover:bg-muted",
         link: "text-primary-ink underline-offset-4 hover:underline",
         inverse: "bg-inverse-foreground text-inverse hover:bg-card",
+        // Editorial link with an arrow that shifts on hover and focus (pass the arrow as a child).
+        "signal-link": [
+          "min-h-11 font-semibold text-primary-ink hover:text-primary-ink-hover",
+          "in-data-[variant=inverse]:text-primary-on-inverse in-data-[variant=inverse]:hover:text-inverse-foreground",
+          "[&_svg]:transition-transform [&_svg]:duration-base [&_svg]:ease-out-soft",
+          "hover:[&_svg]:translate-x-1 focus-visible:[&_svg]:translate-x-1",
+        ],
       },
       size: {
         sm: "h-9 px-3.5 text-sm",
@@ -31,7 +38,10 @@ export const buttonVariants = cva(
         icon: "size-11",
       },
     },
-    compoundVariants: [{ variant: "link", className: "h-auto px-0" }],
+    compoundVariants: [
+      { variant: "link", className: "h-auto px-0" },
+      { variant: "signal-link", className: "h-auto px-0 active:translate-y-0" },
+    ],
     defaultVariants: { variant: "primary", size: "md" },
   },
 );

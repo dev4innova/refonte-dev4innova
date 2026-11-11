@@ -21,6 +21,7 @@ describe("Button", () => {
     ["ghost", "bg-transparent"],
     ["link", "underline-offset-4"],
     ["inverse", "bg-inverse-foreground"],
+    ["signal-link", "text-primary-ink"],
   ] as const)("applies the %s variant", (variant, expectedClass) => {
     render(<Button variant={variant}>Action</Button>);
     expect(screen.getByRole("button")).toHaveClass(expectedClass);

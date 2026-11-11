@@ -110,12 +110,17 @@ Animations d'entrée : `animate-fade-in`, `animate-slide-up`. Les animations des
 Radix (menu mobile) utilisent `tw-animate-css`. Si l'utilisateur préfère réduire les
 mouvements, toutes les animations et transitions sont neutralisées globalement.
 
+Révélation au défilement : envelopper un bloc dans `Reveal` (seul îlot client des primitives,
+environ 1 Ko). L'état masqué (`data-reveal="hidden"`) n'est posé qu'après l'hydratation, et
+seulement pour un bloc encore hors de l'écran. Le contenu est donc lisible sans JavaScript, et
+rien ne bouge en mouvement réduit. `step` décale une cascade de `--motion-stagger`.
+
 ## Composants
 
 | Composant | Fichier | Points clés |
 |---|---|---|
-| `Button` | `ui/button.tsx` | variantes `primary`, `secondary`, `outline`, `ghost`, `link`, `inverse` ; tailles `sm`, `md`, `lg`, `icon` ; `asChild` pour les liens ; `loading` (`aria-busy`) |
-| `Card` (+ `Header`, `Title`, `Description`, `Content`, `Footer`) | `ui/card.tsx` | variantes `default`, `elevated`, `inverse` ; `interactive` ; niveau de titre réglable (`as`) |
+| `Button` | `ui/button.tsx` | variantes `primary`, `secondary`, `outline`, `ghost`, `link`, `inverse` et `signal-link` (lien éditorial rouge, flèche qui glisse au survol et au focus, cible de 44 px) ; tailles `sm`, `md`, `lg`, `icon` ; `asChild` pour les liens ; `loading` (`aria-busy`) |
+| `Card` (+ `Header`, `Title`, `Description`, `Content`, `Footer`) | `ui/card.tsx` | variantes `default`, `elevated`, `inverse` et `frame` (filet acier, trait rouge au survol et au focus) ; `interactive` ; niveau de titre réglable (`as`) |
 | `Input`, `Textarea`, `Label`, `Checkbox` | `ui/*.tsx` | bordures ≥ 3:1, état `aria-invalid` stylé |
 | `NativeSelect` | `ui/native-select.tsx` | `<select>` natif au style des champs, utilisable dans `FormField` |
 | `FormField` | `ui/form-field.tsx` | relie label, description et erreur (`aria-describedby`, `aria-invalid`, `aria-required`, `role="alert"`) |
@@ -124,7 +129,26 @@ mouvements, toutes les animations et transitions sont neutralisées globalement.
 | `SiteHeader`, `MobileNav`, `NavLinks` | `layout/` | en-tête collant, `aria-current`, menu burger sous 1024 px, emplacement `localeSwitcher` |
 | `LocaleSwitcher` | `layout/locale-switcher.tsx` | FR / EN sur la même page, `aria-current`, `lang` et `hreflang` sur chaque lien |
 | `SiteFooter` | `layout/site-footer.tsx` | pied de page sombre, colonnes de liens, mentions légales |
-| `Container`, `Section` | `layout/` | mise en page standard |
+| `Container`, `Section` | `layout/` | mise en page standard. `Section` : surfaces `default`, `card`, `muted`, `tint`, `inverse` ; `spacing="tight"` ; `rule` (filet supérieur décoratif) |
+
+### Primitives « studio » (`src/components/studio/`)
+
+Composants de la refonte Creative Tech Studio. Ils sont rendus côté serveur, sauf `Reveal`.
+Tous leurs textes arrivent par props.
+
+| Composant | Fichier | Points clés |
+|---|---|---|
+| `Eyebrow` | `eyebrow.tsx` | sur-titre indexé (`01 Solutions`), rouge encre sur clair, rouge clair sur graphite ; `as="h2"` quand il nomme la section |
+| `SectionHeading` | `section-heading.tsx` | sur-titre, titre (`id` pour `aria-labelledby`), chapô et actions ; composition 5/12 dès 1 024 px |
+| `BentoGrid`, `BentoCell` | `bento-grid.tsx` | liste dont l'ordre du DOM est l'ordre de lecture ; 1, 6 puis 12 colonnes ; tailles `sm` (4), `md` (5), `lg` (7), `wide` (12) ; surfaces `card`, `tint`, `inverse`. Un lien `data-stretched` dans le titre rend toute la cellule cliquable, en restant le seul élément focalisable |
+| `ProductFrame` | `product-frame.tsx` | cadre « fenêtre » d'une **capture réelle** (`next/image`, `alt` obligatoire), légende `demoLabel` obligatoire (« Démonstration »). Sans image, affiche ses enfants (squelette) |
+| `Reveal` | `reveal.tsx` | voir « Animations » |
+| `MethodTimeline`, `MethodLoop` | `method-timeline.tsx` | étapes en `<ol>` (titres `h3`, numéros décoratifs, livrable optionnel), dernier segment en pointillé rouge (retour au début) ; boucle SVG décorative aux couleurs `--illu-*` |
+| `Tag`, `StatusDot`, `Kbd` | `micro.tsx` | étiquette (`neutral`, `tint`, `signal`), pastille d'état décorative (le statut est toujours écrit à côté), touche de clavier |
+
+Règle de contenu : aucun `ProductFrame` ne montre une maquette ou un projet client inventé.
+Seules les vraies interfaces construites par DEV4INNOVA y figurent, avec des données de
+démonstration annoncées comme telles.
 
 ### Exemples
 
@@ -139,6 +163,15 @@ mouvements, toutes les animations et transitions sont neutralisées globalement.
 
 <Section variant="inverse">
   <h2 className="text-display-md">{t("title")}</h2>
+</Section>
+
+<Section aria-labelledby="home-solutions">
+  <SectionHeading id="home-solutions" index="02" eyebrow={t("eyebrow")} title={t("title")} lead={t("lead")} />
+  <BentoGrid>
+    <BentoCell size="lg">
+      <h3><Link href="/solutions/ai-assistants" data-stretched>{t("item")}</Link></h3>
+    </BentoCell>
+  </BentoGrid>
 </Section>
 ```
 

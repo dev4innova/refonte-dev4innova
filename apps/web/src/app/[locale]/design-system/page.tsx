@@ -3,6 +3,13 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Section } from "@/components/layout/section";
+import { BentoCell, BentoGrid } from "@/components/studio/bento-grid";
+import { Eyebrow } from "@/components/studio/eyebrow";
+import { MethodLoop, MethodTimeline } from "@/components/studio/method-timeline";
+import { Kbd, StatusDot, Tag } from "@/components/studio/micro";
+import { ProductFrame } from "@/components/studio/product-frame";
+import { Reveal } from "@/components/studio/reveal";
+import { SectionHeading } from "@/components/studio/section-heading";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,6 +23,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FormField } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { SOLUTIONS } from "@/config/offer";
 import { localeAlternates } from "@/i18n/metadata";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -67,7 +75,19 @@ const CARDS = [
   { key: "strategy", variant: "default" },
   { key: "integration", variant: "elevated" },
   { key: "support", variant: "inverse" },
+  { key: "frame", variant: "frame" },
 ] as const;
+
+/* Bento sizes of the five solutions, as on the future homepage (doc 04). */
+const BENTO = [
+  { size: "lg", surface: "card" },
+  { size: "md", surface: "tint" },
+  { size: "md", surface: "card" },
+  { size: "lg", surface: "card" },
+  { size: "wide", surface: "inverse" },
+] as const;
+
+const METHOD = ["discover", "prototype", "industrialize", "scale"] as const;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -91,7 +111,12 @@ function SectionTitle({ id, children }: { id: string; children: React.ReactNode 
 export default async function DesignSystemPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("DesignSystem");
+  const [t, tSolutions, tHome, tCommon] = await Promise.all([
+    getTranslations("DesignSystem"),
+    getTranslations("Solutions"),
+    getTranslations("Home"),
+    getTranslations("Common"),
+  ]);
 
   return (
     <>
@@ -161,6 +186,115 @@ export default async function DesignSystemPage({ params }: Props) {
         </div>
       </Section>
 
+      <Section aria-labelledby="ds-studio">
+        <SectionHeading
+          id="ds-studio"
+          index="01"
+          eyebrow={t("studio.eyebrow")}
+          title={t("sections.studio")}
+          lead={t("studio.lead")}
+          actions={
+            <Button asChild variant="signal-link">
+              <Link href="/solutions">
+                {tCommon("allSolutions")}
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </Button>
+          }
+        />
+        <BentoGrid>
+          {SOLUTIONS.map(({ slug, icon: Icon }, index) => {
+            const cell = BENTO[index] ?? BENTO[0];
+            return (
+              <BentoCell key={slug} size={cell.size} surface={cell.surface}>
+                <Icon
+                  aria-hidden="true"
+                  className="size-6 text-primary-ink in-data-[variant=inverse]:text-primary-on-inverse"
+                />
+                <h3 className="font-heading text-heading-lg font-semibold">
+                  <Link
+                    href={{ pathname: "/solutions/[slug]", params: { slug } }}
+                    data-stretched
+                  >
+                    {tSolutions(`items.${slug}.title`)}
+                  </Link>
+                </h3>
+                <p className="text-muted-foreground in-data-[variant=inverse]:text-inverse-muted-foreground">
+                  {tSolutions(`items.${slug}.summary`)}
+                </p>
+              </BentoCell>
+            );
+          })}
+        </BentoGrid>
+      </Section>
+
+      <Section variant="inverse" spacing="tight" aria-labelledby="ds-frame">
+        <div className="grid items-center gap-10 lg:grid-cols-[5fr_7fr]">
+          <div className="flex flex-col gap-4">
+            <Eyebrow index="02">{t("studio.frameEyebrow")}</Eyebrow>
+            <h2 id="ds-frame" className="text-display-md font-semibold">
+              {t("studio.frameHeading")}
+            </h2>
+            <p className="text-inverse-muted-foreground">{t("studio.frameText")}</p>
+            <p className="flex flex-wrap items-center gap-2 text-sm">
+              <StatusDot status="live" />
+              {t("studio.status")}
+              <Tag>Next.js</Tag>
+              <Tag>FastAPI</Tag>
+            </p>
+          </div>
+          <ProductFrame
+            title={t("studio.frameTitle")}
+            demoLabel={t("studio.demo")}
+            caption={t("studio.frameCaption")}
+          >
+            <div aria-hidden="true" className="flex size-full flex-col gap-3 p-6">
+              <div className="h-4 w-1/3 rounded-sm bg-input/40" />
+              <div className="grid flex-1 grid-cols-3 gap-3">
+                <div className="col-span-2 rounded-md bg-card" />
+                <div className="rounded-md bg-tint" />
+              </div>
+            </div>
+          </ProductFrame>
+        </div>
+      </Section>
+
+      <Section rule aria-labelledby="ds-method">
+        <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:items-center lg:gap-16">
+          <div className="flex flex-col gap-4">
+            <Eyebrow index="03">{t("studio.methodEyebrow")}</Eyebrow>
+            <h2 id="ds-method" className="text-display-md font-semibold">
+              {tHome("approach.title")}
+            </h2>
+            <p className="text-body-lg text-muted-foreground">{tHome("approach.lead")}</p>
+            <MethodLoop className="mt-4" />
+          </div>
+          <MethodTimeline
+            steps={METHOD.map((key) => ({
+              key,
+              title: tHome(`approach.${key}.title`),
+              text: tHome(`approach.${key}.text`),
+            }))}
+          />
+        </div>
+      </Section>
+
+      <Section variant="tint" spacing="tight" aria-labelledby="ds-reveal">
+        <h2 id="ds-reveal" className="mb-6 text-heading-lg font-semibold">
+          {t("studio.revealTitle")}
+        </h2>
+        <div className="grid gap-bento sm:grid-cols-3">
+          {[0, 1, 2].map((step) => (
+            <Reveal key={step} step={step} className="rounded-frame bg-card p-6 shadow-card">
+              {t("studio.revealText", { step: step + 1 })}
+            </Reveal>
+          ))}
+        </div>
+        <p className="mt-6 text-sm text-muted-foreground">
+          {t("studio.kbd")} <Kbd>{t("studio.kbdKey")}</Kbd>
+        </p>
+      </Section>
+
       <Section variant="card" aria-labelledby="ds-buttons">
         <SectionTitle id="ds-buttons">{t("sections.buttons")}</SectionTitle>
         <div className="flex flex-wrap items-center gap-3">
@@ -169,6 +303,10 @@ export default async function DesignSystemPage({ params }: Props) {
           <Button variant="outline">{t("buttons.outline")}</Button>
           <Button variant="ghost">{t("buttons.ghost")}</Button>
           <Button variant="link">{t("buttons.link")}</Button>
+          <Button variant="signal-link">
+            {t("buttons.signalLink")}
+            <ArrowRight aria-hidden="true" />
+          </Button>
           <Button loading>{t("buttons.loading")}</Button>
           <Button disabled>{t("buttons.disabled")}</Button>
           <Button size="icon" variant="outline" aria-label={t("buttons.icon")}>
@@ -184,7 +322,7 @@ export default async function DesignSystemPage({ params }: Props) {
 
       <Section aria-labelledby="ds-cards">
         <SectionTitle id="ds-cards">{t("sections.cards")}</SectionTitle>
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {CARDS.map((card) => (
             <Card key={card.key} variant={card.variant} interactive>
               <CardHeader>

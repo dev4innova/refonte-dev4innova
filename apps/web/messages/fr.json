@@ -134,7 +134,8 @@
       "forms": "Formulaires",
       "motion": "Animations",
       "inverse": "Section sombre",
-      "surfaces": "Surfaces et cadres"
+      "surfaces": "Surfaces et cadres",
+      "studio": "Primitives studio"
     },
     "colors": {
       "primary": "Rouge signature (aplats)",
@@ -173,7 +174,8 @@
       "link": "Lien",
       "loading": "Envoi en cours",
       "disabled": "Indisponible",
-      "icon": "Continuer"
+      "icon": "Continuer",
+      "signalLink": "Lien éditorial"
     },
     "cards": {
       "strategy": {
@@ -190,6 +192,11 @@
         "title": "Accompagnement",
         "description": "Formation des équipes et amélioration continue.",
         "action": "Découvrir l'Academy"
+      },
+      "frame": {
+        "title": "Carte cadre",
+        "description": "Filet acier et trait rouge au survol ou au focus.",
+        "action": "Découvrir"
       }
     },
     "form": {
@@ -220,6 +227,22 @@
       "blueprint": "Grille technique",
       "blueprintText": "Fond graphite quadrillé, réservé aux sections sombres.",
       "numeric": "Chiffres tabulaires"
+    },
+    "studio": {
+      "eyebrow": "Composition",
+      "lead": "Sur-titre indexé, titre et chapô en composition asymétrique, puis grille Bento dont l'ordre de lecture suit le DOM.",
+      "frameEyebrow": "Preuves",
+      "frameHeading": "Cadre de produit",
+      "frameText": "Il présente une capture réelle d'un produit construit par DEV4INNOVA, toujours légendée « Démonstration ».",
+      "status": "En ligne",
+      "frameTitle": "Diagnostic IA",
+      "demo": "Démonstration",
+      "frameCaption": "Emplacement de capture : les vraies captures arrivent au lot L6.",
+      "methodEyebrow": "Méthode",
+      "revealTitle": "Révélation au défilement",
+      "revealText": "Bloc {step} : apparaît en fondu au défilement, sans décalage de mise en page.",
+      "kbd": "Aucune animation si le système demande de réduire les mouvements. Raccourci d'exemple :",
+      "kbdKey": "Échap"
     }
   },
   "Account": {

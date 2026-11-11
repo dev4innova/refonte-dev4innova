@@ -134,7 +134,8 @@
       "forms": "Forms",
       "motion": "Motion",
       "inverse": "Dark section",
-      "surfaces": "Surfaces and frames"
+      "surfaces": "Surfaces and frames",
+      "studio": "Studio primitives"
     },
     "colors": {
       "primary": "Signature red (fills)",
@@ -173,7 +174,8 @@
       "link": "Link",
       "loading": "Sending",
       "disabled": "Unavailable",
-      "icon": "Continue"
+      "icon": "Continue",
+      "signalLink": "Editorial link"
     },
     "cards": {
       "strategy": {
@@ -190,6 +192,11 @@
         "title": "Support",
         "description": "Team training and continuous improvement.",
         "action": "Discover the Academy"
+      },
+      "frame": {
+        "title": "Frame card",
+        "description": "Steel hairline and a red line on hover or focus.",
+        "action": "Discover"
       }
     },
     "form": {
@@ -220,6 +227,22 @@
       "blueprint": "Technical grid",
       "blueprintText": "Gridded graphite background, for dark sections only.",
       "numeric": "Tabular figures"
+    },
+    "studio": {
+      "eyebrow": "Composition",
+      "lead": "Indexed eyebrow, heading and lead in an asymmetric layout, then a Bento grid whose reading order follows the DOM.",
+      "frameEyebrow": "Proof",
+      "frameHeading": "Product frame",
+      "frameText": "It shows a real screenshot of a product built by DEV4INNOVA, always captioned “Demo”.",
+      "status": "Live",
+      "frameTitle": "AI diagnostic",
+      "demo": "Demo",
+      "frameCaption": "Screenshot placeholder: the real screenshots come with batch L6.",
+      "methodEyebrow": "Method",
+      "revealTitle": "Reveal on scroll",
+      "revealText": "Block {step}: fades in on scroll, without layout shift.",
+      "kbd": "No animation when the system asks for reduced motion. Example shortcut:",
+      "kbdKey": "Esc"
     }
   },
   "Account": {
