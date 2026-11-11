@@ -27,4 +27,9 @@ describe("Section", () => {
     expect(screen.getByRole("region")).toHaveClass("py-section-tight", "relative");
     expect(container.querySelector("[data-slot=section-rule]")).toHaveAttribute("aria-hidden", "true");
   });
+
+  it("keeps its surface when combined with the blueprint pattern", () => {
+    render(<Section variant="inverse" className="pattern-blueprint" aria-label="Bloc" />);
+    expect(screen.getByRole("region")).toHaveClass("bg-inverse", "pattern-blueprint");
+  });
 });

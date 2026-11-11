@@ -94,7 +94,7 @@ conformes.
 - Points de rupture : `sm` 640, `md` 768, `lg` 1024 (navigation desktop), `xl` 1280.
 - Rayons : `rounded-sm` → `rounded-xl` dérivés de `--radius` (12 px) ; `rounded-frame` (20 px) pour
   les cellules Bento et les cadres de produit. Ombres : `shadow-card`, `shadow-elevated`, `shadow-frame`.
-- Lignes : `border-hairline` (acier à 22 %) pour les grilles et séparateurs fins ; `bg-blueprint`
+- Lignes : `border-hairline` (acier à 22 %) pour les grilles et séparateurs fins ; `pattern-blueprint`
   pour la grille technique des sections sombres.
 
 ## Animations
@@ -174,6 +174,33 @@ démonstration annoncées comme telles.
   </BentoGrid>
 </Section>
 ```
+
+## Illustrations (`src/components/illustrations/`)
+
+Inventaire et intentions : `docs/refonte-creative-tech-studio/05-plan-medias-illustrations.md`.
+Ce sont des SVG écrits à la main, en composants serveur (0 Ko de JavaScript).
+
+| Composant | Message | Variantes |
+|---|---|---|
+| `SignalToSystem` | Visuel signature « Du signal au système » : le filament de l'ampoule devient un circuit qui alimente trois modules (assistant, document, prévision). Tracé joué une fois (`illu-draw`), modules en fondu (`illu-fade-late`) | complète dès 640 px, `SignalToSystemCompact` en dessous |
+| `SolutionIllustration slug=…` | Une illustration par solution : l'assistant qui **agit** (ticket CRM), les champs extraits et vérifiés, la prévision avec intervalle et alerte, le contenu dans votre ton validé par un humain, l'IA reliée à vos outils | mise à l'échelle |
+| `LabBoard` | Innovation Lab : idée, prototype, module réutilisable | vignettes empilées sous 640 px |
+| `AcademyPath` | Academy : modules, quiz, certificat vérifiable en ligne | mise à l'échelle |
+| `MethodLoop` (`studio/`) | Méthode itérative : retour à « Explorer » après « Améliorer » | — |
+| `IllustrationPanel` | Fond (`--illu-backdrop`) et rapport d'aspect réservé (`video`, `wide`, `square`) : aucun décalage de mise en page | — |
+
+Règles, vérifiées par `illustrations.test.tsx` :
+- **Décoratives** : `aria-hidden="true"` et `focusable="false"`. L'information est portée par
+  le texte de la page (titre et résumé de la solution, liste des étapes…).
+- **Couleurs** : uniquement `currentColor` et les variables `--illu-*` (`backdrop`, `stroke`,
+  `stroke-soft`, `fill`, `ink`, `label`, `solid`, `on-solid`, `signal`), redéfinies sous
+  `[data-variant="inverse"]`. Une même illustration fonctionne donc sur ivoire et sur graphite.
+  Un seul accent rouge (`--illu-signal`) par illustration.
+- **Libellés traduits** : namespace `Illustrations` de `messages/{fr,en}.json`, assemblés par
+  `illustrationLabels(t)` (`labels.ts`) puis passés en props.
+- **Poids** : au plus 8 Ko pour le visuel signature, 4 Ko pour une solution ou l'Academy, 6 Ko
+  pour la planche du Lab (ses deux variantes). Aucun script, aucune ressource externe.
+- **Mouvement réduit** : état final immédiat (règle CSS dédiée, délais compris).
 
 ## Logo
 

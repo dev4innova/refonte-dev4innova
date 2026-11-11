@@ -47,7 +47,7 @@ scripts/capture-products.mjs          capture reproductible des écrans produits
   (`display-2xl`, `body-lg`, `eyebrow`), rayons (`frame`, `pill`) et ombres (`frame`).
 - **Aucune valeur brute dans les composants** (règle existante). Les illustrations utilisent
   des variables CSS (`--illu-*`) définies par surface (`[data-variant="inverse"]`, etc.).
-- Le motif de grille technique est un utilitaire `@utility bg-blueprint` en CSS pur.
+- Le motif de grille technique est un utilitaire `@utility pattern-blueprint` en CSS pur.
 - Pas de CSS-in-JS ni de bibliothèque d'animation : transitions CSS et un IntersectionObserver.
 
 ## 4. Animations

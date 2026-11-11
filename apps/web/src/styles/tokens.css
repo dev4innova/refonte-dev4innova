@@ -115,16 +115,27 @@
   --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* ---- Illustrations (SVG drawn with currentColor and these variables) --- */
-  --illu-stroke: var(--d4i-steel-500);
-  --illu-fill: var(--d4i-white);
-  --illu-ink: var(--d4i-graphite-900);
-  --illu-signal: var(--d4i-red-500);
+  /* Decorative only (aria-hidden): text inside the SVGs is not subject to contrast rules. */
+  --illu-backdrop: var(--d4i-glacier-50); /* panel behind an illustration */
+  --illu-stroke: var(--d4i-steel-500); /* outlines, connectors */
+  --illu-stroke-soft: var(--d4i-steel-300); /* secondary lines, placeholder text bars */
+  --illu-fill: var(--d4i-white); /* surfaces of cards and modules */
+  --illu-ink: var(--d4i-graphite-900); /* strong lines and labels */
+  --illu-label: var(--d4i-steel-600); /* small capitals labels */
+  --illu-solid: var(--d4i-graphite-900); /* filled blocks (bubble, hub, button) */
+  --illu-on-solid: var(--d4i-white); /* text on filled blocks */
+  --illu-signal: var(--d4i-red-500); /* the red accent: one per illustration */
 }
 
 /* Illustrations on dark surfaces. */
 [data-variant="inverse"] {
+  --illu-backdrop: var(--d4i-graphite-950);
+  --illu-stroke-soft: var(--d4i-graphite-700);
   --illu-fill: var(--d4i-graphite-800);
   --illu-ink: var(--d4i-ivory);
+  --illu-label: var(--d4i-steel-500);
+  --illu-solid: var(--d4i-graphite-700);
+  --illu-on-solid: var(--d4i-ivory);
   --illu-signal: var(--d4i-red-400);
   --hairline-color: rgb(139 141 152 / 0.2);
 }

@@ -2,6 +2,11 @@ import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { IllustrationPanel } from "@/components/illustrations/illustration";
+import { SignalToSystem, SignalToSystemCompact } from "@/components/illustrations/signal-to-system";
+import { illustrationLabels } from "@/components/illustrations/labels";
+import { SolutionIllustration } from "@/components/illustrations/solutions";
+import { AcademyPath, LabBoard } from "@/components/illustrations/worlds";
 import { Section } from "@/components/layout/section";
 import { BentoCell, BentoGrid } from "@/components/studio/bento-grid";
 import { Eyebrow } from "@/components/studio/eyebrow";
@@ -111,12 +116,15 @@ function SectionTitle({ id, children }: { id: string; children: React.ReactNode 
 export default async function DesignSystemPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [t, tSolutions, tHome, tCommon] = await Promise.all([
+  const [t, tSolutions, tHome, tCommon, tIllu] = await Promise.all([
     getTranslations("DesignSystem"),
     getTranslations("Solutions"),
     getTranslations("Home"),
     getTranslations("Common"),
+    getTranslations("Illustrations"),
   ]);
+  const illu = illustrationLabels(tIllu);
+  const solutionLabels = illu.solutions;
 
   return (
     <>
@@ -172,7 +180,7 @@ export default async function DesignSystemPage({ params }: Props) {
           </div>
           <div
             data-variant="inverse"
-            className="rounded-frame bg-inverse bg-blueprint p-6 text-inverse-foreground"
+            className="rounded-frame bg-inverse pattern-blueprint p-6 text-inverse-foreground"
           >
             <p className="font-heading text-heading-sm font-semibold">{t("surfaces.blueprint")}</p>
             <p className="mt-2 text-sm text-inverse-muted-foreground">{t("surfaces.blueprintText")}</p>
@@ -206,22 +214,33 @@ export default async function DesignSystemPage({ params }: Props) {
           {SOLUTIONS.map(({ slug, icon: Icon }, index) => {
             const cell = BENTO[index] ?? BENTO[0];
             return (
-              <BentoCell key={slug} size={cell.size} surface={cell.surface}>
-                <Icon
-                  aria-hidden="true"
-                  className="size-6 text-primary-ink in-data-[variant=inverse]:text-primary-on-inverse"
-                />
-                <h3 className="font-heading text-heading-lg font-semibold">
-                  <Link
-                    href={{ pathname: "/solutions/[slug]", params: { slug } }}
-                    data-stretched
-                  >
-                    {tSolutions(`items.${slug}.title`)}
-                  </Link>
-                </h3>
-                <p className="text-muted-foreground in-data-[variant=inverse]:text-inverse-muted-foreground">
-                  {tSolutions(`items.${slug}.summary`)}
-                </p>
+              <BentoCell
+                key={slug}
+                size={cell.size}
+                surface={cell.surface}
+                // Wide cell: text and illustration side by side from 1024 px.
+                className={cell.size === "wide" ? "lg:grid lg:grid-cols-[1fr_1.4fr] lg:items-center lg:gap-10" : undefined}
+              >
+                <IllustrationPanel className={cell.size === "wide" ? "lg:order-2" : undefined}>
+                  <SolutionIllustration slug={slug} labels={solutionLabels} />
+                </IllustrationPanel>
+                <div className="flex flex-col gap-4">
+                  <Icon
+                    aria-hidden="true"
+                    className="size-6 text-primary-ink in-data-[variant=inverse]:text-primary-on-inverse"
+                  />
+                  <h3 className="font-heading text-heading-lg font-semibold">
+                    <Link
+                      href={{ pathname: "/solutions/[slug]", params: { slug } }}
+                      data-stretched
+                    >
+                      {tSolutions(`items.${slug}.title`)}
+                    </Link>
+                  </h3>
+                  <p className="text-muted-foreground in-data-[variant=inverse]:text-inverse-muted-foreground">
+                    {tSolutions(`items.${slug}.summary`)}
+                  </p>
+                </div>
               </BentoCell>
             );
           })}
@@ -293,6 +312,75 @@ export default async function DesignSystemPage({ params }: Props) {
         <p className="mt-6 text-sm text-muted-foreground">
           {t("studio.kbd")} <Kbd>{t("studio.kbdKey")}</Kbd>
         </p>
+      </Section>
+
+      <Section variant="card" aria-labelledby="ds-illustrations">
+        <SectionHeading
+          id="ds-illustrations"
+          index="04"
+          eyebrow={t("illustrations.eyebrow")}
+          title={t("sections.illustrations")}
+          lead={t("illustrations.lead")}
+        />
+        <ul className="grid list-none gap-bento p-0 md:grid-cols-2">
+          {SOLUTIONS.map(({ slug }) => (
+            <li key={slug} className="flex flex-col gap-3">
+              <IllustrationPanel>
+                <SolutionIllustration slug={slug} labels={solutionLabels} />
+              </IllustrationPanel>
+              <p className="text-sm text-muted-foreground">{tSolutions(`items.${slug}.title`)}</p>
+            </li>
+          ))}
+          <li className="flex flex-col gap-3">
+            <IllustrationPanel>
+              <AcademyPath labels={illu.academy} />
+            </IllustrationPanel>
+            <p className="text-sm text-muted-foreground">{t("illustrations.academy")}</p>
+          </li>
+        </ul>
+      </Section>
+
+      <Section variant="inverse" className="pattern-blueprint" aria-labelledby="ds-illustrations-dark">
+        <h2 id="ds-illustrations-dark" className="mb-10 text-display-md font-semibold">
+          {t("illustrations.darkTitle")}
+        </h2>
+        <div className="grid items-center gap-10 lg:grid-cols-2">
+          <figure className="flex flex-col gap-3">
+            <SignalToSystem
+              labels={illu.signalToSystem}
+              className="mx-auto w-full max-w-lg"
+            />
+            <figcaption className="text-sm text-inverse-muted-foreground">
+              {t("illustrations.signature")}
+            </figcaption>
+          </figure>
+          <div className="flex flex-col gap-10">
+            <figure className="flex flex-col gap-3">
+              <IllustrationPanel className="max-sm:aspect-square">
+                <LabBoard labels={illu.lab} />
+              </IllustrationPanel>
+              <figcaption className="text-sm text-inverse-muted-foreground">
+                {t("illustrations.lab")}
+              </figcaption>
+            </figure>
+            <figure className="flex flex-col gap-3">
+              <div className="max-w-xs">
+                <SignalToSystemCompact />
+              </div>
+              <figcaption className="text-sm text-inverse-muted-foreground">
+                {t("illustrations.compact")}
+              </figcaption>
+            </figure>
+            <figure className="flex flex-col gap-3">
+              <IllustrationPanel>
+                <SolutionIllustration slug="ai-integration" labels={solutionLabels} />
+              </IllustrationPanel>
+              <figcaption className="text-sm text-inverse-muted-foreground">
+                {t("illustrations.inverse")}
+              </figcaption>
+            </figure>
+          </div>
+        </div>
       </Section>
 
       <Section variant="card" aria-labelledby="ds-buttons">

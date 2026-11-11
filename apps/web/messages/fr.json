@@ -135,7 +135,8 @@
       "motion": "Animations",
       "inverse": "Section sombre",
       "surfaces": "Surfaces et cadres",
-      "studio": "Primitives studio"
+      "studio": "Primitives studio",
+      "illustrations": "Illustrations"
     },
     "colors": {
       "primary": "Rouge signature (aplats)",
@@ -243,6 +244,16 @@
       "revealText": "Bloc {step} : apparaît en fondu au défilement, sans décalage de mise en page.",
       "kbd": "Aucune animation si le système demande de réduire les mouvements. Raccourci d'exemple :",
       "kbdKey": "Échap"
+    },
+    "illustrations": {
+      "eyebrow": "Visuels",
+      "lead": "Chaque illustration porte un message : ce que fait la solution. SVG en composants serveur, couleurs par les variables --illu-*, libellés traduits, masquées des technologies d'assistance.",
+      "academy": "Academy : modules, quiz et certificat vérifiable",
+      "darkTitle": "Sur graphite",
+      "signature": "Visuel signature « Du signal au système » : le filament de l'ampoule devient un circuit qui alimente trois modules. Tracé joué une seule fois.",
+      "lab": "Innovation Lab : idée, prototype, module réutilisable (vignettes empilées sur mobile)",
+      "compact": "Variante compacte du visuel signature, affichée sous 640 px",
+      "inverse": "Les mêmes illustrations s'adaptent aux surfaces sombres"
     }
   },
   "Account": {
@@ -2280,6 +2291,57 @@
       "rateLimited": "Trop de tentatives. Réessayez dans quelques minutes.",
       "unavailable": "Service momentanément indisponible. Réessayez dans quelques instants.",
       "forbidden": "Votre session a expiré ou vous n'avez pas accès à cette action. Reconnectez-vous."
+    }
+  },
+  "Illustrations": {
+    "signalToSystem": {
+      "assistant": "ASSISTANT",
+      "tool": "outil : CRM ✓",
+      "document": "DOCUMENT",
+      "forecast": "PRÉVISION"
+    },
+    "solutions": {
+      "ai-assistants": {
+        "action": "Ticket créé dans le CRM"
+      },
+      "document-automation": {
+        "invoice": "N° facture  FA-0142",
+        "amount": "Montant  1 250,00 €"
+      },
+      "data-intelligence": {
+        "forecast": "PRÉVISION"
+      },
+      "generative-content": {
+        "validate": "Valider",
+        "tone": "TON",
+        "formal": "Formel",
+        "direct": "Direct",
+        "languages": "FR · EN · ES"
+      },
+      "ai-integration": {
+        "hub": "IA",
+        "tools": {
+          "crm": "CRM",
+          "erp": "ERP",
+          "messaging": "Messagerie",
+          "intranet": "Intranet",
+          "dms": "GED",
+          "calendar": "Agenda"
+        }
+      }
+    },
+    "lab": {
+      "idea": "IDÉE",
+      "prototype": "PROTOTYPE",
+      "module": "MODULE"
+    },
+    "academy": {
+      "module1": "MODULE 1",
+      "module2": "MODULE 2",
+      "quiz": "QUIZ",
+      "quizMark": "Q",
+      "certificate": "CERTIFICAT",
+      "verifiable": "Vérifiable en ligne"
     }
   }
 }
