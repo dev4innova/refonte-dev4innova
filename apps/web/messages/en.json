@@ -135,7 +135,8 @@
       "motion": "Motion",
       "inverse": "Dark section",
       "surfaces": "Surfaces and frames",
-      "studio": "Studio primitives"
+      "studio": "Studio primitives",
+      "illustrations": "Illustrations"
     },
     "colors": {
       "primary": "Signature red (fills)",
@@ -243,6 +244,16 @@
       "revealText": "Block {step}: fades in on scroll, without layout shift.",
       "kbd": "No animation when the system asks for reduced motion. Example shortcut:",
       "kbdKey": "Esc"
+    },
+    "illustrations": {
+      "eyebrow": "Visuals",
+      "lead": "Every illustration carries a message: what the solution does. SVG server components, colored by the --illu-* variables, translated labels, hidden from assistive technologies.",
+      "academy": "Academy: modules, quiz and verifiable certificate",
+      "darkTitle": "On graphite",
+      "signature": "Signature visual “From signal to system”: the bulb filament becomes a circuit that powers three modules. Drawn once.",
+      "lab": "Innovation Lab: idea, prototype, reusable module (stacked tiles on phones)",
+      "compact": "Compact variant of the signature visual, shown below 640 px",
+      "inverse": "The same illustrations adapt to dark surfaces"
     }
   },
   "Account": {
@@ -2280,6 +2291,57 @@
       "rateLimited": "Too many attempts. Try again in a few minutes.",
       "unavailable": "Service temporarily unavailable. Try again in a moment.",
       "forbidden": "Your session has expired or you cannot do this. Please sign in again."
+    }
+  },
+  "Illustrations": {
+    "signalToSystem": {
+      "assistant": "ASSISTANT",
+      "tool": "tool: CRM ✓",
+      "document": "DOCUMENT",
+      "forecast": "FORECAST"
+    },
+    "solutions": {
+      "ai-assistants": {
+        "action": "Ticket created in the CRM"
+      },
+      "document-automation": {
+        "invoice": "Invoice no.  FA-0142",
+        "amount": "Amount  €1,250.00"
+      },
+      "data-intelligence": {
+        "forecast": "FORECAST"
+      },
+      "generative-content": {
+        "validate": "Approve",
+        "tone": "TONE",
+        "formal": "Formal",
+        "direct": "Direct",
+        "languages": "EN · FR · ES"
+      },
+      "ai-integration": {
+        "hub": "AI",
+        "tools": {
+          "crm": "CRM",
+          "erp": "ERP",
+          "messaging": "Messaging",
+          "intranet": "Intranet",
+          "dms": "DMS",
+          "calendar": "Calendar"
+        }
+      }
+    },
+    "lab": {
+      "idea": "IDEA",
+      "prototype": "PROTOTYPE",
+      "module": "MODULE"
+    },
+    "academy": {
+      "module1": "MODULE 1",
+      "module2": "MODULE 2",
+      "quiz": "QUIZ",
+      "quizMark": "Q",
+      "certificate": "CERTIFICATE",
+      "verifiable": "Verifiable online"
     }
   }
 }

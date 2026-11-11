@@ -128,8 +128,9 @@
   transition-duration: var(--motion-duration-slow);
 }
 
-/* Technical-drawing grid behind dark hero sections (Creative Tech Studio signature). */
-@utility bg-blueprint {
+/* Technical-drawing grid behind dark hero sections (Creative Tech Studio signature).
+ * Not named bg-*: tailwind-merge would take it for a background color and drop bg-inverse. */
+@utility pattern-blueprint {
   background-image:
     linear-gradient(var(--hairline-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--hairline-color) 1px, transparent 1px);
@@ -193,6 +194,40 @@
 [data-reveal="hidden"] {
   opacity: 0;
   transform: translateY(0.75rem);
+}
+
+/* Illustrations (src/components/illustrations): the hero filament is drawn once, then the
+ * modules it feeds fade in. Final state is immediate under reduced motion. */
+.illu-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: illu-draw var(--motion-duration-draw) var(--motion-ease-standard) 0.2s forwards;
+}
+
+.illu-fade-late {
+  opacity: 0;
+  animation: illu-fade 600ms var(--motion-ease-out) 1.1s forwards;
+}
+
+@keyframes illu-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes illu-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .illu-draw,
+  .illu-fade-late {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
 }
 
 /* Respect the user's motion preference everywhere (WCAG 2.3.3). */
