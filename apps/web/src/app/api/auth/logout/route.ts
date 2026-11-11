@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
 import { serverApi } from "@/lib/api";
+import { isSameSite, redirectToPath } from "@/lib/redirect-response";
 import { clearSessionCookie, getSession } from "@/lib/auth/session";
-import { getSiteUrl } from "@/lib/site-url";
 
 /**
  * POST /api/auth/logout — revokes the session in the API, then clears the cookie.
@@ -10,8 +10,7 @@ import { getSiteUrl } from "@/lib/site-url";
  */
 export async function POST(request: Request) {
   // Cross-site forms cannot sign the user out (defence in depth on top of SameSite).
-  const origin = request.headers.get("origin");
-  if (origin && origin !== new URL(getSiteUrl()).origin && origin !== new URL(request.url).origin) {
+  if (!isSameSite(request.headers.get("origin"), request.headers.get("host"))) {
     return new NextResponse("Forbidden", { status: 403 });
   }
   const session = await getSession();
@@ -22,5 +21,5 @@ export async function POST(request: Request) {
       .catch(() => undefined);
   }
   await clearSessionCookie();
-  return NextResponse.redirect(new URL("/", request.url), { status: 303 });
+  return redirectToPath("/", 303);
 }

@@ -1,8 +1,9 @@
-import { NextResponse, type NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 
 import { getPathname } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { sanitizeReturnTo } from "@/lib/auth/return-to";
+import { redirectToPath } from "@/lib/redirect-response";
 
 /**
  * GET /api/auth/login?returnTo=/fr/espace-client
@@ -15,7 +16,7 @@ export function GET(request: NextRequest) {
   const locale: Locale = routing.locales.includes(prefix as Locale)
     ? (prefix as Locale)
     : routing.defaultLocale;
-  const signIn = new URL(getPathname({ locale, href: "/sign-in" }), request.url);
-  if (returnTo !== "/") signIn.searchParams.set("returnTo", returnTo);
-  return NextResponse.redirect(signIn);
+  const signIn = getPathname({ locale, href: "/sign-in" });
+  const query = returnTo !== "/" ? `?${new URLSearchParams({ returnTo })}` : "";
+  return redirectToPath(`${signIn}${query}`);
 }
