@@ -93,3 +93,26 @@ test("the footer recalls the contact and the diagnostic", async ({ page }) => {
   await footer.getByRole("link", { name: "Start with the diagnostic" }).click();
   await expect(page).toHaveURL(/\/en\/ai-diagnostic$/);
 });
+
+test("keyboard focus is never hidden under the sticky header (WCAG 2.4.11)", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/fr");
+  const header = await page.getByRole("banner").boundingBox();
+  let checked = 0;
+  for (let index = 0; index < 120; index++) {
+    await page.keyboard.press("Tab");
+    const box = await page.evaluate(() => {
+      const el = document.activeElement as HTMLElement | null;
+      if (!el || el === document.body || el.closest("header")) return null;
+      // The skip link is fixed above the header (z-index), so it is never covered.
+      if (getComputedStyle(el).position === "fixed") return null;
+      const rect = el.getBoundingClientRect();
+      return { top: rect.top, bottom: rect.bottom, label: el.textContent?.trim().slice(0, 40) ?? "" };
+    });
+    if (!box) continue;
+    checked++;
+    // Fully below the header, or at least partly visible (2.4.11 forbids entirely hidden).
+    expect(box.bottom, box.label).toBeGreaterThan(header!.height);
+  }
+  expect(checked).toBeGreaterThan(20);
+});
