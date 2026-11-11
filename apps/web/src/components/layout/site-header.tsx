@@ -22,7 +22,8 @@ export type SiteHeaderProps = {
 };
 
 /**
- * Sticky site header: logo, main navigation, call to action, burger menu below lg.
+ * Sticky site header: logo, main navigation, call to action, burger menu below xl (1280 px:
+ * the full French navigation does not fit next to the actions at 1024 px).
  * Translucent ivory by default; translucent graphite on pages whose hero is marked
  * `data-header-overlay` (CSS only, see the dark scope in src/styles/tokens.css).
  */
@@ -41,7 +42,7 @@ export function SiteHeader({ items, labels, cta, localeSwitcher, account }: Site
           <Logo responsive />
         </Link>
 
-        <nav aria-label={labels.navigation} className="hidden lg:block">
+        <nav aria-label={labels.navigation} className="hidden xl:block">
           <Suspense fallback={<NavLinksList items={items} pathname={null} />}>
             <NavLinks items={items} />
           </Suspense>
