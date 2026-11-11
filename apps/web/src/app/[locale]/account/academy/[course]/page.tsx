@@ -46,7 +46,7 @@ async function LearnerCourse({ params, searchParams }: Props) {
 
   return (
     <>
-      <Link href="/account/academy" className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline">
+      <Link href="/account/academy" className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
         <ArrowLeft aria-hidden="true" className="size-4" />
         {t("learner.allCourses")}
       </Link>
@@ -61,7 +61,7 @@ async function LearnerCourse({ params, searchParams }: Props) {
       {course.certificate_code ? (
         <section aria-labelledby="course-done" className="flex flex-col items-start gap-3 rounded-xl border border-primary/30 bg-accent/40 p-6">
           <h2 id="course-done" className="inline-flex items-center gap-2 text-heading-sm font-semibold">
-            <Award aria-hidden="true" className="size-6 text-primary" />
+            <Award aria-hidden="true" className="size-6 text-primary-ink" />
             {t("learner.doneTitle")}
           </h2>
           <p className="text-sm">{t("learner.doneText")}</p>
@@ -84,19 +84,19 @@ async function LearnerCourse({ params, searchParams }: Props) {
         <ol className="flex flex-col gap-4">
           {course.outline.map((module, index) => (
             <li key={module.id} className="rounded-xl border border-border bg-card p-5">
-              <p className="text-xs font-semibold tracking-wide text-primary uppercase">{t("course.module", { number: index + 1 })}</p>
+              <p className="text-xs font-semibold tracking-wide text-primary-ink uppercase">{t("course.module", { number: index + 1 })}</p>
               <h3 className="text-heading-sm font-semibold">{module.title}</h3>
               <ul className="mt-3 flex flex-col divide-y divide-border">
                 {module.lessons.map((lesson) => (
                   <li key={lesson.id} className="flex items-center gap-3 py-2.5">
                     {lesson.done ? (
-                      <CheckCircle2 aria-hidden="true" className="size-5 shrink-0 text-primary" />
+                      <CheckCircle2 aria-hidden="true" className="size-5 shrink-0 text-primary-ink" />
                     ) : lesson.has_video ? (
                       <PlayCircle aria-hidden="true" className="size-5 shrink-0 text-muted-foreground" />
                     ) : (
                       <Circle aria-hidden="true" className="size-5 shrink-0 text-muted-foreground" />
                     )}
-                    <Link href={lessonHref(lesson.id)} className="flex-1 underline-offset-4 hover:text-primary hover:underline">
+                    <Link href={lessonHref(lesson.id)} className="flex-1 underline-offset-4 hover:text-primary-ink hover:underline">
                       {lesson.title}
                       {lesson.done ? <span className="sr-only"> ({t("learner.lessonDone")})</span> : null}
                     </Link>
@@ -107,7 +107,7 @@ async function LearnerCourse({ params, searchParams }: Props) {
               {module.questions > 0 ? (
                 <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-lg bg-muted/50 p-3">
                   <span className="inline-flex items-center gap-2 text-sm font-medium">
-                    <ClipboardCheck aria-hidden="true" className="size-5 text-primary" />
+                    <ClipboardCheck aria-hidden="true" className="size-5 text-primary-ink" />
                     {t("learner.quiz")} ·{" "}
                     {module.quiz_passed
                       ? t("learner.quizPassed", { score: module.best_score ?? 100 })

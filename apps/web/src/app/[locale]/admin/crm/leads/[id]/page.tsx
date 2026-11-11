@@ -98,7 +98,7 @@ async function Lead({ params }: Props) {
 
   return (
     <div className="flex flex-col gap-8">
-      <Link href="/admin/crm/leads" className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline">
+      <Link href="/admin/crm/leads" className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
         <ArrowLeft aria-hidden="true" className="size-4" />
         {t("lead.back")}
       </Link>
@@ -110,8 +110,8 @@ async function Lead({ params }: Props) {
         </div>
         <p className="flex flex-wrap gap-x-4 gap-y-1 text-muted-foreground">
           {lead.company ? <span>{lead.company}</span> : null}
-          <a href={`mailto:${lead.email}`} className="text-primary underline-offset-4 hover:underline">{lead.email}</a>
-          {lead.phone ? <a href={`tel:${lead.phone}`} className="text-primary underline-offset-4 hover:underline">{lead.phone}</a> : null}
+          <a href={`mailto:${lead.email}`} className="text-primary-ink underline-offset-4 hover:underline">{lead.email}</a>
+          {lead.phone ? <a href={`tel:${lead.phone}`} className="text-primary-ink underline-offset-4 hover:underline">{lead.phone}</a> : null}
           <span>{t("lead.since", { date: format.dateTime(new Date(lead.created_at), { dateStyle: "medium" }), source: t(`sources.${lead.source}`) })}</span>
         </p>
       </header>
@@ -173,7 +173,7 @@ async function Lead({ params }: Props) {
                         {activity.type === "diagnostic" && typeof (activity.details as Record<string, unknown>).diagnostic_id === "string" ? (
                           <a
                             href={`/api/admin/diagnostics/${String((activity.details as Record<string, unknown>).diagnostic_id)}/report`}
-                            className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+                            className="text-sm font-medium text-primary-ink underline-offset-4 hover:underline"
                           >
                             {t("timeline.diagnosticReport")}
                           </a>

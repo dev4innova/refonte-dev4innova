@@ -21,7 +21,7 @@ export async function StaffTicketList({ tickets, empty }: { tickets: TicketSumma
           <div className="flex min-w-0 flex-col gap-0.5">
             <Link
               href={{ pathname: "/admin/portal/support/[id]", params: { id: ticket.id } }}
-              className="font-medium break-words underline-offset-4 hover:text-primary hover:underline"
+              className="font-medium break-words underline-offset-4 hover:text-primary-ink hover:underline"
             >
               {ticket.subject}
             </Link>

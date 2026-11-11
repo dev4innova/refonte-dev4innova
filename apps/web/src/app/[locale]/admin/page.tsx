@@ -66,7 +66,7 @@ async function Dashboard({ params }: Props) {
                     {published} {t("status.published").toLowerCase()} · {items.length - published}{" "}
                     {t("status.draft").toLowerCase()}
                   </span>
-                  <ArrowRight aria-hidden="true" className="size-4 text-primary" />
+                  <ArrowRight aria-hidden="true" className="size-4 text-primary-ink" />
                 </p>
               </Card>
             </li>
@@ -75,7 +75,7 @@ async function Dashboard({ params }: Props) {
         <li className="flex">
           <Card interactive className="relative w-full">
             <CardHeader>
-              <Images aria-hidden="true" className="size-6 text-primary" />
+              <Images aria-hidden="true" className="size-6 text-primary-ink" />
               <CardTitle as="h2">
                 <Link
                   href="/admin/media"

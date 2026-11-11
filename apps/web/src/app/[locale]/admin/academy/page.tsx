@@ -43,7 +43,7 @@ async function AcademyAdmin({ params }: Props) {
                 <div className="flex min-w-0 flex-col gap-0.5">
                   <Link
                     href={{ pathname: "/admin/academy/[id]", params: { id: course.id } }}
-                    className="font-semibold break-words underline-offset-4 hover:text-primary hover:underline"
+                    className="font-semibold break-words underline-offset-4 hover:text-primary-ink hover:underline"
                   >
                     {pick(course.title, locale)}
                   </Link>

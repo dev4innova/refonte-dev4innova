@@ -37,7 +37,7 @@ async function Quiz({ params }: Props) {
     <>
       <Link
         href={{ pathname: "/account/academy/[course]", params: { course: slug } }}
-        className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline"
+        className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline"
       >
         <ArrowLeft aria-hidden="true" className="size-4" />
         {quiz.course_title}

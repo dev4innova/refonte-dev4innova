@@ -90,7 +90,7 @@ export default async function ContactPage({ params }: Props) {
             </ol>
             <p className="text-muted-foreground">
               {t("asideQuote")}{" "}
-              <Link href="/quote" className="font-medium text-primary underline underline-offset-4">
+              <Link href="/quote" className="font-medium text-primary-ink underline underline-offset-4">
                 {t("asideQuoteLink")}
               </Link>
             </p>

@@ -64,7 +64,7 @@ export default async function QuotePage({ params, searchParams }: Props) {
             </ol>
             <p className="text-muted-foreground">
               {t("asideContact")}{" "}
-              <Link href="/contact" className="font-medium text-primary underline underline-offset-4">
+              <Link href="/contact" className="font-medium text-primary-ink underline underline-offset-4">
                 {t("asideContactLink")}
               </Link>
             </p>

@@ -49,12 +49,12 @@ async function Hub({ params }: Props) {
 
   return (
     <>
-      <Link href="/account" className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline">
+      <Link href="/account" className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
         <ArrowLeft aria-hidden="true" className="size-4" />
         {t("back")}
       </Link>
       <div className="flex flex-col gap-2">
-        <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary uppercase">{membership.organization_name}</p>
+        <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary-ink uppercase">{membership.organization_name}</p>
         <h1 className="text-display-md font-semibold">{t("title")}</h1>
         <p className="max-w-3xl text-muted-foreground">{t("lead")}</p>
       </div>
@@ -102,11 +102,11 @@ async function Hub({ params }: Props) {
               const Icon = ICONS[s.kind];
               return (
                 <li key={s.id} className="flex items-center gap-3 p-4">
-                  <Icon aria-hidden="true" className="size-5 shrink-0 text-primary" />
+                  <Icon aria-hidden="true" className="size-5 shrink-0 text-primary-ink" />
                   <div className="flex min-w-0 flex-1 flex-col">
                     <Link
                       href={{ pathname: "/account/ai/[org]/[session]", params: { org, session: s.id } }}
-                      className="truncate font-medium underline-offset-4 hover:text-primary hover:underline"
+                      className="truncate font-medium underline-offset-4 hover:text-primary-ink hover:underline"
                     >
                       {s.title || t("history.untitled")}
                     </Link>

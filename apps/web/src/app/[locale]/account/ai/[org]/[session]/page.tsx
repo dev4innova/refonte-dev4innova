@@ -37,12 +37,12 @@ async function SessionView({ params }: Props) {
 
   return (
     <>
-      <Link href={{ pathname: "/account/ai/[org]", params: { org } }} className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline">
+      <Link href={{ pathname: "/account/ai/[org]", params: { org } }} className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
         <ArrowLeft aria-hidden="true" className="size-4" />
         {t("session.back", { organization: membership.organization_name })}
       </Link>
       <header className="flex flex-col gap-3">
-        <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary uppercase">{t(`kinds.${detail.kind}`)}</p>
+        <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary-ink uppercase">{t(`kinds.${detail.kind}`)}</p>
         <h1 className="text-display-md font-semibold break-words">{detail.title || t("history.untitled")}</h1>
         {detail.kind === "document" ? (
           <p className="flex items-center gap-2 text-sm text-muted-foreground">

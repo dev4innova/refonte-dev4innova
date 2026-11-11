@@ -53,7 +53,7 @@ async function SignUpForm({ locale, searchParams }: { locale: Locale; searchPara
       footer={
         <p className="text-sm">
           {t("signUp.hasAccount")}{" "}
-          <Link href={{ pathname: "/sign-in", query: returnTo ? { returnTo } : {} }} className="font-medium text-primary underline-offset-4 hover:underline">
+          <Link href={{ pathname: "/sign-in", query: returnTo ? { returnTo } : {} }} className="font-medium text-primary-ink underline-offset-4 hover:underline">
             {t("signUp.signInLink")}
           </Link>
         </p>

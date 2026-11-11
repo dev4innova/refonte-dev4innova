@@ -50,7 +50,7 @@ async function Lesson({ params }: Props) {
       <nav aria-label={course.course.title} className="flex flex-col gap-1">
         <Link
           href={{ pathname: "/account/academy/[course]", params: { course: slug } }}
-          className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline"
+          className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline"
         >
           <ArrowLeft aria-hidden="true" className="size-4" />
           {lesson.course_title}
@@ -84,14 +84,14 @@ async function Lesson({ params }: Props) {
         {lesson.done && course.certificate_code ? (
           <Link
             href={{ pathname: "/academy/certificate/[code]", params: { code: course.certificate_code } }}
-            className="font-semibold text-primary underline-offset-4 hover:underline"
+            className="font-semibold text-primary-ink underline-offset-4 hover:underline"
           >
             {t("lesson.certificate")}
           </Link>
         ) : null}
         <div className="flex flex-wrap justify-between gap-4">
           {lesson.previous_lesson_id ? (
-            <Link href={lessonHref(lesson.previous_lesson_id)} className="inline-flex items-center gap-2 text-sm font-medium underline-offset-4 hover:text-primary hover:underline">
+            <Link href={lessonHref(lesson.previous_lesson_id)} className="inline-flex items-center gap-2 text-sm font-medium underline-offset-4 hover:text-primary-ink hover:underline">
               <ArrowLeft aria-hidden="true" className="size-4" />
               {t("lesson.previous")}
             </Link>
@@ -101,14 +101,14 @@ async function Lesson({ params }: Props) {
           {lesson.module_has_quiz && lastOfModule ? (
             <Link
               href={{ pathname: "/account/academy/[course]/quiz/[module]", params: { course: slug, module: lesson.module_id } }}
-              className="inline-flex items-center gap-2 text-sm font-medium underline-offset-4 hover:text-primary hover:underline"
+              className="inline-flex items-center gap-2 text-sm font-medium underline-offset-4 hover:text-primary-ink hover:underline"
             >
               <ClipboardCheck aria-hidden="true" className="size-4" />
               {t("lesson.toQuiz")}
             </Link>
           ) : null}
           {lesson.next_lesson_id ? (
-            <Link href={lessonHref(lesson.next_lesson_id)} className="inline-flex items-center gap-2 text-sm font-medium underline-offset-4 hover:text-primary hover:underline">
+            <Link href={lessonHref(lesson.next_lesson_id)} className="inline-flex items-center gap-2 text-sm font-medium underline-offset-4 hover:text-primary-ink hover:underline">
               {t("lesson.next")}
               <ArrowRight aria-hidden="true" className="size-4" />
             </Link>

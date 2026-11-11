@@ -19,11 +19,11 @@ export async function PortalHeader({ org, organizationName, role }: { org: strin
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-col gap-2">
-          <Link href="/account" className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline">
+          <Link href="/account" className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
             <ArrowLeft aria-hidden="true" className="size-4" />
             {t("back")}
           </Link>
-          <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary uppercase">{organizationName}</p>
+          <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary-ink uppercase">{organizationName}</p>
         </div>
         <Suspense fallback={<span aria-hidden="true" className="size-11 rounded-full border border-border" />}>
           <NotificationBell />

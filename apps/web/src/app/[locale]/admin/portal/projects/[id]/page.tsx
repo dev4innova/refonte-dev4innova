@@ -64,12 +64,12 @@ async function PortalAdminProject({ params }: Props) {
 
   return (
     <div className="flex flex-col gap-8">
-      <Link href="/admin/portal" className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline">
+      <Link href="/admin/portal" className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
         <ArrowLeft aria-hidden="true" className="size-4" />
         {t("project.back")}
       </Link>
       <div className="flex flex-col gap-3">
-        <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary uppercase">{project.organization.name}</p>
+        <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary-ink uppercase">{project.organization.name}</p>
         <div className="flex flex-wrap items-center gap-3">
           <h1 className="text-display-md font-semibold">{project.name}</h1>
           <StatusChip value={project.status} label={tp(`projectStatus.${project.status}`)} />
@@ -141,7 +141,7 @@ async function PortalAdminProject({ params }: Props) {
                       <StatusChip value={d.status} label={tp(`deliverableStatus.${d.status}`)} />
                     </div>
                     {d.file ? (
-                      <a href={download(d.file.id)} className="inline-flex w-fit items-center gap-2 rounded-md border border-border px-3 py-2 text-sm font-medium break-all hover:border-primary hover:text-primary">
+                      <a href={download(d.file.id)} className="inline-flex w-fit items-center gap-2 rounded-md border border-border px-3 py-2 text-sm font-medium break-all hover:border-primary hover:text-primary-ink">
                         <Download aria-hidden="true" className="size-4 shrink-0" />
                         {tp("deliverable.downloadName", { name: d.file.name })}
                       </a>

@@ -60,7 +60,7 @@ export function QuizForm({ quiz, locale }: { quiz: QuizView; locale: "fr" | "en"
           {result.course_completed && result.certificate_code ? (
             <Link
               href={{ pathname: "/academy/certificate/[code]", params: { code: result.certificate_code } }}
-              className="font-semibold text-primary underline-offset-4 hover:underline"
+              className="font-semibold text-primary-ink underline-offset-4 hover:underline"
             >
               {t("lesson.certificate")}
             </Link>
@@ -74,7 +74,7 @@ export function QuizForm({ quiz, locale }: { quiz: QuizView; locale: "fr" | "en"
             <li key={question.id}>
               <fieldset className="flex flex-col gap-3 rounded-xl border border-border bg-card p-5">
                 <legend className="float-left mb-2 w-full font-semibold">
-                  <span className="block text-xs font-semibold tracking-wide text-primary uppercase">{t("quiz.question", { number: index + 1 })}</span>
+                  <span className="block text-xs font-semibold tracking-wide text-primary-ink uppercase">{t("quiz.question", { number: index + 1 })}</span>
                   {question.prompt}
                 </legend>
                 {question.options.map((option, optionIndex) => {
@@ -99,7 +99,7 @@ export function QuizForm({ quiz, locale }: { quiz: QuizView; locale: "fr" | "en"
                         className="mt-1 size-4 accent-primary"
                       />
                       <span className="flex-1">{option}</span>
-                      {right ? <CheckCircle2 aria-hidden="true" className="size-5 shrink-0 text-primary" /> : null}
+                      {right ? <CheckCircle2 aria-hidden="true" className="size-5 shrink-0 text-primary-ink" /> : null}
                       {chosenWrong ? <XCircle aria-hidden="true" className="size-5 shrink-0 text-destructive" /> : null}
                     </label>
                   );
@@ -107,7 +107,7 @@ export function QuizForm({ quiz, locale }: { quiz: QuizView; locale: "fr" | "en"
                 {graded ? (
                   <div className="flex flex-col gap-1 text-sm">
                     <p className={cn("inline-flex items-center gap-1.5 font-semibold", graded.correct ? "text-foreground" : "text-destructive")}>
-                      {graded.correct ? <CheckCircle2 aria-hidden="true" className="size-4 text-primary" /> : <XCircle aria-hidden="true" className="size-4" />}
+                      {graded.correct ? <CheckCircle2 aria-hidden="true" className="size-4 text-primary-ink" /> : <XCircle aria-hidden="true" className="size-4" />}
                       {graded.correct ? t("quiz.correct") : t("quiz.wrong")}
                     </p>
                     {!graded.correct ? <p>{t("quiz.rightAnswer", { answer: question.options[graded.correct_option] ?? "" })}</p> : null}

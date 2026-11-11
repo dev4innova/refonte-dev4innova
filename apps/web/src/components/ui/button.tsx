@@ -19,9 +19,9 @@ export const buttonVariants = cva(
         primary: "bg-primary text-primary-foreground shadow-card hover:bg-primary-hover",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary-hover",
         outline:
-          "border border-foreground/80 bg-transparent text-foreground hover:border-primary hover:text-primary",
+          "border border-foreground/80 bg-transparent text-foreground hover:border-primary hover:text-primary-ink",
         ghost: "bg-transparent text-foreground hover:bg-muted",
-        link: "text-primary underline-offset-4 hover:underline",
+        link: "text-primary-ink underline-offset-4 hover:underline",
         inverse: "bg-inverse-foreground text-inverse hover:bg-card",
       },
       size: {

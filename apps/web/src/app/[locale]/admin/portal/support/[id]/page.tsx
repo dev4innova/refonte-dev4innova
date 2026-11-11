@@ -43,7 +43,7 @@ async function PortalTicketAdmin({ params }: Props) {
 
   return (
     <div className="flex flex-col gap-8">
-      <Link href="/admin/portal/support" className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline">
+      <Link href="/admin/portal/support" className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
         <ArrowLeft aria-hidden="true" className="size-4" />
         {t("back")}
       </Link>
@@ -67,7 +67,7 @@ async function PortalTicketAdmin({ params }: Props) {
               {" · "}
               <Link
                 href={{ pathname: "/admin/portal/projects/[id]", params: { id: ticket.project.id } }}
-                className="text-primary underline-offset-4 hover:underline"
+                className="text-primary-ink underline-offset-4 hover:underline"
               >
                 {tp("ticket.project", { name: ticket.project.name })}
               </Link>

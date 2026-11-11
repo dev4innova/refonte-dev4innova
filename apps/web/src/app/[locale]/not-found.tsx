@@ -11,7 +11,7 @@ export default function NotFound() {
   return (
     <Section>
       <div className="flex max-w-2xl flex-col gap-6">
-        <p className="font-heading text-display-xl font-bold text-primary" aria-hidden="true">
+        <p className="font-heading text-display-xl font-bold text-primary-ink" aria-hidden="true">
           404
         </p>
         <h1 className="text-display-md font-semibold">{t("title")}</h1>

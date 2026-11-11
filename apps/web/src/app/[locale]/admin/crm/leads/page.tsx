@@ -121,7 +121,7 @@ async function Leads({ params, searchParams }: Props) {
                   <td className="px-4 py-3">
                     <Link
                       href={{ pathname: "/admin/crm/leads/[id]", params: { id: lead.id } }}
-                      className="font-medium text-foreground underline-offset-4 hover:text-primary hover:underline"
+                      className="font-medium text-foreground underline-offset-4 hover:text-primary-ink hover:underline"
                     >
                       {lead.name}
                     </Link>
@@ -146,13 +146,13 @@ async function Leads({ params, searchParams }: Props) {
       {pages > 1 ? (
         <nav aria-label={t("leads.pagination")} className="flex items-center justify-between gap-4 text-sm">
           {page > 1 ? (
-            <Link href={pageHref(page - 1)} className="font-medium text-primary underline-offset-4 hover:underline">
+            <Link href={pageHref(page - 1)} className="font-medium text-primary-ink underline-offset-4 hover:underline">
               {t("leads.previous")}
             </Link>
           ) : <span />}
           <span>{t("leads.page", { page, pages })}</span>
           {page < pages ? (
-            <Link href={pageHref(page + 1)} className="font-medium text-primary underline-offset-4 hover:underline">
+            <Link href={pageHref(page + 1)} className="font-medium text-primary-ink underline-offset-4 hover:underline">
               {t("leads.next")}
             </Link>
           ) : <span />}

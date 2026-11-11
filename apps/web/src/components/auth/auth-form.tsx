@@ -60,7 +60,7 @@ export function AuthForm({ action, fields, labels, footer }: AuthFormProps) {
   if (state.status === "success" && labels.success && !state.temporaryPassword) {
     return (
       <div ref={feedbackRef} tabIndex={-1} role="status" className="flex flex-col items-start gap-3 rounded-xl border border-border bg-card p-6 focus:outline-none">
-        <CircleCheck aria-hidden="true" className="size-8 text-primary" />
+        <CircleCheck aria-hidden="true" className="size-8 text-primary-ink" />
         <p className="text-heading-md font-semibold">{labels.success.title}</p>
         <p className="text-muted-foreground">{labels.success.text}</p>
       </div>

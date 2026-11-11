@@ -21,7 +21,7 @@ export async function CourseCatalog({ locale }: { locale: Locale }) {
         <li key={course.id} className="flex">
           <Card className="flex w-full flex-col">
             <CardHeader>
-              <p className="text-xs font-semibold tracking-wide text-primary uppercase">{t(`levels.${course.level}`)}</p>
+              <p className="text-xs font-semibold tracking-wide text-primary-ink uppercase">{t(`levels.${course.level}`)}</p>
               <CardTitle>{course.title}</CardTitle>
               <CardDescription>{course.summary}</CardDescription>
             </CardHeader>
@@ -40,7 +40,7 @@ export async function CourseCatalog({ locale }: { locale: Locale }) {
               </p>
               <Link
                 href={{ pathname: "/academy/[slug]", params: { slug: course.slug } }}
-                className="inline-flex items-center gap-2 text-sm font-semibold text-primary underline-offset-4 hover:underline"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-primary-ink underline-offset-4 hover:underline"
                 aria-label={t("catalog.seeName", { name: course.title })}
               >
                 {t("catalog.see")}

@@ -88,7 +88,7 @@ async function ContentList({ params }: Props) {
                     <td className="px-4 py-3 text-right">
                       <Link
                         href={{ pathname: "/admin/content/[type]/[id]", params: { type, id: item.id } }}
-                        className="font-medium text-primary underline-offset-4 hover:underline"
+                        className="font-medium text-primary-ink underline-offset-4 hover:underline"
                       >
                         {t("list.edit")}
                         <span className="sr-only"> : {title}</span>

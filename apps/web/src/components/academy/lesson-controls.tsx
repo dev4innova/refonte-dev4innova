@@ -25,7 +25,7 @@ export function MarkLessonDone({ lessonId, course, done, next }: Props) {
   if (done) {
     return (
       <p className="inline-flex items-center gap-2 font-medium">
-        <CheckCircle2 aria-hidden="true" className="size-5 text-primary" />
+        <CheckCircle2 aria-hidden="true" className="size-5 text-primary-ink" />
         {t("lesson.done")}
       </p>
     );

@@ -57,7 +57,7 @@ async function PortalDashboard({ params }: Props) {
           <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {counts.map(({ key, value, icon: Icon }) => (
               <li key={key} className="flex flex-col gap-2 rounded-xl border border-border bg-card p-4">
-                <Icon aria-hidden="true" className="size-5 text-primary" />
+                <Icon aria-hidden="true" className="size-5 text-primary-ink" />
                 <span className="font-heading text-3xl font-semibold">{value}</span>
                 <span className="text-sm text-muted-foreground">{t(`dashboard.counts.${key}`)}</span>
               </li>
@@ -76,7 +76,7 @@ async function PortalDashboard({ params }: Props) {
                       <h3 className="text-heading-sm font-semibold">
                         <Link
                           href={{ pathname: "/account/portal/[org]/projects/[project]", params: { org, project: project.id } }}
-                          className="underline-offset-4 hover:text-primary hover:underline"
+                          className="underline-offset-4 hover:text-primary-ink hover:underline"
                         >
                           {project.name}
                         </Link>
@@ -88,7 +88,7 @@ async function PortalDashboard({ params }: Props) {
                       {project.due_date ? <span>{t("project.due", { date: date(project.due_date) })}</span> : null}
                       {project.manager ? <span>{t("project.manager", { name: project.manager.display_name ?? project.manager.email ?? "" })}</span> : null}
                       {project.pending_deliverables > 0 ? (
-                        <span className="font-semibold text-primary">
+                        <span className="font-semibold text-primary-ink">
                           {t("dashboard.counts.pendingDeliverables")} : {project.pending_deliverables}
                         </span>
                       ) : null}
@@ -110,7 +110,7 @@ async function PortalDashboard({ params }: Props) {
                     <li key={d.id} className="flex flex-col gap-0.5 p-4">
                       <Link
                         href={{ pathname: "/account/portal/[org]/projects/[project]", params: { org, project: d.project_id } }}
-                        className="font-medium underline-offset-4 hover:text-primary hover:underline"
+                        className="font-medium underline-offset-4 hover:text-primary-ink hover:underline"
                       >
                         {d.title}
                       </Link>
@@ -134,7 +134,7 @@ async function PortalDashboard({ params }: Props) {
                       <div className="flex min-w-0 flex-col gap-0.5">
                         <Link
                           href={{ pathname: "/account/portal/[org]/projects/[project]", params: { org, project: task.project_id } }}
-                          className="font-medium underline-offset-4 hover:text-primary hover:underline"
+                          className="font-medium underline-offset-4 hover:text-primary-ink hover:underline"
                         >
                           {task.title}
                         </Link>
@@ -173,7 +173,7 @@ async function PortalDashboard({ params }: Props) {
                     <div className="flex min-w-0 flex-col gap-0.5">
                       <Link
                         href={{ pathname: "/account/portal/[org]/support/[ticket]", params: { org, ticket: ticket.id } }}
-                        className="font-medium underline-offset-4 hover:text-primary hover:underline"
+                        className="font-medium underline-offset-4 hover:text-primary-ink hover:underline"
                       >
                         {ticket.subject}
                       </Link>

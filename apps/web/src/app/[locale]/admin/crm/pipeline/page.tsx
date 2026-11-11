@@ -89,7 +89,7 @@ async function Pipeline({ params, searchParams }: Props) {
                         <p className="text-sm font-medium">{o.title}</p>
                         <Link
                           href={{ pathname: "/admin/crm/leads/[id]", params: { id: o.lead.id } }}
-                          className="text-xs text-primary underline-offset-4 hover:underline"
+                          className="text-xs text-primary-ink underline-offset-4 hover:underline"
                         >
                           {o.lead.company ? `${o.lead.name} · ${o.lead.company}` : o.lead.name}
                         </Link>

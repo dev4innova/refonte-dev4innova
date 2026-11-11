@@ -87,7 +87,7 @@ async function PortalProject({ params }: Props) {
                     {d.file ? (
                       <a
                         href={download(d.file.id)}
-                        className="inline-flex w-fit items-center gap-2 rounded-md border border-border px-3 py-2 text-sm font-medium break-all hover:border-primary hover:text-primary"
+                        className="inline-flex w-fit items-center gap-2 rounded-md border border-border px-3 py-2 text-sm font-medium break-all hover:border-primary hover:text-primary-ink"
                       >
                         <Download aria-hidden="true" className="size-4 shrink-0" />
                         {t("deliverable.downloadName", { name: d.file.name })}
@@ -156,7 +156,7 @@ async function PortalProject({ params }: Props) {
               <h2 id="project-documents" className="text-heading-lg font-semibold">{t("project.documents")}</h2>
               <Link
                 href={{ pathname: "/account/portal/[org]/documents", params: { org } }}
-                className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+                className="text-sm font-medium text-primary-ink underline-offset-4 hover:underline"
               >
                 {t("project.allDocuments")}
               </Link>
@@ -175,7 +175,7 @@ async function PortalProject({ params }: Props) {
 
           <Link
             href={{ pathname: "/account/portal/[org]", params: { org } }}
-            className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline"
+            className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline"
           >
             <ArrowLeft aria-hidden="true" className="size-4" />
             {t("nav.dashboard")}

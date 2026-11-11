@@ -10,6 +10,7 @@ const sectionVariants = cva("py-section", {
       default: "bg-background text-foreground",
       card: "bg-card text-card-foreground",
       muted: "bg-muted text-foreground",
+      tint: "bg-tint text-tint-foreground",
       inverse: "bg-inverse text-inverse-foreground",
     },
   },

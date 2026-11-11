@@ -329,7 +329,7 @@ export function DocumentEditor({ type, initial, media, justSaved = false }: Docu
                 className="aspect-video w-full rounded-lg border border-border object-cover"
               />
             ) : null}
-            <Link href="/admin/media" className="text-sm font-medium text-primary underline-offset-4 hover:underline">
+            <Link href="/admin/media" className="text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
               {t("editor.manageMedia")}
             </Link>
           </section>
