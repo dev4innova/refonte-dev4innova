@@ -111,7 +111,7 @@ async function AccountDetails({ locale }: { locale: Locale }) {
                 <Card>
                   <CardHeader>
                     <CardTitle as="h3" className="flex items-center gap-2">
-                      <Building2 aria-hidden="true" className="size-5 text-primary" />
+                      <Building2 aria-hidden="true" className="size-5 text-primary-ink" />
                       {membership.organization_name}
                     </CardTitle>
                     <CardDescription>

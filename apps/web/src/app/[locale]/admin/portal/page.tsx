@@ -98,7 +98,7 @@ async function PortalAdmin({ params, searchParams }: Props) {
                     <div className="flex min-w-0 flex-col gap-0.5">
                       <Link
                         href={{ pathname: "/admin/portal/projects/[id]", params: { id: project.id } }}
-                        className="text-heading-sm font-semibold underline-offset-4 hover:text-primary hover:underline"
+                        className="text-heading-sm font-semibold underline-offset-4 hover:text-primary-ink hover:underline"
                       >
                         {project.name}
                       </Link>
@@ -133,7 +133,7 @@ async function PortalAdmin({ params, searchParams }: Props) {
       <section aria-labelledby="admin-tickets" className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 id="admin-tickets" className="text-heading-lg font-semibold">{t("overview.tickets")}</h2>
-          <Link href="/admin/portal/support" className="text-sm font-medium text-primary underline-offset-4 hover:underline">
+          <Link href="/admin/portal/support" className="text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
             {t("overview.allTickets")}
           </Link>
         </div>

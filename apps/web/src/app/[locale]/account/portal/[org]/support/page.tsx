@@ -78,7 +78,7 @@ async function PortalSupport({ params, searchParams }: Props) {
                   <div className="flex min-w-0 flex-col gap-0.5">
                     <Link
                       href={{ pathname: "/account/portal/[org]/support/[ticket]", params: { org, ticket: ticket.id } }}
-                      className="font-medium break-words underline-offset-4 hover:text-primary hover:underline"
+                      className="font-medium break-words underline-offset-4 hover:text-primary-ink hover:underline"
                     >
                       {ticket.subject}
                     </Link>
@@ -88,7 +88,7 @@ async function PortalSupport({ params, searchParams }: Props) {
                       {t("support.updated", { date: format.dateTime(new Date(ticket.last_message_at), { dateStyle: "medium" }) })}
                     </span>
                     {ticket.status === "waiting_customer" ? (
-                      <span className="text-xs font-semibold text-primary">{t("support.awaitingYou")}</span>
+                      <span className="text-xs font-semibold text-primary-ink">{t("support.awaitingYou")}</span>
                     ) : null}
                   </div>
                   <StatusChip value={ticket.status} label={t(`ticketStatus.${ticket.status}`)} />

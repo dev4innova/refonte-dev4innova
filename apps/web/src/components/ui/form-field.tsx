@@ -49,7 +49,7 @@ export function FormField({
     <Label htmlFor={controlId}>
       {label}
       {required ? (
-        <span className="text-primary">
+        <span className="text-primary-ink">
           <span aria-hidden="true">*</span>
           {requiredLabel ? <span className="sr-only">{requiredLabel}</span> : null}
         </span>

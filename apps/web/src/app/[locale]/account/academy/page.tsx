@@ -29,7 +29,7 @@ async function MyCourses({ params }: Props) {
   ]);
   return (
     <>
-      <Link href="/account" className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline">
+      <Link href="/account" className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
         <ArrowLeft aria-hidden="true" className="size-4" />
         {t("learner.back")}
       </Link>
@@ -54,7 +54,7 @@ async function MyCourses({ params }: Props) {
                 <h2 className="text-heading-sm font-semibold">
                   <Link
                     href={{ pathname: "/account/academy/[course]", params: { course: item.course.slug } }}
-                    className="underline-offset-4 hover:text-primary hover:underline"
+                    className="underline-offset-4 hover:text-primary-ink hover:underline"
                   >
                     {item.course.title}
                   </Link>

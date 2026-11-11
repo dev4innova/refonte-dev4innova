@@ -73,7 +73,7 @@ async function Quotes({ params, searchParams }: Props) {
                   <h2 id={`quote-${quote.id}`} className="text-heading-sm font-semibold">
                     <Link
                       href={{ pathname: "/admin/crm/leads/[id]", params: { id: quote.lead.id } }}
-                      className="underline-offset-4 hover:text-primary hover:underline"
+                      className="underline-offset-4 hover:text-primary-ink hover:underline"
                     >
                       {quote.lead.company ? `${quote.lead.company} · ${quote.lead.name}` : quote.lead.name}
                     </Link>

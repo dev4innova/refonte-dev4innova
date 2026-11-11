@@ -46,7 +46,7 @@ export function OfferGrid({ items, linkLabel }: { items: OfferItem[]; linkLabel:
               <CardDescription>{summary}</CardDescription>
             </CardContent>
             <CardFooter>
-              <span aria-hidden="true" className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+              <span aria-hidden="true" className="inline-flex items-center gap-1 text-sm font-medium text-primary-ink">
                 {linkLabel}
                 <ArrowRight className="size-4" />
               </span>

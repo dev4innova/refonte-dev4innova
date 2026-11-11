@@ -51,7 +51,7 @@ export function ContactForm({ action, labels }: ContactFormProps) {
         role="status"
         className="flex flex-col items-start gap-3 rounded-xl border border-border bg-card p-8 focus:outline-none"
       >
-        <CircleCheck aria-hidden="true" className="size-10 text-primary" />
+        <CircleCheck aria-hidden="true" className="size-10 text-primary-ink" />
         <h2 className="text-heading-lg font-semibold">{labels.success.title}</h2>
         <p className="text-muted-foreground">{labels.success.text}</p>
       </div>
@@ -139,7 +139,7 @@ export function ContactForm({ action, labels }: ContactFormProps) {
         >
           <Checkbox name="consent" value="on" />
         </FormField>
-        <Link href="/privacy" className="ml-8 text-sm text-primary underline underline-offset-4">
+        <Link href="/privacy" className="ml-8 text-sm text-primary-ink underline underline-offset-4">
           {labels.privacyLink}
         </Link>
       </div>

@@ -57,12 +57,12 @@ async function Result({ params }: Props) {
     return (
       <li className="flex flex-col gap-2 rounded-xl border border-border bg-card p-5">
         {showHorizon ? (
-          <p className="text-xs font-semibold tracking-wide text-primary uppercase">{t(`horizons.${recommendation.horizon}`)}</p>
+          <p className="text-xs font-semibold tracking-wide text-primary-ink uppercase">{t(`horizons.${recommendation.horizon}`)}</p>
         ) : null}
         <h4 className="font-semibold">{recommendation.title}</h4>
         {recommendation.text ? <p className="text-muted-foreground">{recommendation.text}</p> : null}
         {title ? (
-          <Link href={{ pathname: "/services/[slug]", params: { slug: recommendation.service } }} className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-primary underline-offset-4 hover:underline">
+          <Link href={{ pathname: "/services/[slug]", params: { slug: recommendation.service } }} className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
             {t("result.service", { service: title })}
             <ArrowRight aria-hidden="true" className="size-4" />
           </Link>
@@ -76,7 +76,7 @@ async function Result({ params }: Props) {
       <Section>
         <div className="flex flex-col gap-10">
           <div className="flex flex-col gap-2">
-            <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary uppercase">{t("eyebrow")}</p>
+            <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary-ink uppercase">{t("eyebrow")}</p>
             <h1 className="text-display-lg font-semibold">{t("result.title")}</h1>
             <p className="text-muted-foreground">{t("result.date", { date: format.dateTime(new Date(result.created_at), { dateStyle: "long" }) })}</p>
           </div>
@@ -84,7 +84,7 @@ async function Result({ params }: Props) {
           <div className="grid items-center gap-10 lg:grid-cols-2">
             <div className="flex flex-col gap-4">
               <p className="flex items-baseline gap-2">
-                <span className="font-heading text-[5rem] leading-none font-semibold text-primary">{result.overall_score}</span>
+                <span className="font-heading text-[5rem] leading-none font-semibold text-primary-ink">{result.overall_score}</span>
                 <span className="text-xl text-muted-foreground">/ 100</span>
               </p>
               <p className="text-heading-lg font-semibold">{t("result.level", { level: result.level_label })}</p>

@@ -44,7 +44,7 @@ async function Prompts({ params }: Props) {
               <div className="flex flex-col gap-1">
                 <Link
                   href={{ pathname: "/admin/ai/prompts/[key]", params: { key: prompt.key } }}
-                  className="font-mono font-medium underline-offset-4 hover:text-primary hover:underline"
+                  className="font-mono font-medium underline-offset-4 hover:text-primary-ink hover:underline"
                 >
                   {prompt.key}
                 </Link>

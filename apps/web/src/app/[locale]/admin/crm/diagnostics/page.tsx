@@ -70,7 +70,7 @@ async function Diagnostics({ params, searchParams }: Props) {
                   <td className="px-4 py-3 text-muted-foreground">{format.dateTime(new Date(d.created_at), { dateStyle: "medium" })}</td>
                   <td className="px-4 py-3">
                     {d.lead_id ? (
-                      <Link href={{ pathname: "/admin/crm/leads/[id]", params: { id: d.lead_id } }} className="font-medium underline-offset-4 hover:text-primary hover:underline">
+                      <Link href={{ pathname: "/admin/crm/leads/[id]", params: { id: d.lead_id } }} className="font-medium underline-offset-4 hover:text-primary-ink hover:underline">
                         {d.contact_company ?? d.contact_name ?? d.contact_email}
                       </Link>
                     ) : (
@@ -81,7 +81,7 @@ async function Diagnostics({ params, searchParams }: Props) {
                   <td className="px-4 py-3 text-right font-semibold tabular-nums">{d.overall_score}</td>
                   <td className="px-4 py-3">{t(`diagnosticLevels.${d.level as "discovery"}`)}</td>
                   <td className="px-4 py-3 text-right">
-                    <a href={`/api/admin/diagnostics/${d.id}/report`} className="inline-flex items-center gap-1 font-medium text-primary underline-offset-4 hover:underline">
+                    <a href={`/api/admin/diagnostics/${d.id}/report`} className="inline-flex items-center gap-1 font-medium text-primary-ink underline-offset-4 hover:underline">
                       <Download aria-hidden="true" className="size-4" />
                       {t("diagnostics.report")}
                     </a>

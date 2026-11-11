@@ -6,7 +6,7 @@ export function Steps({ steps }: { steps: Step[] }) {
     <ol className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
       {steps.map((step, index) => (
         <li key={step.key} className="flex flex-col gap-3 border-t-2 border-primary pt-5">
-          <span aria-hidden="true" className="font-heading text-sm font-semibold text-primary">
+          <span aria-hidden="true" className="font-heading text-sm font-semibold text-primary-ink">
             {String(index + 1).padStart(2, "0")}
           </span>
           <h3 className="text-heading-sm font-semibold">{step.title}</h3>

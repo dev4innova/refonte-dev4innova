@@ -68,7 +68,7 @@ async function CertificateCheck({ params }: Props) {
       <h1 className="text-display-md font-semibold">{t("title")}</h1>
       {certificate.valid ? (
         <p className="inline-flex items-center gap-2 font-semibold text-foreground">
-          <BadgeCheck aria-hidden="true" className="size-6 text-primary" />
+          <BadgeCheck aria-hidden="true" className="size-6 text-primary-ink" />
           {t("valid")}
         </p>
       ) : (

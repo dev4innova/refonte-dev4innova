@@ -60,7 +60,7 @@ async function PaymentsAdmin({ params }: Props) {
                     <td className="p-3 whitespace-nowrap">{format.dateTime(new Date(p.received_at), { dateStyle: "medium" })}</td>
                     <td className="p-3">{p.organization.name}</td>
                     <td className="p-3">
-                      <Link href={{ pathname: "/admin/billing/invoices/[id]", params: { id: p.invoice_id } }} className="font-medium text-primary underline-offset-4 hover:underline">
+                      <Link href={{ pathname: "/admin/billing/invoices/[id]", params: { id: p.invoice_id } }} className="font-medium text-primary-ink underline-offset-4 hover:underline">
                         {p.invoice_number}
                       </Link>
                     </td>

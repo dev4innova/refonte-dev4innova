@@ -133,17 +133,25 @@
       "cards": "Cartes",
       "forms": "Formulaires",
       "motion": "Animations",
-      "inverse": "Section sombre"
+      "inverse": "Section sombre",
+      "surfaces": "Surfaces et cadres"
     },
     "colors": {
-      "primary": "Rouge DEV4INNOVA",
-      "primaryHover": "Rouge survol",
-      "secondary": "Noir",
-      "background": "Fond clair",
+      "primary": "Rouge signature (aplats)",
+      "secondary": "Graphite",
+      "background": "Ivoire",
       "card": "Surface",
       "muted": "Neutre",
       "accent": "Accent",
-      "primaryOnInverse": "Rouge sur noir"
+      "primaryOnInverse": "Rouge sur graphite",
+      "primaryInk": "Rouge encre (texte)",
+      "mutedForeground": "Acier encre (texte secondaire)",
+      "steel": "Acier (bordures)",
+      "tint": "Glacier",
+      "success": "Succès",
+      "warning": "Avertissement",
+      "inverseElevated": "Graphite surélevé",
+      "inverseDeep": "Graphite profond"
     },
     "typography": {
       "displayXl": "Display XL — Space Grotesk",
@@ -153,7 +161,9 @@
       "headingSm": "Heading S — Sous-titre",
       "bodyLg": "Corps L — Inter, pour les introductions.",
       "body": "Corps — Inter, le texte courant de la plateforme.",
-      "bodySm": "Corps S — mentions et aides."
+      "bodySm": "Corps S — mentions et aides.",
+      "eyebrow": "Sur-titre — Studio",
+      "display2xl": "Display 2XL — Hero"
     },
     "buttons": {
       "primary": "Démarrer un projet",
@@ -203,6 +213,13 @@
       "link": "Voir les solutions",
       "action": "Action principale",
       "secondary": "Action secondaire"
+    },
+    "surfaces": {
+      "frame": "Cadre produit",
+      "frameText": "Rayon « frame », filet acier et ombre portée, pour les captures et la grille Bento.",
+      "blueprint": "Grille technique",
+      "blueprintText": "Fond graphite quadrillé, réservé aux sections sombres.",
+      "numeric": "Chiffres tabulaires"
     }
   },
   "Account": {

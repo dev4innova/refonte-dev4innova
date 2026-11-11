@@ -86,14 +86,14 @@ async function Course({ params }: Props) {
               <ol className="flex flex-col gap-4">
                 {course.outline.map((module, index) => (
                   <li key={module.id} className="rounded-xl border border-border bg-card p-5">
-                    <p className="text-xs font-semibold tracking-wide text-primary uppercase">{t("course.module", { number: index + 1 })}</p>
+                    <p className="text-xs font-semibold tracking-wide text-primary-ink uppercase">{t("course.module", { number: index + 1 })}</p>
                     <h3 className="text-heading-sm font-semibold">{module.title}</h3>
                     {module.summary ? <p className="mt-1 text-sm text-muted-foreground">{module.summary}</p> : null}
                     <ul className="mt-3 flex flex-col gap-2">
                       {module.lessons.map((lesson) => (
                         <li key={lesson.id} className="flex items-start gap-2 text-sm">
                           {lesson.has_video ? (
-                            <PlayCircle aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary" />
+                            <PlayCircle aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary-ink" />
                           ) : (
                             <CheckCircle2 aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
                           )}
@@ -106,7 +106,7 @@ async function Course({ params }: Props) {
                       ))}
                       {module.questions > 0 ? (
                         <li className="flex items-start gap-2 text-sm font-medium">
-                          <ClipboardCheck aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary" />
+                          <ClipboardCheck aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary-ink" />
                           {t("course.quiz", { count: module.questions })}
                         </li>
                       ) : null}

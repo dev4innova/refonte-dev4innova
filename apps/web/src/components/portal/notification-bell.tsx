@@ -19,7 +19,7 @@ export function NotificationBellView({ label, unread }: { label: string; unread:
   return (
     <Link
       href="/account/notifications"
-      className="relative inline-flex size-11 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors duration-fast hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+      className="relative inline-flex size-11 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors duration-fast hover:border-primary hover:text-primary-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
     >
       <Bell aria-hidden="true" className="size-5" />
       <span className="sr-only">{label}</span>

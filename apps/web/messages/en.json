@@ -133,17 +133,25 @@
       "cards": "Cards",
       "forms": "Forms",
       "motion": "Motion",
-      "inverse": "Dark section"
+      "inverse": "Dark section",
+      "surfaces": "Surfaces and frames"
     },
     "colors": {
-      "primary": "DEV4INNOVA red",
-      "primaryHover": "Hover red",
-      "secondary": "Black",
-      "background": "Light background",
+      "primary": "Signature red (fills)",
+      "secondary": "Graphite",
+      "background": "Ivory",
       "card": "Surface",
       "muted": "Neutral",
       "accent": "Accent",
-      "primaryOnInverse": "Red on black"
+      "primaryOnInverse": "Red on graphite",
+      "primaryInk": "Ink red (text)",
+      "mutedForeground": "Ink steel (secondary text)",
+      "steel": "Steel (borders)",
+      "tint": "Glacier",
+      "success": "Success",
+      "warning": "Warning",
+      "inverseElevated": "Elevated graphite",
+      "inverseDeep": "Deep graphite"
     },
     "typography": {
       "displayXl": "Display XL — Space Grotesk",
@@ -153,7 +161,9 @@
       "headingSm": "Heading S — Subtitle",
       "bodyLg": "Body L — Inter, for introductions.",
       "body": "Body — Inter, the platform's running text.",
-      "bodySm": "Body S — notes and hints."
+      "bodySm": "Body S — notes and hints.",
+      "eyebrow": "Eyebrow — Studio",
+      "display2xl": "Display 2XL — Hero"
     },
     "buttons": {
       "primary": "Start a project",
@@ -203,6 +213,13 @@
       "link": "See solutions",
       "action": "Primary action",
       "secondary": "Secondary action"
+    },
+    "surfaces": {
+      "frame": "Product frame",
+      "frameText": "Frame radius, steel hairline and drop shadow, for screenshots and the Bento grid.",
+      "blueprint": "Technical grid",
+      "blueprintText": "Gridded graphite background, for dark sections only.",
+      "numeric": "Tabular figures"
     }
   },
   "Account": {

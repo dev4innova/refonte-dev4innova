@@ -53,7 +53,7 @@ async function AcademyCourseAdmin({ params }: Props) {
 
   return (
     <div className="flex flex-col gap-8">
-      <Link href="/admin/academy" className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline">
+      <Link href="/admin/academy" className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
         <ArrowLeft aria-hidden="true" className="size-4" />
         {t("course.back")}
       </Link>
@@ -66,7 +66,7 @@ async function AcademyCourseAdmin({ params }: Props) {
         {published && course.visibility === "public" ? (
           <Link
             href={{ pathname: "/academy/[slug]", params: { slug: course.slug } }}
-            className="inline-flex w-fit items-center gap-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline"
+            className="inline-flex w-fit items-center gap-1.5 text-sm font-medium text-primary-ink underline-offset-4 hover:underline"
           >
             {t("course.view")}
             <ExternalLink aria-hidden="true" className="size-4" />
@@ -101,7 +101,7 @@ async function AcademyCourseAdmin({ params }: Props) {
               <li key={module.id} className="flex flex-col gap-3 rounded-xl border border-border bg-card p-5">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="flex min-w-0 flex-col">
-                    <p className="text-xs font-semibold tracking-wide text-primary uppercase">{t("outline.module", { number: index + 1 })}</p>
+                    <p className="text-xs font-semibold tracking-wide text-primary-ink uppercase">{t("outline.module", { number: index + 1 })}</p>
                     <h3 className="text-heading-sm font-semibold break-words">{moduleName}</h3>
                   </div>
                   <ItemActions
@@ -123,7 +123,7 @@ async function AcademyCourseAdmin({ params }: Props) {
                           <span className="text-muted-foreground">{index + 1}.{n + 1} </span>
                           <Link
                             href={{ pathname: "/admin/academy/[id]/lessons/[lesson]", params: { id: course.id, lesson: lesson.id } }}
-                            className="font-medium underline-offset-4 hover:text-primary hover:underline"
+                            className="font-medium underline-offset-4 hover:text-primary-ink hover:underline"
                           >
                             {lessonName}
                           </Link>
@@ -143,12 +143,12 @@ async function AcademyCourseAdmin({ params }: Props) {
                 <AddLessonForm courseId={course.id} moduleId={module.id} />
                 <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-muted/50 p-3">
                   <span className="inline-flex items-center gap-2 text-sm font-medium">
-                    <ClipboardCheck aria-hidden="true" className="size-5 text-primary" />
+                    <ClipboardCheck aria-hidden="true" className="size-5 text-primary-ink" />
                     {t("outline.quiz", { count: module.questions.length })}
                   </span>
                   <Link
                     href={{ pathname: "/admin/academy/[id]/quiz/[module]", params: { id: course.id, module: module.id } }}
-                    className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+                    className="text-sm font-medium text-primary-ink underline-offset-4 hover:underline"
                   >
                     {t("outline.editQuiz")}
                     <span className="sr-only"> : {moduleName}</span>

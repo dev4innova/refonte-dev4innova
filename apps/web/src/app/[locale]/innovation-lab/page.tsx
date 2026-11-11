@@ -52,7 +52,7 @@ export default async function InnovationLabPage({ params }: Props) {
             <li key={key} className="flex">
               <Card className="w-full">
                 <CardHeader>
-                  <Icon aria-hidden="true" className="size-8 text-primary" />
+                  <Icon aria-hidden="true" className="size-8 text-primary-ink" />
                   <CardTitle>{t(`explore.${key}.title`)}</CardTitle>
                   <CardDescription>{t(`explore.${key}.text`)}</CardDescription>
                 </CardHeader>

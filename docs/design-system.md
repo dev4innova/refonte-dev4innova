@@ -1,7 +1,8 @@
 # Design system DEV4INNOVA
 
-Identité : **moderne, minimaliste, premium et technologique**, fidèle au logo historique rouge
-et noir. Positionnement : « DEV4INNOVA — L'intégrateur de solutions IA ».
+Identité : **« Creative Tech Studio »** (refonte 2026, `docs/refonte-creative-tech-studio/`),
+fidèle au logo historique : graphite, ivoire, rouge signature, acier et glacier.
+Positionnement : « DEV4INNOVA — L'intégrateur de solutions IA ».
 
 Vitrine vivante de tous les tokens et composants : **`/fr/design-system`** et `/en/design-system` (page interne, non indexée).
 
@@ -21,30 +22,46 @@ Vitrine vivante de tous les tokens et composants : **`/fr/design-system`** et `/
 
 | Token | Valeur | Usage |
 |---|---|---|
-| `primary` | `#D90000` (provisoire) | actions principales, accents, focus |
-| `primary-hover` | `#B80000` | survol et appui des actions principales |
-| `secondary` / `foreground` | `#171717` | texte, boutons secondaires |
-| `background` | `#F4F4F4` | fond de page |
+| `primary` | `#E11927` (rouge signature) | **aplats** : boutons (texte blanc), graphiques, grands titres. Jamais de petit texte sur fond clair |
+| `primary-hover` | `#C8101E` | survol des aplats rouges |
+| `primary-ink` / `primary-ink-hover` | `#C8101E` / `#A30D18` | **texte et liens rouges sur fond clair** (`text-primary-ink`) |
+| `secondary` / `foreground` | `#141417` (graphite) | texte, boutons secondaires |
+| `background` | `#F7F7F5` (ivoire) | fond de page |
 | `card` | `#FFFFFF` | surfaces (cartes, champs, sections claires) |
-| `muted` / `muted-foreground` | `#E8E8E8` / `#525252` | fonds neutres, textes secondaires |
-| `accent` / `accent-foreground` | `#FFF1F1` / `#990000` | mises en avant discrètes |
-| `destructive` | `#990000` | erreurs |
-| `border` / `input` | `#D4D4D4` / `#8A8A8A` | séparateurs / bordures de champs (≥ 3:1) |
-| `inverse` / `inverse-foreground` | `#171717` / `#F4F4F4` | sections sombres, footer |
-| `primary-on-inverse` | `#FF4D4D` | rouge lisible sur fond noir |
+| `muted` / `muted-foreground` | `#E2E3E7` / `#5F616C` (acier encre) | fonds neutres, textes secondaires |
+| `tint` / `tint-subtle` / `tint-foreground` | `#DCE5F4` / `#EEF2FA` / `#141417` | surfaces « données et technologie » (glacier) |
+| `accent` / `accent-foreground` | `#FDECEE` / `#A30D18` | mises en avant discrètes |
+| `destructive` | `#A30D18` | erreurs |
+| `success` / `warning` | `#1F7A4D` / `#8A5A00` | états (texte et icônes) |
+| `border` / `input` | `#E2E3E7` / `#8B8D98` (acier) | séparateurs / bordures de champs (≥ 3:1) |
+| `ring` | `#C8101E` | focus sur fond clair |
+| `inverse` / `inverse-elevated` / `inverse-deep` | `#141417` / `#1E1F24` / `#0E0E10` | sections sombres, surfaces surélevées, pied de page |
+| `inverse-foreground` / `inverse-muted-foreground` | `#F7F7F5` / `#8B8D98` | texte sur graphite |
+| `primary-on-inverse` | `#FF4757` | rouge lisible sur graphite (texte, focus) |
 
-**Changer le rouge de marque** : modifier `--d4i-red-500` (et ses voisins `400`, `600`, `700`)
-dans `tokens.css`, puis lancer `pnpm --filter @dev4innova/web test` : `tokens.test.ts` vérifie
-que tous les contrastes restent conformes.
+**Règle du rouge** : `bg-primary` pour les aplats, `text-primary-ink` pour le texte rouge sur
+fond clair, `text-primary-on-inverse` sur graphite. `text-primary` n'est permis que pour les
+grands textes (≥ 24 px, ou ≥ 18,66 px en gras) et le « 4 » du logo.
+
+Sur une surface sombre, ajoutez `data-variant="inverse"` (déjà posé par `Section variant="inverse"`
+et le pied de page) : le focus passe au rouge clair et les variables d'illustration `--illu-*`
+s'adaptent.
+
+**Changer le rouge de marque** : modifier `--d4i-red-*` dans `tokens.css`, puis lancer
+`pnpm --filter @dev4innova/web test` : `tokens.test.ts` vérifie que tous les contrastes restent
+conformes.
 
 ### Contrastes (vérifiés par `src/styles/tokens.test.ts`)
 
 | Combinaison | Ratio | Autorisé pour |
 |---|---|---|
-| Blanc sur `#D90000` | 5,3:1 | tout texte |
-| `#D90000` sur blanc / sur `#F4F4F4` | 5,3:1 / 4,8:1 | tout texte |
-| `#D90000` sur `#171717` | 3,4:1 | **grands textes et éléments d'interface uniquement** |
-| `#FF4D4D` sur `#171717` | 5,5:1 | tout texte sur fond sombre |
+| Blanc sur `#E11927` | 4,81:1 | tout texte (boutons) |
+| `#C8101E` sur ivoire / sur blanc | 5,52:1 / 5,92:1 | tout texte |
+| `#E11927` sur ivoire | 4,48:1 | **grands textes et éléments d'interface uniquement** |
+| `#5F616C` sur ivoire | 5,74:1 | tout texte (secondaire) |
+| `#8B8D98` sur ivoire | 3,08:1 | bordures, illustrations ; **jamais de texte** |
+| `#FF4757` sur `#141417` | 5,51:1 | tout texte sur fond sombre |
+| `#8B8D98` sur `#141417` | 5,57:1 | texte secondaire sur fond sombre |
 
 ## Typographie
 
@@ -55,27 +72,37 @@ que tous les contrastes restent conformes.
 
 | Utilitaire | Taille (mobile → desktop) | Usage |
 |---|---|---|
+| `text-display-2xl` | 44 → 96 px | titre du hero de l'accueil uniquement |
 | `text-display-xl` | 40 → 76 px | titre de hero (un seul `h1`) |
 | `text-display-lg` | 34 → 56 px | titres de page |
 | `text-display-md` | 28 → 40 px | titres de section (`h2`) |
 | `text-heading-lg` | 22 → 28 px | titres de carte (`h3`) |
 | `text-heading-sm` | 18 px | sous-titres |
+| `text-body-lg` | 17 → 20 px | chapeaux et introductions |
 | `text-lg`, `text-base`, `text-sm` | 18, 16, 14 px | corps de texte |
+| `text-eyebrow` | 13 px, interlettrage 0,18 em | sur-titres (en capitales) |
+
+`font-numeric` aligne les chiffres (scores, étapes, tableaux).
 
 ## Espacements et mise en page
 
 - Échelle Tailwind (base 4 px) pour les espacements internes.
 - Tokens de mise en page fluides : `px-gutter` (16 → 40 px), `py-section` (64 → 128 px),
   `max-w-site` (1280 px), `h-header` (64 px).
-- `Container` (largeur max et marges latérales) et `Section` (`default`, `card`, `muted`, `inverse`).
+- `py-section-tight` (48 → 96 px) pour les sections denses, `gap-bento` (12 → 20 px) pour la grille Bento.
+- `Container` (largeur max et marges latérales) et `Section` (`default`, `card`, `muted`, `tint`, `inverse`).
 - Points de rupture : `sm` 640, `md` 768, `lg` 1024 (navigation desktop), `xl` 1280.
-- Rayons : `rounded-sm` → `rounded-xl` dérivés de `--radius` (8 px). Ombres : `shadow-card`, `shadow-elevated`.
+- Rayons : `rounded-sm` → `rounded-xl` dérivés de `--radius` (12 px) ; `rounded-frame` (20 px) pour
+  les cellules Bento et les cadres de produit. Ombres : `shadow-card`, `shadow-elevated`, `shadow-frame`.
+- Lignes : `border-hairline` (acier à 22 %) pour les grilles et séparateurs fins ; `bg-blueprint`
+  pour la grille technique des sections sombres.
 
 ## Animations
 
 | Token | Valeur | Utilitaire |
 |---|---|---|
 | `--motion-duration-fast` / `base` / `slow` | 150 / 250 / 450 ms | `duration-fast`, `duration-base`, `duration-slow` |
+| `--motion-duration-draw` / `--motion-stagger` | 1 200 / 60 ms | tracé unique du filament du hero, décalage des révélations |
 | `--motion-ease-standard` | `cubic-bezier(0.2, 0, 0, 1)` | `ease-standard` |
 | `--motion-ease-out` | `cubic-bezier(0.22, 1, 0.36, 1)` | `ease-out-soft` |
 

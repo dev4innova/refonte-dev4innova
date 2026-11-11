@@ -66,7 +66,7 @@ async function SponsoredCourses({ params }: Props) {
                     {row.certificate_code ? (
                       <Link
                         href={{ pathname: "/academy/certificate/[code]", params: { code: row.certificate_code } }}
-                        className="font-medium text-primary underline-offset-4 hover:underline"
+                        className="font-medium text-primary-ink underline-offset-4 hover:underline"
                       >
                         {row.certificate_code}
                       </Link>

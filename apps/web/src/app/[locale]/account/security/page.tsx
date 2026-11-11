@@ -35,7 +35,7 @@ export default async function SecurityPage({ params }: Props) {
         <Suspense fallback={<div aria-hidden="true" className="h-80 animate-pulse rounded-xl bg-muted" />}>
           <PasswordForm locale={locale} />
         </Suspense>
-        <Link href="/account" className="text-sm font-medium text-primary underline-offset-4 hover:underline">
+        <Link href="/account" className="text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
           {t("security.back")}
         </Link>
       </div>

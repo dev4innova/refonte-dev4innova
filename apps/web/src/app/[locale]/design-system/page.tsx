@@ -24,28 +24,38 @@ type Props = { params: Promise<{ locale: Locale }> };
 
 const COLORS = [
   { token: "primary", key: "primary", className: "bg-primary" },
-  { token: "primary-hover", key: "primaryHover", className: "bg-primary-hover" },
+  { token: "primary-ink", key: "primaryInk", className: "bg-primary-ink" },
   { token: "secondary", key: "secondary", className: "bg-secondary" },
   { token: "background", key: "background", className: "bg-background" },
   { token: "card", key: "card", className: "bg-card" },
   { token: "muted", key: "muted", className: "bg-muted" },
+  { token: "muted-foreground", key: "mutedForeground", className: "bg-muted-foreground" },
+  { token: "input", key: "steel", className: "bg-input" },
+  { token: "tint", key: "tint", className: "bg-tint" },
   { token: "accent", key: "accent", className: "bg-accent" },
+  { token: "success", key: "success", className: "bg-success" },
+  { token: "warning", key: "warning", className: "bg-warning" },
+  { token: "inverse-elevated", key: "inverseElevated", className: "bg-inverse-elevated" },
+  { token: "inverse-deep", key: "inverseDeep", className: "bg-inverse-deep" },
   { token: "primary-on-inverse", key: "primaryOnInverse", className: "bg-primary-on-inverse" },
 ] as const;
 
 const TYPOGRAPHY = [
+  { key: "eyebrow", className: "text-eyebrow font-semibold uppercase text-primary-ink" },
+  { key: "display2xl", className: "font-heading text-display-2xl font-bold" },
   { key: "displayXl", className: "font-heading text-display-xl font-bold" },
   { key: "displayLg", className: "font-heading text-display-lg font-bold" },
   { key: "displayMd", className: "font-heading text-display-md font-semibold" },
   { key: "headingLg", className: "font-heading text-heading-lg font-semibold" },
   { key: "headingSm", className: "font-heading text-heading-sm font-semibold" },
-  { key: "bodyLg", className: "text-lg" },
+  { key: "bodyLg", className: "text-body-lg" },
   { key: "body", className: "text-base" },
   { key: "bodySm", className: "text-sm text-muted-foreground" },
 ] as const;
 
 const SPACING = [
   { label: "gutter", className: "w-gutter" },
+  { label: "bento", className: "w-bento" },
   { label: "4", className: "w-4" },
   { label: "8", className: "w-8" },
   { label: "12", className: "w-12" },
@@ -126,6 +136,29 @@ export default async function DesignSystemPage({ params }: Props) {
             </li>
           ))}
         </ul>
+      </Section>
+
+      <Section variant="tint" aria-labelledby="ds-surfaces">
+        <SectionTitle id="ds-surfaces">{t("sections.surfaces")}</SectionTitle>
+        <div className="grid gap-bento md:grid-cols-3">
+          <div className="rounded-frame border border-hairline bg-card p-6 shadow-frame">
+            <p className="font-heading text-heading-sm font-semibold">{t("surfaces.frame")}</p>
+            <p className="mt-2 text-sm text-muted-foreground">{t("surfaces.frameText")}</p>
+          </div>
+          <div
+            data-variant="inverse"
+            className="rounded-frame bg-inverse bg-blueprint p-6 text-inverse-foreground"
+          >
+            <p className="font-heading text-heading-sm font-semibold">{t("surfaces.blueprint")}</p>
+            <p className="mt-2 text-sm text-inverse-muted-foreground">{t("surfaces.blueprintText")}</p>
+          </div>
+          <div className="rounded-frame border border-hairline bg-tint-subtle p-6">
+            <p className="font-heading text-heading-sm font-semibold">{t("surfaces.numeric")}</p>
+            <p className="mt-2 font-numeric font-heading text-display-md font-bold">
+              01 · 02 · 03 · 04
+            </p>
+          </div>
+        </div>
       </Section>
 
       <Section variant="card" aria-labelledby="ds-buttons">

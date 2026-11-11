@@ -27,7 +27,7 @@ export default async function AdminLayout({ children, params }: Props) {
   return (
     <NextIntlClientProvider messages={{ Admin: messages.Admin }}>
       <Container className="flex flex-col gap-8 py-10">
-        <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary uppercase">
+        <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary-ink uppercase">
           {t("nav.label")}
         </p>
         <Suspense fallback={<AdminNavView pathname={null} />}>

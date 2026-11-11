@@ -17,7 +17,7 @@ export async function QuoteList({ quotes, href, empty, showClient = false }: { q
       {quotes.map((q) => (
         <li key={q.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
           <div className="flex min-w-0 flex-col gap-0.5">
-            <Link href={href(q)} className="font-medium break-words underline-offset-4 hover:text-primary hover:underline">
+            <Link href={href(q)} className="font-medium break-words underline-offset-4 hover:text-primary-ink hover:underline">
               {q.number} – {q.title}
             </Link>
             <span className="text-xs text-muted-foreground">
@@ -56,7 +56,7 @@ export async function InvoiceList({
         return (
           <li key={i.id} className="flex flex-wrap items-center justify-between gap-3 p-4">
             <div className="flex min-w-0 flex-col gap-0.5">
-              <Link href={href(i)} className="font-medium break-words underline-offset-4 hover:text-primary hover:underline">
+              <Link href={href(i)} className="font-medium break-words underline-offset-4 hover:text-primary-ink hover:underline">
                 {i.number} – {i.title}
               </Link>
               <span className="text-xs text-muted-foreground">

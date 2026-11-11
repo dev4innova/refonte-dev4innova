@@ -59,7 +59,7 @@ async function Models({ params }: Props) {
               </div>
             </div>
             <details className="mt-4">
-              <summary className="cursor-pointer text-sm font-medium text-primary">{t("models.edit")}</summary>
+              <summary className="cursor-pointer text-sm font-medium text-primary-ink">{t("models.edit")}</summary>
               <div className="mt-4">
                 <ModelForm model={model} />
               </div>

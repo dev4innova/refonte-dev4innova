@@ -76,7 +76,7 @@ function CheckList({ title, items }: { title: string; items: string[] }): React.
       <ul className="flex flex-col gap-3">
         {items.map((item) => (
           <li key={item} className="flex items-start gap-3">
-            <Check aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-primary" />
+            <Check aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-primary-ink" />
             <span>{item}</span>
           </li>
         ))}

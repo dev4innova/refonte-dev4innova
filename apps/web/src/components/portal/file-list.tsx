@@ -26,11 +26,11 @@ export async function FileList({ files, empty, href, remove }: Props) {
     <ul className="flex flex-col divide-y divide-border rounded-xl border border-border bg-card">
       {files.map((file) => (
         <li key={file.id} className="flex flex-wrap items-center gap-3 p-4">
-          <FileText aria-hidden="true" className="size-5 shrink-0 text-primary" />
+          <FileText aria-hidden="true" className="size-5 shrink-0 text-primary-ink" />
           <div className="flex min-w-0 flex-1 flex-col">
             <a
               href={href(file)}
-              className="inline-flex items-center gap-1.5 font-medium break-all underline-offset-4 hover:text-primary hover:underline"
+              className="inline-flex items-center gap-1.5 font-medium break-all underline-offset-4 hover:text-primary-ink hover:underline"
             >
               {file.name}
               <Download aria-hidden="true" className="size-4 shrink-0" />

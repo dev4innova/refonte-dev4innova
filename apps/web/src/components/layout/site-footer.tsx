@@ -36,6 +36,7 @@ export function SiteFooter({
   return (
     <footer
       data-slot="site-footer"
+      data-variant="inverse"
       className="border-t border-inverse-border bg-inverse text-inverse-foreground"
     >
       <Container className="grid gap-12 py-16 md:grid-cols-[minmax(0,1.2fr)_minmax(0,2fr)] md:py-20">

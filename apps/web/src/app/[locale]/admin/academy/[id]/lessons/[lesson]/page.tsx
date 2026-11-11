@@ -45,7 +45,7 @@ async function AcademyLessonAdmin({ params }: Props) {
     <div className="flex flex-col gap-6">
       <Link
         href={{ pathname: "/admin/academy/[id]", params: { id } }}
-        className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline"
+        className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline"
       >
         <ArrowLeft aria-hidden="true" className="size-4" />
         {t("lesson.back")}

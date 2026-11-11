@@ -17,6 +17,8 @@
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-ink: var(--primary-ink);
+  --color-primary-ink-hover: var(--primary-ink-hover);
   --color-secondary: var(--secondary);
   --color-secondary-hover: var(--secondary-hover);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -26,10 +28,17 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-tint: var(--tint);
+  --color-tint-subtle: var(--tint-subtle);
+  --color-tint-foreground: var(--tint-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-inverse: var(--inverse);
+  --color-inverse-elevated: var(--inverse-elevated);
+  --color-inverse-deep: var(--inverse-deep);
   --color-inverse-foreground: var(--inverse-foreground);
   --color-inverse-muted-foreground: var(--inverse-muted-foreground);
   --color-inverse-border: var(--inverse-border);
@@ -38,7 +47,10 @@
   --font-sans: var(--font-family-body);
   --font-heading: var(--font-family-heading);
 
-  /* Fluid type scale: text-display-xl … text-heading-sm. */
+  /* Fluid type scale: text-display-2xl (hero only) … text-heading-sm, text-body-lg. */
+  --text-display-2xl: clamp(2.75rem, 1.2rem + 6.4vw, 6rem);
+  --text-display-2xl--line-height: 0.98;
+  --text-display-2xl--letter-spacing: -0.04em;
   --text-display-xl: clamp(2.5rem, 1.5rem + 4.5vw, 4.75rem);
   --text-display-xl--line-height: 1.04;
   --text-display-xl--letter-spacing: -0.035em;
@@ -54,9 +66,16 @@
   --text-heading-sm: 1.125rem;
   --text-heading-sm--line-height: 1.4;
   --text-heading-sm--letter-spacing: -0.01em;
+  --text-body-lg: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --text-body-lg--line-height: 1.55;
+  --text-eyebrow: 0.8125rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.18em;
 
   --spacing-gutter: var(--layout-gutter);
   --spacing-section: var(--layout-section-y);
+  --spacing-section-tight: var(--layout-section-y-tight);
+  --spacing-bento: var(--layout-bento-gap);
   --spacing-header: var(--header-height);
   --container-site: var(--layout-max-width);
 
@@ -64,9 +83,11 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-frame: var(--radius-frame-size);
 
   --shadow-card: var(--elevation-1);
   --shadow-elevated: var(--elevation-2);
+  --shadow-frame: var(--elevation-frame);
 
   --ease-standard: var(--motion-ease-standard);
   --ease-out-soft: var(--motion-ease-out);
@@ -107,6 +128,24 @@
   transition-duration: var(--motion-duration-slow);
 }
 
+/* Technical-drawing grid behind dark hero sections (Creative Tech Studio signature). */
+@utility bg-blueprint {
+  background-image:
+    linear-gradient(var(--hairline-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hairline-color) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+}
+
+/* Hairline border in the brand steel, for grids and separators. */
+@utility border-hairline {
+  border-color: var(--hairline-color);
+}
+
+/* Aligned figures in scores, steps and tables. */
+@utility font-numeric {
+  font-variant-numeric: tabular-nums;
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -131,6 +170,11 @@
 
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-ring;
+  }
+
+  /* On graphite surfaces the focus ring uses the light red (5.51:1). */
+  [data-variant="inverse"] :focus-visible {
+    @apply outline-primary-on-inverse;
   }
 
   ::selection {
@@ -168,13 +212,13 @@
       @apply mt-8 font-heading text-heading-sm font-semibold;
     }
     & a {
-      @apply font-medium text-primary underline underline-offset-4 hover:text-primary-hover;
+      @apply font-medium text-primary-ink underline underline-offset-4 hover:text-primary-ink-hover;
     }
     & ul {
-      @apply list-disc pl-6 marker:text-primary;
+      @apply list-disc pl-6 marker:text-primary-ink;
     }
     & ol {
-      @apply list-decimal pl-6 marker:text-primary;
+      @apply list-decimal pl-6 marker:text-primary-ink;
     }
     & li + li {
       @apply mt-2;

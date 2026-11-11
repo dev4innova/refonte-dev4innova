@@ -63,7 +63,7 @@ export function UnlockForm({ token }: { token: string }) {
         <FormField label={t("unlock.consent")} inline required requiredLabel={t("requiredLabel")} error={fieldError("consent")}>
           <Checkbox name="consent" value="on" />
         </FormField>
-        <Link href="/privacy" className="ml-8 text-sm text-primary underline underline-offset-4">{t("unlock.privacy")}</Link>
+        <Link href="/privacy" className="ml-8 text-sm text-primary-ink underline underline-offset-4">{t("unlock.privacy")}</Link>
       </div>
       <div>
         <Button type="submit" loading={pending}>{t("unlock.submit")}</Button>

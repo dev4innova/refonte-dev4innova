@@ -39,7 +39,7 @@ export default async function DiagnosticPage({ params }: Props) {
             <ul className="flex flex-col gap-4">
               {POINTS.map((point) => (
                 <li key={point} className="flex items-start gap-3">
-                  <CheckCircle2 aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-primary" />
+                  <CheckCircle2 aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-primary-ink" />
                   <span>{t(`asidePoints.${point}`)}</span>
                 </li>
               ))}

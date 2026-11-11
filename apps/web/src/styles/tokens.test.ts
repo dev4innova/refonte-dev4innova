@@ -41,10 +41,13 @@ const TEXT = 4.5; // normal text
 const UI = 3; // large text, icons, borders of controls
 
 describe("design tokens", () => {
-  it("keeps the brand identity colors", () => {
-    expect(resolve("--primary")).toBe("#d90000");
-    expect(resolve("--foreground")).toBe("#171717");
-    expect(resolve("--background")).toBe("#f4f4f4");
+  it("keeps the Creative Tech Studio palette", () => {
+    expect(resolve("--primary")).toBe("#e11927");
+    expect(resolve("--primary-ink")).toBe("#c8101e");
+    expect(resolve("--foreground")).toBe("#141417");
+    expect(resolve("--background")).toBe("#f7f7f5");
+    expect(resolve("--inverse")).toBe("#141417");
+    expect(resolve("--tint")).toBe("#dce5f4");
   });
 
   it.each([
@@ -52,17 +55,27 @@ describe("design tokens", () => {
     ["--foreground", "--card"],
     ["--primary-foreground", "--primary"],
     ["--primary-foreground", "--primary-hover"],
-    ["--primary", "--card"],
-    ["--primary", "--background"],
+    ["--primary-ink", "--card"],
+    ["--primary-ink", "--background"],
+    ["--primary-ink-hover", "--background"],
     ["--secondary-foreground", "--secondary"],
+    ["--secondary-foreground", "--secondary-hover"],
     ["--muted-foreground", "--card"],
     ["--muted-foreground", "--background"],
     ["--muted-foreground", "--muted"],
+    ["--muted-foreground", "--tint"],
     ["--accent-foreground", "--accent"],
     ["--destructive", "--card"],
     ["--destructive-foreground", "--destructive"],
+    ["--success", "--card"],
+    ["--warning", "--card"],
+    ["--tint-foreground", "--tint"],
+    ["--tint-foreground", "--tint-subtle"],
     ["--inverse-foreground", "--inverse"],
+    ["--inverse-foreground", "--inverse-elevated"],
+    ["--inverse-foreground", "--inverse-deep"],
     ["--inverse-muted-foreground", "--inverse"],
+    ["--inverse-muted-foreground", "--inverse-deep"],
     ["--primary-on-inverse", "--inverse"],
   ])("text %s on %s meets AA (4.5:1)", (fg, bg) => {
     expect(contrast(fg, bg)).toBeGreaterThanOrEqual(TEXT);
@@ -73,12 +86,18 @@ describe("design tokens", () => {
     ["--input", "--background"],
     ["--ring", "--card"],
     ["--ring", "--background"],
+    ["--primary", "--background"],
+    ["--primary", "--card"],
+    ["--primary-on-inverse", "--inverse"],
+    ["--primary-on-inverse", "--inverse-elevated"],
     ["--primary", "--inverse"],
-  ])("UI element %s on %s meets AA non-text contrast (3:1)", (fg, bg) => {
+  ])("UI element or large text %s on %s meets AA non-text contrast (3:1)", (fg, bg) => {
     expect(contrast(fg, bg)).toBeGreaterThanOrEqual(UI);
   });
 
-  it("documents that brand red is not readable as small text on black", () => {
+  it("documents that the signature red is not small text on light surfaces", () => {
+    // #e11927 on ivory is 4.48:1: small red text uses --primary-ink.
+    expect(contrast("--primary", "--background")).toBeLessThan(TEXT);
     expect(contrast("--primary", "--inverse")).toBeLessThan(TEXT);
   });
 });

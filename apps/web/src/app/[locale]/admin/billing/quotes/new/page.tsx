@@ -29,7 +29,7 @@ async function NewQuote({ params }: Props) {
   const t = await getTranslations({ locale, namespace: "Admin.billing.quotes" });
   return (
     <div className="flex flex-col gap-6">
-      <Link href="/admin/billing/quotes" className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline">
+      <Link href="/admin/billing/quotes" className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
         <ArrowLeft aria-hidden="true" className="size-4" />
         {t("back")}
       </Link>

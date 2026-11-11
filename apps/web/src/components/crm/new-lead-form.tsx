@@ -80,7 +80,7 @@ export function NewLeadForm({ locale }: { locale: "fr" | "en" }) {
               {duplicateId ? (
                 <Link
                   href={{ pathname: "/admin/crm/leads/[id]", params: { id: duplicateId } }}
-                  className="text-primary underline underline-offset-4"
+                  className="text-primary-ink underline underline-offset-4"
                 >
                   {t("leads.openExisting")}
                 </Link>

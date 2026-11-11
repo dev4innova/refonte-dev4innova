@@ -53,7 +53,7 @@ async function ClientInvoice({ params, searchParams }: Props) {
   return (
     <>
       <PortalHeader org={org} organizationName={membership.organization_name} role={membership.role} />
-      <Link href={{ pathname: "/account/portal/[org]/billing", params: { org } }} className="inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline">
+      <Link href={{ pathname: "/account/portal/[org]/billing", params: { org } }} className="inline-flex items-center gap-2 text-sm font-medium text-primary-ink underline-offset-4 hover:underline">
         <ArrowLeft aria-hidden="true" className="size-4" />
         {t("invoice.back")}
       </Link>

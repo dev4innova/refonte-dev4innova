@@ -131,7 +131,7 @@ export default async function Home({ params }: Props) {
       <Section aria-labelledby="home-diagnostic">
         <div className="flex flex-col items-start gap-6 rounded-2xl border border-border bg-card p-8 shadow-card md:flex-row md:items-center md:justify-between">
           <div className="flex max-w-2xl flex-col gap-3">
-            <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary uppercase">{t("diagnostic.eyebrow")}</p>
+            <p className="font-heading text-sm font-semibold tracking-[0.2em] text-primary-ink uppercase">{t("diagnostic.eyebrow")}</p>
             <h2 id="home-diagnostic" className="text-display-md font-semibold">{t("diagnostic.title")}</h2>
             <p className="text-lg text-muted-foreground">{t("diagnostic.text")}</p>
           </div>
@@ -165,7 +165,7 @@ export default async function Home({ params }: Props) {
           ).map(({ key, href, icon: Icon }) => (
             <Card key={key} variant="elevated" interactive className="relative">
               <CardHeader>
-                <Icon aria-hidden="true" className="size-8 text-primary" />
+                <Icon aria-hidden="true" className="size-8 text-primary-ink" />
                 <CardTitle as="h2">
                   <Link
                     href={href}
@@ -177,7 +177,7 @@ export default async function Home({ params }: Props) {
                 <CardDescription className="text-base">{t(`${key}.text`)}</CardDescription>
               </CardHeader>
               <CardFooter>
-                <span aria-hidden="true" className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+                <span aria-hidden="true" className="inline-flex items-center gap-1 text-sm font-medium text-primary-ink">
                   {tCommon("discover")}
                   <ArrowRight className="size-4" />
                 </span>
