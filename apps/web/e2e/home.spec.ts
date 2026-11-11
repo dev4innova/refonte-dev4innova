@@ -107,3 +107,11 @@ test("our work shows the real screenshots, each captioned as demonstration data"
     await expect.poll(() => image.evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
   }
 });
+
+test("the solutions page shows the five solutions with their illustrations", async ({ page }) => {
+  await page.goto("/fr/solutions");
+  const cells = page.locator("[data-slot=bento-cell]");
+  await expect(cells).toHaveCount(5);
+  await expect(cells.locator("[data-slot=illustration]")).toHaveCount(5);
+  await expect(page.getByRole("heading", { level: 2, name: "Assistants et agents IA" })).toBeVisible();
+});

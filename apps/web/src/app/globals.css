@@ -183,8 +183,9 @@
   }
 }
 
-/* The homepage ends with its own contact panel: the footer does not repeat the same routes. */
-body:has([data-home-contact]) [data-slot="footer-routes"] {
+/* A page that ends with its own contact panel (homepage, CtaBand): the footer does not repeat
+ * the same routes. */
+body:has([data-contact-panel]) [data-slot="footer-routes"] {
   display: none;
 }
 

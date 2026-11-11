@@ -137,6 +137,15 @@ rien ne bouge en mouvement réduit. `step` décale une cascade de `--motion-stag
 | `SiteFooter` | `layout/site-footer.tsx` | graphite profond : bande « Un projet, une question ? » avec deux voies (contact, diagnostic ; chaque carte est un seul lien), bloc de marque, colonnes de liens, grand mot-symbole décoratif (`aria-hidden`), mentions légales |
 | `Container`, `Section` | `layout/` | mise en page standard. `Section` : surfaces `default`, `card`, `muted`, `tint`, `inverse` ; `spacing="tight"` ; `rule` (filet supérieur décoratif) |
 
+### Composants des pages publiques (`src/components/marketing/`)
+
+| Composant | Points clés |
+|---|---|
+| `PageHeader` | En-tête graphite de chaque page publique (le seul `h1`) : grille technique, sur-titre, titre `display-xl`, chapô `body-lg`, illustration optionnelle à droite dès 1 024 px (`illustration`). Porte `data-header-overlay` : l'en-tête du site passe en graphite. |
+| `CtaBand` | Appel à l'action de fin de page sur graphite, avec le filament rouge. Porte `data-contact-panel` : le pied de page ne répète alors pas ses voies de contact. |
+| `SolutionsBento` | Les cinq solutions en grille Bento, chacune avec son illustration (accueil et page Solutions). |
+| `OfferGrid` | Cartes `Card variant="frame"` (solutions liées, autres services). |
+
 ### Primitives « studio » (`src/components/studio/`)
 
 Composants de la refonte Creative Tech Studio. Ils sont rendus côté serveur, sauf `Reveal`.

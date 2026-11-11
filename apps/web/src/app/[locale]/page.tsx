@@ -12,10 +12,10 @@ import { IllustrationPanel } from "@/components/illustrations/illustration";
 import { illustrationLabels } from "@/components/illustrations/labels";
 import { ValueIcon } from "@/components/illustrations/value-icons";
 import { SignalToSystem } from "@/components/illustrations/signal-to-system";
-import { SolutionIllustration } from "@/components/illustrations/solutions";
 import { AcademyPath, LabBoard } from "@/components/illustrations/worlds";
 import { Section } from "@/components/layout/section";
-import { BentoCell, BentoGrid } from "@/components/studio/bento-grid";
+import { solutionItems } from "@/components/marketing/solution-items";
+import { SolutionsBento } from "@/components/marketing/solutions-bento";
 import { Eyebrow } from "@/components/studio/eyebrow";
 import { MethodLoop, MethodTimeline } from "@/components/studio/method-timeline";
 import { ProductFrame, type ProductFrameProps } from "@/components/studio/product-frame";
@@ -23,7 +23,6 @@ import { Reveal } from "@/components/studio/reveal";
 import { RouteCard } from "@/components/studio/route-card";
 import { SectionHeading } from "@/components/studio/section-heading";
 import { Button } from "@/components/ui/button";
-import { SOLUTIONS } from "@/config/offer";
 import { pageMetadata } from "@/i18n/metadata";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -52,14 +51,6 @@ const PRODUCTS = [
 ] as const;
 const CAPTURES = { diagnostic: "diagnostic", aiTools: "ai-tools", portal: "portal", academy: "academy" } as const;
 
-/* Bento of the solutions (doc 04 § 3.3): sizes in the order of SOLUTIONS. */
-const BENTO = [
-  { size: "lg", surface: "card" },
-  { size: "md", surface: "card" },
-  { size: "md", surface: "card" },
-  { size: "lg", surface: "card" },
-  { size: "wide", surface: "inverse" },
-] as const;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -256,41 +247,11 @@ export default async function Home({ params }: Props) {
             </Button>
           }
         />
-        <BentoGrid>
-          {SOLUTIONS.map(({ slug }, index) => {
-            const cell = BENTO[index] ?? BENTO[1];
-            const wide = cell.size === "wide";
-            return (
-              <BentoCell
-                key={slug}
-                size={cell.size}
-                surface={cell.surface}
-                className={wide ? "lg:grid lg:grid-cols-[1fr_1.4fr] lg:items-center lg:gap-10" : undefined}
-              >
-                <IllustrationPanel className={wide ? "lg:order-2" : undefined}>
-                  <SolutionIllustration slug={slug} labels={illu.solutions} />
-                </IllustrationPanel>
-                <div className="flex flex-col gap-3">
-                  <h3 className="font-heading text-heading-lg font-semibold">
-                    <Link href={{ pathname: "/solutions/[slug]", params: { slug } }} data-stretched>
-                      {tSolutions(`items.${slug}.title`)}
-                    </Link>
-                  </h3>
-                  <p className="text-muted-foreground in-data-[variant=inverse]:text-inverse-muted-foreground">
-                    {tSolutions(`items.${slug}.summary`)}
-                  </p>
-                  <span
-                    aria-hidden="true"
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-ink in-data-[variant=inverse]:text-primary-on-inverse"
-                  >
-                    {tCommon("learnMore")}
-                    <ArrowRight className="size-4 transition-transform duration-base ease-out-soft group-hover/cell:translate-x-1" />
-                  </span>
-                </div>
-              </BentoCell>
-            );
-          })}
-        </BentoGrid>
+        <SolutionsBento
+          items={solutionItems(tSolutions)}
+          labels={illu.solutions}
+          linkLabel={tCommon("learnMore")}
+        />
       </Section>
 
       {/* 5. Our work: products built by DEV4INNOVA, then client projects if published. */}
@@ -433,7 +394,7 @@ export default async function Home({ params }: Props) {
       </Suspense>
 
       {/* 10. Contact: two routes (the footer does not repeat them on this page). */}
-      <Section variant="inverse" data-home-contact="" aria-labelledby="home-contact">
+      <Section variant="inverse" data-contact-panel="" aria-labelledby="home-contact">
         <div className="grid gap-10 lg:grid-cols-[5fr_7fr] lg:items-center lg:gap-16">
           <div className="flex flex-col gap-5">
             <Eyebrow index="10">{t("contact.eyebrow")}</Eyebrow>

@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { IllustrationPanel } from "@/components/illustrations/illustration";
+import { illustrationLabels } from "@/components/illustrations/labels";
+import { SolutionIllustration } from "@/components/illustrations/solutions";
 import { OfferDetail } from "@/components/marketing/offer-detail";
 import { isSolutionSlug, SOLUTIONS } from "@/config/offer";
 import { pageMetadata } from "@/i18n/metadata";
@@ -32,7 +35,11 @@ export default async function SolutionPage({ params }: Props) {
   const { locale, slug } = await params;
   if (!isSolutionSlug(slug)) notFound();
   setRequestLocale(locale);
-  const [t, tCommon] = await Promise.all([getTranslations("Solutions"), getTranslations("Common")]);
+  const [t, tCommon, tIllu] = await Promise.all([
+    getTranslations("Solutions"),
+    getTranslations("Common"),
+    getTranslations("Illustrations"),
+  ]);
   const solution = SOLUTIONS.find((s) => s.slug === slug)!;
   const title = t(`items.${slug}.title`);
 
@@ -67,6 +74,11 @@ export default async function SolutionPage({ params }: Props) {
         })),
       }}
       cta={{ title: t("ctaTitle"), text: t("ctaText"), actionLabel: tCommon("contactUs") }}
+      illustration={
+        <IllustrationPanel>
+          <SolutionIllustration slug={slug} labels={illustrationLabels(tIllu).solutions} />
+        </IllustrationPanel>
+      }
     />
   );
 }
