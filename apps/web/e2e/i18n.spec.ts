@@ -57,7 +57,7 @@ test.describe("translated pages", () => {
 
     await page.goto("/en");
     const enFooter = page.getByRole("contentinfo");
-    await expect(enFooter.getByRole("link", { name: "About" })).toHaveAttribute("href", "/en/about");
+    await expect(enFooter.getByRole("link", { name: "About", exact: true })).toHaveAttribute("href", "/en/about");
     await expect(enFooter.getByRole("link", { name: "Legal notice" })).toHaveAttribute(
       "href",
       "/en/legal-notice",

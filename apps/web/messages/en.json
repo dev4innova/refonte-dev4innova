@@ -38,7 +38,20 @@
     "company": "Company",
     "legalNotice": "Legal notice",
     "privacy": "Privacy",
-    "copyright": "© DEV4INNOVA. All rights reserved."
+    "copyright": "© DEV4INNOVA. All rights reserved.",
+    "routesTitle": "A project, a question?",
+    "routes": {
+      "contact": {
+        "title": "Talk about your project",
+        "text": "A first conversation to understand your needs and constraints.",
+        "action": "Contact us"
+      },
+      "diagnostic": {
+        "title": "Start with the diagnostic",
+        "text": "A few minutes to assess your organization's AI maturity, with no commitment.",
+        "action": "Take the diagnostic"
+      }
+    }
   },
   "LocaleSwitcher": {
     "label": "Language",

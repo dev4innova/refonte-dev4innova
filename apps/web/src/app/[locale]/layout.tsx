@@ -105,6 +105,13 @@ export default async function LocaleLayout({ children, params }: Props) {
               label: tFooter(labelKey),
             }))}
             copyright={tFooter("copyright")}
+            routesTitle={tFooter("routesTitle")}
+            routes={(["contact", "diagnostic"] as const).map((key) => ({
+              href: key === "contact" ? "/contact" : "/diagnostic",
+              label: tFooter(`routes.${key}.title`),
+              text: tFooter(`routes.${key}.text`),
+              action: tFooter(`routes.${key}.action`),
+            }))}
           />
         </NextIntlClientProvider>
       </body>

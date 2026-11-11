@@ -39,6 +39,12 @@ Vitrine vivante de tous les tokens et composants : **`/fr/design-system`** et `/
 | `inverse-foreground` / `inverse-muted-foreground` | `#F7F7F5` / `#8B8D98` | texte sur graphite |
 | `primary-on-inverse` | `#FF4757` | rouge lisible sur graphite (texte, focus) |
 
+**Portée sombre** (`.theme-inverse`) : redéfinit les tokens sémantiques (`background`,
+`foreground`, `card`, `muted`, `border`, `input`, `ring`, `primary-ink`, `secondary`, `--illu-*`)
+pour qu'un composant ordinaire s'affiche sur graphite sans classe spécifique. L'en-tête la reçoit
+automatiquement quand la page contient un élément `data-header-overlay` (le hero sombre de
+l'accueil) : `body:has([data-header-overlay])`. Contrastes vérifiés par `tokens.test.ts`.
+
 **Règle du rouge** : `bg-primary` pour les aplats, `text-primary-ink` pour le texte rouge sur
 fond clair, `text-primary-on-inverse` sur graphite. `text-primary` n'est permis que pour les
 grands textes (≥ 24 px, ou ≥ 18,66 px en gras) et le « 4 » du logo.
@@ -126,9 +132,9 @@ rien ne bouge en mouvement réduit. `step` décale une cascade de `--motion-stag
 | `FormField` | `ui/form-field.tsx` | relie label, description et erreur (`aria-describedby`, `aria-invalid`, `aria-required`, `role="alert"`) |
 | `Sheet` | `ui/sheet.tsx` | panneau latéral (Radix Dialog) : focus piégé, Échap, retour du focus |
 | `Logo`, `LogoMark` | `brand/logo.tsx` | ampoule D4I vectorisée et logotype « Dev4Innova » (« 4 » rouge, soulignement rouge) |
-| `SiteHeader`, `MobileNav`, `NavLinks` | `layout/` | en-tête collant, `aria-current`, menu burger sous 1024 px, emplacement `localeSwitcher` |
+| `SiteHeader`, `MobileNav`, `NavLinks` | `layout/` | en-tête collant, `aria-current` (lien actif souligné en rouge), menu burger sous 1024 px, emplacement `localeSwitcher`. Ivoire translucide par défaut ; **graphite translucide** sur une page dont le hero porte `data-header-overlay` (CSS seul, voir « Portée sombre ») ; logo et écarts réduits sous 360 px (aucun défilement horizontal à 320 px) |
 | `LocaleSwitcher` | `layout/locale-switcher.tsx` | FR / EN sur la même page, `aria-current`, `lang` et `hreflang` sur chaque lien |
-| `SiteFooter` | `layout/site-footer.tsx` | pied de page sombre, colonnes de liens, mentions légales |
+| `SiteFooter` | `layout/site-footer.tsx` | graphite profond : bande « Un projet, une question ? » avec deux voies (contact, diagnostic ; chaque carte est un seul lien), bloc de marque, colonnes de liens, grand mot-symbole décoratif (`aria-hidden`), mentions légales |
 | `Container`, `Section` | `layout/` | mise en page standard. `Section` : surfaces `default`, `card`, `muted`, `tint`, `inverse` ; `spacing="tight"` ; `rule` (filet supérieur décoratif) |
 
 ### Primitives « studio » (`src/components/studio/`)

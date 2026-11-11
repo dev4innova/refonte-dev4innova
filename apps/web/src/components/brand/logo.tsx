@@ -64,21 +64,29 @@ export type LogoProps = {
   variant?: "default" | "inverse";
   /** Hide the wordmark to show the bulb only (compact spaces). */
   showWordmark?: boolean;
+  /** Slightly smaller below 360 px (site header on the narrowest phones). */
+  responsive?: boolean;
   className?: string;
 };
 
-export function Logo({ variant = "default", showWordmark = true, className }: LogoProps) {
+export function Logo({
+  variant = "default",
+  showWordmark = true,
+  responsive = false,
+  className,
+}: LogoProps) {
   return (
     <span
       data-slot="logo"
-      className={cn("inline-flex items-center gap-2.5", className)}
+      className={cn("inline-flex items-center gap-2.5", responsive && "max-[22.5rem]:gap-2", className)}
       {...(showWordmark ? {} : { role: "img", "aria-label": BRAND_NAME })}
     >
-      <LogoMark />
+      <LogoMark className={responsive ? "max-[22.5rem]:h-8" : undefined} />
       {showWordmark ? (
         <span
           className={cn(
             "font-heading text-xl font-bold tracking-tight",
+            responsive && "max-[22.5rem]:text-lg",
             "border-b-[3px] pb-0.5 leading-none",
             variant === "inverse"
               ? "border-primary text-inverse-foreground"
