@@ -93,3 +93,17 @@ test("stays within the performance budget (LCP and CLS)", async ({ page }, testI
   expect(lcp).toBeLessThanOrEqual(1000);
   expect(cls).toBeLessThanOrEqual(0.02);
 });
+
+test("our work shows the real screenshots, each captioned as demonstration data", async ({ page }) => {
+  await page.goto("/fr");
+  const work = page.getByRole("region", { name: "Ce que nous avons construit" });
+  const figures = work.getByRole("figure");
+  await expect(figures).toHaveCount(4);
+  for (const figure of await figures.all()) {
+    await expect(figure.getByText("Interface réelle — données de démonstration")).toBeVisible();
+    const image = figure.getByRole("img");
+    await image.scrollIntoViewIfNeeded();
+    await expect(image).toHaveAttribute("alt", /.{20,}/);
+    await expect.poll(() => image.evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
+  }
+});

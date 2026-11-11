@@ -121,7 +121,7 @@ Page : `apps/web/src/app/[locale]/page.tsx`. Textes : namespace `Home` de `messa
 | En-tête | Le hero porte `data-header-overlay` : l'en-tête passe en graphite translucide (lot L4, CSS seul). |
 | `h1` | Texte inchangé ; le mot « IA » / « AI » (`Home.titleSignal`) est en rouge signature. |
 | Diagnostic | Radar existant (`RadarChart`) avec des valeurs d'illustration, légendé « Exemple de résultat : valeurs d'illustration, pas une donnée client ». |
-| Réalisations | Les quatre produits sont illustrés par des **schémas** (aucune capture n'est présentée comme telle). Les vraies captures, avec la légende « Interface réelle — données de démonstration », les remplacent au lot L6. Les projets clients du CMS s'ajoutent automatiquement dès qu'il en existe (3 au plus). |
+| Réalisations | Les quatre produits sont montrés par leurs **vraies captures** (lot L6, `public/captures/`, une par langue), dans un `ProductFrame` légendé « Interface réelle — données de démonstration ». Les projets clients du CMS s'ajoutent automatiquement dès qu'il en existe (3 au plus). |
 | Services | Liste éditoriale tirée du CMS (`ServicesList`). Sans service publié : une phrase et un lien vers le contact. |
 | Insights | Section affichée seulement s'il existe au moins deux articles publiés dans la langue. |
 | Contact | Panneau à deux voies et lien vers le devis. Le pied de page ne répète pas ses deux voies sur cette page (`data-home-contact`). |

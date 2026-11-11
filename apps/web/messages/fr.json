@@ -115,7 +115,7 @@
     "work": {
       "eyebrow": "Réalisations",
       "title": "Ce que nous avons construit",
-      "lead": "Des produits conçus et développés par DEV4INNOVA, en production sur cette plateforme.",
+      "lead": "Des produits conçus et développés par DEV4INNOVA, en production sur cette plateforme. Les captures montrent les vraies interfaces, avec des données de démonstration.",
       "demo": "Interface réelle — données de démonstration",
       "contact": "En parler avec nous",
       "products": {
@@ -123,20 +123,23 @@
           "title": "Diagnostic de maturité IA",
           "text": "Questionnaire de 20 questions, score sur cinq axes, analyse par IA et rapport PDF.",
           "link": "Essayer le diagnostic",
-          "alt": "Page de résultat du diagnostic : score global sur 100, niveau de maturité et radar des cinq axes."
+          "alt": "Page de résultat du diagnostic : score global sur 100, niveau de maturité, radar et résultats par axe."
         },
         "aiTools": {
           "title": "Outils IA sécurisés",
-          "text": "Assistant et analyse de documents pour les équipes clientes, avec budgets et quotas par organisation."
+          "text": "Assistant et analyse de documents pour les équipes clientes, avec budgets et quotas par organisation.",
+          "alt": "Outils IA d'une organisation : assistant, analyse de document et générateur de contenu."
         },
         "portal": {
           "title": "Portail client",
-          "text": "Suivi des projets, validation des livrables, documents partagés et support, pour chaque client."
+          "text": "Suivi des projets, validation des livrables, documents partagés et support, pour chaque client.",
+          "alt": "Projet dans le portail client : avancement, livrable à valider et étapes du projet."
         },
         "academy": {
           "title": "Academy",
           "text": "Formations en modules, quiz corrigés par le serveur et certificats vérifiables publiquement.",
-          "link": "Voir les formations"
+          "link": "Voir les formations",
+          "alt": "Page publique de vérification d'un certificat de l'Academy, avec son code."
         }
       },
       "projectsTitle": "Projets clients"
@@ -2441,22 +2444,6 @@
       "quizMark": "Q",
       "certificate": "CERTIFICAT",
       "verifiable": "Vérifiable en ligne"
-    },
-    "products": {
-      "diagnostic": {
-        "score": "SCORE GLOBAL",
-        "level": "60 / 100"
-      },
-      "portal": {
-        "milestones": "JALONS DU PROJET",
-        "deliverable": "Livrable à valider",
-        "validate": "Valider"
-      },
-      "certificate": {
-        "certificate": "CERTIFICAT",
-        "code": "D4I-XXXX-XXXX",
-        "verified": "Vérifié"
-      }
     }
   }
 }

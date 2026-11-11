@@ -115,7 +115,7 @@
     "work": {
       "eyebrow": "Our work",
       "title": "What we have built",
-      "lead": "Products designed and built by DEV4INNOVA, in production on this platform.",
+      "lead": "Products designed and built by DEV4INNOVA, in production on this platform. The screenshots show the real interfaces, with demonstration data.",
       "demo": "Real interface — demonstration data",
       "contact": "Talk to us about it",
       "products": {
@@ -123,20 +123,23 @@
           "title": "AI maturity diagnostic",
           "text": "A 20-question survey, a score on five axes, an AI analysis and a PDF report.",
           "link": "Try the diagnostic",
-          "alt": "Diagnostic result page: overall score out of 100, maturity level and radar of the five axes."
+          "alt": "Diagnostic result page: overall score out of 100, maturity level, radar and results by axis."
         },
         "aiTools": {
           "title": "Secure AI tools",
-          "text": "An assistant and document analysis for client teams, with budgets and quotas per organization."
+          "text": "An assistant and document analysis for client teams, with budgets and quotas per organization.",
+          "alt": "AI tools of an organization: assistant, document analysis and content generator."
         },
         "portal": {
           "title": "Client portal",
-          "text": "Project tracking, deliverable approval, shared documents and support, for each client."
+          "text": "Project tracking, deliverable approval, shared documents and support, for each client.",
+          "alt": "Project in the client portal: progress, deliverable to approve and project steps."
         },
         "academy": {
           "title": "Academy",
           "text": "Modular courses, server-graded quizzes and publicly verifiable certificates.",
-          "link": "See the courses"
+          "link": "See the courses",
+          "alt": "Public verification page of an Academy certificate, with its code."
         }
       },
       "projectsTitle": "Client projects"
@@ -2441,22 +2444,6 @@
       "quizMark": "Q",
       "certificate": "CERTIFICATE",
       "verifiable": "Verifiable online"
-    },
-    "products": {
-      "diagnostic": {
-        "score": "OVERALL SCORE",
-        "level": "60 / 100"
-      },
-      "portal": {
-        "milestones": "PROJECT MILESTONES",
-        "deliverable": "Deliverable to approve",
-        "validate": "Approve"
-      },
-      "certificate": {
-        "certificate": "CERTIFICATE",
-        "code": "D4I-XXXX-XXXX",
-        "verified": "Verified"
-      }
     }
   }
 }

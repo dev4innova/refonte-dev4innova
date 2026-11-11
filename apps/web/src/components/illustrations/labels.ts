@@ -1,7 +1,6 @@
 import type { getTranslations } from "next-intl/server";
 
 import type { SignalToSystemLabels } from "./signal-to-system";
-import type { CertificateLabels, DiagnosticReportLabels, PortalLabels } from "./products";
 import type { SolutionIllustrationLabels } from "./solutions";
 import type { AcademyPathLabels, LabBoardLabels } from "./worlds";
 
@@ -12,7 +11,6 @@ export type IllustrationLabels = {
   solutions: SolutionIllustrationLabels;
   lab: LabBoardLabels;
   academy: AcademyPathLabels;
-  products: { diagnostic: DiagnosticReportLabels; portal: PortalLabels; certificate: CertificateLabels };
 };
 
 /** Translated labels of every illustration (namespace `Illustrations`, FR/EN). */
@@ -58,19 +56,6 @@ export function illustrationLabels(t: IllustrationsTranslator): IllustrationLabe
       quizMark: t("academy.quizMark"),
       certificate: t("academy.certificate"),
       verifiable: t("academy.verifiable"),
-    },
-    products: {
-      diagnostic: { score: t("products.diagnostic.score"), level: t("products.diagnostic.level") },
-      portal: {
-        milestones: t("products.portal.milestones"),
-        deliverable: t("products.portal.deliverable"),
-        validate: t("products.portal.validate"),
-      },
-      certificate: {
-        certificate: t("products.certificate.certificate"),
-        code: t("products.certificate.code"),
-        verified: t("products.certificate.verified"),
-      },
     },
   };
 }
