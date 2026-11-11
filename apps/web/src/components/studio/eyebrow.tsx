@@ -3,7 +3,8 @@ import type * as React from "react";
 import { cn } from "@/lib/utils";
 
 export type EyebrowProps = React.ComponentProps<"p"> & {
-  /** Section index shown before the label ("01"), in the secondary color. */
+  /** Section index shown before the label ("01"), in the secondary color. Decorative: it
+   * is not part of the accessible name when the eyebrow is a heading. */
   index?: string;
   /** Rendered element: a paragraph by default, a heading when the eyebrow names the section. */
   as?: "p" | "span" | "h2" | "h3";
@@ -23,6 +24,7 @@ export function Eyebrow({ index, as: Tag = "p", className, children, ...props }:
     >
       {index ? (
         <span
+          aria-hidden="true"
           data-slot="eyebrow-index"
           className="font-numeric text-muted-foreground in-data-[variant=inverse]:text-inverse-muted-foreground"
         >

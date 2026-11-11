@@ -72,10 +72,29 @@ test("cards lead to the detail pages", async ({ page }) => {
   await expect(page).toHaveURL(/\/fr\/solutions$/);
 });
 
-test("the homepage declares the organization (JSON-LD)", async ({ page }) => {
+test("the homepage declares the organization and the website (JSON-LD)", async ({ page }) => {
   await page.goto("/fr");
   const json = await page.locator('script[type="application/ld+json"]').textContent();
-  expect(JSON.parse(json ?? "{}")).toMatchObject({ "@type": "Organization", name: "DEV4INNOVA" });
+  const data = [JSON.parse(json ?? "[]")].flat();
+  expect(data).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ "@type": "Organization", name: "DEV4INNOVA" }),
+      expect.objectContaining({ "@type": "WebSite", name: "DEV4INNOVA", inLanguage: "fr" }),
+    ]),
+  );
+});
+
+test("every page has an Open Graph image of 1200 × 630", async ({ page, request }) => {
+  for (const path of ["/fr", "/en/about"]) {
+    await page.goto(path);
+    const image = page.locator('meta[property="og:image"]');
+    await expect(image).toHaveCount(1);
+    await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
+    await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "630");
+    const url = new URL((await image.getAttribute("content"))!);
+    const response = await request.get(url.pathname + url.search);
+    expect(response.headers()["content-type"]).toBe("image/png");
+  }
 });
 
 test("sitemap lists every public page in both languages", async ({ request }) => {

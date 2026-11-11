@@ -59,14 +59,25 @@
     "en": "English"
   },
   "Home": {
-    "eyebrow": "DEV4INNOVA",
     "title": "The AI solutions integrator",
+    "titleSignal": "AI",
     "lead": "Strategy, integration and support: we turn artificial intelligence into tangible results for your organization.",
-    "primaryCta": "Contact us",
-    "secondaryCta": "Explore our solutions",
     "metaDescription": "DEV4INNOVA designs, integrates and runs artificial intelligence solutions: assistants, document automation, data analytics and generative AI.",
-    "pillars": {
-      "title": "From idea to production, one partner",
+    "hero": {
+      "eyebrow": "AI engineering studio",
+      "primaryCta": "Talk about your project",
+      "secondaryCta": "Take the AI diagnostic",
+      "domainsLabel": "Areas of work",
+      "domains": {
+        "consulting": "Consulting",
+        "development": "Development",
+        "integration": "Integration",
+        "training": "Training"
+      }
+    },
+    "value": {
+      "eyebrow": "What we bring",
+      "title": "One team, from idea to production",
       "lead": "We cover the whole lifecycle of an AI project, with one requirement: it must be useful, reliable and adopted by your teams.",
       "strategy": {
         "title": "Frame",
@@ -81,51 +92,126 @@
         "text": "Deploy, measure, keep improving and train your teams for lasting adoption."
       }
     },
-    "solutions": {
-      "title": "Our solutions",
-      "lead": "Proven building blocks, adapted to your business context."
-    },
-    "services": {
-      "title": "Our services",
-      "lead": "End-to-end support, on demand or ongoing."
-    },
-    "approach": {
-      "title": "Our approach",
-      "lead": "An iterative method that reduces risk and delivers value quickly.",
-      "discover": {
-        "title": "Explore",
-        "text": "Workshops with your teams to understand the stakes, the available data and the constraints."
-      },
-      "prototype": {
-        "title": "Prototype",
-        "text": "A short proof of concept to validate the value before investing further."
-      },
-      "industrialize": {
-        "title": "Industrialize",
-        "text": "A robust, secure solution integrated with your information system."
-      },
-      "scale": {
-        "title": "Deploy and improve",
-        "text": "Go-live, usage monitoring and continuous improvement."
-      }
-    },
-    "lab": {
-      "title": "Innovation Lab",
-      "text": "Our lab explores emerging technologies and turns them into concrete prototypes for our clients."
-    },
-    "academy": {
-      "title": "Academy",
-      "text": "Training so that your teams understand, use and steer AI with confidence."
-    },
-    "finalCta": {
-      "title": "An artificial intelligence project?",
-      "text": "Let's talk about your challenges. We help you identify what AI can really bring to your organization."
-    },
     "diagnostic": {
       "eyebrow": "Free AI assessment",
       "title": "Assess your AI maturity in 5 minutes",
-      "text": "20 questions across 5 dimensions: strategy, data, technology, skills and governance. Instant score and personalized recommendations.",
-      "cta": "Take the assessment"
+      "text": "20 questions, an immediate score and personalized recommendations, on five axes:",
+      "axesLabel": "Axes assessed",
+      "axes": {
+        "strategy": "Strategy and use cases",
+        "data": "Data",
+        "technology": "Technology and tools",
+        "skills": "Skills and organization",
+        "governance": "Governance and ethics"
+      },
+      "cta": "Take the assessment",
+      "example": "Example result: illustrative values, not client data"
+    },
+    "solutions": {
+      "eyebrow": "AI solutions",
+      "title": "Proven building blocks, fitted to your business",
+      "lead": "Five families of solutions, designed to fit into your tools and stay under your control."
+    },
+    "work": {
+      "eyebrow": "Our work",
+      "title": "What we have built",
+      "lead": "Products designed and built by DEV4INNOVA, in production on this platform.",
+      "demo": "Real interface — demonstration data",
+      "contact": "Talk to us about it",
+      "products": {
+        "diagnostic": {
+          "title": "AI maturity diagnostic",
+          "text": "A 20-question survey, a score on five axes, an AI analysis and a PDF report.",
+          "link": "Try the diagnostic",
+          "alt": "Diagnostic result page: overall score out of 100, maturity level and radar of the five axes."
+        },
+        "aiTools": {
+          "title": "Secure AI tools",
+          "text": "An assistant and document analysis for client teams, with budgets and quotas per organization."
+        },
+        "portal": {
+          "title": "Client portal",
+          "text": "Project tracking, deliverable approval, shared documents and support, for each client."
+        },
+        "academy": {
+          "title": "Academy",
+          "text": "Modular courses, server-graded quizzes and publicly verifiable certificates.",
+          "link": "See the courses"
+        }
+      },
+      "projectsTitle": "Client projects"
+    },
+    "services": {
+      "eyebrow": "Services",
+      "title": "End-to-end support",
+      "lead": "À la carte or ongoing, from the first workshop to follow-up in production.",
+      "empty": "The details of our services are being published. Let's talk about your needs directly."
+    },
+    "approach": {
+      "eyebrow": "Method",
+      "title": "An iterative method that delivers value quickly",
+      "lead": "Each step reduces a risk before investing in the next. After “Improve”, we go back to “Explore” with what usage has taught us.",
+      "discover": {
+        "title": "Explore",
+        "text": "Workshops with your teams to understand the stakes, the available data and the constraints.",
+        "deliverable": "Deliverable: prioritized use cases"
+      },
+      "prototype": {
+        "title": "Prototype",
+        "text": "A short proof of concept to validate the value before investing further.",
+        "deliverable": "Deliverable: prototype tested by users"
+      },
+      "industrialize": {
+        "title": "Industrialize",
+        "text": "A robust, secure solution integrated with your information system.",
+        "deliverable": "Deliverable: solution in production"
+      },
+      "scale": {
+        "title": "Improve",
+        "text": "Go-live, usage monitoring and continuous improvement.",
+        "deliverable": "Deliverable: usage metrics and improvements"
+      }
+    },
+    "commitments": {
+      "title": "Our commitments",
+      "hosting": {
+        "title": "Hosted in Europe",
+        "text": "Applications and data hosted in the European Union."
+      },
+      "data": {
+        "title": "Your data stays yours",
+        "text": "Documents analyzed without being kept, never used to train models."
+      },
+      "transparency": {
+        "title": "Technical transparency",
+        "text": "Documented architecture, controlled access, reviewed and tested code."
+      },
+      "skills": {
+        "title": "Skills transfer",
+        "text": "Your teams trained to understand, use and steer the solutions."
+      }
+    },
+    "lab": {
+      "eyebrow": "Innovation Lab",
+      "title": "Test before you invest",
+      "text": "Our lab tests emerging technologies against real use cases, so that you can innovate without taking unnecessary risks."
+    },
+    "academy": {
+      "eyebrow": "Academy",
+      "title": "Train your teams in AI",
+      "text": "Practical training so that everyone understands, uses and steers AI with confidence."
+    },
+    "insights": {
+      "eyebrow": "Insights",
+      "title": "Latest articles",
+      "all": "All articles"
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "title": "An artificial intelligence project?",
+      "text": "Let's talk about your challenges. We help you identify what AI can really bring to your organization.",
+      "quote": "Need an estimate?",
+      "quoteLink": "Request a quote"
     }
   },
   "NotFound": {
@@ -2355,6 +2441,22 @@
       "quizMark": "Q",
       "certificate": "CERTIFICATE",
       "verifiable": "Verifiable online"
+    },
+    "products": {
+      "diagnostic": {
+        "score": "OVERALL SCORE",
+        "level": "60 / 100"
+      },
+      "portal": {
+        "milestones": "PROJECT MILESTONES",
+        "deliverable": "Deliverable to approve",
+        "validate": "Approve"
+      },
+      "certificate": {
+        "certificate": "CERTIFICATE",
+        "code": "D4I-XXXX-XXXX",
+        "verified": "Verified"
+      }
     }
   }
 }

@@ -1,8 +1,7 @@
-import { ArrowRight } from "lucide-react";
-
 import { Logo } from "@/components/brand/logo";
 import { Container } from "@/components/layout/container";
 import type { NavItem } from "@/components/layout/types";
+import { RouteCard } from "@/components/studio/route-card";
 import { Link } from "@/i18n/navigation";
 
 export type FooterColumn = {
@@ -56,33 +55,22 @@ export function SiteFooter({
       className="border-t border-inverse-border bg-inverse-deep text-inverse-foreground"
     >
       {routes.length > 0 ? (
-        <Container className="pt-14 md:pt-20">
+        // Hidden on pages that already end with the same two routes (homepage contact panel).
+        <Container data-slot="footer-routes" className="pt-14 md:pt-20">
           <div className="grid gap-6 border-b border-inverse-border pb-12 md:grid-cols-[minmax(0,1.2fr)_minmax(0,2fr)] md:pb-16">
             {routesTitle ? (
               <h2 className="font-heading text-display-md font-semibold text-balance">{routesTitle}</h2>
             ) : null}
             <ul className="grid list-none gap-bento p-0 sm:grid-cols-2">
               {routes.map((route) => (
-                <li
-                  key={route.href}
-                  className="group/route relative flex flex-col gap-2 rounded-frame border border-inverse-border bg-inverse-elevated p-6 transition-colors duration-base ease-standard hover:border-primary-on-inverse has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-primary-on-inverse"
-                >
-                  <h3 className="font-heading text-heading-sm font-semibold">
-                    <Link
-                      href={route.href}
-                      className="after:absolute after:inset-0 after:rounded-frame focus-visible:outline-none"
-                    >
-                      {route.label}
-                    </Link>
-                  </h3>
-                  <p className="text-sm text-inverse-muted-foreground">{route.text}</p>
-                  <span
-                    aria-hidden="true"
-                    className="mt-auto inline-flex items-center gap-1.5 pt-2 text-sm font-semibold text-primary-on-inverse"
-                  >
-                    {route.action}
-                    <ArrowRight className="size-4 transition-transform duration-base ease-out-soft group-hover/route:translate-x-1 group-has-[a:focus-visible]/route:translate-x-1" />
-                  </span>
+                <li key={route.href} className="flex">
+                  <RouteCard
+                    href={route.href}
+                    title={route.label}
+                    text={route.text}
+                    action={route.action}
+                    className="w-full"
+                  />
                 </li>
               ))}
             </ul>

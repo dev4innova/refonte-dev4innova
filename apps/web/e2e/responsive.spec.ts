@@ -88,7 +88,7 @@ test.describe("responsive layout", () => {
     await page.goto("/fr");
     for (const target of [
       page.getByRole("button", { name: "Ouvrir le menu" }),
-      page.getByRole("link", { name: "Nous contacter" }).first(),
+      page.getByRole("main").getByRole("link", { name: "Parler de votre projet" }).first(),
     ]) {
       const box = await target.boundingBox();
       expect(box!.height).toBeGreaterThanOrEqual(44);

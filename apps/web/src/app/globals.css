@@ -183,6 +183,11 @@
   }
 }
 
+/* The homepage ends with its own contact panel: the footer does not repeat the same routes. */
+body:has([data-home-contact]) [data-slot="footer-routes"] {
+  display: none;
+}
+
 /* Reveal on scroll (src/components/studio/reveal.tsx): opacity and transform only, no layout
  * shift. The hidden state is set after hydration, so content never depends on JavaScript. */
 [data-reveal] {

@@ -8,6 +8,7 @@ import { Section } from "@/components/layout/section";
 import { Breadcrumb } from "@/components/marketing/breadcrumb";
 import { CtaBand, type CtaBandProps } from "@/components/marketing/cta-band";
 import { PageHeader } from "@/components/marketing/page-header";
+import { defaultOgImage } from "@/i18n/metadata";
 import { getPathname, redirect } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { type Content, type ContentType, getContent } from "@/lib/cms";
@@ -49,7 +50,9 @@ export async function cmsMetadata(
       type: type === "article" ? "article" : "website",
       title: content.title,
       description,
-      ...(content.cover ? { images: [{ url: content.cover.url, alt: content.cover.alt }] } : {}),
+      images: content.cover
+        ? [{ url: content.cover.url, alt: content.cover.alt }]
+        : [defaultOgImage(locale)],
       ...(content.published_at ? { publishedTime: content.published_at } : {}),
     },
   };

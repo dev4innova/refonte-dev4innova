@@ -59,14 +59,25 @@
     "en": "English"
   },
   "Home": {
-    "eyebrow": "DEV4INNOVA",
     "title": "L'intégrateur de solutions IA",
+    "titleSignal": "IA",
     "lead": "Stratégie, intégration et accompagnement : nous transformons l'intelligence artificielle en résultats concrets pour votre organisation.",
-    "primaryCta": "Nous contacter",
-    "secondaryCta": "Découvrir nos solutions",
     "metaDescription": "DEV4INNOVA conçoit, intègre et fait vivre des solutions d'intelligence artificielle : assistants, automatisation documentaire, analyse de données et IA générative.",
-    "pillars": {
-      "title": "De l'idée à la production, un seul partenaire",
+    "hero": {
+      "eyebrow": "Studio d'ingénierie IA",
+      "primaryCta": "Parler de votre projet",
+      "secondaryCta": "Faire le diagnostic IA",
+      "domainsLabel": "Domaines d'intervention",
+      "domains": {
+        "consulting": "Conseil",
+        "development": "Développement",
+        "integration": "Intégration",
+        "training": "Formation"
+      }
+    },
+    "value": {
+      "eyebrow": "Ce que nous apportons",
+      "title": "Une seule équipe, de l'idée à la production",
       "lead": "Nous couvrons tout le cycle de vie d'un projet IA, avec une exigence : qu'il soit utile, fiable et adopté par vos équipes.",
       "strategy": {
         "title": "Cadrer",
@@ -81,51 +92,126 @@
         "text": "Déployer, mesurer, améliorer en continu et former vos équipes pour un usage durable."
       }
     },
-    "solutions": {
-      "title": "Nos solutions",
-      "lead": "Des briques éprouvées, adaptées à votre contexte métier."
-    },
-    "services": {
-      "title": "Nos services",
-      "lead": "Un accompagnement de bout en bout, à la carte ou en continu."
-    },
-    "approach": {
-      "title": "Notre démarche",
-      "lead": "Une méthode itérative qui réduit les risques et livre de la valeur rapidement.",
-      "discover": {
-        "title": "Explorer",
-        "text": "Ateliers avec vos équipes pour comprendre les enjeux, les données disponibles et les contraintes."
-      },
-      "prototype": {
-        "title": "Prototyper",
-        "text": "Une preuve de concept courte pour valider la valeur avant d'investir davantage."
-      },
-      "industrialize": {
-        "title": "Industrialiser",
-        "text": "Une solution robuste, sécurisée et intégrée à votre système d'information."
-      },
-      "scale": {
-        "title": "Déployer et améliorer",
-        "text": "Mise en production, suivi des usages et amélioration continue."
-      }
-    },
-    "lab": {
-      "title": "Innovation Lab",
-      "text": "Notre laboratoire explore les technologies émergentes et les transforme en prototypes concrets pour nos clients."
-    },
-    "academy": {
-      "title": "Academy",
-      "text": "Des formations pour que vos équipes comprennent, utilisent et pilotent l'IA en toute confiance."
-    },
-    "finalCta": {
-      "title": "Un projet d'intelligence artificielle ?",
-      "text": "Parlons de vos enjeux. Nous vous aidons à identifier ce que l'IA peut réellement apporter à votre organisation."
-    },
     "diagnostic": {
       "eyebrow": "Diagnostic IA gratuit",
       "title": "Évaluez votre maturité IA en 5 minutes",
-      "text": "20 questions sur 5 axes : stratégie, données, technologie, compétences et gouvernance. Score immédiat et recommandations personnalisées.",
-      "cta": "Faire le diagnostic"
+      "text": "20 questions, un score immédiat et des recommandations personnalisées, sur cinq axes :",
+      "axesLabel": "Axes évalués",
+      "axes": {
+        "strategy": "Stratégie et cas d'usage",
+        "data": "Données",
+        "technology": "Technologie et outils",
+        "skills": "Compétences et organisation",
+        "governance": "Gouvernance et éthique"
+      },
+      "cta": "Faire le diagnostic",
+      "example": "Exemple de résultat : valeurs d'illustration, pas une donnée client"
+    },
+    "solutions": {
+      "eyebrow": "Solutions IA",
+      "title": "Des briques éprouvées, adaptées à votre métier",
+      "lead": "Cinq familles de solutions, conçues pour s'intégrer à vos outils et rester sous votre contrôle."
+    },
+    "work": {
+      "eyebrow": "Réalisations",
+      "title": "Ce que nous avons construit",
+      "lead": "Des produits conçus et développés par DEV4INNOVA, en production sur cette plateforme.",
+      "demo": "Interface réelle — données de démonstration",
+      "contact": "En parler avec nous",
+      "products": {
+        "diagnostic": {
+          "title": "Diagnostic de maturité IA",
+          "text": "Questionnaire de 20 questions, score sur cinq axes, analyse par IA et rapport PDF.",
+          "link": "Essayer le diagnostic",
+          "alt": "Page de résultat du diagnostic : score global sur 100, niveau de maturité et radar des cinq axes."
+        },
+        "aiTools": {
+          "title": "Outils IA sécurisés",
+          "text": "Assistant et analyse de documents pour les équipes clientes, avec budgets et quotas par organisation."
+        },
+        "portal": {
+          "title": "Portail client",
+          "text": "Suivi des projets, validation des livrables, documents partagés et support, pour chaque client."
+        },
+        "academy": {
+          "title": "Academy",
+          "text": "Formations en modules, quiz corrigés par le serveur et certificats vérifiables publiquement.",
+          "link": "Voir les formations"
+        }
+      },
+      "projectsTitle": "Projets clients"
+    },
+    "services": {
+      "eyebrow": "Services",
+      "title": "Un accompagnement de bout en bout",
+      "lead": "À la carte ou en continu, du premier atelier au suivi en production.",
+      "empty": "Le détail de nos services est en cours de publication. Parlons directement de votre besoin."
+    },
+    "approach": {
+      "eyebrow": "Méthode",
+      "title": "Une méthode itérative qui livre de la valeur rapidement",
+      "lead": "Chaque étape réduit un risque avant d'investir dans la suivante. Après « Améliorer », on revient à « Explorer » avec ce que l'usage a appris.",
+      "discover": {
+        "title": "Explorer",
+        "text": "Ateliers avec vos équipes pour comprendre les enjeux, les données disponibles et les contraintes.",
+        "deliverable": "Livrable : cas d'usage priorisés"
+      },
+      "prototype": {
+        "title": "Prototyper",
+        "text": "Une preuve de concept courte pour valider la valeur avant d'investir davantage.",
+        "deliverable": "Livrable : prototype testé par les utilisateurs"
+      },
+      "industrialize": {
+        "title": "Industrialiser",
+        "text": "Une solution robuste, sécurisée et intégrée à votre système d'information.",
+        "deliverable": "Livrable : solution en production"
+      },
+      "scale": {
+        "title": "Améliorer",
+        "text": "Mise en production, suivi des usages et amélioration continue.",
+        "deliverable": "Livrable : indicateurs d'usage et évolutions"
+      }
+    },
+    "commitments": {
+      "title": "Nos engagements",
+      "hosting": {
+        "title": "Hébergement en Europe",
+        "text": "Applications et données hébergées dans l'Union européenne."
+      },
+      "data": {
+        "title": "Vos données restent les vôtres",
+        "text": "Documents analysés sans être conservés, jamais utilisés pour entraîner des modèles."
+      },
+      "transparency": {
+        "title": "Transparence technique",
+        "text": "Architecture documentée, accès contrôlés, code relu et testé."
+      },
+      "skills": {
+        "title": "Transfert de compétences",
+        "text": "Vos équipes formées pour comprendre, utiliser et piloter les solutions."
+      }
+    },
+    "lab": {
+      "eyebrow": "Innovation Lab",
+      "title": "Tester avant d'investir",
+      "text": "Notre laboratoire teste les technologies émergentes et les confronte à des cas d'usage réels, pour vous permettre d'innover sans prendre de risques inutiles."
+    },
+    "academy": {
+      "eyebrow": "Academy",
+      "title": "Former vos équipes à l'IA",
+      "text": "Des formations concrètes pour que chacun comprenne, utilise et pilote l'IA en confiance."
+    },
+    "insights": {
+      "eyebrow": "Insights",
+      "title": "Derniers articles",
+      "all": "Tous les articles"
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "title": "Un projet d'intelligence artificielle ?",
+      "text": "Parlons de vos enjeux. Nous vous aidons à identifier ce que l'IA peut réellement apporter à votre organisation.",
+      "quote": "Besoin d'un chiffrage ?",
+      "quoteLink": "Demander un devis"
     }
   },
   "NotFound": {
@@ -2355,6 +2441,22 @@
       "quizMark": "Q",
       "certificate": "CERTIFICAT",
       "verifiable": "Vérifiable en ligne"
+    },
+    "products": {
+      "diagnostic": {
+        "score": "SCORE GLOBAL",
+        "level": "60 / 100"
+      },
+      "portal": {
+        "milestones": "JALONS DU PROJET",
+        "deliverable": "Livrable à valider",
+        "validate": "Valider"
+      },
+      "certificate": {
+        "certificate": "CERTIFICAT",
+        "code": "D4I-XXXX-XXXX",
+        "verified": "Vérifié"
+      }
     }
   }
 }
