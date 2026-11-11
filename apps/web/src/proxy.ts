@@ -4,6 +4,7 @@ import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 import { SESSION_COOKIE } from "./lib/auth/cookie-names";
 import { isProtectedPath } from "./lib/auth/protected-paths";
+import { publicOrigin } from "./lib/redirect-response";
 
 const intl = createMiddleware(routing);
 
@@ -17,7 +18,9 @@ const intl = createMiddleware(routing);
 export default function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   if (isProtectedPath(pathname) && !request.cookies.has(SESSION_COOKIE)) {
-    const login = new URL("/api/auth/login", request.url);
+    // Absolute (required here), on the public domain: request.url can carry the internal
+    // address of the server behind Railway's proxy.
+    const login = new URL("/api/auth/login", publicOrigin(request.nextUrl.origin));
     login.searchParams.set("returnTo", `${pathname}${search}`);
     return NextResponse.redirect(login);
   }

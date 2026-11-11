@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth/session";
 import { forwardedForHeader } from "@/lib/client-ip";
 import { getApiUrl } from "@/lib/server-env";
-import { getSiteUrl } from "@/lib/site-url";
+import { isSameSite } from "@/lib/redirect-response";
 
 /**
  * Relays a streamed answer (Server-Sent Events) from the API to the browser, for a JSON
@@ -18,7 +18,8 @@ export async function relaySse(
   { authenticated = true }: { authenticated?: boolean } = {},
 ): Promise<Response> {
   // Same-origin JSON requests only (no cross-site form can send JSON without CORS).
-  if (request.headers.get("origin") !== new URL(getSiteUrl()).origin) {
+  const origin = request.headers.get("origin");
+  if (!origin || !isSameSite(origin, request.headers.get("host"))) {
     return NextResponse.json({ error: { code: "forbidden" } }, { status: 403 });
   }
   if (!request.headers.get("content-type")?.startsWith("application/json")) {

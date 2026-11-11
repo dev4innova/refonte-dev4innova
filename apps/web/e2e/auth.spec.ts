@@ -21,17 +21,20 @@ test.describe("client area", () => {
 
       expect(response.status()).toBe(307);
       expect(response.headers()["location"]).toMatch(new RegExp(`/api/auth/login\\?returnTo=${encoded}$`));
+      expect(response.headers()["location"]).not.toContain("0.0.0.0");
     });
   }
 
   test("the sign-in route opens the sign-in page in the language of the page", async ({ request }) => {
+    // Relative: behind Railway's proxy, an absolute URL built from the request would carry
+    // the server's internal address (0.0.0.0:3000) instead of the public domain.
     const fr = await request.get("/api/auth/login?returnTo=/fr/espace-client", { maxRedirects: 0 });
-    expect(fr.headers()["location"]).toMatch(/\/fr\/connexion\?returnTo=%2Ffr%2Fespace-client$/);
+    expect(fr.headers()["location"]).toMatch(/^\/fr\/connexion\?returnTo=%2Ffr%2Fespace-client$/);
     const en = await request.get("/api/auth/login?returnTo=/en/account", { maxRedirects: 0 });
-    expect(en.headers()["location"]).toMatch(/\/en\/sign-in\?returnTo=%2Fen%2Faccount$/);
+    expect(en.headers()["location"]).toMatch(/^\/en\/sign-in\?returnTo=%2Fen%2Faccount$/);
     // Never an open redirect.
     const evil = await request.get("/api/auth/login?returnTo=//evil.example.com", { maxRedirects: 0 });
-    expect(evil.headers()["location"]).toMatch(/\/fr\/connexion$/);
+    expect(evil.headers()["location"]).toBe("/fr/connexion");
   });
 
   test("a forged session cookie does not open the client area", async ({ page, context, baseURL }) => {
