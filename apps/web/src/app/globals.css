@@ -182,6 +182,19 @@
   }
 }
 
+/* Reveal on scroll (src/components/studio/reveal.tsx): opacity and transform only, no layout
+ * shift. The hidden state is set after hydration, so content never depends on JavaScript. */
+[data-reveal] {
+  transition:
+    opacity var(--motion-duration-slow) var(--motion-ease-out),
+    transform var(--motion-duration-slow) var(--motion-ease-out);
+}
+
+[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translateY(0.75rem);
+}
+
 /* Respect the user's motion preference everywhere (WCAG 2.3.3). */
 @media (prefers-reduced-motion: reduce) {
   *,

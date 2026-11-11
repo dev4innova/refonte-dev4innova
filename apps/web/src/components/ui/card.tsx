@@ -9,6 +9,13 @@ export const cardVariants = cva("flex flex-col gap-6 rounded-xl border p-6 sm:p-
       default: "border-border bg-card text-card-foreground",
       elevated: "border-transparent bg-card text-card-foreground shadow-elevated",
       inverse: "border-inverse-border bg-inverse text-inverse-foreground",
+      // Hairline border and a red filament along the top edge on hover and focus.
+      frame: [
+        "relative rounded-frame border-hairline bg-card text-card-foreground",
+        "before:absolute before:inset-x-6 before:-top-px before:h-0.5 before:origin-left before:scale-x-0 before:bg-primary",
+        "before:transition-transform before:duration-base before:ease-out-soft",
+        "hover:border-foreground/35 hover:before:scale-x-100 focus-within:border-foreground/35 focus-within:before:scale-x-100",
+      ],
     },
     interactive: {
       true: [

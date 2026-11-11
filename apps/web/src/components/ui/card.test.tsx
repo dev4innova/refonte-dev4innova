@@ -35,6 +35,7 @@ describe("Card", () => {
     ["default", "bg-card"],
     ["elevated", "shadow-elevated"],
     ["inverse", "bg-inverse"],
+    ["frame", "rounded-frame"],
   ] as const)("applies the %s variant", (variant, expectedClass) => {
     const { container } = render(<Example variant={variant} />);
     const card = container.querySelector("[data-slot=card]");
