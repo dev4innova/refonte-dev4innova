@@ -10,19 +10,15 @@ import { ServicesList, ServicesListSkeleton } from "@/components/cms/services-li
 import { RadarChart } from "@/components/diagnostic/radar-chart";
 import { IllustrationPanel } from "@/components/illustrations/illustration";
 import { illustrationLabels } from "@/components/illustrations/labels";
-import {
-  CertificateIllustration,
-  DiagnosticReportIllustration,
-  PortalIllustration,
-  ValueIcon,
-} from "@/components/illustrations/products";
+import { ValueIcon } from "@/components/illustrations/value-icons";
 import { SignalToSystem } from "@/components/illustrations/signal-to-system";
-import { AssistantsIllustration, SolutionIllustration } from "@/components/illustrations/solutions";
+import { SolutionIllustration } from "@/components/illustrations/solutions";
 import { AcademyPath, LabBoard } from "@/components/illustrations/worlds";
 import { Section } from "@/components/layout/section";
 import { BentoCell, BentoGrid } from "@/components/studio/bento-grid";
 import { Eyebrow } from "@/components/studio/eyebrow";
 import { MethodLoop, MethodTimeline } from "@/components/studio/method-timeline";
+import { ProductFrame, type ProductFrameProps } from "@/components/studio/product-frame";
 import { Reveal } from "@/components/studio/reveal";
 import { RouteCard } from "@/components/studio/route-card";
 import { SectionHeading } from "@/components/studio/section-heading";
@@ -47,6 +43,15 @@ const COMMITMENTS = [
   { key: "transparency", icon: ScrollText },
   { key: "skills", icon: GraduationCap },
 ] as const;
+/* Products built by DEV4INNOVA, with their real screenshots (scripts/capture-products.mjs). */
+const PRODUCTS = [
+  { key: "diagnostic", link: "/diagnostic" },
+  { key: "aiTools", link: "/contact" },
+  { key: "portal", link: "/contact" },
+  { key: "academy", link: "/academy" },
+] as const;
+const CAPTURES = { diagnostic: "diagnostic", aiTools: "ai-tools", portal: "portal", academy: "academy" } as const;
+
 /* Bento of the solutions (doc 04 § 3.3): sizes in the order of SOLUTIONS. */
 const BENTO = [
   { size: "lg", surface: "card" },
@@ -298,34 +303,23 @@ export default async function Home({ params }: Props) {
           lead={t("work.lead")}
         />
         <ul className="grid list-none gap-bento p-0 md:grid-cols-2">
-          <WorkItem
-            title={t("work.products.diagnostic.title")}
-            text={t("work.products.diagnostic.text")}
-            link={{ href: "/diagnostic", label: t("work.products.diagnostic.link") }}
-          >
-            <DiagnosticReportIllustration labels={illu.products.diagnostic} />
-          </WorkItem>
-          <WorkItem
-            title={t("work.products.aiTools.title")}
-            text={t("work.products.aiTools.text")}
-            link={{ href: "/contact", label: t("work.contact") }}
-          >
-            <AssistantsIllustration labels={illu.solutions["ai-assistants"]} />
-          </WorkItem>
-          <WorkItem
-            title={t("work.products.portal.title")}
-            text={t("work.products.portal.text")}
-            link={{ href: "/contact", label: t("work.contact") }}
-          >
-            <PortalIllustration labels={illu.products.portal} />
-          </WorkItem>
-          <WorkItem
-            title={t("work.products.academy.title")}
-            text={t("work.products.academy.text")}
-            link={{ href: "/academy", label: t("work.products.academy.link") }}
-          >
-            <CertificateIllustration labels={illu.products.certificate} />
-          </WorkItem>
+          {PRODUCTS.map(({ key, link }) => (
+            <WorkItem
+              key={key}
+              title={t(`work.products.${key}.title`)}
+              text={t(`work.products.${key}.text`)}
+              link={
+                link === "/contact"
+                  ? { href: link, label: t("work.contact") }
+                  : { href: link, label: t(`work.products.${key as "diagnostic" | "academy"}.link`) }
+              }
+              frame={{
+                title: t(`work.products.${key}.title`),
+                demoLabel: t("work.demo"),
+                image: { src: `/captures/${CAPTURES[key]}-${locale}.webp`, alt: t(`work.products.${key}.alt`), width: 1600, height: 1000 },
+              }}
+            />
+          ))}
         </ul>
         <Suspense fallback={null}>
           <ClientProjects locale={locale} title={t("work.projectsTitle")} />
@@ -469,21 +463,21 @@ export default async function Home({ params }: Props) {
   );
 }
 
-/** A product built by DEV4INNOVA: schematic visual (real screenshots in batch L6), text, link. */
+/** A product built by DEV4INNOVA: real screenshot with its demo caption, text, link. */
 function WorkItem({
   title,
   text,
   link,
-  children,
+  frame,
 }: {
   title: string;
   text: string;
   link: { href: "/diagnostic" | "/contact" | "/academy"; label: string };
-  children: React.ReactNode;
+  frame: Pick<ProductFrameProps, "title" | "demoLabel" | "image">;
 }) {
   return (
     <li className="flex flex-col gap-4 rounded-frame border border-inverse-border bg-inverse-elevated p-5 sm:p-6">
-      <IllustrationPanel>{children}</IllustrationPanel>
+      <ProductFrame {...frame} sizes="(min-width: 768px) 45vw, 92vw" />
       <h3 className="font-heading text-heading-lg font-semibold">{title}</h3>
       <p className="text-inverse-muted-foreground">{text}</p>
       <Button asChild variant="signal-link" className="mt-auto self-start">

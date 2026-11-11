@@ -49,6 +49,31 @@ sous la ligne de flottaison).
   - aucune donnée personnelle réelle ;
   - aucune capture de produit tiers.
 
+### Produire ou mettre à jour les captures (lot L6)
+
+Le script crée les données de démonstration par l'API puis prend les captures. Il **refuse
+tout autre hôte que `localhost`**, car il crée des comptes et des contenus.
+
+1. Démarrer la pile locale : `make services` (PostgreSQL, Redis, MinIO), `make api-dev`, puis
+   l'application web (`pnpm --filter @dev4innova/web build && pnpm --filter @dev4innova/web start`).
+2. Créer un compte sur le site local, puis lui donner le rôle `staff_admin` :
+   `make grant-staff email=... role=staff_admin`.
+3. Lancer depuis `apps/web` :
+   `CAPTURE_STAFF_EMAIL=... CAPTURE_STAFF_PASSWORD=... pnpm capture:products`
+   (`CAPTURE_WEB_URL` et `CAPTURE_API_URL` si les ports diffèrent de 3000 et 8000).
+
+Données créées, toutes fictives et réutilisées d'une exécution à l'autre : le compte
+« Camille Démo » (`camille.demo@demo.dev4innova.com`), l'organisation « Démo SA », le projet
+« Assistant du service client » avec cinq étapes et un livrable à valider (nécessite MinIO ;
+sans lui, le livrable est omis avec un avertissement), la formation publique « L'IA générative
+au quotidien » suivie jusqu'au certificat, et un diagnostic déverrouillé par langue.
+
+Résultat : `apps/web/public/captures/{diagnostic,ai-tools,portal,academy}-{fr,en}.webp`
+(1 600 × 1 000, 35 à 50 Ko). L'en-tête et le pied de page du site sont masqués : seule
+l'interface du produit apparaît. Les contrôles natifs du navigateur (bouton de choix de
+fichier) suivent la langue de Chromium : avec un Chromium sans le pack de langue français,
+ils restent en anglais.
+
 ## 3. Projets clients (CMS)
 
 Quand vous publierez un projet dans le CMS (type `project`), la section Réalisations l'affichera
