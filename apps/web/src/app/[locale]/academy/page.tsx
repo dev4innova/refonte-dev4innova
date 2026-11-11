@@ -6,6 +6,9 @@ import { CourseCatalog } from "@/components/academy/course-catalog";
 
 import { Section } from "@/components/layout/section";
 import { CtaBand } from "@/components/marketing/cta-band";
+import { IllustrationPanel } from "@/components/illustrations/illustration";
+import { illustrationLabels } from "@/components/illustrations/labels";
+import { AcademyPath } from "@/components/illustrations/worlds";
 import { PageHeader } from "@/components/marketing/page-header";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { pageMetadata } from "@/i18n/metadata";
@@ -39,7 +42,16 @@ export default async function AcademyPage({ params }: Props) {
 
   return (
     <>
-      <PageHeader eyebrow={t("eyebrow")} title={t("title")} lead={t("lead")} />
+      <PageHeader
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        lead={t("lead")}
+        illustration={
+          <IllustrationPanel>
+            <AcademyPath labels={illustrationLabels(await getTranslations("Illustrations")).academy} />
+          </IllustrationPanel>
+        }
+      />
 
       <Section variant="card" aria-labelledby="academy-themes">
         <h2 id="academy-themes" className="mb-10 text-display-md font-semibold">

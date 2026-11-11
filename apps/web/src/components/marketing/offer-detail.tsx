@@ -19,6 +19,8 @@ export type OfferDetailProps = {
   aside?: { title: string; text: string };
   related: { title: string; linkLabel: string; items: OfferItem[] };
   cta: { title: string; text: string; actionLabel: string };
+  /** Decorative illustration of the page header. */
+  illustration?: React.ReactNode;
 };
 
 /** Detail page of a solution or a service. */
@@ -31,13 +33,14 @@ export function OfferDetail(props: OfferDetailProps) {
         title={props.title}
         lead={props.summary}
         before={<Breadcrumb label={props.breadcrumb.label} items={props.breadcrumb.items} />}
+        illustration={props.illustration}
       />
 
       <Section variant="card">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
           <div className="flex flex-col gap-10">
             <div className="flex items-start gap-4">
-              <span className="grid size-12 shrink-0 place-items-center rounded-lg bg-accent text-accent-foreground">
+              <span className="grid size-12 shrink-0 place-items-center rounded-lg bg-tint text-tint-foreground">
                 <Icon aria-hidden="true" className="size-6" />
               </span>
               <p className="text-lg">{props.description}</p>

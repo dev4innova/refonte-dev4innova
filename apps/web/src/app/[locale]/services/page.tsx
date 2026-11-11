@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 
-import { ContentGridSkeleton } from "@/components/cms/content-grid";
-import { ServicesGrid } from "@/components/cms/services-grid";
+import { ServicesList, ServicesListSkeleton } from "@/components/cms/services-list";
 import { Section } from "@/components/layout/section";
 import { CtaBand } from "@/components/marketing/cta-band";
 import { PageHeader } from "@/components/marketing/page-header";
@@ -27,14 +26,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ServicesPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [t, tCommon] = await Promise.all([getTranslations("Services"), getTranslations("Common")]);
+  const [t, tCommon, tHome] = await Promise.all([
+    getTranslations("Services"),
+    getTranslations("Common"),
+    getTranslations("Home"),
+  ]);
 
   return (
     <>
       <PageHeader eyebrow={t("eyebrow")} title={t("title")} lead={t("lead")} />
-      <Section variant="card">
-        <Suspense fallback={<ContentGridSkeleton count={5} />}>
-          <ServicesGrid locale={locale} linkLabel={tCommon("learnMore")} />
+      <Section variant="card" aria-label={t("title")}>
+        <Suspense fallback={<ServicesListSkeleton />}>
+          <ServicesList
+            locale={locale}
+            empty={<p className="border-y border-border py-6 text-muted-foreground">{tHome("services.empty")}</p>}
+          />
         </Suspense>
       </Section>
       <CtaBand title={t("ctaTitle")} text={t("ctaText")} actionLabel={tCommon("contactUs")} />

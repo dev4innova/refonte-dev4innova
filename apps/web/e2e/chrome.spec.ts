@@ -21,8 +21,8 @@ for (const width of [320, 1920]) {
 }
 
 test("the header turns graphite over a dark hero, ivory otherwise", async ({ page }) => {
-  // A page without a dark hero; the homepage marks its own (checked below).
-  await page.goto("/fr/contact");
+  // A page without a dark header (public pages mark theirs, checked below).
+  await page.goto("/fr/connexion");
   const header = page.getByRole("banner");
   const background = () => header.evaluate((el) => getComputedStyle(el).backgroundColor);
   const light = await background();
@@ -45,8 +45,8 @@ test("the header turns graphite over a dark hero, ivory otherwise", async ({ pag
     );
   });
   expect(tokens).toEqual(["#f7f7f5", "#ff4757"]);
-  const bodyBackground = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-  expect(bodyBackground).toBe("rgb(20, 20, 23)");
+  // Nearly opaque graphite: it stays graphite above the ivory page background.
+  expect(await background()).toBe("rgba(20, 20, 23, 0.94)");
 });
 
 test("the active section is marked in the navigation", async ({ page }) => {
@@ -58,11 +58,23 @@ test("the active section is marked in the navigation", async ({ page }) => {
   await expect(link).toHaveAttribute("aria-current", "page");
 });
 
-test("the homepage hero turns the header graphite", async ({ page }) => {
-  await page.goto("/fr");
-  await expect(page.locator("main [data-header-overlay]")).toHaveCount(1);
-  const background = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-  expect(background).toBe("rgb(20, 20, 23)");
+for (const path of ["/fr", "/fr/solutions", "/en/about", "/fr/contact", "/fr/mentions-legales"]) {
+  test(`${path}: the dark page header turns the site header graphite`, async ({ page }) => {
+    await page.goto(path);
+    await expect(page.locator("main [data-header-overlay]")).toHaveCount(1);
+    const background = await page
+      .getByRole("banner")
+      .evaluate((el) => getComputedStyle(el).backgroundColor);
+    expect(background).toBe("rgba(20, 20, 23, 0.94)");
+  });
+}
+
+test("a page ending with a call to action does not repeat the footer routes", async ({ page }) => {
+  await page.goto("/fr/solutions");
+  await expect(page.locator("[data-contact-panel]")).toHaveCount(1);
+  await expect(
+    page.getByRole("contentinfo").getByRole("heading", { name: "Un projet, une question ?" }),
+  ).toBeHidden();
 });
 
 test("the homepage ends with its contact panel, not repeated in the footer", async ({ page }) => {
@@ -74,7 +86,8 @@ test("the homepage ends with its contact panel, not repeated in the footer", asy
 });
 
 test("the footer recalls the contact and the diagnostic", async ({ page }) => {
-  await page.goto("/en/about");
+  // The contact page has no closing call to action: the footer shows its routes.
+  await page.goto("/en/contact");
   const footer = page.getByRole("contentinfo");
   await expect(footer.getByRole("heading", { level: 2, name: "A project, a question?" })).toBeVisible();
   await footer.getByRole("link", { name: "Start with the diagnostic" }).click();

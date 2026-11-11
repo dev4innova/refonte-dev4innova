@@ -3,9 +3,11 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Section } from "@/components/layout/section";
 import { CtaBand } from "@/components/marketing/cta-band";
-import { OfferGrid } from "@/components/marketing/offer-grid";
+import { illustrationLabels } from "@/components/illustrations/labels";
+import { SignalToSystemCompact } from "@/components/illustrations/signal-to-system";
 import { PageHeader } from "@/components/marketing/page-header";
-import { SOLUTIONS } from "@/config/offer";
+import { solutionItems } from "@/components/marketing/solution-items";
+import { SolutionsBento } from "@/components/marketing/solutions-bento";
 import { pageMetadata } from "@/i18n/metadata";
 import type { Locale } from "@/i18n/routing";
 
@@ -26,21 +28,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function SolutionsPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [t, tCommon] = await Promise.all([getTranslations("Solutions"), getTranslations("Common")]);
+  const [t, tCommon, tIllu] = await Promise.all([
+    getTranslations("Solutions"),
+    getTranslations("Common"),
+    getTranslations("Illustrations"),
+  ]);
 
   return (
     <>
-      <PageHeader eyebrow={t("eyebrow")} title={t("title")} lead={t("lead")} />
-      <Section variant="card">
-        <OfferGrid
+      <PageHeader
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        lead={t("lead")}
+        illustration={<SignalToSystemCompact />}
+      />
+      <Section variant="tint" aria-label={t("title")}>
+        <SolutionsBento
+          items={solutionItems(t)}
+          labels={illustrationLabels(tIllu).solutions}
           linkLabel={tCommon("learnMore")}
-          items={SOLUTIONS.map(({ slug, icon }) => ({
-            key: slug,
-            icon,
-            title: t(`items.${slug}.title`),
-            summary: t(`items.${slug}.summary`),
-            href: { pathname: "/solutions/[slug]", params: { slug } },
-          }))}
+          headingLevel="h2"
         />
       </Section>
       <CtaBand title={t("ctaTitle")} text={t("ctaText")} actionLabel={tCommon("contactUs")} />

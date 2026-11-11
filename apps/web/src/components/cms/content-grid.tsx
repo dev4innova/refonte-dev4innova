@@ -20,7 +20,7 @@ export function ContentGrid({ items }: { items: ContentCard[] }) {
     <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {items.map((item) => (
         <li key={item.key} className="flex">
-          <Card interactive className="relative w-full gap-0 overflow-hidden p-0 sm:p-0">
+          <Card variant="frame" className="w-full gap-0 overflow-hidden p-0 sm:p-0">
             {item.cover ? (
               <Image
                 src={item.cover.url}
@@ -32,14 +32,14 @@ export function ContentGrid({ items }: { items: ContentCard[] }) {
                 className="aspect-[16/9] w-full object-cover"
               />
             ) : (
-              <div aria-hidden="true" className="aspect-[16/9] w-full bg-gradient-to-br from-inverse to-primary/70" />
+              <div aria-hidden="true" className="pattern-blueprint aspect-[16/9] w-full bg-inverse" />
             )}
             <CardHeader className="p-6">
               {item.meta ? <p className="text-sm text-muted-foreground">{item.meta}</p> : null}
               <CardTitle>
                 <Link
                   href={item.href}
-                  className="after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-ring"
+                  className="after:absolute after:inset-0 after:rounded-frame focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-ring"
                 >
                   {item.title}
                 </Link>
@@ -58,7 +58,7 @@ export function ContentGridSkeleton({ count = 3 }: { count?: number }) {
   return (
     <ul aria-hidden="true" className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {Array.from({ length: count }, (_, index) => (
-        <li key={index} className="h-72 animate-pulse rounded-xl bg-muted" />
+        <li key={index} className="h-72 animate-pulse rounded-frame bg-muted" />
       ))}
     </ul>
   );

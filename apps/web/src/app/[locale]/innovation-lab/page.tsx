@@ -4,6 +4,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Section } from "@/components/layout/section";
 import { CtaBand } from "@/components/marketing/cta-band";
+import { IllustrationPanel } from "@/components/illustrations/illustration";
+import { illustrationLabels } from "@/components/illustrations/labels";
+import { LabBoard } from "@/components/illustrations/worlds";
 import { PageHeader } from "@/components/marketing/page-header";
 import { Steps } from "@/components/marketing/steps";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,7 +44,16 @@ export default async function InnovationLabPage({ params }: Props) {
 
   return (
     <>
-      <PageHeader eyebrow={t("eyebrow")} title={t("title")} lead={t("lead")} />
+      <PageHeader
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        lead={t("lead")}
+        illustration={
+          <IllustrationPanel>
+            <LabBoard labels={illustrationLabels(await getTranslations("Illustrations")).lab} />
+          </IllustrationPanel>
+        }
+      />
 
       <Section variant="card" aria-labelledby="lab-explore">
         <h2 id="lab-explore" className="mb-10 text-display-md font-semibold">

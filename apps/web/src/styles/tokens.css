@@ -147,9 +147,10 @@
  * an element marked `data-header-overlay` gets a translucent graphite header (pure CSS).
  * Contrast ratios are checked by src/styles/tokens.test.ts.
  */
-/* Behind the translucent header of a dark-hero page: graphite, not ivory. */
-body:has([data-header-overlay]) {
-  background-color: var(--d4i-graphite-900);
+/* Header of a dark-hero page: graphite, nearly opaque, so that it stays graphite over the
+ * ivory page background (it sits above the hero, not over it). */
+body:has([data-header-overlay]) [data-slot="site-header"] {
+  background-color: rgb(20 20 23 / 0.94);
 }
 
 .theme-inverse,

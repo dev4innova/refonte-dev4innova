@@ -28,15 +28,15 @@ export function OfferGrid({ items, linkLabel }: { items: OfferItem[]; linkLabel:
     <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {items.map(({ key, icon: Icon, title, summary, href }) => (
         <li key={key} className="flex">
-          <Card interactive className="relative w-full">
+          <Card variant="frame" className="w-full">
             <CardHeader>
-              <span className="grid size-12 place-items-center rounded-lg bg-accent text-accent-foreground">
+              <span className="grid size-12 place-items-center rounded-lg bg-tint text-tint-foreground">
                 <Icon aria-hidden="true" className="size-6" />
               </span>
               <CardTitle>
                 <Link
                   href={href}
-                  className="after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-ring"
+                  className="after:absolute after:inset-0 after:rounded-frame focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-ring"
                 >
                   {title}
                 </Link>
@@ -46,9 +46,9 @@ export function OfferGrid({ items, linkLabel }: { items: OfferItem[]; linkLabel:
               <CardDescription>{summary}</CardDescription>
             </CardContent>
             <CardFooter>
-              <span aria-hidden="true" className="inline-flex items-center gap-1 text-sm font-medium text-primary-ink">
+              <span aria-hidden="true" className="group/offer inline-flex items-center gap-1.5 text-sm font-semibold text-primary-ink">
                 {linkLabel}
-                <ArrowRight className="size-4" />
+                <ArrowRight className="size-4 transition-transform duration-base ease-out-soft group-hover/offer:translate-x-1" />
               </span>
             </CardFooter>
           </Card>
