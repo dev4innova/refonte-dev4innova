@@ -16,7 +16,7 @@ type MobileNavProps = {
   account?: NavItem;
 };
 
-/** Burger menu below 1024px (hidden from lg up). */
+/** Burger menu below 1280 px (hidden from xl up). */
 export function MobileNav({ items, labels, cta, account }: MobileNavProps) {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
@@ -24,7 +24,7 @@ export function MobileNav({ items, labels, cta, account }: MobileNavProps) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="lg:hidden">
+        <Button variant="ghost" size="icon" className="xl:hidden">
           <Menu aria-hidden="true" className="size-6" />
           <span className="sr-only">{labels.openMenu}</span>
         </Button>
