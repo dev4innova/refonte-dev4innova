@@ -21,20 +21,24 @@ export type SiteHeaderProps = {
   account?: NavItem;
 };
 
-/** Sticky site header: logo, main navigation, call to action, burger menu below lg. */
+/**
+ * Sticky site header: logo, main navigation, call to action, burger menu below lg.
+ * Translucent ivory by default; translucent graphite on pages whose hero is marked
+ * `data-header-overlay` (CSS only, see the dark scope in src/styles/tokens.css).
+ */
 export function SiteHeader({ items, labels, cta, localeSwitcher, account }: SiteHeaderProps) {
   return (
     <header
       data-slot="site-header"
       className="sticky top-0 z-40 border-b border-border/80 bg-background/85 backdrop-blur-md supports-[backdrop-filter]:bg-background/70"
     >
-      <Container className="flex h-header items-center justify-between gap-4">
+      <Container className="flex h-header items-center justify-between gap-2 sm:gap-4">
         <Link
           href="/"
           aria-label={labels.home}
           className="rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
         >
-          <Logo />
+          <Logo responsive />
         </Link>
 
         <nav aria-label={labels.navigation} className="hidden lg:block">

@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 /*
  * Reads src/styles/tokens.css (the single source of truth) and checks that every
@@ -9,12 +9,22 @@ import { describe, expect, it } from "vitest";
  */
 const css = readFileSync(path.resolve(import.meta.dirname, "tokens.css"), "utf8");
 
-const declarations = new Map(
-  [...css.matchAll(/(--[\w-]+):\s*([^;]+);/g)].map(([, name, value]) => [name, value!.trim()]),
-);
+function block(selector: RegExp): Map<string, string> {
+  const match = selector.exec(css);
+  if (!match) throw new Error(`No block ${selector}`);
+  const body = css.slice(match.index + match[0].length, css.indexOf("}", match.index));
+  return new Map(
+    [...body.matchAll(/(--[\w-]+):\s*([^;]+);/g)].map(([, name, value]) => [name!, value!.trim()]),
+  );
+}
+
+/* Light theme (:root) and the dark scope (.theme-inverse, header over a dark hero). */
+const light = block(/:root\s*\{/);
+const dark = new Map([...light, ...block(/\.theme-inverse,[^{]*\{/)]);
+let declarations = light;
 
 function resolve(token: string): string {
-  const value = declarations.get(token);
+  const value = declarations.get(token) ?? light.get(token);
   if (!value) throw new Error(`Unknown token ${token}`);
   const reference = /^var\((--[\w-]+)\)$/.exec(value);
   return reference ? resolve(reference[1]!) : value;
@@ -99,5 +109,35 @@ describe("design tokens", () => {
     // #e11927 on ivory is 4.48:1: small red text uses --primary-ink.
     expect(contrast("--primary", "--background")).toBeLessThan(TEXT);
     expect(contrast("--primary", "--inverse")).toBeLessThan(TEXT);
+  });
+
+  describe("dark scope (.theme-inverse, header over a dark hero)", () => {
+    beforeAll(() => {
+      declarations = dark;
+    });
+    afterAll(() => {
+      declarations = light;
+    });
+
+    it.each([
+      ["--foreground", "--background"],
+      ["--foreground", "--card"],
+      ["--muted-foreground", "--background"],
+      ["--primary-ink", "--background"],
+      ["--primary-ink-hover", "--background"],
+      ["--secondary-foreground", "--secondary"],
+      ["--accent-foreground", "--accent"],
+      ["--primary-foreground", "--primary"],
+    ])("text %s on %s meets AA (4.5:1)", (fg, bg) => {
+      expect(contrast(fg, bg)).toBeGreaterThanOrEqual(TEXT);
+    });
+
+    it.each([
+      ["--ring", "--background"],
+      ["--input", "--background"],
+      ["--primary", "--background"],
+    ])("UI element %s on %s meets 3:1", (fg, bg) => {
+      expect(contrast(fg, bg)).toBeGreaterThanOrEqual(UI);
+    });
   });
 });

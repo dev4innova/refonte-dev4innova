@@ -40,7 +40,37 @@ describe("SiteFooter", () => {
 
   it("uses the dark inverse surface", () => {
     render(<SiteFooter {...props} />);
-    expect(screen.getByRole("contentinfo")).toHaveClass("bg-inverse");
+    const footer = screen.getByRole("contentinfo");
+    expect(footer).toHaveClass("bg-inverse-deep");
+    expect(footer).toHaveAttribute("data-variant", "inverse");
+  });
+
+  it("recalls the two ways to get in touch, each card being a single link", () => {
+    render(
+      <SiteFooter
+        {...props}
+        routesTitle="Un projet, une question ?"
+        routes={[
+          { href: "/contact", label: "Parler de votre projet", text: "Un premier échange.", action: "Nous contacter" },
+          { href: "/diagnostic", label: "Commencer par le diagnostic", text: "Quelques minutes.", action: "Faire le diagnostic" },
+        ]}
+      />,
+    );
+    expect(screen.getByRole("heading", { level: 2, name: "Un projet, une question ?" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Parler de votre projet" })).toHaveAttribute("href", "/fr/contact");
+    expect(screen.getByRole("link", { name: "Commencer par le diagnostic" })).toHaveAttribute(
+      "href",
+      "/fr/diagnostic",
+    );
+    // The call to action text is decorative: it does not add a second link.
+    expect(screen.queryByRole("link", { name: /Nous contacter/ })).toBeNull();
+  });
+
+  it("shows the large wordmark to sighted users only", () => {
+    const { container } = render(<SiteFooter {...props} />);
+    const wordmark = container.querySelector("[data-slot=footer-wordmark]");
+    expect(wordmark).toHaveTextContent("Dev4Innova");
+    expect(wordmark?.closest("[aria-hidden=true]")).not.toBeNull();
   });
 
   it("has no accessibility violations", async () => {

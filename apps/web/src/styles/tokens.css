@@ -139,3 +139,47 @@
   --illu-signal: var(--d4i-red-400);
   --hairline-color: rgb(139 141 152 / 0.2);
 }
+
+/*
+ * Dark theme scope: redefines the semantic tokens so that ordinary components (links,
+ * buttons, the language switcher) render on graphite without inverse-specific classes.
+ * Used by `.theme-inverse` and by the site header over a dark hero: any page that contains
+ * an element marked `data-header-overlay` gets a translucent graphite header (pure CSS).
+ * Contrast ratios are checked by src/styles/tokens.test.ts.
+ */
+/* Behind the translucent header of a dark-hero page: graphite, not ivory. */
+body:has([data-header-overlay]) {
+  background-color: var(--d4i-graphite-900);
+}
+
+.theme-inverse,
+body:has([data-header-overlay]) [data-slot="site-header"] {
+  --background: var(--d4i-graphite-900);
+  --foreground: var(--d4i-ivory);
+  --card: var(--d4i-graphite-800);
+  --card-foreground: var(--d4i-ivory);
+  --popover: var(--d4i-graphite-800);
+  --popover-foreground: var(--d4i-ivory);
+  --primary-ink: var(--d4i-red-400);
+  --primary-ink-hover: var(--d4i-red-300);
+  --secondary: var(--d4i-ivory);
+  --secondary-hover: var(--d4i-steel-100);
+  --secondary-foreground: var(--d4i-graphite-900);
+  --muted: var(--d4i-graphite-700);
+  --muted-foreground: var(--d4i-steel-500);
+  --accent: var(--d4i-graphite-700);
+  --accent-foreground: var(--d4i-ivory);
+  --border: var(--d4i-graphite-700);
+  --input: var(--d4i-steel-500);
+  --ring: var(--d4i-red-400);
+  --illu-backdrop: var(--d4i-graphite-950);
+  --illu-stroke-soft: var(--d4i-graphite-700);
+  --illu-fill: var(--d4i-graphite-800);
+  --illu-ink: var(--d4i-ivory);
+  --illu-label: var(--d4i-steel-500);
+  --illu-solid: var(--d4i-graphite-700);
+  --illu-on-solid: var(--d4i-ivory);
+  --illu-signal: var(--d4i-red-400);
+  --hairline-color: rgb(139 141 152 / 0.2);
+  color-scheme: dark;
+}

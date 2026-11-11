@@ -2,7 +2,9 @@ import type { StaticPathname } from "@/i18n/routing";
 import type en from "../../messages/en.json";
 
 type NavigationKey = keyof (typeof en)["Navigation"];
-type FooterKey = keyof (typeof en)["Footer"];
+type FooterMessages = (typeof en)["Footer"];
+/** Footer labels only (not the nested contact routes). */
+type FooterKey = { [K in keyof FooterMessages]: FooterMessages[K] extends string ? K : never }[keyof FooterMessages];
 
 /** Site structure: internal pathnames and the message key of each label. */
 export const mainNavigation: { href: StaticPathname; labelKey: NavigationKey }[] = [
