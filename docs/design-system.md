@@ -201,6 +201,7 @@ Ce sont des SVG écrits à la main, en composants serveur (0 Ko de JavaScript).
 | `SolutionIllustration slug=…` | Une illustration par solution : l'assistant qui **agit** (ticket CRM), les champs extraits et vérifiés, la prévision avec intervalle et alerte, le contenu dans votre ton validé par un humain, l'IA reliée à vos outils | mise à l'échelle |
 | `LabBoard` | Innovation Lab : idée, prototype, module réutilisable | vignettes empilées sous 640 px |
 | `AcademyPath` | Academy : modules, quiz, certificat vérifiable en ligne | mise à l'échelle |
+| `AccountHub` | Connexion et inscription : un compte ouvre trois espaces (projets, formations, outils IA), signaux animés en continu | — |
 | `MethodLoop` (`studio/`) | Méthode itérative : retour à « Explorer » après « Améliorer » | — |
 | `IllustrationPanel` | Fond (`--illu-backdrop`) et rapport d'aspect réservé (`video`, `wide`, `square`) : aucun décalage de mise en page | — |
 
@@ -216,6 +217,10 @@ Règles, vérifiées par `illustrations.test.tsx` :
 - **Poids** : au plus 8 Ko pour le visuel signature, 4 Ko pour une solution ou l'Academy, 6 Ko
   pour la planche du Lab (ses deux variantes). Aucun script, aucune ressource externe.
 - **Mouvement réduit** : état final immédiat (règle CSS dédiée, délais compris).
+- **Animation en continu** (`loop` sur `SignalToSystem`, et `AccountHub`) : classes
+  `illu-pulse` (signal qui parcourt un tracé `pathLength={1}`), `illu-blink`, `illu-breathe` et
+  `illu-flow`, réservées au hero de l'accueil et aux pages de connexion et d'inscription. Rien ne
+  bouge si le système demande de réduire les animations.
 
 ## Logo
 

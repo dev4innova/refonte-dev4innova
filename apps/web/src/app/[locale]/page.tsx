@@ -153,7 +153,7 @@ export default async function Home({ params }: Props) {
               ))}
             </ul>
           </div>
-          <SignalToSystem labels={illu.signalToSystem} className="mx-auto w-full max-w-lg" />
+          <SignalToSystem labels={illu.signalToSystem} loop className="mx-auto w-full max-w-lg" />
         </div>
       </Section>
 

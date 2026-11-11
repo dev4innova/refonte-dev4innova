@@ -150,9 +150,14 @@ volontairement figées) et l'image Open Graph (le moteur de rendu n'a pas accès
 | D2 | 👤 | Composition asymétrique (5/12), alternance ivoire, glacier et graphite, grille Bento, illustrations propres. |
 | D3 | 👤 | Chaque illustration porte un message (doc 05) ; vous les avez validées au point de contrôle 1. |
 | D4 | 👤 | Le rouge reste réservé aux accents : boutons, filament, sur-titres, un seul accent par illustration. |
-| D5 | 👤 | Animations uniques (filament, révélations), jamais en boucle, neutralisées en mouvement réduit. |
+| D5 | 👤 | **Évolution du 11/11/2026, à votre demande** : le visuel du hero et l'illustration des pages de connexion et d'inscription s'animent **en continu** (impulsions le long du circuit, nœuds et modules qui pulsent), sans bouton pause. Les autres animations restent uniques. Tout est figé si le système demande de réduire les mouvements. |
 
 ### Limitations et suites possibles
+
+- **Animations en continu sans pause** (choix du 11/11/2026) : le critère WCAG 2.2.2 (« Pause,
+  arrêt, masquage ») demande de pouvoir arrêter un contenu animé plus de cinq secondes. Il n'est
+  pas satisfait par décision produit ; le réglage système « réduire les animations » reste
+  respecté (visuels figés).
 
 - **Capture des outils IA** : le bouton natif de choix de fichier est en anglais dans la version
   FR (Chromium sans pack de langue). Relancer `pnpm capture:products` sur un poste avec Chrome en

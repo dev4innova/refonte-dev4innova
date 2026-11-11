@@ -7,10 +7,10 @@ test.beforeEach(({}, testInfo) => {
   test.skip(testInfo.project.name !== "desktop", "viewports are set by each test");
 });
 
-for (const width of [320, 1920]) {
+for (const width of [320, 1024, 1920]) {
   test(`no horizontal scroll at ${width} px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
-    for (const path of ["/fr", "/en", "/fr/contact", "/fr/design-system"]) {
+    for (const path of ["/fr", "/en", "/fr/contact", "/fr/design-system", "/fr/connexion", "/fr/inscription"]) {
       await page.goto(path);
       const overflow = await page.evaluate(
         () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
@@ -21,8 +21,8 @@ for (const width of [320, 1920]) {
 }
 
 test("the header turns graphite over a dark hero, ivory otherwise", async ({ page }) => {
-  // A page without a dark header (public pages mark theirs, checked below).
-  await page.goto("/fr/connexion");
+  // A page without a dark header (public pages and sign-in mark theirs, checked below).
+  await page.goto("/fr/design-system");
   const header = page.getByRole("banner");
   const background = () => header.evaluate((el) => getComputedStyle(el).backgroundColor);
   const light = await background();
@@ -58,7 +58,7 @@ test("the active section is marked in the navigation", async ({ page }) => {
   await expect(link).toHaveAttribute("aria-current", "page");
 });
 
-for (const path of ["/fr", "/fr/solutions", "/en/about", "/fr/contact", "/fr/mentions-legales"]) {
+for (const path of ["/fr", "/fr/solutions", "/en/about", "/fr/contact", "/fr/mentions-legales", "/fr/connexion"]) {
   test(`${path}: the dark page header turns the site header graphite`, async ({ page }) => {
     await page.goto(path);
     await expect(page.locator("main [data-header-overlay]")).toHaveCount(1);

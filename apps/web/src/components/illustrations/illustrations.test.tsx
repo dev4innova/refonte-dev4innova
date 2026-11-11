@@ -8,6 +8,7 @@ import { axeViolations } from "@/test/axe";
 import fr from "../../../messages/fr.json";
 import { IllustrationPanel } from "./illustration";
 import { ValueIcon } from "./value-icons";
+import { AccountHub } from "./account-hub";
 import { SignalToSystem, SignalToSystemCompact } from "./signal-to-system";
 import { SolutionIllustration, type SolutionIllustrationLabels } from "./solutions";
 import { AcademyPath, LabBoard } from "./worlds";
@@ -35,6 +36,8 @@ const ILLUSTRATIONS: Array<[string, React.ReactElement, number]> = [
   ["lab board", <LabBoard key="l" labels={L.lab} />, 6],
   ["academy path", <AcademyPath key="a" labels={L.academy} />, 4],
   ["value pictogram", <ValueIcon key="v" name="build" />, 1],
+  ["signal to system (loop)", <SignalToSystem key="sl" labels={L.signalToSystem} loop />, 10],
+  ["account hub", <AccountHub key="ah" labels={L.account} />, 5],
 ];
 
 describe.each(ILLUSTRATIONS)("illustration %s", (_, element, budgetKb) => {
@@ -111,5 +114,16 @@ describe("IllustrationPanel", () => {
       </IllustrationPanel>,
     );
     expect(container.firstChild).toHaveClass("aspect-video", "lg:aspect-[21/8]");
+  });
+});
+
+describe("looping illustrations", () => {
+  it("animate only when asked: the static signature visual has no looping part", () => {
+    const still = render(<SignalToSystem labels={L.signalToSystem} />).container;
+    expect(still.querySelector(".illu-pulse, .illu-blink, .illu-breathe, .illu-flow")).toBeNull();
+    const live = render(<SignalToSystem labels={L.signalToSystem} loop />).container;
+    // Three branches of the circuit in the full version, one in the compact one.
+    expect(live.querySelectorAll(".illu-pulse")).toHaveLength(4);
+    expect(live.querySelectorAll(".illu-blink").length).toBeGreaterThan(0);
   });
 });
