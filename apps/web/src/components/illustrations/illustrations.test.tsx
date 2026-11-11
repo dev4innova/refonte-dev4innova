@@ -7,6 +7,12 @@ import { axeViolations } from "@/test/axe";
 
 import fr from "../../../messages/fr.json";
 import { IllustrationPanel } from "./illustration";
+import {
+  CertificateIllustration,
+  DiagnosticReportIllustration,
+  PortalIllustration,
+  ValueIcon,
+} from "./products";
 import { SignalToSystem, SignalToSystemCompact } from "./signal-to-system";
 import { SolutionIllustration, type SolutionIllustrationLabels } from "./solutions";
 import { AcademyPath, LabBoard } from "./worlds";
@@ -33,6 +39,10 @@ const ILLUSTRATIONS: Array<[string, React.ReactElement, number]> = [
   ),
   ["lab board", <LabBoard key="l" labels={L.lab} />, 6],
   ["academy path", <AcademyPath key="a" labels={L.academy} />, 4],
+  ["diagnostic report", <DiagnosticReportIllustration key="d" labels={L.products.diagnostic} />, 3],
+  ["client portal", <PortalIllustration key="p" labels={L.products.portal} />, 4],
+  ["academy certificate", <CertificateIllustration key="ce" labels={L.products.certificate} />, 3],
+  ["value pictogram", <ValueIcon key="v" name="build" />, 1],
 ];
 
 describe.each(ILLUSTRATIONS)("illustration %s", (_, element, budgetKb) => {
